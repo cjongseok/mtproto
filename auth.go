@@ -67,12 +67,15 @@ func (cm *MManager) AuthSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_
 				default:
 					return nil, nil, err
 				}
+			} else {
+				return nil, nil, err
 			}
 		}
 	}
 }
 
 func (mconn *MConn) AuthSignIn(phoneNumber, phoneCode, phoneCodeHash string) (*TL_auth_authorization, error) {
+	log.Println("Start of signin")
 	if phoneNumber == "" || phoneCode == "" || phoneCodeHash == "" {
 		return nil, errors.New("MRProto::AuthSignIn one of function parameters is empty")
 	}

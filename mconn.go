@@ -239,7 +239,7 @@ func (mconn *MConn) readSessionFile(sessionfile string) error {
 	// Decode session file
 	b := make([]byte, 1024*4)
 	n, err := mconn.f.ReadAt(b, 0)
-	if n <= 0 || err != nil {
+	if n <= 0 || (err != nil && err.Error() != "EOF") {
 		return errors.New("New session")
 	}
 

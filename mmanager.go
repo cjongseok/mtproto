@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"fmt"
 )
 
 type MManager struct {
@@ -86,7 +87,10 @@ func (cm *MManager) LoadAuthentication(phonenumber string) (*MConn, error){
 		return nil, err
 	}
 	// Already authenticated
+	log.Println("Full user: ", userFull)
+	log.Println("FullUser.user: ", userFull.User)
 	user := userFull.User.(TL_user)
+	log.Println("FullUser.user.Username: ", user.Username)
 	mconn.user = &user
 	log.Println("Signed in as ", mconn.user.Username)
 	return mconn, nil
@@ -214,6 +218,7 @@ func (cm *MManager) manageRoutine() {
 					disconnectResp := <- disconnectRespCh
 					if disconnectResp.err != nil {
 						log.Printf("ManageRoutine: renew failure: can not disconnect %d. %v\n", e.getSessionId(), disconnectResp.err)
+						renewE.resp <- reconnectResponse{nil, fmt.Errorf("cannot disconnect %d. %v", e.getSessionId(), disconnectResp.err)}
 						return
 					}
 
@@ -223,7 +228,8 @@ func (cm *MManager) manageRoutine() {
 					cm.eventq <- newsession{renewE.phonenumber,	renewE.addr, renewE.useIPv6, connectRespCh}
 					connectResp := <-connectRespCh
 					if connectResp.err != nil {
-						log.Printf("ManageRoutine: renew failure: can not connect to %s. %v\n", renewE.addr, connectResp.err)
+						log.Printf("ManageRoutine: renew failure: cannot connect to %s. %v\n", renewE.addr, connectResp.err)
+						renewE.resp <- reconnectResponse{nil, fmt.Errorf("cannot connect to %s. %v", renewE.addr, connectResp.err)}
 						return
 					}
 					//TODO: need to handle nil resp channel?
