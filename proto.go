@@ -14,7 +14,6 @@ func deserialize(buf []byte, authKey []byte) (data interface{}, msgId int64, seq
 
 	authKeyHash := dbuf.Bytes(8)
 	if binary.LittleEndian.Uint64(authKeyHash) == 0 {
-		//mconn.msgId = dbuf.Long()
 		msgId = dbuf.Long()
 		messageLen := dbuf.Int()
 		if int(messageLen) != dbuf.size-20 {

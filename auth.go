@@ -6,14 +6,17 @@ import (
 	"log"
 )
 
-
 func (mconn *MConn) authSendCode(phonenumber string) (*TL_auth_sentCode, error) {
+	session, err := mconn.Session()
+	if err != nil {
+		return nil, err
+	}
 	data, err := mconn.InvokeBlocked(TL_auth_sendCode{
 		Allow_flashcall: false,
 		Phone_number: phonenumber,
 		Current_number: TL_boolTrue{},
-		Api_id: mconn.appConfig.Id,
-		Api_hash: mconn.appConfig.Hash,
+		Api_id: session.appConfig.Id,
+		Api_hash: session.appConfig.Hash,
 	})
 
 	if err != nil {
@@ -29,7 +32,7 @@ func (mconn *MConn) authSendCode(phonenumber string) (*TL_auth_sentCode, error) 
 	}
 }
 
-func (cm *MManager) AuthSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_auth_sentCode, error) {
+func (cm *MManager) authSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_auth_sentCode, error) {
 	for {
 		sentCode, err := mconn.authSendCode(phonenumber)
 		if err == nil {
@@ -48,21 +51,25 @@ func (cm *MManager) AuthSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_
 						return nil, nil, err
 					} else {
 						// Reconnect to the new datacenter
-						respch := make(chan reconnectResponse)
-						mconn.notify(renew{
+						session, err := mconn.Session()
+						if err != nil {
+							return nil, nil, err
+						}
+						respch := make(chan sessionResponse)
+						//TODO: Check if renewSession event works with mconn.notify()
+						mconn.notify(renewSession{
+							session.sessionId,
 							phonenumber,
-							mconn.dclist[newdc],
-							mconn.useIPv6,
-							mconn.sessionId,
+							session.dclist[newdc],
+							session.useIPv6,
 							respch,
 						})
 
-						// Retry with new connection in the next loop
+						// Wait for binding with new session
 						resp := <-respch
 						if resp.err != nil {
 							return nil, nil, resp.err
 						}
-						mconn = resp.mconn
 					}
 				default:
 					return nil, nil, err
@@ -96,20 +103,21 @@ func (mconn *MConn) AuthSignIn(phoneNumber, phoneCode, phoneCodeHash string) (*T
 	}
 
 	user := auth.User.(TL_user)
-	mconn.user = &user
-
+	session, err := mconn.Session()
+	if err != nil {
+		return &auth, err
+	}
+	session.user = &user
 	log.Println("Signed in as ", auth)
 
-
 	// save the session
-	//mconn.saveSession()
-
+	//session.saveSession()
 	return &auth, nil
 }
 
-func (m *MConn) AuthLogOut() (bool, error) {
+func (mconn *MConn) AuthLogOut() (bool, error) {
 	var result bool
-	x := <-m.InvokeNonBlocked(TL_auth_logOut{})
+	x := <-mconn.InvokeNonBlocked(TL_auth_logOut{})
 	if x.err != nil {
 		return result, x.err
 	}

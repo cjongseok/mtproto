@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
+func (session *MSession) sendPacket(msg TL, resp chan response) error {
 	obj := msg.encode()
 
 	x := NewEncodeBuf(256)
@@ -16,7 +16,7 @@ func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
 	// padding for tcpsize
 	x.Int(0)
 
-	if mconn.encrypted {
+	if session.encrypted {
 		needAck := true
 		switch msg.(type) {
 		case TL_ping, TL_msgs_ack:
@@ -24,19 +24,19 @@ func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
 		}
 		z := NewEncodeBuf(256)
 		newMsgId := GenerateMessageId()
-		z.Bytes(mconn.serverSalt)
-		z.Long(mconn.sessionId)
+		z.Bytes(session.serverSalt)
+		z.Long(session.sessionId)
 		z.Long(newMsgId)
 		if needAck {
-			z.Int(mconn.lastSeqNo | 1)
+			z.Int(session.lastSeqNo | 1)
 		} else {
-			z.Int(mconn.lastSeqNo)
+			z.Int(session.lastSeqNo)
 		}
 		z.Int(int32(len(obj)))
 		z.Bytes(obj)
 
 		msgKey := sha1(z.buf)[4:20]
-		aesKey, aesIV := generateAES(msgKey, mconn.authKey, false)
+		aesKey, aesIV := generateAES(msgKey, session.authKey, false)
 
 		y := make([]byte, len(z.buf)+((16-(len(obj)%16))&15))
 		copy(y, z.buf)
@@ -45,21 +45,21 @@ func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
 			return err
 		}
 
-		mconn.lastSeqNo += 2
+		session.lastSeqNo += 2
 		if needAck {
-			mconn.mutex.Lock()
-			mconn.msgsIdToAck[newMsgId] = packetToSend{msg, resp}
-			mconn.mutex.Unlock()
+			session.mutex.Lock()
+			session.msgsIdToAck[newMsgId] = packetToSend{msg, resp}
+			session.mutex.Unlock()
 		}
 
-		x.Bytes(mconn.authKeyHash)
+		x.Bytes(session.authKeyHash)
 		x.Bytes(msgKey)
 		x.Bytes(encryptedData)
 
 		if resp != nil {
-			mconn.mutex.Lock()
-			mconn.msgsIdToResp[newMsgId] = resp
-			mconn.mutex.Unlock()
+			session.mutex.Lock()
+			session.msgsIdToResp[newMsgId] = resp
+			session.mutex.Unlock()
 		}
 
 	} else {
@@ -79,7 +79,7 @@ func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
 	} else {
 		binary.LittleEndian.PutUint32(x.buf, uint32(size<<8|127))
 	}
-	_, err := mconn.tcpconn.Write(x.buf)
+	_, err := session.tcpconn.Write(x.buf)
 	if err != nil {
 		return err
 	}
@@ -87,12 +87,12 @@ func (mconn *MConn) sendPacket(msg TL, resp chan response) error {
 	return nil
 }
 
-func (mconn *MConn) read() (interface{}, error) {
+func (session *MSession) read() (interface{}, error) {
 	var err error
 	var n int
 	var size int
 	var data interface{}
-	tcpconn := mconn.tcpconn
+	tcpconn := session.tcpconn
 
 	err = tcpconn.SetReadDeadline(time.Now().Add(300 * time.Second))
 	if err != nil {
@@ -133,7 +133,7 @@ func (mconn *MConn) read() (interface{}, error) {
 	}
 
 	// Deserialize incoming packet
-	data, mconn.msgId, mconn.seqNo, err = deserialize(buf, mconn.authKey)
+	data, session.msgId, session.seqNo, err = deserialize(buf, session.authKey)
 	if err != nil {
 		return nil, err
 	}
@@ -141,20 +141,20 @@ func (mconn *MConn) read() (interface{}, error) {
 
 }
 
-func (mconn *MConn) makeAuthKey() error {
+func (session *MSession) makeAuthKey() error {
 	var x []byte
 	var err error
 	var data interface{}
 
 	// (send) req_pq
 	nonceFirst := GenerateNonce(16)
-	err = mconn.sendPacket(TL_req_pq{nonceFirst}, nil)
+	err = session.sendPacket(TL_req_pq{nonceFirst}, nil)
 	if err != nil {
 		return err
 	}
 
 	// (parse) resPQ
-	data, err = mconn.read()
+	data, err = session.read()
 	if err != nil {
 		return err
 	}
@@ -187,13 +187,13 @@ func (mconn *MConn) makeAuthKey() error {
 	copy(x[20:], innerData1)
 	encryptedData1 := doRSAencrypt(x)
 	// (send) req_DH_params
-	err = mconn.sendPacket(TL_req_DH_params{nonceFirst, nonceServer, p, q, telegramPublicKey_FP, encryptedData1}, nil)
+	err = session.sendPacket(TL_req_DH_params{nonceFirst, nonceServer, p, q, telegramPublicKey_FP, encryptedData1}, nil)
 	if err != nil {
 		return err
 	}
 
 	// (parse) server_DH_params_{ok, fail}
-	data, err = mconn.read()
+	data, err = session.read()
 	if err != nil {
 		return err
 	}
@@ -254,19 +254,19 @@ func (mconn *MConn) makeAuthKey() error {
 	}
 
 	_, g_b, g_ab := makeGAB(dhi.G, dhi.G_a, dhi.Dh_prime)
-	mconn.authKey = g_ab.Bytes()
-	if mconn.authKey[0] == 0 {
-		mconn.authKey = mconn.authKey[1:]
+	session.authKey = g_ab.Bytes()
+	if session.authKey[0] == 0 {
+		session.authKey = session.authKey[1:]
 	}
-	mconn.authKeyHash = sha1(mconn.authKey)[12:20]
+	session.authKeyHash = sha1(session.authKey)[12:20]
 	t4 := make([]byte, 32+1+8)
 	copy(t4[0:], nonceSecond)
 	t4[32] = 1
-	copy(t4[33:], sha1(mconn.authKey)[0:8])
+	copy(t4[33:], sha1(session.authKey)[0:8])
 	nonceHash1 := sha1(t4)[4:20]
-	mconn.serverSalt = make([]byte, 8)
-	copy(mconn.serverSalt, nonceSecond[:8])
-	xor(mconn.serverSalt, nonceServer[:8])
+	session.serverSalt = make([]byte, 8)
+	copy(session.serverSalt, nonceSecond[:8])
+	xor(session.serverSalt, nonceServer[:8])
 
 	// (encoding) client_DH_inner_data
 	innerData2 := (TL_client_DH_inner_data{nonceFirst, nonceServer, 0, g_b}).encode()
@@ -276,13 +276,13 @@ func (mconn *MConn) makeAuthKey() error {
 	encryptedData2, err := doAES256IGEencrypt(x, tmpAESKey, tmpAESIV)
 
 	// (send) set_client_DH_params
-	err = mconn.sendPacket(TL_set_client_DH_params{nonceFirst, nonceServer, encryptedData2}, nil)
+	err = session.sendPacket(TL_set_client_DH_params{nonceFirst, nonceServer, encryptedData2}, nil)
 	if err != nil {
 		return err
 	}
 
 	// (parse) dh_gen_{ok, Retry, fail}
-	data, err = mconn.read()
+	data, err = session.read()
 	if err != nil {
 		return err
 	}
@@ -301,7 +301,7 @@ func (mconn *MConn) makeAuthKey() error {
 	}
 
 	// (all ok)
-	err = mconn.saveSession()
+	err = session.saveSession()
 	if err != nil {
 		return err
 	}
