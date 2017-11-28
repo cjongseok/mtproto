@@ -14,12 +14,14 @@ const (
 // MConn does not touch sessions.
 // binding/unbinding and registration/deregistration of sessions are all handled on MManager.
 type MConn struct {
-	connId			int32
-	session 		*MSession
-	smonitor		chan MEvent
-	interrupter		chan struct{}
-	bindWaitGroup	sync.WaitGroup
-	listeners		[]chan MEvent
+	connId                int32
+	session               *MSession
+	smonitor              chan MEvent
+	interrupter           chan struct{}
+	bindWaitGroup         sync.WaitGroup
+	listeners             []chan MEvent
+	updateCallbacks       []MUpdateCallback
+	discardedUpdatesState *TL_updates_state
 }
 
 // open, close, and bind should be done by MManager
@@ -47,12 +49,38 @@ func (mconn *MConn) bind(session *MSession) error {
 	if session == nil {
 		return fmt.Errorf("nil ssession")
 	}
-	defer mconn.bindWaitGroup.Done()	// stop waiting for new session
 	session.AddSessionListener(mconn.smonitor)
 	session.connId = mconn.connId
 	mconn.session = session
+	mconn.bindWaitGroup.Done()	// stop waiting for new session. Enable querying
 	mconn.notify(sessionBound{mconn})
 
+	//TODO: get updates difference on opening session rather than its binding
+	// req updates, if exists
+	if mconn.discardedUpdatesState != nil {
+		//logf(mconn, "bind: new session seq:%d, unbound session seq:%d\n", session.updatesState.Seq, mconn.discardedUpdatesState.Seq)
+		//seqDiff := mconn.discardedUpdatesState.Seq - session.updatesState.Seq
+		ptsDiff := session.updatesState.Pts - mconn.discardedUpdatesState.Pts
+		qtsDiff := session.updatesState.Qts - mconn.discardedUpdatesState.Qts
+		seqDiff := session.updatesState.Seq - mconn.discardedUpdatesState.Seq
+		if ptsDiff > 0 || qtsDiff > 0 || seqDiff > 0 {
+			// missed updates exist. Propagate updates to callbacks
+			updatesDiff, err := mconn.UpdatesGetDifference(
+				mconn.discardedUpdatesState.Pts,
+				0,
+				mconn.discardedUpdatesState.Date,
+				mconn.discardedUpdatesState.Qts)
+			if err != nil {
+				return fmt.Errorf("failed to get update difference")
+			}
+			unstripped := (*updatesDiff).(TL_updates_difference).Unstrip().(US_updates_difference)
+			logf(mconn, "bind: unstripped diff: %v\n", unstripped)
+			mconn.propagate(unstripped)
+		}
+		mconn.discardedUpdatesState = nil
+	} else {
+		logln(mconn, "bind: mconn.discardedUpdatesState is nil")
+	}
 	return nil
 }
 
@@ -71,6 +99,7 @@ func (mconn *MConn) InvokeNonBlocked(msg TL) chan response {
 	session, err := mconn.Session()
 	if err != nil {
 		resp <- response{nil, err}
+		return resp
 	}
 	session.queueSend <- packetToSend{
 		msg:  msg,
@@ -116,6 +145,11 @@ func (mconn *MConn) AddConnListener(listener chan MEvent) {
 	mconn.listeners = append(mconn.listeners, listener)
 }
 
+func (mconn *MConn) AddUpdateCallback(callback MUpdateCallback) {
+	mconn.updateCallbacks = append(mconn.updateCallbacks, callback)
+
+}
+
 func (mconn *MConn) RemoveConnListener(toremove chan MEvent) error {
 	for index, registered := range mconn.listeners {
 		if registered == toremove {
@@ -128,6 +162,18 @@ func (mconn *MConn) RemoveConnListener(toremove chan MEvent) error {
 	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
 }
 
+func (mconn *MConn) RemoveUpdateListener(toremove MUpdateCallback) error {
+	for index, registered := range mconn.updateCallbacks {
+		if registered == toremove {
+			copy(mconn.updateCallbacks[index:], mconn.updateCallbacks[index+1:])
+			mconn.updateCallbacks[len(mconn.updateCallbacks)-1] = nil
+			mconn.updateCallbacks = mconn.updateCallbacks[:len(mconn.updateCallbacks)-1]
+			return nil
+		}
+	}
+	return fmt.Errorf("MUpdateCallback (%x) doesn't exist", toremove)
+}
+
 func (mconn *MConn) notify(e MEvent) {
 	for _, listener := range mconn.listeners {
 		// TODO: it doesn't work. think of another solutino to handle a deadlock on channel
@@ -136,30 +182,35 @@ func (mconn *MConn) notify(e MEvent) {
 	}
 }
 
+func (mconn *MConn) propagate(u MUpdate) {
+	for _, callback := range mconn.updateCallbacks {
+		go func() {callback.OnUpdate(u)}()
+	}
+}
+
 func (mconn *MConn) monitorSession() {
-	//log.Printf("[mconn %d] start\n", mconn.connId)
 	logln(mconn, "start")
 	for {
 		select {
 		case <-mconn.interrupter:
-			//log.Printf("[mconn %d] stop\n", mconn.connId)
 			logf(mconn, "stop")
 			return
 		case e := <- mconn.smonitor:
 			switch e.(type) {
 			// Session Events
-			case newsession:	// triggered only on reconnect (either renewSession or refreshSession)
-			case loadsession:	// triggered only on reconnect (either renewSession or refreshSession)
-			case SessionEstablished: // triggered only on reconnect (either renewSession or refreshSession)
+			case newsession:	// never triggered on mconn
+			case loadsession:	// never triggered on mconn
+			case SessionEstablished: // never triggered on mconn
 			case discardSession: // triggered only on reconnect (either renewSession or refreshSession)
 			go func() {
 				// Unbind the session until the connection has new session
-				//log.Printf("[mconn %d] discard session(%d)\n", mconn.connId, mconn.session.sessionId)
-				logf(mconn, "the session will be discarded%d\n", mconn.session.sessionId)
+				logf(mconn, "session will be discarded%d\n", mconn.session.sessionId)
 				e := e.(discardSession)
 				mconn.bindWaitGroup.Add(1)
-				// notify inside selection needs non-blocking handlers
-				mconn.notify(sessionUnbound{mconn, e.sessionId})
+				unbound := sessionUnbound{mconn, e.sessionId}
+				mconn.session = nil
+				// notify that inside selection needs non-blocking handlers
+				mconn.notify(unbound)
 			}()
 			case SessionDiscarded: // triggered only on reconnect (either renewSession or refreshSession)
 			case renewSession:
@@ -168,28 +219,31 @@ func (mconn *MConn) monitorSession() {
 			// Connection Events
 			case ConnectionOpened:
 				go func() {
-					//log.Printf("[mconn %d] opened. wait for a session binding ...\n", mconn.connId)
 					logln(mconn, "opened. wait for a session binding ...")
 				}()
 			case sessionBound:
 				go func() {
-					//log.Printf("[mconn %d] bound to session(%d)\n", mconn.connId, mconn.session.sessionId)
 					logf(mconn, "bound to session %d\n", mconn.session.sessionId)
 				}()
 			case sessionUnbound:
 				go func() {
-					//log.Printf("[mconn %d] unbound to session(%d)\n", mconn.connId, mconn.session.sessionId)
-					logf(mconn, "unbound to session %d\n", mconn.session.sessionId)
+					e := e.(sessionUnbound)
+					logf(mconn, "unbound to session %d\n", e.unboundSessionId)
 				}()
 			case closeConnection:
 				go func() {
-					//log.Printf("[mconn %d] this connection will close\n")
 					logln(mconn, "this connection will close")
 				}()
 			case connectionClosed:
 				go func() {
-					//log.Printf("[mconn %d] closed\n")
 					logln(mconn, "closed")
+				}()
+
+				// Update Event
+			case updateReceived:
+				go func() {
+					logln(mconn, "received an update, ", e.(updateReceived).update)
+					mconn.propagate(e.(updateReceived).update)
 				}()
 			default:
 			}

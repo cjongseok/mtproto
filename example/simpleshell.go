@@ -6,6 +6,8 @@ import (
 
 	"github.com/cjongseok/mtproto"
 	"fmt"
+	"reflect"
+	"encoding/json"
 )
 
 const (
@@ -20,6 +22,62 @@ const (
 	telegramAddress = "149.154.167.50:443"
 	phoneNumber = "+0177778888"	// YOUR phone number
 )
+
+type subscriber struct{
+	mconn *mtproto.MConn
+}
+
+func newSubscriber(mconn *mtproto.MConn) *subscriber {
+	s := new(subscriber)
+	s.mconn = mconn
+	return s
+}
+
+func (s *subscriber) OnUpdate(u mtproto.MUpdate) {
+	switch u.(type) {
+	case mtproto.TL_updateShort:
+		u := u.(mtproto.TL_updateShort)
+		switch u.Update.(type) {
+		case mtproto.TL_updateUserStatus:
+			status := u.Update.(mtproto.TL_updateUserStatus)
+			fmt.Printf("StatusChange: %v ", reflect.TypeOf(status.Status))
+			switch status.Status.(type) {
+			case mtproto.TL_userStatusOnline:
+				online := status.Status.(mtproto.TL_userStatusOnline)
+				fmt.Printf("Expires: %d\n", online.Expires)
+			case mtproto.TL_userStatusOffline:
+				offline := status.Status.(mtproto.TL_userStatusOffline)
+				fmt.Printf("WasOnline: %d\n", offline.Was_online)
+			}
+		}
+	case mtproto.TL_updateShortMessage:
+		u := u.(mtproto.TL_updateShortMessage)
+		fmt.Printf("msg[%d] %d: %s\n", u.Id, u.User_id, u.Message)
+	case mtproto.TL_updateShortChatMessage:
+		fmt.Printf("Shell: %T: %v\n", u, u)
+	case mtproto.TL_updateShortSentMessage:
+		fmt.Printf("Shell: %T: %v\n", u, u)
+	case mtproto.US_updates_difference:
+		u := u.(mtproto.US_updates_difference)
+		for _, m := range u.New_messages {
+			fmt.Printf("update-diff msg[%d] %d: %s\n", m.Id, m.From_id, m.Message)
+		}
+		for _, user := range u.Users {
+			fmt.Printf("update-diff user[%d] %s\n", user.Id, user.Username)
+		}
+		for _, chat := range u.Chats {
+			fmt.Printf("update-diff chat[%d] %s\n", chat.Id, chat.Title)
+		}
+		fmt.Printf("update-diff emsgs{%v} state{%v} others{%v}\n", u.New_encrypted_messages, u.State, u.Other_updates)
+	default:
+		marshaled, err := json.Marshal(u)
+		if err == nil {
+			fmt.Printf("uncaught update: %T%s\n", u, marshaled)
+		} else {
+			fmt.Printf("uncaught update: %T{%v}\n", u, u)
+		}
+	}
+}
 
 func handleError(err error) {
 	if err != nil {
@@ -48,6 +106,7 @@ func main() {
 	manager, err := mtproto.NewManager(configuration)
 	handleError(err)
 
+
 	// Connect by phonenumber
 	var mconn *mtproto.MConn
 	if manager.IsAuthenticated(phoneNumber) {
@@ -70,6 +129,8 @@ func main() {
 		_, err = mconn.AuthSignIn(phoneNumber, code, sentCode.Phone_code_hash)
 		handleError(err)
 	}
+
+	mconn.AddUpdateCallback(newSubscriber(mconn))
 
 	for {
 		var cmd string

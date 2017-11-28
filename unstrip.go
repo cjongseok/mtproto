@@ -6,6 +6,7 @@ type unstripped interface{
 
 type unstrip interface {
 	Unstrip() unstripped	// CAVEAT: it make a copy of slice fields
+	UnstrippedString() string
 }
 
 // unstripped types
@@ -40,6 +41,15 @@ type US_messages_chats struct {
 	Channels 	[]TL_channel
 }
 
+type US_updates_difference struct {
+	New_messages 			[]TL_message
+	New_encrypted_messages 	[]TL_encryptedMessage
+	Other_updates 			[]TL
+	Chats 					[]TL_chat
+	Users 					[]TL_user
+	State 					TL_updates_state
+}
+
 // interface implementations
 func Unstrip(tl TL) (unstripped, bool) {
 	switch tl.(type) {
@@ -61,6 +71,7 @@ func (tl TL_messages_dialogsSlice) Unstrip() unstripped {
 		unstripTLusers(tl.Users),
 	}
 }
+
 
 func (us US_contacts_contacts) Strip() unstrip {return nil}
 func (tl TL_contacts_contacts) Unstrip() unstripped {
@@ -94,6 +105,18 @@ func (tl TL_messages_chats) Unstrip() unstripped {
 	return US_messages_chats{
 		//unstripTLchats(tl.Chats),		// XXX: TL_chat is DEPRECATED?
 		unstripTLchannels(tl.Chats),
+	}
+}
+
+func (us US_updates_difference) Strip() unstrip {return nil}
+func (tl TL_updates_difference) Unstrip() unstripped {
+	return US_updates_difference{
+		unstripTLmsgs(tl.New_messages),
+		unstripTLencryptedMsg(tl.New_encrypted_messages),
+		tl.Other_updates,
+		unstripTLchats(tl.Chats),
+		unstripTLusers(tl.Users),
+		tl.State.(TL_updates_state),
 	}
 }
 
@@ -154,5 +177,11 @@ func unstripTLtopPeers(tls []TL) []TL_topPeer {
 	}
 	return topPeers
 }
-
+func unstripTLencryptedMsg(tls []TL) []TL_encryptedMessage {
+	ems := make([]TL_encryptedMessage, len(tls))
+	for i, tl := range tls {
+		ems[i] = tl.(TL_encryptedMessage)
+	}
+	return ems
+}
 

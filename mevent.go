@@ -52,8 +52,9 @@ type discardSession struct {
 type SessionDiscarded struct {
 	//connId		int32
 	//sessionId 	int64
-	boundConnId 		int32
-	discardedSessionId 	int64
+	boundConnId 				int32
+	discardedSessionId 			int64
+	discardedSessionUpdatesState 	TL_updates_state
 }
 
 // discardSession + newsession
@@ -82,8 +83,8 @@ type sessionBound struct {
 	mconn 	*MConn
 }
 type sessionUnbound struct {
-	mconn 				*MConn
-	unboundSessionId 	int64
+	mconn 						*MConn
+	unboundSessionId 			int64
 }
 type closeConnection struct {
 	connId 	int32
@@ -91,6 +92,11 @@ type closeConnection struct {
 }
 type connectionClosed struct {
 	closedConnId 	int32
+}
+
+// Update Event
+type updateReceived struct {
+	update 	MUpdate
 }
 
 func (e newsession) Type() MEventType 			{return SESSION}
@@ -105,6 +111,7 @@ func (e sessionBound) Type() MEventType 		{return MCONN}
 func (e sessionUnbound) Type() MEventType 		{return MCONN}
 func (e closeConnection) Type() MEventType 		{return MCONN}
 func (e connectionClosed) Type() MEventType 	{return MCONN}
+func (e updateReceived) Type() MEventType		{return SESSION}
 
 //func (e newsession) SessionId() (int64)          {return 0}
 //func (e loadsession) SessionId() (int64)         {return 0}

@@ -9,7 +9,9 @@ import (
 	"math/rand"
 	"time"
 	"io"
-	"regexp"
+	"reflect"
+	"encoding/json"
+	"strings"
 )
 
 type MSession struct {
@@ -43,8 +45,9 @@ type MSession struct {
 	seqNo        int32
 	msgId        int64
 
-	appConfig 		Configuration
-	user 			*TL_user
+	appConfig    Configuration
+	user         *TL_user
+	updatesState *TL_updates_state
 
 	dclist map[int32]string
 }
@@ -72,7 +75,8 @@ func (session *MSession) close() {
 	session.readWaitGroup.Wait()
 
 	// notify that the connection is gracefully closed
-	session.notify(SessionDiscarded{session.connId, session.sessionId})
+	session.notify(SessionDiscarded{session.connId, session.sessionId, *session.updatesState})
+	session.listeners = nil
 }
 
 func sessionFilePath(sessionFileHome string, phonenumber string) string {
@@ -139,6 +143,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	if err != nil {
 		return err
 	}
+	logf(session, "dial TCP to %s\n", session.addr)
 	session.tcpconn, err = net.DialTCP("tcp", nil, tcpAddr)
 	if err != nil {
 		return err
@@ -204,8 +209,25 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 				session.dclist[v.Id] = fmt.Sprintf("%s:%d", v.Ip_address, v.Port)
 			}
 		}
+		marshaled, err := json.Marshal(x.data)
+		if err == nil {
+			logf(session, "config: %s\n", marshaled)
+		}
 	default:
-		return fmt.Errorf("Connection error: got: %T", x)
+		return fmt.Errorf("Connection error: Failed to get config. got: %T", x)
+	}
+
+	// get updates state
+	//TODO: From second session, query getUpdatesState with invokeWithLayer and initConnection
+	session.updatesState = new(TL_updates_state)
+	resp = make(chan response, 1)
+	session.queueSend <- packetToSend{
+		msg: TL_updates_getState{},
+		resp: resp,
+	}
+	x = <- resp
+	if x.err != nil {
+		return x.err
 	}
 
 	// start keep alive ping
@@ -264,7 +286,7 @@ func (session *MSession) readSessionFile(sessionfile string) error {
 
 func (session *MSession) notify(e MEvent) {
 	for _, listener := range session.listeners {
-		// TODO: it doesn't work. think of another solutino to handle a deadlock on channel
+		// TODO: it doesn't work. think of another solution to handle a deadlock on channel
 		//go func(){listener <- e}()
 		listener <- e
 	}
@@ -297,14 +319,10 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 		_ = session.saveSession()
 
 	case TL_ping:
-		//log.Println("process: got ping. send pong")
-		logln(session, "got ping. send pong")
 		data := data.(TL_ping)
 		session.queueSend <- packetToSend{TL_pong{msgId, data.Ping_id}, nil}
 
 	case TL_pong:
-		//log.Println("process: got pong")
-		logln(session, "got pong")
 		// ignore
 
 	case TL_msgs_ack:
@@ -335,6 +353,82 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 			}()
 		}
 		delete(session.msgsIdToAck, data.Req_msg_id)
+
+	//TODO: Update classifier should be auto-generated from scheme.tl
+	//TODO: how to handle seq?
+	// Date, Pts, Qts updates
+	case TL_updates_state:
+		data := data.(TL_updates_state)
+		session.updatesState.Pts = data.Pts
+		session.updatesState.Qts = data.Qts
+		session.updatesState.Date = data.Date
+		session.updatesState.Seq = data.Seq
+		marshaled, err := json.Marshal(data)
+		if err == nil {
+			logf(session, "updatesState: %s\n", marshaled)
+		} else {
+			logf(session, "updatesState: %v\n", data)
+		}
+		return data
+
+	// Date updates
+	case TL_updates:
+		data := data.(TL_updates)
+		session.updatesState.Date = data.Date
+		session.updatesState.Seq = data.Seq
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateShort:
+		data := data.(TL_updateShort)
+		//session.updatesState.Pts ++	//TODO: need to comment in it?
+		session.updatesState.Date = data.Date
+		session.notify(updateReceived{data})
+		return data
+
+	// Pts updates
+	case TL_updateNewMessage:
+		data := data.(TL_updateNewMessage)
+		session.updatesState.Pts = data.Pts
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateReadMessagesContents:
+		data := data.(TL_updateReadMessagesContents)
+		session.updatesState.Pts = data.Pts
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateDeleteMessages:
+		data := data.(TL_updateDeleteMessages)
+		session.updatesState.Pts = data.Pts
+		session.notify(updateReceived{data})
+		return data
+
+	// Pts and Date updates
+	case TL_updateShortMessage:
+		data := data.(TL_updateShortMessage)
+		session.updatesState.Pts = data.Pts
+		session.updatesState.Date = data.Date
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateShortChatMessage:
+		data := data.(TL_updateShortChatMessage)
+		session.updatesState.Pts = data.Pts
+		session.updatesState.Date = data.Date
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateShortSentMessage:
+		data := data.(TL_updateShortSentMessage)
+		session.updatesState.Pts = data.Pts
+		session.updatesState.Date = data.Date
+		session.notify(updateReceived{data})
+		return data
+
+	// Qts updates
+	case TL_updateNewEncryptedMessage:
+		data := data.(TL_updateNewEncryptedMessage)
+		session.updatesState.Qts = data.Qts
+		session.notify(updateReceived{data})
+		return data
+
 	default:
 		return data
 	}
@@ -397,7 +491,6 @@ func (session *MSession) pingRoutine() {
 		case <-session.pingInterrupter:
 			return
 		case <-time.After(60 * time.Second):
-			//log.Println("PingRoutine: ping")
 			logln(session, "ping")
 			session.queueSend <- packetToSend{TL_ping{0xCADACADA}, nil}
 		}
@@ -405,22 +498,19 @@ func (session *MSession) pingRoutine() {
 }
 
 func (session *MSession) sendRoutine() {
-	//log.Println("SendRoutine: start")
 	logln(session, "send: start")
 	session.sendWaitGroup.Add(1)
 	defer session.sendWaitGroup.Done()
 	for {
 		select {
 		case <-session.sendInterrupter:
-			//log.Println("SendRoutine: stop")
 			logln(session, "send: stop")
 			return
 		case x := <-session.queueSend:
-			//log.Println("SendRoutine: send ", x, x.msg, session)
+			logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			if x.msg != nil {
 				err := session.sendPacket(x.msg, x.resp)
 				if err != nil {
-					//log.Fatalln("SendRoutine:", err)
 					fatalln(session, "send: ", err)
 				}
 			}
@@ -429,7 +519,6 @@ func (session *MSession) sendRoutine() {
 }
 
 func (session *MSession) readRoutine() {
-	//log.Println("[ReadRoutine: start")
 	logln(session, "read: start")
 	session.readWaitGroup.Add(1)
 	defer session.readWaitGroup.Done()
@@ -440,35 +529,36 @@ func (session *MSession) readRoutine() {
 		// Run async wait for data from server
 		ch := make(chan interface{}, 1)
 		go func(ch chan<- interface{}) {
+			refresh := func(session *MSession) {
+				session.notify(refreshSession{
+					session.sessionId,
+					session.phonenumber,
+					nil,
+				})
+			}
 			innerRoutineWG.Add(1)
 			defer innerRoutineWG.Done()
 
 			data, err := session.read()
-			//log.Printf("[%d-%d] read: data: %v, err: %v\n", session.connId, session.sessionId, data, err)
-			logf(session, "read: data: %v, err: %v\n", data, err)
+			logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
 				logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
-				//err = m.reconnect(m.addr)
-				//session.notify(RECONNECT)
-				session.notify(refreshSession{
-					session.sessionId,
-					session.phonenumber,
-					nil})
+				refresh(session)
 			} else if err != nil {
-				//log.Println(err.Error())
-				logf(session, "read %v\n", err.Error())
-				re, reerr := regexp.Compile("use of closed network connection")
-				if reerr != nil {
-					//log.Printf("[%d-%d] read: regexp compilation error, %v", session.connId, session.sessionId, reerr)
-					logf(session, "read: regexp compilation error, %v", reerr)
-				}
-				if re.MatchString(err.Error()) {
-					//log.Printf("[%d-%d] read: TCP connection closed, %v", session.connId, session.sessionId, err)
-					logf(session, "read: TCP connection closed, %v", err)
+				if strings.Contains(err.Error(), "use of closed network connection") {
+					logf(session, "read: TCP connection closed (%s). reconnect to %s\n", err, session.addr)
+					// Two cases
+					// 1. on new authentication, 303 PHONE_MIGRATE can require to make a new connection with different
+					//   server by closing the connection. -> do nothing, because session will be renewed by MM
+					// 2. after authentication, there could be an accidental disconnection. -> need to refresh
+					refresh(session)
+				} else if strings.Contains(err.Error(), "connection reset by peer") {
+					logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					refresh(session)
 				} else {
-					//log.Fatalln("Unknown session error, ", err)
-					fatalln(session, "read: Unknown session error, ", err)
+					logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
+					refresh(session)
 				}
 			} else {
 				ch <- data
@@ -477,12 +567,8 @@ func (session *MSession) readRoutine() {
 
 		select {
 		case <-session.readInterrupter:
-		//case <-m.stopRoutines:
-			//TODO: how about to close conn here?
-			//log.Println("ReadRoutine: wait for inner routine")
 			logln(session, "read: wait for inner routine ...")
 			innerRoutineWG.Wait()
-			//log.Println("ReadRoutine: stop")
 			logln(session, "read: stop")
 			return
 		case data := <-ch:
