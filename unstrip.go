@@ -45,7 +45,8 @@ type US_updates_difference struct {
 	New_messages 			[]TL_message
 	New_encrypted_messages 	[]TL_encryptedMessage
 	Other_updates 			[]TL
-	Chats 					[]TL_chat
+	//Chats 					[]TL_chat 	// XXX: TL_chat is DEPRECATED
+	Channels 				[]TL_channel
 	Users 					[]TL_user
 	State 					TL_updates_state
 }
@@ -114,7 +115,8 @@ func (tl TL_updates_difference) Unstrip() unstripped {
 		unstripTLmsgs(tl.New_messages),
 		unstripTLencryptedMsg(tl.New_encrypted_messages),
 		tl.Other_updates,
-		unstripTLchats(tl.Chats),
+		//unstripTLchats(tl.Chats), 	// XXX: TL_chat is DEPRECATED
+		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 		tl.State.(TL_updates_state),
 	}

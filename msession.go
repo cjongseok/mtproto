@@ -102,7 +102,7 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
-func loadSession(phonenumber string, appConfig Configuration, sessionListener chan MEvent) (*MSession, error){
+func loadSession(phonenumber string, preferredAddr string, appConfig Configuration, sessionListener chan MEvent) (*MSession, error){
 	// session file exists?
 	sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
 	_, err := os.Stat(sessionfile)
@@ -115,6 +115,9 @@ func loadSession(phonenumber string, appConfig Configuration, sessionListener ch
 		session.f, err = os.OpenFile(sessionfile, os.O_RDONLY, 0600)
 		if err == nil {
 			err = session.readSessionFile(sessionfile)
+			if preferredAddr != "" {
+				session.addr = preferredAddr
+			}
 			if err == nil {
 				session.open(appConfig, sessionListener)
 				return session, nil
@@ -430,6 +433,12 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 		return data
 
 	default:
+		marshaled, err := json.Marshal(data)
+		if err == nil {
+			logf(session, "process: unknown data type %T {%s}\n", data, marshaled)
+		} else {
+			logf(session, "process: unknown data type %T {%v}\n", data, data)
+		}
 		return data
 	}
 
@@ -547,7 +556,7 @@ func (session *MSession) readRoutine() {
 				refresh(session)
 			} else if err != nil {
 				if strings.Contains(err.Error(), "use of closed network connection") {
-					logf(session, "read: TCP connection closed (%s). reconnect to %s\n", err, session.addr)
+					logf(session, "read: TCP connection closed (%s)\n", err)
 					// Two cases
 					// 1. on new authentication, 303 PHONE_MIGRATE can require to make a new connection with different
 					//   server by closing the connection. -> do nothing, because session will be renewed by MM

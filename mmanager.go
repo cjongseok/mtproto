@@ -60,6 +60,11 @@ func NewManager (appConfig Configuration) (*MManager, error) {
 }
 
 func (mm *MManager) Finish() {
+	// close all connections
+	for id, _ := range mm.conns {
+		mm.eventq <- closeConnection{id, nil}
+	}
+
 	// Send stop signal to manage routine
 	close(mm.manageInterrupter)
 
@@ -76,10 +81,10 @@ func (mm *MManager) IsAuthenticated(phonenumber string) bool {
 	return true
 }
 
-func (mm *MManager) LoadAuthentication(phonenumber string) (*MConn, error) {
+func (mm *MManager) LoadAuthentication(phonenumber string, preferredAddr string) (*MConn, error) {
 	// req connect
 	respCh := make(chan sessionResponse)
-	mm.eventq  <- loadsession{0, phonenumber, respCh}
+	mm.eventq  <- loadsession{0, phonenumber, preferredAddr, respCh}
 
 	// Wait for connection built
 	resp := <- respCh
@@ -193,7 +198,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
 					logln(mm, "loadsession of ", e.phonenumber)
-					session, err := loadSession(e.phonenumber, mm.appConfig, mm.eventq)
+					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						fatalln(mm, "connect failure ", err)
@@ -312,6 +317,20 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(refreshSession)
 					logln(mm, "refreshSession ", e.sessionId)
+					//TODO: alternate the spin lock
+					// Wait for session registration and binding for graceful refreshing
+					spinLock := false
+					if mm.sessions[e.sessionId] == nil {
+						spinLock = true
+					}
+					for spinLock {
+						select {
+						case <-time.After(1 * time.Second):
+							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0{
+								spinLock = false
+							}
+						}
+					}
 					connId := mm.sessions[e.sessionId].connId
 
 					// Req discardSession
@@ -329,7 +348,7 @@ func (mm *MManager) manageRoutine() {
 					// Req loadsession
 					logln(mm, "refreshRoutine: req loadsession")
 					connectRespCh := make(chan sessionResponse)
-					mm.eventq <- loadsession{connId, e.phonenumber, connectRespCh}
+					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
 					connectResp := <- connectRespCh
 					if connectResp.err != nil {
 						logln(mm, "refreshSession failure: ", connectResp.err)
@@ -410,6 +429,14 @@ func (mm *MManager) manageRoutine() {
 	logln(mm, "done")
 }
 
+var logging bool
+func EnableLogging() {
+	logging = true
+}
+func DisableLogging() {
+	logging = false
+}
+
 func logprefix(x interface{}) string {
 	switch x.(type) {
 	case *MConn:
@@ -427,10 +454,16 @@ func logprefix(x interface{}) string {
 }
 
 func logf(x interface{}, format string, v ...interface{}) {
+	if !logging {
+		return
+	}
 	log.Printf(logprefix(x) + " " + format, v...)
 }
 
 func logln(x interface{}, v ...interface{}) {
+	if !logging {
+		return
+	}
 	if len(v) > 0 {
 		log.Println(append([]interface{}{logprefix(x)} , v...)...)
 	} else {
@@ -443,7 +476,7 @@ func fatalf(x interface{}, format string, v ...interface{}) {
 	log.Fatalf(logprefix(x) + " " + format, v...)
 }
 
-func fatalln(x interface{}, format string, v ...interface{}) {
+func fatalln(x interface{}, v ...interface{}) {
 	if len(v) > 0 {
 		log.Fatalln(append([]interface{}{logprefix(x)}, v...)...)
 	} else {
@@ -453,4 +486,12 @@ func fatalln(x interface{}, format string, v ...interface{}) {
 
 func errorf(x interface{}, format string, v ...interface{}) error {
 	return fmt.Errorf(logprefix(x) + " " + format, v...)
+}
+
+func Stringify(x interface{}) string {
+	marshaled, err := json.Marshal(x)
+	if err == nil {
+		return fmt.Sprintf("%T: %s", x, marshaled)
+	}
+	return fmt.Sprintf("%T: %v:", x, x)
 }
