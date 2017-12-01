@@ -116,13 +116,27 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		if err == nil {
 			err = session.readSessionFile(sessionfile)
 			if preferredAddr != "" {
-				session.addr = preferredAddr
+				tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
+				if err == nil {
+					if tcpAddr.IP.To4() != nil {
+						session.useIPv6 = false
+						session.addr = preferredAddr
+					} else if tcpAddr.IP.To16() != nil{
+						session.useIPv6 = true
+						session.addr = preferredAddr
+					} else {
+						// Invalid IP address. Ignore the preferred ip address
+					}
+				}
 			}
 			if err == nil {
-				session.open(appConfig, sessionListener)
-				return session, nil
+				err = session.open(appConfig, sessionListener)
+				if err == nil {
+					return session, nil
+				}
+				return nil, fmt.Errorf("Handshaking Failure: %v", err)
 			} else {
-				return nil, fmt.Errorf("Load Session Failure: open new session")
+				return nil, fmt.Errorf("Cannot Read Session File: open new session")
 			}
 		}
 	}
