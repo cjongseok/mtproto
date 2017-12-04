@@ -19,8 +19,13 @@ type US_messages_dialogsSlice struct {
 	Users 		[]TL_user
 }
 
+type US_contact struct {
+	User_id int32
+	Mutual  bool
+}
+
 type US_contacts_contacts struct {
-	Contacts 	[]TL_contact
+	Contacts 	[]US_contact
 	Users 		[]TL_user
 }
 
@@ -49,6 +54,30 @@ type US_updates_difference struct {
 	Channels 				[]TL_channel
 	Users 					[]TL_user
 	State 					TL_updates_state
+}
+
+type US_updates struct {
+	Updates 	[]TL
+	Users 		[]TL_user
+	Chats 		[]TL_chat
+	Date  		int32
+	Seq 		int32
+}
+//type US_updates_state struct {}
+//type US_updateShort struct {}
+//type US_updateShortMessage struct {}
+//type US_updateShortChatMessage struct {}
+//type US_updateShortSentMessage struct {}
+type US_updateNewMessage struct {
+	Message 	TL_message
+	Pts 		int32
+	Pts_count 	int32
+}
+//type US_updateReadMessagesContents struct {}
+//type US_updateDeleteMessages struct {}
+type US_updateNewEncryptedMessage struct {
+	Message 	TL_encryptedMessage
+	Qts 		int32
 }
 
 // interface implementations
@@ -122,6 +151,22 @@ func (tl TL_updates_difference) Unstrip() unstripped {
 	}
 }
 
+func (us US_updateNewMessage) Strip() unstrip {return nil}
+func (tl TL_updateNewMessage) Unstrip() unstripped {
+	return US_updateNewMessage{
+		tl.Message.(TL_message),
+		tl.Pts,
+		tl.Pts_count,
+	}
+}
+func (us US_updateNewEncryptedMessage) Strip() unstrip {return nil}
+func (tl TL_updateNewEncryptedMessage) Unstrip() unstripped {
+	return US_updateNewEncryptedMessage{
+		tl.Message.(TL_encryptedMessage),
+		tl.Qts,
+	}
+}
+
 // utility functions
 func unstripTLdialogs(tls []TL) []TL_dialog {
 	dialogs := make([]TL_dialog, len(tls))
@@ -158,10 +203,16 @@ func unstripTLusers(tls []TL) []TL_user {
 	}
 	return users;
 }
-func unstripTLcontacts(tls []TL) []TL_contact {
-	contacts := make([]TL_contact, len(tls))
+func unstripTLcontacts(tls []TL) []US_contact {
+	contacts := make([]US_contact, len(tls))
 	for i, tl := range tls {
-		contacts[i] = tl.(TL_contact)
+		tl_contact := tl.(TL_contact)
+		switch tl_contact.Mutual.(type) {
+		case TL_boolTrue:
+			contacts[i] = US_contact{tl_contact.User_id, true}
+		case TL_boolFalse:
+			contacts[i] = US_contact{tl_contact.User_id, false}
+		}
 	}
 	return contacts
 }

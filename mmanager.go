@@ -1,13 +1,13 @@
 package mtproto
 
 import (
-	"log"
 	"os"
 	"sync"
 	"fmt"
 	"math/rand"
 	"time"
 	"encoding/json"
+	"github.com/cjongseok/slog"
 )
 
 type MManager struct {
@@ -112,7 +112,7 @@ func (mm *MManager) LoadAuthentication(phonenumber string, preferredAddr string)
 		return mconn, err
 	}
 	session.user = &user
-	logln(mm, "Auth as ", user)
+	slog.Logln(mm, "Auth as ", user)
 	return mm.conns[resp.connId], nil
 }
 
@@ -138,7 +138,7 @@ func (mm *MManager) NewAuthentication(phonenumber string, addr string, useIPv6 b
 }
 
 func (mm *MManager) manageRoutine() {
-	logln(mm, "start")
+	slog.Logln(mm, "start")
 	mm.manageWaitGroup.Add(1)
 	defer mm.manageWaitGroup.Done()
 
@@ -146,7 +146,7 @@ func (mm *MManager) manageRoutine() {
 		select {
 		case <-mm.manageInterrupter:
 			// Default interrupt is STOP
-			logln(mm, "stop")
+			slog.Logln(mm, "stop")
 			return
 
 		case e := <-mm.eventq :
@@ -161,11 +161,11 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(newsession)
-					logln(mm, "newsession to ", e.addr)
+					slog.Logln(mm, "newsession to ", e.addr)
 					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						fatalln(mm, "connect failure: ", err)
+						slog.Fatalln(mm, "connect failure: ", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
@@ -197,11 +197,11 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
-					logln(mm, "loadsession of ", e.phonenumber)
+					slog.Logln(mm, "loadsession of ", e.phonenumber)
 					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						fatalln(mm, "connect failure ", err)
+						slog.Fatalln(mm, "connect failure ", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
@@ -229,7 +229,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(SessionEstablished)
-					logf(mm, "session established %d\n\n", e.session.sessionId)
+					slog.Logf(mm, "session established %d\n\n", e.session.sessionId)
 				}()
 
 			// In normal case, an event,
@@ -240,7 +240,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(discardSession)
-					logln(mm, "discard session ", e.sessionId)
+					slog.Logln(mm, "discard session ", e.sessionId)
 					session := mm.sessions[e.sessionId]
 					session.close()
 
@@ -249,9 +249,9 @@ func (mm *MManager) manageRoutine() {
 					// event, so that it results in either nil discardedUpdateState or a lot of duplicated updates.
 					marshaled, err := json.Marshal(session.updatesState)
 					if err == nil {
-						logf(mm, "session is discarded. keep its updates state, (json): %s\n", marshaled)
+						slog.Logf(mm, "session is discarded. keep its updates state, (json): %s\n", marshaled)
 					} else {
-						logf(mm, "session is discarded. keep its updates state, %v\n", session.updatesState)
+						slog.Logf(mm, "session is discarded. keep its updates state, %v\n", session.updatesState)
 					}
 					mconn := mm.conns[e.connId]
 					mconn.discardedUpdatesState = new(TL_updates_state)
@@ -264,7 +264,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(SessionDiscarded)
-					logln(mm, "session discarded ", e.discardedSessionId)
+					slog.Logln(mm, "session discarded ", e.discardedSessionId)
 					delete(mm.sessions, e.discardedSessionId)	// Late deregistration
 				}()
 
@@ -276,7 +276,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(renewSession)
-					logln(mm, "renewSession to ", e.addr)
+					slog.Logln(mm, "renewSession to ", e.addr)
 					connId := mm.sessions[e.sessionId].connId
 
 					// Req discardSession
@@ -287,25 +287,25 @@ func (mm *MManager) manageRoutine() {
 					// Wait for disconnection
 					disconnectResp := <- disconnectRespCh
 					if disconnectResp.err != nil {
-						logf(mm, "renewSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
+						slog.Logf(mm, "renewSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
 						e.resp <- sessionResponse{0, nil, fmt.Errorf("cannot discardSession %d. %v", e.sessionId, disconnectResp.err)}
 						return
 					}
 
 					// Req newsession
-					logln(mm, "renewRoutine: req newsession")
+					slog.Logln(mm, "renewRoutine: req newsession")
 					connectRespCh := make(chan sessionResponse)
 					mm.eventq <- newsession{connId, e.phonenumber, e.addr, e.useIPv6, connectRespCh}
 					connectResp := <-connectRespCh
 					if connectResp.err != nil {
-						logf(mm, "renewSession failure: cannot connect to %s. %v\n", e.addr, connectResp.err)
+						slog.Logf(mm, "renewSession failure: cannot connect to %s. %v\n", e.addr, connectResp.err)
 						e.resp <- sessionResponse{0, nil, fmt.Errorf("cannot connect to %s. %v", e.addr, connectResp.err)}
 						return
 					}
 					//TODO: need to handle nil resp channel?
 					e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
 					//TODO: figure out missed updates
-					logln(mm, "renewSession done")
+					slog.Logln(mm, "renewSession done")
 				}()
 
 			// In normal case, five events,
@@ -316,7 +316,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(refreshSession)
-					logln(mm, "refreshSession ", e.sessionId)
+					slog.Logln(mm, "refreshSession ", e.sessionId)
 					//TODO: alternate the spin lock
 					// Wait for session registration and binding for graceful refreshing
 					spinLock := false
@@ -341,23 +341,23 @@ func (mm *MManager) manageRoutine() {
 					// Wait for disconnected event
 					disconnectResp := <- disconnectRespCh
 					if disconnectResp.err != nil {
-						logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
+						slog.Logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
 						return
 					}
 
 					// Req loadsession
-					logln(mm, "refreshRoutine: req loadsession")
+					slog.Logln(mm, "refreshRoutine: req loadsession")
 					connectRespCh := make(chan sessionResponse)
 					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
 					connectResp := <- connectRespCh
 					if connectResp.err != nil {
-						logln(mm, "refreshSession failure: ", connectResp.err)
+						slog.Logln(mm, "refreshSession failure: ", connectResp.err)
 						return
 					}
 					//TODO: need to handle nil resp channel?
 					e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
 					//TODO: figure out missed updates
-					logln(mm, "refreshSessino done")
+					slog.Logln(mm, "refreshSessino done")
 				}()
 
 			// Connection Event Handlers
@@ -366,7 +366,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(ConnectionOpened)
-					logln(mm, "connectionOpened ", e.mconn.connId)
+					slog.Logln(mm, "connectionOpened ", e.mconn.connId)
 				}()
 
 			case sessionBound:
@@ -376,21 +376,21 @@ func (mm *MManager) manageRoutine() {
 					e := e.(sessionBound)
 					connId := e.mconn.connId
 					sessionId := e.mconn.session.sessionId
-					logf(mm, "sessionBound: session %d is bound to mconn %d\n", sessionId, connId)
+					slog.Logf(mm, "sessionBound: session %d is bound to mconn %d\n", sessionId, connId)
 				}()
 			case sessionUnbound:
 				go func() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(sessionUnbound)
-					logf(mm, "sessionUnbound: session %d is unbound from mconn %d\n", e.unboundSessionId, e.mconn.connId)
+					slog.Logf(mm, "sessionUnbound: session %d is unbound from mconn %d\n", e.unboundSessionId, e.mconn.connId)
 				}()
 			case closeConnection:
 				go func() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(closeConnection)
-					logln(mm, "closeConnection ", e.connId)
+					slog.Logln(mm, "closeConnection ", e.connId)
 
 					// close, unbound, and deregister session
 					mconn := mm.conns[e.connId]
@@ -410,7 +410,7 @@ func (mm *MManager) manageRoutine() {
 						e.resp <- nil
 						return
 					}
-					logln(mm, "closeConnection failure: cannot discard its session ", session.sessionId)
+					slog.Logln(mm, "closeConnection failure: cannot discard its session ", session.sessionId)
 					e.resp <- fmt.Errorf("Failed to discard its session %d", session.sessionId)
 				}()
 			case connectionClosed:
@@ -418,7 +418,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(connectionClosed)
-					logln(mm, "connectionClosed ", e.closedConnId)
+					slog.Logln(mm, "connectionClosed ", e.closedConnId)
 					delete(mm.conns, e.closedConnId)	// Late deregistration
 				}()
 			case updateReceived:
@@ -426,72 +426,7 @@ func (mm *MManager) manageRoutine() {
 			}
 		}
 	}
-	logln(mm, "done")
+	slog.Logln(mm, "done")
 }
 
-var logging bool
-func EnableLogging() {
-	logging = true
-}
-func DisableLogging() {
-	logging = false
-}
 
-func logprefix(x interface{}) string {
-	switch x.(type) {
-	case *MConn:
-		x := x.(*MConn)
-		return fmt.Sprintf("[mconn %d]", x.connId)
-	case *MSession:
-		x := x.(*MSession)
-		return fmt.Sprintf("[%d-%d]", x.connId, x.sessionId)
-	case *MManager:
-		x := x.(*MManager)
-		return fmt.Sprintf("[MM %d]", x.managerId)
-	default:
-		return ""
-	}
-}
-
-func logf(x interface{}, format string, v ...interface{}) {
-	if !logging {
-		return
-	}
-	log.Printf(logprefix(x) + " " + format, v...)
-}
-
-func logln(x interface{}, v ...interface{}) {
-	if !logging {
-		return
-	}
-	if len(v) > 0 {
-		log.Println(append([]interface{}{logprefix(x)} , v...)...)
-	} else {
-		log.Println(logprefix(x))
-	}
-	//logf(x, format + "\n", v...)
-}
-
-func fatalf(x interface{}, format string, v ...interface{}) {
-	log.Fatalf(logprefix(x) + " " + format, v...)
-}
-
-func fatalln(x interface{}, v ...interface{}) {
-	if len(v) > 0 {
-		log.Fatalln(append([]interface{}{logprefix(x)}, v...)...)
-	} else {
-		log.Fatalln(logprefix(x))
-	}
-}
-
-func errorf(x interface{}, format string, v ...interface{}) error {
-	return fmt.Errorf(logprefix(x) + " " + format, v...)
-}
-
-func Stringify(x interface{}) string {
-	marshaled, err := json.Marshal(x)
-	if err == nil {
-		return fmt.Sprintf("%T: %s", x, marshaled)
-	}
-	return fmt.Sprintf("%T: %v:", x, x)
-}

@@ -19,3 +19,10 @@ func (u TL_updateNewMessage) UpdateDate() int32 {return 0}
 func (u TL_updateReadMessagesContents) UpdateDate() int32 {return 0}
 func (u TL_updateDeleteMessages) UpdateDate() int32 {return 0}
 func (u TL_updateNewEncryptedMessage) UpdateDate() int32 {return 0}
+
+func (u TL_updateChannel) UpdateDate() int32 {return 0}
+func (u TL_updateChannelMessageViews) UpdateDate() int32 {return 0}
+func (u TL_updateChannelTooLong) UpdateDate() int32 {return 0}
+func (u TL_updateReadChannelInbox) UpdateDate() int32 {return 0}
+func (u TL_updateReadChannelOutbox) UpdateDate() int32 {return 0}
+func (u TL_updateNewChannelMessage) UpdateDate() int32 {return 0}

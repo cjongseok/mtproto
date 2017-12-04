@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"encoding/json"
 	"strings"
+	"github.com/cjongseok/slog"
 )
 
 type MSession struct {
@@ -160,7 +161,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	if err != nil {
 		return err
 	}
-	logf(session, "dial TCP to %s\n", session.addr)
+	slog.Logf(session, "dial TCP to %s\n", session.addr)
 	session.tcpconn, err = net.DialTCP("tcp", nil, tcpAddr)
 	if err != nil {
 		return err
@@ -228,7 +229,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		}
 		marshaled, err := json.Marshal(x.data)
 		if err == nil {
-			logf(session, "config: %s\n", marshaled)
+			slog.Logf(session, "config: %s\n", marshaled)
 		}
 	default:
 		return fmt.Errorf("Connection error: Failed to get config. got: %T", x)
@@ -382,9 +383,9 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 		session.updatesState.Seq = data.Seq
 		marshaled, err := json.Marshal(data)
 		if err == nil {
-			logf(session, "updatesState: %s\n", marshaled)
+			slog.Logf(session, "updatesState: %s\n", marshaled)
 		} else {
-			logf(session, "updatesState: %v\n", data)
+			slog.Logf(session, "updatesState: %v\n", data)
 		}
 		return data
 
@@ -446,12 +447,40 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 		session.notify(updateReceived{data})
 		return data
 
+	// Channel updates
+	case TL_updateChannel:
+		data := data.(TL_updateChannel)
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateChannelMessageViews:
+		data := data.(TL_updateChannelMessageViews)
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateChannelTooLong:
+		data := data.(TL_updateChannelTooLong)
+		session.updatesState.Pts = data.Pts
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateReadChannelInbox:
+		data := data.(TL_updateReadChannelInbox)
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateReadChannelOutbox:
+		data := data.(TL_updateReadChannelOutbox)
+		session.notify(updateReceived{data})
+		return data
+	case TL_updateNewChannelMessage:
+		data := data.(TL_updateNewChannelMessage)
+		session.updatesState.Pts = data.Pts
+		session.notify(updateReceived{data})
+		return data
+
 	default:
 		marshaled, err := json.Marshal(data)
 		if err == nil {
-			logf(session, "process: unknown data type %T {%s}\n", data, marshaled)
+			slog.Logf(session, "process: unknown data type %T {%s}\n", data, marshaled)
 		} else {
-			logf(session, "process: unknown data type %T {%v}\n", data, data)
+			slog.Logf(session, "process: unknown data type %T {%v}\n", data, data)
 		}
 		return data
 	}
@@ -514,27 +543,27 @@ func (session *MSession) pingRoutine() {
 		case <-session.pingInterrupter:
 			return
 		case <-time.After(60 * time.Second):
-			logln(session, "ping")
+			slog.Logln(session, "ping")
 			session.queueSend <- packetToSend{TL_ping{0xCADACADA}, nil}
 		}
 	}
 }
 
 func (session *MSession) sendRoutine() {
-	logln(session, "send: start")
+	slog.Logln(session, "send: start")
 	session.sendWaitGroup.Add(1)
 	defer session.sendWaitGroup.Done()
 	for {
 		select {
 		case <-session.sendInterrupter:
-			logln(session, "send: stop")
+			slog.Logln(session, "send: stop")
 			return
 		case x := <-session.queueSend:
-			logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
+			slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			if x.msg != nil {
 				err := session.sendPacket(x.msg, x.resp)
 				if err != nil {
-					fatalln(session, "send: ", err)
+					slog.Fatalln(session, "send: ", err)
 				}
 			}
 		}
@@ -542,7 +571,7 @@ func (session *MSession) sendRoutine() {
 }
 
 func (session *MSession) readRoutine() {
-	logln(session, "read: start")
+	slog.Logln(session, "read: start")
 	session.readWaitGroup.Add(1)
 	defer session.readWaitGroup.Done()
 
@@ -563,24 +592,24 @@ func (session *MSession) readRoutine() {
 			defer innerRoutineWG.Done()
 
 			data, err := session.read()
-			logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
-				logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
+				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
 				refresh(session)
 			} else if err != nil {
 				if strings.Contains(err.Error(), "use of closed network connection") {
-					logf(session, "read: TCP connection closed (%s)\n", err)
+					slog.Logf(session, "read: TCP connection closed (%s)\n", err)
 					// Two cases
 					// 1. on new authentication, 303 PHONE_MIGRATE can require to make a new connection with different
 					//   server by closing the connection. -> do nothing, because session will be renewed by MM
 					// 2. after authentication, there could be an accidental disconnection. -> need to refresh
 					refresh(session)
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
-					logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
 					refresh(session)
 				} else {
-					logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
+					slog.Logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
 					refresh(session)
 				}
 			} else {
@@ -590,9 +619,9 @@ func (session *MSession) readRoutine() {
 
 		select {
 		case <-session.readInterrupter:
-			logln(session, "read: wait for inner routine ...")
+			slog.Logln(session, "read: wait for inner routine ...")
 			innerRoutineWG.Wait()
-			logln(session, "read: stop")
+			slog.Logln(session, "read: stop")
 			return
 		case data := <-ch:
 			if data == nil {
