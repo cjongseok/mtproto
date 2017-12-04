@@ -7,8 +7,10 @@
 
 *.log
 *.bch
+*.diff
 .shell
 *.iml
+.idea
 
 # Created by https://www.gitignore.io/api/go,git,intellij
 
