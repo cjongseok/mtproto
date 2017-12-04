@@ -15,7 +15,7 @@ func (mconn *MConn) UpdatesGetDifference(pts, ptsTotalLimit, date, qts int32) (*
 
 func (mconn *MConn) UpdatesGetChannelDifference(force bool, channel, filter TL, pts, limit int32) (*TL, error) {
 	return mconn.InvokeBlocked(TL_updates_getChannelDifference{
-		Force:   force,
+		//Force:   force,
 		Channel: channel,
 		Filter:  filter,
 		Pts:     pts,

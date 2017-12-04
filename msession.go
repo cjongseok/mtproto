@@ -15,6 +15,17 @@ import (
 	"github.com/cjongseok/slog"
 )
 
+const (
+	// API Errors
+	errorSeeOther     = 303
+	errorBadRequest   = 400
+	errorUnauthorized = 401
+	errorForbidden    = 403
+	errorNotFound     = 404
+	errorFlood        = 420
+	errorInternal     = 500
+)
+
 type MSession struct {
 	connId 			int32
 	sessionId		int64
@@ -201,12 +212,13 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		msg: TL_invokeWithLayer{
 			Layer: layer,
 			Query: TL_initConnection{
-				Api_id:         session.appConfig.Id,
-				Device_model:   session.appConfig.DeviceModel,
-				System_version: session.appConfig.SystemVersion,
-				App_version:    session.appConfig.Version,
-				Lang_code:      session.appConfig.Language,
-				Query:          TL_help_getConfig{},
+				Api_id:         	session.appConfig.Id,
+				Device_model:   	session.appConfig.DeviceModel,
+				System_version: 	session.appConfig.SystemVersion,
+				App_version:    	session.appConfig.Version,
+				System_lang_code: 	session.appConfig.Language,
+				Lang_code:      	session.appConfig.Language,
+				Query:          	TL_help_getConfig{},
 			},
 		},
 		resp: resp,
@@ -221,9 +233,16 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		session.dclist = make(map[int32]string, 5)
 		for _, v := range x.data.(TL_config).Dc_options {
 			v := v.(TL_dcOption)
-			if session.useIPv6 && v.Ipv6 {
+			isIPv6 := false
+			tcpAddr, err := net.ResolveTCPAddr("tcp", v.Ip_address)
+			if err == nil {
+				if tcpAddr.IP.To16() != nil{
+					isIPv6 = true
+				}
+			}
+			if session.useIPv6 && isIPv6 {
 				session.dclist[v.Id] = fmt.Sprintf("[%s]:%d", v.Ip_address, v.Port)
-			} else if !v.Ipv6 {
+			} else if !isIPv6 {
 				session.dclist[v.Id] = fmt.Sprintf("%s:%d", v.Ip_address, v.Port)
 			}
 		}
@@ -313,14 +332,14 @@ func (session *MSession) notify(e MEvent) {
 func (session *MSession) process(msgId int64, seqNo int32, data interface{}) interface{} {
 	switch data.(type) {
 	case TL_msg_container:
-		data := data.(TL_msg_container).Items
+		data := data.(TL_msg_container).items
 		for _, v := range data {
-			session.process(v.Msg_id, v.Seq_no, v.Data)
+			session.process(v.msg_id, v.seq_no, v.data)
 		}
 
 	case TL_bad_server_salt:
 		data := data.(TL_bad_server_salt)
-		session.serverSalt = data.New_server_salt
+		session.serverSalt = data.new_server_salt
 		// save the session on sign in
 		_ = session.saveSession()
 		session.mutex.Lock()
@@ -332,13 +351,13 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 
 	case TL_new_session_created:
 		data := data.(TL_new_session_created)
-		session.serverSalt = data.Server_salt
+		session.serverSalt = data.server_salt
 		// save the session on sign in
 		_ = session.saveSession()
 
 	case TL_ping:
 		data := data.(TL_ping)
-		session.queueSend <- packetToSend{TL_pong{msgId, data.Ping_id}, nil}
+		session.queueSend <- packetToSend{TL_pong{msgId, data.ping_id}, nil}
 
 	case TL_pong:
 		// ignore
@@ -347,16 +366,16 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 		data := data.(TL_msgs_ack)
 		session.mutex.Lock()
 		defer session.mutex.Unlock()
-		for _, v := range data.MsgIds {
+		for _, v := range data.msgIds {
 			delete(session.msgsIdToAck, v)
 		}
 
 	case TL_rpc_result:
 		data := data.(TL_rpc_result)
-		x := session.process(msgId, seqNo, data.Obj)
+		x := session.process(msgId, seqNo, data.obj)
 		session.mutex.Lock()
 		defer session.mutex.Unlock()
-		v, ok := session.msgsIdToResp[data.Req_msg_id]
+		v, ok := session.msgsIdToResp[data.req_msg_id]
 		if ok {
 			go func() {
 				var resp response
@@ -370,7 +389,7 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 				close(v)
 			}()
 		}
-		delete(session.msgsIdToAck, data.Req_msg_id)
+		delete(session.msgsIdToAck, data.req_msg_id)
 
 	//TODO: Update classifier should be auto-generated from scheme.tl
 	//TODO: how to handle seq?
@@ -629,6 +648,18 @@ func (session *MSession) readRoutine() {
 			}
 			session.process(session.msgId, session.seqNo, data)
 		}
+	}
+}
+
+// Implements interface error
+func (e TL_rpc_error) Error() string {
+	switch e.error_code{
+	case errorSeeOther:
+		return fmt.Sprintf("mtproto RPC error: %d %s", e.error_code, e.error_message)
+	case errorBadRequest, errorUnauthorized, errorFlood, errorInternal:
+		return fmt.Sprintf("mtproto RPC error: %d %s", e.error_code, e.error_message)
+	default:
+		return fmt.Sprintf("mtproto unknow RPC error: %d %s", e.error_code, e.error_message)
 	}
 }
 

@@ -124,105 +124,85 @@ func (e *EncodeBuf) Vector(v []TL) {
 	}
 }
 
-// TODO: Does only server send messages below?
-func (e TL_msg_container) encode() []byte         { return nil }
-func (e TL_resPQ) encode() []byte                 { return nil }
-func (e TL_server_DH_params_ok) encode() []byte   { return nil }
-func (e TL_server_DH_params_fail) encode() []byte { return nil }
-func (e TL_server_DH_inner_data) encode() []byte  { return nil }
-func (e TL_dh_gen_ok) encode() []byte             { return nil }
-func (e TL_rpc_result) encode() []byte            { return nil }
-func (e TL_rpc_error) encode() []byte             { return nil }
-func (e TL_new_session_created) encode() []byte   { return nil }
-func (e TL_bad_server_salt) encode() []byte       { return nil }
-func (e TL_bad_msg_notification) encode() []byte  { return nil }
+func (e TL_msg_container) encode() []byte            { return nil }
+func (e TL_resPQ) encode() []byte                    { return nil }
+func (e TL_server_DH_params_ok) encode() []byte      { return nil }
+func (e TL_server_DH_inner_data) encode() []byte     { return nil }
+func (e TL_dh_gen_ok) encode() []byte                { return nil }
+func (e TL_rpc_result) encode() []byte               { return nil }
+func (e TL_rpc_error) encode() []byte                { return nil }
+func (e TL_new_session_created) encode() []byte      { return nil }
+func (e TL_bad_server_salt) encode() []byte          { return nil }
+func (e TL_crc_bad_msg_notification) encode() []byte { return nil }
 
 func (e TL_req_pq) encode() []byte {
 	x := NewEncodeBuf(20)
 	x.UInt(crc_req_pq)
-	x.Bytes(e.Nonce)
+	x.Bytes(e.nonce)
 	return x.buf
 }
 
 func (e TL_p_q_inner_data) encode() []byte {
 	x := NewEncodeBuf(256)
 	x.UInt(crc_p_q_inner_data)
-	x.BigInt(e.Pq)
-	x.BigInt(e.P)
-	x.BigInt(e.Q)
-	x.Bytes(e.Nonce)
-	x.Bytes(e.Server_nonce)
-	x.Bytes(e.New_nonce)
+	x.BigInt(e.pq)
+	x.BigInt(e.p)
+	x.BigInt(e.q)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.Bytes(e.new_nonce)
 	return x.buf
 }
 
 func (e TL_req_DH_params) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_req_DH_params)
-	x.Bytes(e.Nonce)
-	x.Bytes(e.Server_nonce)
-	x.BigInt(e.P)
-	x.BigInt(e.Q)
-	x.Long(int64(e.Fp))
-	x.StringBytes(e.Encdata)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.BigInt(e.p)
+	x.BigInt(e.q)
+	x.Long(int64(e.fp))
+	x.StringBytes(e.encdata)
 	return x.buf
 }
 
 func (e TL_client_DH_inner_data) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_client_DH_inner_data)
-	x.Bytes(e.Nonce)
-	x.Bytes(e.Server_nonce)
-	x.Long(e.Retry)
-	x.BigInt(e.G_b)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.Long(e.retry)
+	x.BigInt(e.g_b)
 	return x.buf
 }
 
 func (e TL_set_client_DH_params) encode() []byte {
 	x := NewEncodeBuf(256)
 	x.UInt(crc_set_client_DH_params)
-	x.Bytes(e.Nonce)
-	x.Bytes(e.Server_nonce)
-	x.StringBytes(e.Encdata)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.StringBytes(e.encdata)
 	return x.buf
 }
 
 func (e TL_ping) encode() []byte {
 	x := NewEncodeBuf(32)
 	x.UInt(crc_ping)
-	x.Long(e.Ping_id)
+	x.Long(e.ping_id)
 	return x.buf
 }
 
 func (e TL_pong) encode() []byte {
 	x := NewEncodeBuf(32)
 	x.UInt(crc_pong)
-	x.Long(e.Msg_id)
-	x.Long(e.Ping_id)
+	x.Long(e.msg_id)
+	x.Long(e.ping_id)
 	return x.buf
 }
 
 func (e TL_msgs_ack) encode() []byte {
 	x := NewEncodeBuf(64)
 	x.UInt(crc_msgs_ack)
-	x.VectorLong(e.MsgIds)
-	return x.buf
-}
-
-func (e TL_boolFalse) encode() []byte {
-	x := NewEncodeBuf(4)
-	x.UInt(crc_boolFalse)
-	return x.buf
-}
-
-func (e TL_boolTrue) encode() []byte {
-	x := NewEncodeBuf(4)
-	x.UInt(crc_boolTrue)
-	return x.buf
-}
-
-func (e TL_null) encode() []byte {
-	x := NewEncodeBuf(4)
-	x.UInt(crc_null)
+	x.VectorLong(e.msgIds)
 	return x.buf
 }

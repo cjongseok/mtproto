@@ -12,7 +12,7 @@ func (mconn *MConn) authSendCode(phonenumber string) (*TL_auth_sentCode, error) 
 		return nil, err
 	}
 	data, err := mconn.InvokeBlocked(TL_auth_sendCode{
-		Allow_flashcall: false,
+		//Allow_flashcall: false,
 		Phone_number: phonenumber,
 		Current_number: TL_boolTrue{},
 		Api_id: session.appConfig.Id,
@@ -40,12 +40,12 @@ func (cm *MManager) authSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_
 		} else {
 			// Handle RPC error
 			if rpcError, ok := err.(TL_rpc_error); ok {
-				switch rpcError.Error_code {
+				switch rpcError.error_code{
 				case errorSeeOther:
 					var newdc int32
-					n, _ := fmt.Sscanf(rpcError.Error_message, "PHONE_MIGRATE_%d", &newdc)
+					n, _ := fmt.Sscanf(rpcError.error_message, "PHONE_MIGRATE_%d", &newdc)
 					if n != 1 {
-						n, _ = fmt.Sscanf(rpcError.Error_message, "NETWORK_MIGRATE_%d", &newdc)
+						n, _ = fmt.Sscanf(rpcError.error_message, "NETWORK_MIGRATE_%d", &newdc)
 					}
 					if n != 1 {
 						return nil, nil, err
@@ -122,10 +122,6 @@ func (mconn *MConn) AuthLogOut() (bool, error) {
 		return result, x.err
 	}
 
-	result, err := ToBool(x.data)
-	if err != nil {
-		return result, err
-	}
-
-	return result, err
+	result = toBool(x.data)
+	return result, nil
 }

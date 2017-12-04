@@ -178,7 +178,7 @@ func main() {
 				help()
 				continue
 			}
-			resp, err := mconn.ContactsGetContacts("")
+			resp, err := mconn.ContactsGetContacts(0)
 			fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_contacts_contacts).Unstrip(), "  "))
 			handleError(err)
 

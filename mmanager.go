@@ -10,6 +10,17 @@ import (
 	"github.com/cjongseok/slog"
 )
 
+const (
+	DEBUG_LEVEL_NETWORK         = 0x01
+	DEBUG_LEVEL_NETWORK_DETAILS = 0x02
+	DEBUG_LEVEL_DECODE          = 0x04
+	DEBUG_LEVEL_DECODE_DETAILS  = 0x08
+)
+
+var (
+	__debug = 0
+)
+
 type MManager struct {
 	managerId 	int32
 	appConfig	Configuration
@@ -21,19 +32,6 @@ type MManager struct {
 	manageWaitGroup   sync.WaitGroup
 }
 
-const (
-	// Current API Layer Version
-	layer = 65
-
-	// API Errors
-	errorSeeOther     = 303
-	errorBadRequest   = 400
-	errorUnauthorized = 401
-	errorForbidden    = 403
-	errorNotFound     = 404
-	errorFlood        = 420
-	errorInternal     = 500
-)
 
 func NewManager (appConfig Configuration) (*MManager, error) {
 	var err error

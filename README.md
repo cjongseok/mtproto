@@ -1,8 +1,12 @@
 ## MTProto
-Telegram MTProto Mobile Protocol implementation in Go language
-Telegram API layer: ***65***
+Telegram MTProto implementation in Go (golang).
+Telegram API layer: ***71***
 
-This is a fork of https://github.com/shelomentsevd/mtproto which forked https://github.com/sdidyk/mtproto
+## References
+* https://github.com/sdidyk/mtproto: It is the backend of most MTProto Go implementations.
+Referred MTProto schema compiler, (de)serializer, handshaking, and encryption.
+* https://github.com/shelomentsevd/mtproto: Referred layer 65 implementation and API wrappers.
+* https://github.com/ronaksoft/mtproto: Referred backend changes for layer 71.
 
 ## License
 MIT
