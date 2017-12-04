@@ -1,3 +1,15 @@
+# ignore all
+*
+# unignore all with extensions
+!*.*
+# unignore all dirs
+!*/
+
+*.log
+*.bch
+.shell
+*.iml
+
 # Created by https://www.gitignore.io/api/go,git,intellij
 
 ### Git ###
