@@ -59,7 +59,8 @@ type US_updates_difference struct {
 type US_updates struct {
 	Updates 	[]TL
 	Users 		[]TL_user
-	Chats 		[]TL_chat
+	//Chats 		[]TL_chat
+	Chats 		[]TL_channel
 	Date  		int32
 	Seq 		int32
 }
@@ -148,6 +149,17 @@ func (tl TL_updates_difference) Unstrip() unstripped {
 		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 		tl.State.(TL_updates_state),
+	}
+}
+
+func (us US_updates) Strip() unstrip {return nil}
+func (tl TL_updates) Unstrip() unstripped {
+	return US_updates{
+		tl.Updates,
+		unstripTLusers(tl.Users),
+		unstripTLchannels(tl.Chats),
+		tl.Date,
+		tl.Seq,
 	}
 }
 

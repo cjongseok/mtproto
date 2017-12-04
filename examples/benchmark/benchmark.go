@@ -15,6 +15,15 @@ import (
 )
 
 
+type condition func(float64) bool
+
+type updateBenchmarker struct {
+	latencies 	[]int64
+	updateNum	int
+	updateCount	int
+	join 		sync.WaitGroup
+}
+
 func usage() {
 	fmt.Println("USAGE: ./benchmark <APIID> <APIHASH> <PHONE> <ADDR> <#UPDATES>")
 	fmt.Println("")
@@ -28,6 +37,7 @@ func usage() {
 	fmt.Println("#UPDATES  means number of updates to subscribe from the server. Setting")
 	fmt.Println(" 		  it as 0 subscribes updates forever.")
 }
+
 func main() {
 	if len(os.Args) != 6 {
 		usage()
@@ -117,13 +127,13 @@ func benchmarkUpdateLatency(apiid int32, apihash string, phoneNumber string, pre
 	fvariance, _ := stats.Variance(floats)
 	fstd, _ := stats.StandardDeviation(floats)
 
-	//CAVEAT: it measures latencies by comparing timestamps (unit: sec) embedded in updates and when update callback triggers by NTP clock (unit: ms).)
-	//You need to keep in mind two things.)
-	// 1. By the unit difference, the timestamped time \\in [0,1) + timestamp)
-	//   So remove that noise before analytics. )
-	//	   e.g., pick latencies over 0.5, which is an expectation when noise uniformly distributes.)
-	// 2. By the time source difference, if Telegram server is not synced with NTP pool, latencies can incorrect.)
-	//   So measure latencies from a baseline experiment environment first, and compare it with other environments.)
+	//CAVEAT: it measures latencies by comparing timestamps (unit: sec) embedded in updates and when update callback triggers by NTP clock (unit: ms).
+	//You need to keep in mind two things.
+	// 1. By the unit difference, the timestamped time \\in [0,1) + timestamp
+	//   So remove such noise before analytics.
+	//	 e.g., pick latencies over 0.5, which is an expectation when noise uniformly distributes.
+	// 2. By the time source difference, if Telegram server is not synced with NTP pool, latencies can incorrect.
+	//   So measure latencies from a baseline experiment environment first, and compare it with other environments.
 	slog.Benchln(benchmarkUpdateLatency, "====== RESULTS ======")
 	slog.Benchf(benchmarkUpdateLatency, "raw latencies: %s\n", slog.Stringify(b.latencies))
 	slog.Benchf(benchmarkUpdateLatency, "raw mean:%f, median:%f, min:%f, max:%f, var:%f, std:%f\n", rmean, rmedian, rmin, rmax, rvariance, rstd)
@@ -135,8 +145,6 @@ func benchmarkUpdateLatency(apiid int32, apihash string, phoneNumber string, pre
 	mm.Finish()
 	return nil
 }
-
-type condition func(float64) bool
 
 func filter(ints []float64, cond condition) []float64 {
 	size := 0
@@ -155,14 +163,6 @@ func filter(ints []float64, cond condition) []float64 {
 	}
 	return filtered
 }
-//
-//func Float64s(ints []int64) []float64 {
-//	floats := make([]float64, len(ints))
-//	for i, x := range ints {
-//		floats[i] = float64(x)
-//	}
-//	return floats
-//}
 
 func NewUpdateBenchmarker(updateNum int) *updateBenchmarker {
 	b := new(updateBenchmarker)
@@ -171,13 +171,6 @@ func NewUpdateBenchmarker(updateNum int) *updateBenchmarker {
 	b.join = sync.WaitGroup{}
 	b.join.Add(1)
 	return b
-}
-
-type updateBenchmarker struct {
-	latencies 	[]int64
-	updateNum	int
-	updateCount	int
-	join 		sync.WaitGroup
 }
 
 func (b *updateBenchmarker) OnUpdate(u mtproto.MUpdate) {

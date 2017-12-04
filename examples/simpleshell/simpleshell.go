@@ -34,6 +34,8 @@ func newSubscriber(mconn *mtproto.MConn) *subscriber {
 
 func (s *subscriber) OnUpdate(u mtproto.MUpdate) {
 	switch u.(type) {
+	case mtproto.TL_updates:
+
 	//case mtproto.TL_updateShort:
 	//	u := u.(mtproto.TL_updateShort)
 	case mtproto.TL_updateShortMessage:
