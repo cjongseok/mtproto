@@ -77,9 +77,9 @@ func main() {
 			// predicate
 			_predicate := normalize(data[kind].(string))
 
-			if _predicate == "vector" {
+			/*if _predicate == "vector" {
 				continue
-			}
+			}*/
 
 			// params
 			_params := make([]nametype, 0, 16)

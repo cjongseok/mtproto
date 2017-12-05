@@ -301,6 +301,47 @@ func (m *DecodeBuf) Bool() bool {
 	return false
 }
 
+func (m *DecodeBuf) TL_Vector() []TL {
+	//constructor := m.UInt()
+	//if m.err != nil {
+	//	return nil
+	//}
+	//if constructor != crc_vector {
+	//	m.err = fmt.Errorf("DecodeTL_Vector: Wrong constructor (0x%08x)", constructor)
+	//	return nil
+	//}
+	//fmt.Println("byte len=", len(m.buf))
+	//fmt.Println("m.size=", m.size)
+	//fmt.Println(hex.EncodeToString(m.buf))
+	//xx := m.UInt()
+	//fmt.Println("x=", xx)
+	//size := m.Int()
+	//fmt.Println("size=", size)
+	//if m.err != nil {
+	//	return nil
+	//}
+	//if size < 0 {
+	//	m.err = errors.New("DecodeTL_Vector: Wrong size")
+	//	return nil
+	//}
+	//x := make([]TL, size)
+	//i := int32(0)
+	//for i < size {
+	//	y := m.Object()
+	//	if m.err != nil {
+	//		return nil
+	//	}
+	//	x[i] = y
+	//	i++
+	//}
+	//if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
+	//	fmt.Println("Decode::Vector::", x)
+	//}
+	//return x
+	m.err = fmt.Errorf("DecodeTL_Vector: NOT SUPPORTED YET")
+	return nil
+}
+
 func (m *DecodeBuf) Vector() []TL {
 	constructor := m.UInt()
 	if m.err != nil {

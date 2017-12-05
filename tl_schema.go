@@ -7,6 +7,7 @@ const (
 	crc_boolTrue                                         = 0x997275b5
 	crc_error                                            = 0xc4b9f9bb
 	crc_null                                             = 0x56730bcc
+	crc_vector                                           = 0x1cb5c415
 	crc_inputPeerEmpty                                   = 0x7f3b18ea
 	crc_inputPeerSelf                                    = 0x7da07ec9
 	crc_inputPeerChat                                    = 0x179be863
@@ -836,6 +837,10 @@ type TL_error struct {
 }
 
 type TL_null struct {
+}
+
+type TL_vector struct {
+	T []TL // t
 }
 
 type TL_inputPeerEmpty struct {
@@ -5412,6 +5417,13 @@ func (e TL_error) encode() []byte {
 func (e TL_null) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_null)
+	return x.buf
+}
+
+func (e TL_vector) encode() []byte {
+	x := NewEncodeBuf(512)
+	x.UInt(crc_vector)
+	x.Vector(e.T)
 	return x.buf
 }
 
@@ -12221,6 +12233,11 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_null:
 		r = TL_null{}
+
+	case crc_vector:
+		r = TL_vector{
+			m.TL_Vector(),
+		}
 
 	case crc_inputPeerEmpty:
 		r = TL_inputPeerEmpty{}

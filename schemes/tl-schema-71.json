@@ -34,6 +34,17 @@
       "type": "Null"
     },
     {
+      "id": "481674261",
+      "predicate": "vector",
+      "params": [
+        {
+          "name": "t",
+          "type": "Vector<t>"
+        }
+      ],
+      "type": "Vector t"
+    },
+    {
       "id": "2134579434",
       "predicate": "inputPeerEmpty",
       "params": [],

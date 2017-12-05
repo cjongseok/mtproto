@@ -4,7 +4,7 @@ const (
 	layer = 71
 
 	// https://core.telegram.org/schema/mtproto
-	crc_vector                     = 0x1cb5c415
+	//crc_vector                     = 0x1cb5c415
 	crc_resPQ                      = 0x05162463
 	crc_p_q_inner_data             = 0x83c95aec
 	crc_server_DH_params_fail      = 0x79cb045d
