@@ -46,6 +46,14 @@ type US_messages_chats struct {
 	Channels 	[]TL_channel
 }
 
+type US_messages_chatFull struct {
+	//Full_chat 	TL_chatFull
+	Full_channel TL_channelFull
+	//Chats		[]TL_chat
+	Channels 	[]TL_channel
+	Users 		[]TL_user
+}
+
 type US_updates_difference struct {
 	New_messages 			[]TL_message
 	New_encrypted_messages 	[]TL_encryptedMessage
@@ -80,6 +88,24 @@ type US_updateNewEncryptedMessage struct {
 	Message 	TL_encryptedMessage
 	Qts 		int32
 }
+
+type US_messages_messages struct {
+	Messages 	[]TL_message
+	//Chats 		[]TL_chat
+	Channels 	[]TL_channel
+	Users 		[]TL_user
+}
+
+type US_messages_channelMessages struct {
+	Flags 		int32
+	Pts 		int32
+	Count 		int32
+	Messages 	[]TL_message
+	//Chats 		[]TL_chat
+	Channels 	[]TL_channel
+	Users 		[]TL_user
+}
+
 
 // interface implementations
 func Unstrip(tl TL) (unstripped, bool) {
@@ -139,6 +165,15 @@ func (tl TL_messages_chats) Unstrip() unstripped {
 	}
 }
 
+func (us US_messages_chatFull) Strip() unstrip {return nil}
+func (tl TL_messages_chatFull) Unstrip() unstripped {
+	return US_messages_chatFull{
+		tl.Full_chat.(TL_channelFull),
+		unstripTLchannels(tl.Chats),
+		unstripTLusers(tl.Users),
+	}
+}
+
 func (us US_updates_difference) Strip() unstrip {return nil}
 func (tl TL_updates_difference) Unstrip() unstripped {
 	return US_updates_difference{
@@ -176,6 +211,27 @@ func (tl TL_updateNewEncryptedMessage) Unstrip() unstripped {
 	return US_updateNewEncryptedMessage{
 		tl.Message.(TL_encryptedMessage),
 		tl.Qts,
+	}
+}
+
+func (us US_messages_messages) Strip() unstrip {return nil}
+func (tl TL_messages_messages) Unstrip() unstripped {
+	return US_messages_messages{
+		unstripTLmsgs(tl.Messages),
+		unstripTLchannels(tl.Chats),
+		unstripTLusers(tl.Users),
+	}
+}
+
+func (us US_messages_channelMessages) Strip() unstrip {return nil}
+func (tl TL_messages_channelMessages) Unstrip() unstripped {
+	return US_messages_channelMessages{
+		tl.Flags,
+		tl.Pts,
+		tl.Count,
+		unstripTLmsgs(tl.Messages),
+		unstripTLchannels(tl.Chats),
+		unstripTLusers(tl.Users),
 	}
 }
 

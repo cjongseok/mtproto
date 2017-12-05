@@ -9,7 +9,6 @@ import (
 	"math/rand"
 	"time"
 	"io"
-	"reflect"
 	"encoding/json"
 	"strings"
 	"github.com/cjongseok/slog"
@@ -126,7 +125,6 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		session.phonenumber = phonenumber
 		session.f, err = os.OpenFile(sessionfile, os.O_RDONLY, 0600)
 		if err == nil {
-			err = session.readSessionFile(sessionfile)
 			if preferredAddr != "" {
 				tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
 				if err == nil {
@@ -141,6 +139,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 					}
 				}
 			}
+			err = session.readSessionFile(sessionfile)
 			if err == nil {
 				err = session.open(appConfig, sessionListener)
 				if err == nil {
@@ -578,7 +577,8 @@ func (session *MSession) sendRoutine() {
 			slog.Logln(session, "send: stop")
 			return
 		case x := <-session.queueSend:
-			slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
+			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
+			slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
 			if x.msg != nil {
 				err := session.sendPacket(x.msg, x.resp)
 				if err != nil {
@@ -611,7 +611,8 @@ func (session *MSession) readRoutine() {
 			defer innerRoutineWG.Done()
 
 			data, err := session.read()
-			slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			//slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			slog.Logf(session, "read: %s\n", slog.Stringify(data))
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
 				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)

@@ -11,6 +11,7 @@ import (
 	"time"
 	"strings"
 	"strconv"
+	"bufio"
 )
 
 const (
@@ -160,8 +161,14 @@ func main() {
 	for {
 		var cmd string
 		fmt.Printf("$ ")
-		fmt.Scanf("%s", &cmd)
-		//cmd := "dialogs"
+		reader := bufio.NewReader(os.Stdin)
+		cmd, err := reader.ReadString('\n')
+		if err != nil {
+			help()
+			continue
+		}
+		fmt.Println("cmd = ", cmd)
+		cmd = strings.Trim(cmd, "\n")
 		args := strings.Split(cmd, " ")
 
 		switch args[0] {
@@ -169,7 +176,7 @@ func main() {
 		case "dialogs":		// $ dialogs
 			if len(args) != 1 {
 				help()
-				continue
+				break
 			}
 			resp, err := mconn.MessagesGetDialogs(false, 0, 0, mtproto.TL_inputPeerEmpty{}, 1)
 			handleError(err)
@@ -178,7 +185,7 @@ func main() {
 		case "contacts":	// $ contacts
 			if len(args) != 1 {
 				help()
-				continue
+				break
 			}
 			resp, err := mconn.ContactsGetContacts(0)
 			fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_contacts_contacts).Unstrip(), "  "))
@@ -187,7 +194,7 @@ func main() {
 		case "toppeers":	// $ toppeers
 			if len(args) != 1 {
 				help()
-				continue
+				break
 			}
 			resp, err := mconn.ContactsGetTopPeers(true, false, false, true, true, 0, 0, 0)
 			log.Println(*resp)
@@ -197,17 +204,17 @@ func main() {
 		case "user":	// $ user <ID> <HASH>
 			if len(args) != 3 {
 				help()
-				continue
+				break
 			}
 			id64, err := strconv.ParseInt(args[1], 10, 0)
 			if err != nil {
 				fmt.Printf("Invalid ID, %s: ID should be integer\n", args[1])
-				continue
+				break
 			}
 			hash, err := strconv.ParseInt(args[2], 10, 0)
 			if err != nil {
 				fmt.Printf("Invalid HASH, %s: HASH should be integer\n", args[1])
-				continue
+				break
 			}
 			user, err := mconn.UsersGetFullUsers(mtproto.TL_inputUser{int32(id64), hash})
 			handleError(err)
@@ -217,30 +224,74 @@ func main() {
 		case "channel":	// $ channel <ID> <HASH>
 			if len(args) != 3 {
 				help()
-				continue
+				break
 			}
-			id64, err := strconv.ParseInt(args[1], 10, 0)
-			if err != nil {
-				fmt.Printf("Invalid ID, %s: ID should be integer\n", args[1])
-				continue
-			}
-			hash64, err := strconv.ParseInt(args[2], 10, 0)
-			if err != nil {
-				fmt.Printf("Invalid HASH, %s: HASH should be integer\n", args[1])
-				continue
-			}
-			ids := []mtproto.TL{
-				mtproto.TL_inputChannel{int32(id64), hash64},
-			}
+			inputchannel, err := parseInputChannel(args[1], args[2])
+			ids := []mtproto.TL{inputchannel}
 			resp, err := mconn.InvokeBlocked(mtproto.TL_channels_getChannels{ids})
-			log.Println(*resp)
 			handleError(err)
+			log.Println(*resp)
 			fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
+
+		case "fullchannel":	// $ fullchan <ID> <HASH>
+			if len(args) != 3 {
+				help()
+				break
+			}
+			inputchannel, err := parseInputChannel(args[1], args[2])
+			handleError(err)
+			resp, err := mconn.InvokeBlocked(mtproto.TL_channels_getFullChannel{inputchannel})
+			handleError(err)
+			fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chatFull).Unstrip(), "  "))
+
+		case "chanmsg": // $ chanmsg <CHAN_ID> <CHAN_HASH>
+			if len(args) != 3 {
+				help()
+				break
+			}
+			inputchannel, err := parseInputChannel(args[1], args[2])
+			handleError(err)
+			resp, err := mconn.InvokeBlocked(mtproto.TL_channels_getMessages{inputchannel, []int32{}})
+			handleError(err)
+			fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_messages).Unstrip(), "  "))
+
+		case "msg":	// $ msg <MSG_ID>
+			if len(args) != 2 {
+				help()
+				break
+			}
+			id, err := strconv.Atoi(args[1])
+			handleError(err)
+			resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getMessages{[]int32{int32(id)}})
+			handleError(err)
+			fmt.Println(slog.StringifyIndent(resp, "  "))
+
+		case "chanhistory": // chanhistory <CHAN_ID> <CHAN_HASH> <LIMIT>
+			if len(args) != 4 {
+				help()
+				break
+			}
+			peer, err := parseInputPeerChannel(args[1], args[2])
+			handleError(err)
+			limit, err := strconv.Atoi(args[3])
+			handleError(err)
+			resp, err := mconn.MessagesGetHistory(*peer, 0, 0, 0, int32(limit), 0, 0)
+			handleError(err)
+			fmt.Println(slog.StringifyIndent(resp, "  "))
+
+		//case "rcvdmsg": // $ rcvdmsg
+		//	if len(args) != 1 {
+		//		help()
+		//		break
+		//	}
+		//	resp, err := mconn.InvokeBlocked(mtproto.TL_messages_receivedMessages{0})
+		//	handleError(err)
+		//	fmt.Println(slog.StringifyIndent(resp, "  "))
 
 		//case "chats":		// $ chats <ID>...
 		//	if len(args) < 2 {
 		//		help()
-		//		continue
+		//		break
 		//	}
 		//	//TODO: parse IDs
 		//	resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getChats{make([]int32, 0)})
@@ -251,7 +302,7 @@ func main() {
 		case "allchats": 	// $ allchats
 			if len(args) != 1 {
 				help()
-				continue
+				break
 			}
 			resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getAllChats{make([]int32, 0)})
 			log.Println(*resp)
@@ -262,22 +313,51 @@ func main() {
 		//	resp, err := mconn.InvokeBlocked(mtproto.TL_contacts_search{args[0], 0})
 
 		case "help":
-			if len(args) != 1 {
-				help()
-				continue
-			}
 			help()
 
 		case "exit":
 			if len(args) != 1 {
 				help()
-				continue
+				break
 			}
 			return
+
+		case "":	// new line
+		// ignore it
 
 		default:
 			fmt.Println("Wrong command")
 			help()
 		}
 	}
+}
+
+func parseInputPeerChannel(id string, hash string) (*mtproto.TL_inputPeerChannel, error) {
+	id64, err := strconv.ParseInt(id, 10, 0)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid ID, %s: ID should be integer\n", id)
+	}
+	hash64, err := strconv.ParseInt(hash, 10, 0)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid HASH, %s: HASH should be integer\n", hash)
+	}
+	peer := new(mtproto.TL_inputPeerChannel)
+	peer.Channel_id = int32(id64)
+	peer.Access_hash = hash64
+	return peer, nil
+}
+
+func parseInputChannel(id string, hash string) (*mtproto.TL_inputChannel, error) {
+	id64, err := strconv.ParseInt(id, 10, 0)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid ID, %s: ID should be integer\n", id)
+	}
+	hash64, err := strconv.ParseInt(hash, 10, 0)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid HASH, %s: HASH should be integer\n", hash)
+	}
+	inputchannel := new(mtproto.TL_inputChannel)
+	inputchannel.Channel_id = int32(id64)
+	inputchannel.Access_hash = hash64
+	return inputchannel, nil
 }
