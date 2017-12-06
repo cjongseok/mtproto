@@ -25,7 +25,7 @@ type updateBenchmarker struct {
 }
 
 func usage() {
-	fmt.Println("USAGE: ./benchmark <APIID> <APIHASH> <PHONE> <ADDR> <BENCH> [ARGS]")
+	fmt.Println("USAGE: ./benchmark <APIID> <APIHASH> <PHONE> <ADDR> <PING> <BENCH> [ARGS]")
 	fmt.Println("")
 	fmt.Println("    APIID 	  means Telegram API id. If you do not have it yet, make it at ")
 	fmt.Println("	    		  https://my.telegram.org/apps")
@@ -34,6 +34,7 @@ func usage() {
 	fmt.Println("      		  signed in to Telegram with simple shell, authenticate your")
 	fmt.Println("     		  phone through simpleshell first.")
 	fmt.Println("    ADDR 	  means Telegram server address, e.g., 91.108.56.165:443")
+	fmt.Println("    PING 	  means ping interval in milli seconds.")
 	fmt.Println("")
 	fmt.Println("BENCHES:")
 	fmt.Println("  UpdateLatency <#UPDATES>")
@@ -49,7 +50,7 @@ func usage() {
 
 func main() {
 	const (
-		minArgsNum = 6
+		minArgsNum = 7
 	)
 	if len(os.Args) < minArgsNum {
 		usage()
@@ -65,7 +66,8 @@ func main() {
 	apihash := os.Args[2]
 	phoneNumber := os.Args[3]
 	target := os.Args[4]
-	bench := os.Args[5]
+	intervalInMs := os.Args[5]
+	bench := os.Args[6]
 	var args []string
 
 	benchtime := time.Now()
@@ -95,8 +97,14 @@ func main() {
 
 	slog.Benchln(main, "==== Settings ====")
 	slog.Benchln(main, "target: ", target)
+	slog.Benchf(main, "ping: %s ms\n", intervalInMs)
 
-	config := benchConfig{apiid, apihash, phoneNumber, target}
+	var intervalDuration time.Duration
+	interval64, err := strconv.ParseInt(intervalInMs, 10, 0)
+	if err == nil {
+		intervalDuration = time.Duration(interval64 * int64(time.Millisecond))
+	}
+	config := benchConfig{apiid, apihash, phoneNumber, target, intervalDuration}
 
 	switch bench {
 	case "UpdateLatency":
@@ -142,6 +150,7 @@ type benchConfig struct {
 	apihash 		string
 	phoneNumber 	string
 	preferredAddr 	string
+	pingInterval 	time.Duration
 }
 type abort func()
 type onMeasuring func(*mtproto.MConn) abort
@@ -345,7 +354,7 @@ func initBenchmark(config benchConfig) (*mtproto.MManager, *mtproto.MConn, error
 	join.Add(1)
 	go func(out chan<- interface{}) {
 		defer join.Done()
-		configuration, err := mtproto.NewConfiguration(config.apiid, config.apihash, appVersion, deviceModel, systemVersion, language, sessionFileHome)
+		configuration, err := mtproto.NewConfiguration(config.apiid, config.apihash, appVersion, deviceModel, systemVersion, language, sessionFileHome, config.pingInterval)
 		handleError(err)
 		manager, err := mtproto.NewManager(configuration)
 		handleError(err)

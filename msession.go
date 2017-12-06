@@ -561,7 +561,7 @@ func (session *MSession) pingRoutine() {
 		select {
 		case <-session.pingInterrupter:
 			return
-		case <-time.After(60 * time.Second):
+		case <-time.After(session.appConfig.PingInterval):
 			slog.Logln(session, "ping")
 			session.queueSend <- packetToSend{TL_ping{0xCADACADA}, nil}
 		}

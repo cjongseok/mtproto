@@ -127,7 +127,7 @@ func main() {
 		return
 	}
 
-	configuration, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome)
+	configuration, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0)
 	handleError(err)
 	manager, err := mtproto.NewManager(configuration)
 	handleError(err)

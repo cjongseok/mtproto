@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"runtime"
 	"os"
+	"time"
 )
 
 const (
 	appConfigError = "App configuration error: %s"
+	defaultPingInterval = 1 * time.Second
 )
 
 type Configuration struct {
@@ -18,9 +20,10 @@ type Configuration struct {
 	SystemVersion string
 	Language      string
 	SessionHome   string
+	PingInterval  time.Duration
 }
 
-func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, sessionFileHome string) (Configuration, error) {
+func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, sessionFileHome string, pingInterval time.Duration) (Configuration, error) {
 	//appConfig := new(Configuration)
 	appConfig := Configuration{}
 
@@ -49,6 +52,11 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 	appConfig.SessionHome = sessionFileHome
 	if sessionFileHome == "" {
 		appConfig.SessionHome = os.Getenv("HOME")
+	}
+
+	appConfig.PingInterval = pingInterval
+	if pingInterval == 0 {
+		appConfig.PingInterval = defaultPingInterval
 	}
 
 	return appConfig, nil
