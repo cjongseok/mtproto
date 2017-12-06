@@ -167,7 +167,6 @@ func main() {
 			help()
 			continue
 		}
-		fmt.Println("cmd = ", cmd)
 		cmd = strings.Trim(cmd, "\n")
 		args := strings.Split(cmd, " ")
 

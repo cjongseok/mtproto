@@ -152,31 +152,47 @@ func benchmarkUpdateLatencyWithPolling(config benchConfig, updateNum int, chanid
 		stopPolling := make(chan interface{})
 		go func(stop chan interface{}) {
 			// get full channel
+			var readInboxMaxId int32
 			inputchannel := mtproto.TL_inputChannel{chanid, chanhash}
 			resp, err := mconn.InvokeBlocked(mtproto.TL_channels_getFullChannel{inputchannel})
-			handleError(err)
-			readInboxMaxId := (*resp).(mtproto.TL_messages_chatFull).Full_chat.(mtproto.TL_channelFull).Read_inbox_max_id
+			if err != nil {
+				slog.Logln(mconn, "Failed to get full channel:", err)
+			} else {
+				slog.Logln(mconn, "FullChannel:", slog.Stringify(resp))
+				readInboxMaxId = (*resp).(mtproto.TL_messages_chatFull).Full_chat.(mtproto.TL_channelFull).Read_inbox_max_id
+			}
 			slog.Benchln(benchmarkUpdateLatencyWithPolling, "FullChannel.read_inbox_max_id=", readInboxMaxId)
 
 			// start polling
+			slog.Logln(mconn, "Start of polling")
 			for {
 				select {
 				case <-stop:
+					slog.Logln(mconn, "stop polling")
 					return
 				case <-time.After(interval):
+					slog.Logf(mconn, "poll to %d by %d\n", chanid, chanhash)
 					peer := mtproto.TL_inputPeerChannel{chanid, chanhash}
 					//resp, err := mconn.MessagesGetHistory(peer, 0, 0, 0, 0, 0, readInboxMaxId + 1)
+					//TODO: deadlocked on Session() ?
 					resp, err := mconn.MessagesGetHistory(peer, 0, 0, 0, 0, 0, readInboxMaxId)
-					handleError(err)
-					msgs := (*resp).(mtproto.TL_messages_channelMessages).Unstrip().(mtproto.US_messages_channelMessages).Messages
-					if len(msgs) > 0 {
-						readInboxMaxId = msgs[0].Id
-					}
-					for _, msg := range msgs {
-						slog.Benchf(benchmarkUpdateLatencyWithPolling, "[Polled history %d] %s\n", msg.Id, msg.Message)
+					if err != nil {
+						slog.Logln(mconn, "Failed to poll:", err)
+						slog.Benchln(benchmarkUpdateLatencyWithPolling, "Polling Failure:", err)
+					} else {
+						msgs := (*resp).(mtproto.TL_messages_channelMessages).Unstrip().(mtproto.US_messages_channelMessages).Messages
+						slog.Logln(mconn, "Polled history:", slog.Stringify(msgs))
+						if len(msgs) > 0 {
+							readInboxMaxId = msgs[0].Id
+						}
+						for _, msg := range msgs {
+							slog.Benchf(benchmarkUpdateLatencyWithPolling, "[Polled history %d] %s\n", msg.Id, msg.Message)
+						}
+
 					}
 				}
 			}
+			slog.Logln(mconn, "End of polling")
 		}(stopPolling)
 		abortPolling := func() {
 			// stop polling

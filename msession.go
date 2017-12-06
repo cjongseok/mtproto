@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"strings"
 	"github.com/cjongseok/slog"
+	"reflect"
 )
 
 const (
@@ -611,8 +612,8 @@ func (session *MSession) readRoutine() {
 			defer innerRoutineWG.Done()
 
 			data, err := session.read()
-			//slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
-			slog.Logf(session, "read: %s\n", slog.Stringify(data))
+			slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			//slog.Logf(session, "read: %s\n", slog.Stringify(data))
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
 				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
