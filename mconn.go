@@ -220,7 +220,12 @@ func (mconn *MConn) monitorSession() {
 			// Connection Events
 			case ConnectionOpened:
 				go func() {
-					slog.Logln(mconn, "opened. wait for a session binding ...")
+					slog.Logf(mconn, "opened.")
+					if mconn.session == nil {
+						slog.Logf(mconn, "wait for a session binding ...\n")
+					} else {
+						slog.Logf(mconn, "with session, %d\n", mconn.session.sessionId)
+					}
 				}()
 			case sessionBound:
 				go func() {

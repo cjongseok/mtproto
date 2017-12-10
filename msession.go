@@ -233,17 +233,22 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		session.dclist = make(map[int32]string, 5)
 		for _, v := range x.data.(TL_config).Dc_options {
 			v := v.(TL_dcOption)
-			isIPv6 := false
-			tcpAddr, err := net.ResolveTCPAddr("tcp", v.Ip_address)
+			isIPv6 := true
+			tcpAddr, err := net.ResolveIPAddr("ip", v.Ip_address)
 			if err == nil {
-				if tcpAddr.IP.To16() != nil{
-					isIPv6 = true
+				ip := tcpAddr.IP.To4()
+				if ip != nil{
+					isIPv6 = false
 				}
-			}
-			if session.useIPv6 && isIPv6 {
-				session.dclist[v.Id] = fmt.Sprintf("[%s]:%d", v.Ip_address, v.Port)
-			} else if !isIPv6 {
-				session.dclist[v.Id] = fmt.Sprintf("%s:%d", v.Ip_address, v.Port)
+				if session.useIPv6 {
+					if isIPv6 {
+						session.dclist[v.Id] = fmt.Sprintf("[%s]:%d", v.Ip_address, v.Port)
+					}
+				} else {
+					if !isIPv6 {
+						session.dclist[v.Id] = fmt.Sprintf("%s:%d", v.Ip_address, v.Port)
+					}
+				}
 			}
 		}
 		marshaled, err := json.Marshal(x.data)

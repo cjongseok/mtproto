@@ -9,7 +9,7 @@ import (
 
 const (
 	appConfigError = "App configuration error: %s"
-	defaultPingInterval = 1 * time.Second
+	defaultPingInterval = 1 * time.Minute
 )
 
 type Configuration struct {

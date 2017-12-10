@@ -13,6 +13,7 @@ func (mconn *MConn) authSendCode(phonenumber string) (*TL_auth_sentCode, error) 
 	}
 	data, err := mconn.InvokeBlocked(TL_auth_sendCode{
 		//Allow_flashcall: false,
+		Flags: 0x00000001,
 		Phone_number: phonenumber,
 		Current_number: TL_boolTrue{},
 		Api_id: session.appConfig.Id,
@@ -56,6 +57,7 @@ func (cm *MManager) authSendCode(mconn *MConn, phonenumber string) (*MConn, *TL_
 							return nil, nil, err
 						}
 						respch := make(chan sessionResponse)
+
 						//TODO: Check if renewSession event works with mconn.notify()
 						mconn.notify(renewSession{
 							session.sessionId,
