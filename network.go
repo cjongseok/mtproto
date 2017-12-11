@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"time"
+	"github.com/cjongseok/slog"
 )
 
 func (session *MSession) sendPacket(msg TL, resp chan response) error {
@@ -105,12 +106,14 @@ func (session *MSession) read() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	slog.Record(b)
 
 	if b[0] < 127 {
 		size = int(b[0]) << 2
 	} else {
 		b := make([]byte, 3)
 		n, err = tcpconn.Read(b)
+		slog.Record(b)
 		if err != nil {
 			return nil, err
 		}
@@ -127,13 +130,14 @@ func (session *MSession) read() (interface{}, error) {
 		}
 		left -= n
 	}
+	slog.Record(buf)
 
 	if size == 4 {
 		return nil, fmt.Errorf("Server response error: %d", int32(binary.LittleEndian.Uint32(buf)))
 	}
 
 	// Deserialize incoming packet
-	data, session.msgId, session.seqNo, err = deserialize(buf, session.authKey)
+	data, session.msgId, session.seqNo, err = Deserialize(buf, session.authKey)
 	if err != nil {
 		return nil, err
 	}

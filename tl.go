@@ -9,14 +9,14 @@ type TL interface {
 }
 
 type TL_msg_container struct {
-	items []TL_MT_message
+	Items []TL_MT_message
 }
 
 type TL_MT_message struct {
-	msg_id int64
-	seq_no int32
-	size   int32
-	data   interface{}
+	Msg_id int64
+	Seq_no int32
+	Size   int32
+	Data   interface{}
 }
 
 type TL_req_pq struct {
@@ -97,7 +97,7 @@ type TL_msgs_ack struct {
 
 type TL_rpc_result struct {
 	req_msg_id int64
-	obj        interface{}
+	Obj        interface{}
 }
 
 type TL_rpc_error struct {

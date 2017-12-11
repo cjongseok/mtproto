@@ -140,7 +140,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 					}
 				}
 			}
-			err = session.readSessionFile(sessionfile)
+			err = session.readSessionFile(session.f)
 			if err == nil {
 				err = session.open(appConfig, sessionListener)
 				if err == nil {
@@ -299,10 +299,10 @@ func (session *MSession) RemoveSessionListener(toremove chan MEvent) error {
 	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
 }
 
-func (session *MSession) readSessionFile(sessionfile string) error {
+func (session *MSession) readSessionFile(f *os.File) error {
 	// Decode session file
 	b := make([]byte, 1024*4)
-	n, err := session.f.ReadAt(b, 0)
+	n, err := f.ReadAt(b, 0)
 	if n <= 0 || (err != nil && err.Error() != "EOF") {
 		return errors.New("New session")
 	}
@@ -337,9 +337,9 @@ func (session *MSession) notify(e MEvent) {
 func (session *MSession) process(msgId int64, seqNo int32, data interface{}) interface{} {
 	switch data.(type) {
 	case TL_msg_container:
-		data := data.(TL_msg_container).items
+		data := data.(TL_msg_container).Items
 		for _, v := range data {
-			session.process(v.msg_id, v.seq_no, v.data)
+			session.process(v.Msg_id, v.Seq_no, v.Data)
 		}
 
 	case TL_bad_server_salt:
@@ -377,7 +377,7 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 
 	case TL_rpc_result:
 		data := data.(TL_rpc_result)
-		x := session.process(msgId, seqNo, data.obj)
+		x := session.process(msgId, seqNo, data.Obj)
 		session.mutex.Lock()
 		defer session.mutex.Unlock()
 		v, ok := session.msgsIdToResp[data.req_msg_id]
