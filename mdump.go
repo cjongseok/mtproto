@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"encoding/binary"
 	"io"
-	"encoding/json"
+	//"encoding/json"
 	"sync"
-	"reflect"
 	"strings"
 	"errors"
 	"os"
@@ -130,12 +129,12 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 		md.updatesState.Qts = data.Qts
 		md.updatesState.Date = data.Date
 		md.updatesState.Seq = data.Seq
-		marshaled, err := json.Marshal(data)
-		if err == nil {
-			slog.Logf(md.process, "updatesState: %s\n", marshaled)
-		} else {
-			slog.Logf(md.process, "updatesState: %v\n", data)
-		}
+		//marshaled, err := json.Marshal(data)
+		//if err == nil {
+			//slog.Logf(md.process, "updatesState: %s\n", marshaled)
+		//} else {
+			//slog.Logf(md.process, "updatesState: %v\n", data)
+		//}
 		return data
 
 		// Date updates
@@ -147,7 +146,6 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 		return data
 	case TL_updateShort:
 		data := data.(TL_updateShort)
-		//session.updatesState.Pts ++	//TODO: need to comment in it?
 		md.updatesState.Date = data.Date
 		md.updateCallback.OnUpdate(data)
 		return data
@@ -225,12 +223,12 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 		return data
 
 	default:
-		marshaled, err := json.Marshal(data)
-		if err == nil {
-			slog.Logf(md.process, "process: unknown data type %T {%s}\n", data, marshaled)
-		} else {
-			slog.Logf(md.process, "process: unknown data type %T {%v}\n", data, data)
-		}
+		//marshaled, err := json.Marshal(data)
+		//if err == nil {
+			//slog.Logf(md.process, "process: unknown data type %T {%s}\n", data, marshaled)
+		//} else {
+			//slog.Logf(md.process, "process: unknown data type %T {%v}\n", data, data)
+		//}
 		return data
 	}
 
@@ -238,7 +236,7 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 }
 
 func (md *MDump) readRoutine() {
-	slog.Logln(md.readRoutine, "read: start")
+	//slog.Logln(md.readRoutine, "read: start")
 	defer md.readWaitGroup.Done()
 
 	innerRoutineWG := sync.WaitGroup{}
@@ -251,17 +249,19 @@ func (md *MDump) readRoutine() {
 			defer innerRoutineWG.Done()
 
 			data, err := md.read()
-			slog.Logf(md.readRoutine, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			//slog.Logf(md.readRoutine, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
-				slog.Logln(md.readRoutine, "read: lost connection (captured EOF). reconnect")
+				//slog.Logln(md.readRoutine, "read: lost connection (captured EOF). reconnect")
+				close(ch)
+				return
 			} else if err != nil {
 				if strings.Contains(err.Error(), "use of closed network connection") {
-					slog.Logf(md.readRoutine, "read: TCP connection closed (%s)\n", err)
+					//slog.Logf(md.readRoutine, "read: TCP connection closed (%s)\n", err)
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
-					slog.Logf(md.readRoutine, "read: lost connection (%s). reconnect\n", err)
+					//slog.Logf(md.readRoutine, "read: lost connection (%s). reconnect\n", err)
 				} else {
-					slog.Logf(md.readRoutine, "read: unknown error, %s. reconnect\n", err)
+					//slog.Logf(md.readRoutine, "read: unknown error, %s. reconnect\n", err)
 				}
 			} else {
 				ch <- data
@@ -270,13 +270,14 @@ func (md *MDump) readRoutine() {
 
 		select {
 		case <-md.readInterrupter:
-			slog.Logln(md.readRoutine, "read: wait for inner routine ...")
+			//slog.Logln(md.readRoutine, "read: wait for inner routine ...")
 			innerRoutineWG.Wait()
-			slog.Logln(md.readRoutine, "read: stop")
+			close(ch)
+			//slog.Logln(md.readRoutine, "read: stop")
 			return
 		case data := <-ch:
 			if data == nil {
-				slog.Logln(md.readRoutine, "data is nil")
+				//slog.Logln(md.readRoutine, "data is nil")
 				return
 			}
 			md.process(data)
