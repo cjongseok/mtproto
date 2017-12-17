@@ -5,6 +5,7 @@ import (
 	"runtime"
 	"os"
 	"time"
+	"os/user"
 )
 
 const (
@@ -51,7 +52,13 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 
 	appConfig.SessionHome = sessionFileHome
 	if sessionFileHome == "" {
-		appConfig.SessionHome = os.Getenv("HOME")
+		//appConfig.SessionHome = os.Getenv("HOME")
+		usr, err := user.Current()
+		if err != nil {
+			appConfig.SessionHome = os.Getenv("HOME")
+		} else {
+			appConfig.SessionHome = usr.HomeDir
+		}
 	}
 
 	appConfig.PingInterval = pingInterval

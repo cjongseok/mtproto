@@ -6,6 +6,8 @@ import (
 	"math"
 	"math/big"
 	"time"
+	"runtime"
+	"strings"
 )
 
 func GenerateNonce(size int) []byte {
@@ -16,6 +18,11 @@ func GenerateNonce(size int) []byte {
 
 func GenerateMessageId() int64 {
 	const nano = 1000 * 1000 * 1000
+	//FIXME: Windows system clock has time resolution issue. https://github.com/golang/go/issues/17696
+	//Remove the sleep when the issue is resolved.
+	if strings.Contains(runtime.GOOS, "windows") {
+		time.Sleep(2 * time.Millisecond)
+	}
 	unixnano := time.Now().UnixNano()
 
 	return ((unixnano / nano) << 32) | ((unixnano % nano) & -4)
