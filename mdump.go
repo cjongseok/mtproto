@@ -10,13 +10,12 @@ import (
 	"strings"
 	"errors"
 	"os"
-	"github.com/gits/mtproto"
 )
 
 type dumpCallback struct {
 	out chan interface{}
 }
-func (cb dumpCallback) OnUpdate(u mtproto.MUpdate) {
+func (cb dumpCallback) OnUpdate(u MUpdate) {
 	cb.out <- u
 }
 
