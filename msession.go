@@ -203,7 +203,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	session.msgsIdToAck = make(map[int64]packetToSend)
 	session.msgsIdToResp = make(map[int64]chan response)
 	session.mutex = &sync.Mutex{}
-	go session.sendRoutine()
+	go session.sendRoutine(session.appConfig.SendInterval)
 	go session.readRoutine()
 
 	// (help_getConfig)
@@ -573,12 +573,24 @@ func (session *MSession) pingRoutine() {
 	}
 }
 
-func (session *MSession) sendRoutine() {
+func (session *MSession) sendRoutine(interval time.Duration) {
 	slog.Logln(session, "send: start")
 	session.sendWaitGroup.Add(1)
 	defer session.sendWaitGroup.Done()
+	wg := sync.WaitGroup{}
+	t := time.NewTimer(interval)
+	go func() {
+	  for {
+	    select {
+	    case <-t.C:
+	      wg.Done()
+      }
+    }
+  }()
 	for {
 		select {
+		//case <-t.C:
+		//  wg.Done()
 		case <-session.sendInterrupter:
 			slog.Logln(session, "send: stop")
 			return
@@ -586,7 +598,11 @@ func (session *MSession) sendRoutine() {
 			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
 			if x.msg != nil {
+			  //TODO: alternate interval based scheduler with frequency scheduler
+			  wg.Wait()
 				err := session.sendPacket(x.msg, x.resp)
+				wg.Add(1)
+				t.Reset(interval)
 				if err != nil {
 					slog.Fatalln(session, "send: ", err)
 				}

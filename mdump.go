@@ -10,20 +10,28 @@ import (
 	"strings"
 	"errors"
 	"os"
+	"github.com/gits/mtproto"
 )
 
-type MDump struct {
-	updatesState *TL_updates_state
-	updateCallback MUpdateCallback
-	readWaitGroup    sync.WaitGroup
-	readInterrupter    chan interface{}
-	authKey []byte
-	authKeyHash []byte
-	serverSalt []byte
-	reader  	io.Reader
+type dumpCallback struct {
+	out chan interface{}
+}
+func (cb dumpCallback) OnUpdate(u mtproto.MUpdate) {
+	cb.out <- u
 }
 
-func NewMdump(authFileName, dumpFilename string, callback MUpdateCallback) (*MDump, error) {
+type MDump struct {
+	updatesState    *TL_updates_state
+	updateCallback  dumpCallback
+	readWaitGroup   sync.WaitGroup
+	readInterrupter chan interface{}
+	authKey     []byte
+	authKeyHash []byte
+	serverSalt  []byte
+	reader      io.Reader
+}
+
+func NewMdump(authFileName, dumpFilename string, out chan interface{}) (*MDump, error) {
 	mdump := new(MDump)
 	authf, err := os.OpenFile(authFileName, os.O_RDONLY, 0666)
 	if err != nil {
@@ -34,7 +42,7 @@ func NewMdump(authFileName, dumpFilename string, callback MUpdateCallback) (*MDu
 		return nil, err
 	}
 	mdump.updatesState = new(TL_updates_state)
-	mdump.updateCallback = callback
+	mdump.updateCallback = dumpCallback{out}
 	mdump.readWaitGroup = sync.WaitGroup{}
 	mdump.readInterrupter = make(chan interface{})
 

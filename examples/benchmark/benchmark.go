@@ -354,7 +354,7 @@ func initBenchmark(config benchConfig) (*mtproto.MManager, *mtproto.MConn, error
 	join.Add(1)
 	go func(out chan<- interface{}) {
 		defer join.Done()
-		configuration, err := mtproto.NewConfiguration(config.apiid, config.apihash, appVersion, deviceModel, systemVersion, language, sessionFileHome, config.pingInterval)
+		configuration, err := mtproto.NewConfiguration(config.apiid, config.apihash, appVersion, deviceModel, systemVersion, language, sessionFileHome, config.pingInterval, 0)
 		handleError(err)
 		manager, err := mtproto.NewManager(configuration)
 		handleError(err)

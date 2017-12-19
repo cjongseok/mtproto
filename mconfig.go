@@ -11,6 +11,7 @@ import (
 const (
 	appConfigError = "App configuration error: %s"
 	defaultPingInterval = 1 * time.Minute
+	defaultSendInterval = 500 * time.Millisecond
 )
 
 type Configuration struct {
@@ -22,9 +23,10 @@ type Configuration struct {
 	Language      string
 	SessionHome   string
 	PingInterval  time.Duration
+	SendInterval  time.Duration
 }
 
-func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, sessionFileHome string, pingInterval time.Duration) (Configuration, error) {
+func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, sessionFileHome string, pingInterval time.Duration, sendInterval time.Duration) (Configuration, error) {
 	//appConfig := new(Configuration)
 	appConfig := Configuration{}
 
@@ -65,6 +67,11 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 	if pingInterval == 0 {
 		appConfig.PingInterval = defaultPingInterval
 	}
+
+  appConfig.SendInterval = sendInterval
+  if sendInterval == 0 {
+    appConfig.SendInterval = defaultSendInterval
+  }
 
 	return appConfig, nil
 }

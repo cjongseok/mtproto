@@ -12,6 +12,7 @@ import (
 	"strings"
 	"strconv"
 	"bufio"
+  "math/rand"
 )
 
 const (
@@ -70,13 +71,13 @@ func handleError(err error) {
 }
 
 func usage() {
-	fmt.Println("USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> [ADDR]")
+	fmt.Println("USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> <ADDR>")
 	fmt.Println("")
-	fmt.Println("APIID 	means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps")
+	fmt.Println("APIID 		means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps")
 	fmt.Println("APIHASH 	means hashcode of <APIID>. It is published together with API id.")
-	fmt.Println("PHONE 	means phone number in international format w/o hyphen. e.g., +15417543010")
-	fmt.Println("ADDR		means preffered Telegram server address in the form of <IP>:<PORT>.")
-	fmt.Println("			e.g., 149.154.167.50:443")
+	fmt.Println("PHONE 		means phone number in international format w/o hyphen. e.g., +15417543010")
+	fmt.Println("ADDR		means preffered Telegram server address in the form of <IP>:<PORT>. ")
+	fmt.Println(" 			You can find a vaild address in your https://my.telegram.org/apps page.")
 }
 
 func help() {
@@ -88,7 +89,7 @@ func help() {
 }
 
 func main() {
-	slog.EnableLogging()
+	//slog.EnableLogging()
 	logf, err := os.OpenFile("ss.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Printf("error opening file: %v", err)
@@ -127,7 +128,7 @@ func main() {
 		return
 	}
 
-	configuration, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0)
+	configuration, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0, 0)
 	handleError(err)
 	manager, err := mtproto.NewManager(configuration)
 	handleError(err)
@@ -277,6 +278,42 @@ func main() {
 			resp, err := mconn.MessagesGetHistory(*peer, 0, 0, 0, int32(limit), 0, 0)
 			handleError(err)
 			fmt.Println(slog.StringifyIndent(resp, "  "))
+
+		case "send2c":	// send2c <CHAN_ID> <CHAN_HASH> <MSG>
+			if len(args) != 4 {
+				help()
+				return
+			}
+			chanId, err := strconv.ParseInt(args[1], 0, 32)
+			handleError(err)
+      chanHash, err := strconv.ParseInt(args[2], 0, 64)
+      handleError(err)
+			//resp, err := mconn.MessagesSendMessage(mtproto.TL_peerChannel{int32(chanId)}, args[2])
+
+      resp, err := mconn.InvokeBlocked(mtproto.TL_messages_sendMessage{
+        Peer:       mtproto.TL_inputPeerChannel{int32(chanId), int64(chanHash)},
+        Message:    args[3],
+        Random_id:  rand.Int63(),
+      })
+			if err != nil {
+			  fmt.Println(err)
+      }
+			fmt.Println(slog.StringifyIndent(*resp, " "))
+			//fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_dialogsSlice).Unstrip(), "  "))
+
+    case "send2u":  // send2u <USER_ID> <MSG>
+    if len(args) != 3 {
+      help()
+      return
+    }
+    userId, err := strconv.ParseInt(args[1], 0, 32)
+    handleError(err)
+    resp, err := mconn.MessagesSendMessage(mtproto.TL_peerUser{int32(userId)}, args[2])
+    handleError(err)
+    fmt.Println(slog.StringifyIndent(*resp, " "))
+
+
+
 
 		//case "rcvdmsg": // $ rcvdmsg
 		//	if len(args) != 1 {
