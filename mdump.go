@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"encoding/binary"
 	"io"
-	//"encoding/json"
 	"sync"
 	"strings"
 	"errors"
@@ -248,18 +247,18 @@ func (md *MDump) readRoutine() {
 
 	innerRoutineWG := sync.WaitGroup{}
 
-	for {
-		// Run async wait for data from server
-		ch := make(chan interface{}, 1)
-		go func(ch chan<- interface{}) {
-			innerRoutineWG.Add(1)
-			defer innerRoutineWG.Done()
+	ch := make(chan interface{}, 1)
+	innerRoutineWG.Add(1)
+	go func(ch chan<- interface{}) {
+		defer innerRoutineWG.Done()
 
+		for {
 			data, err := md.read()
 			//slog.Logf(md.readRoutine, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
 				//slog.Logln(md.readRoutine, "read: lost connection (captured EOF). reconnect")
+				//TODO: figure out the end of dump file, and stop the loop
 				close(ch)
 				return
 			} else if err != nil {
@@ -273,7 +272,11 @@ func (md *MDump) readRoutine() {
 			} else {
 				ch <- data
 			}
-		}(ch)
+		}
+	}(ch)
+
+	for {
+		// Run async wait for data from server
 
 		select {
 		case <-md.readInterrupter:
