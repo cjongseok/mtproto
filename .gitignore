@@ -11,6 +11,7 @@
 .shell
 *.iml
 .idea
+vendor
 
 # Created by https://www.gitignore.io/api/go,git,intellij
 
