@@ -273,7 +273,10 @@ func unstripTLchannels(tls []TL) []TL_channel {
 func unstripTLchats(tls []TL) []TL_chat {
 	var chats []TL_chat
 	for _, tl := range tls {
-		chats = append(chats, tl.(TL_chat))
+	  switch tl.(type) {
+    case TL_chat:
+      chats = append(chats, tl.(TL_chat))
+    }
 	}
 	return chats
 }
