@@ -101,7 +101,7 @@ func (mconn *MConn) AuthSignIn(phoneNumber, phoneCode, phoneCodeHash string) (*T
 	auth, ok := x.data.(TL_auth_authorization)
 
 	if !ok {
-		return nil, fmt.Errorf("RPC: %#v", x)
+		return nil, fmt.Errorf("RPC: %v", x)
 	}
 
 	user := auth.User.(TL_user)
