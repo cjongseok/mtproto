@@ -13,9 +13,16 @@ import (
 	"strings"
 	"github.com/cjongseok/slog"
 	"reflect"
+  "strconv"
 )
 
 const (
+  ENV_AUTHKEY = "MTPROTO_AUTHKEY"
+  ENV_AUTHKEYHASH = "MTPROTO_AUTHKEYHASH"
+  ENV_SERVER_SALT = "MTPROTO_SALT"
+  ENV_ADDR = "MTPROTO_ADDR"
+  ENV_USE_IPV6 = "MTPROTO_USE_IPV6"
+
 	// API Errors
 	errorSeeOther     = 303
 	errorBadRequest   = 400
@@ -111,6 +118,18 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 	return nil, err
 }
 
+// byte array string is bracketed space separated numbers in a string
+func byteArrayString2byteArray(str string) []byte {
+  runes := []rune(str)
+  byteStrings := strings.Split(string(runes[1:len(runes)-1]), " ")
+  byteArr := make([]byte, len(byteStrings))
+  for i, s := range byteStrings {
+    s2int, _ := strconv.Atoi(s)
+    byteArr[i] = byte(s2int)
+  }
+  return byteArr
+}
+
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
@@ -125,7 +144,21 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		session := new(MSession)
 		session.phonenumber = phonenumber
 		session.f, err = os.OpenFile(sessionfile, os.O_RDONLY, 0600)
-		if err == nil {
+
+		// precedence: preferredAddr > sessionFile > env
+    err = session.readSessionFile(session.f)
+    //fmt.Println("authkey:", session.authKey)
+    //fmt.Println("authHash:", session.authKey)
+    //fmt.Println("salt:", session.serverSalt)
+    //fmt.Println("addr:", session.addr)
+    //fmt.Println("ipv6:", session.useIPv6)
+    if err != nil {
+      session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
+      session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEYHASH))
+      session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
+      session.addr = os.Getenv(ENV_ADDR)
+      session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
+    } else {
 			if preferredAddr != "" {
 				tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
 				if err == nil {
@@ -140,7 +173,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 					}
 				}
 			}
-			err = session.readSessionFile(session.f)
+
 			if err == nil {
 				err = session.open(appConfig, sessionListener)
 				if err == nil {
