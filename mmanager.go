@@ -324,6 +324,7 @@ func (mm *MManager) manageRoutine() {
 					for spinLock {
 						select {
 						case <-time.After(1 * time.Second):
+              slog.Logln(mm, "spinlocked. wait for session built and bound. (mm.sessions[%d]=%v, mm.sessions[%d].connId=%d)", mm.sessions[e.sessionId], mm.sessions[e.sessionId].connId)
 							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0{
 								spinLock = false
 							}
