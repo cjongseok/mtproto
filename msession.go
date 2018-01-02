@@ -32,6 +32,12 @@ const (
 	errorFlood        = 420
 	errorInternal     = 500
 )
+type handshakingFailure struct {
+  msg string
+}
+func (h handshakingFailure) Error() string {
+  return h.msg
+}
 
 type MSession struct {
 	connId      int32
@@ -193,7 +199,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		if err == nil {
 			return session, nil
 		}
-		return nil, fmt.Errorf("Handshaking Failure: %v", err)
+		return nil, handshakingFailure{fmt.Sprintf("Handshaking Failure: %v", err)}
 	} else {
 		return nil, fmt.Errorf("Cannot Load Session info from neither session file nor env: open new session:", err)
 	}

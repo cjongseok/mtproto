@@ -13,6 +13,7 @@ const (
 	TIMEOUT_RPC               = 5 * time.Second
 	TIMEOUT_INVOKE_WITH_LAYER = TIMEOUT_RPC
 	TIMEOUT_UPDATES_GETSTATE  = TIMEOUT_RPC
+	DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
 )
 
 // MConn does not touch sessions.

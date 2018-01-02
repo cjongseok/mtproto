@@ -200,7 +200,7 @@ func (mm *MManager) manageRoutine() {
 					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						slog.Fatalln(mm, "connect failure ", err)
+						slog.Fatalln(mm, "connect failure", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
@@ -357,18 +357,29 @@ func (mm *MManager) manageRoutine() {
 					}
 
 					// Req loadsession
-					slog.Logln(mm, "refreshRoutine: req loadsession")
-					connectRespCh := make(chan sessionResponse)
-					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
-					connectResp := <-connectRespCh
-					if connectResp.err != nil {
-						slog.Logln(mm, "refreshSession failure: ", connectResp.err)
-						return
-					}
+					slog.Logln(mm, "req loadsession")
+          connectRespCh := make(chan sessionResponse)
+          var connectResp sessionResponse
+					for {
+            mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
+            connectResp = <-connectRespCh
+            if connectResp.err != nil {
+              switch connectResp.err.(type) {
+              case handshakingFailure:
+                slog.Logf(mm, "retry loadsession after %f seconds: %s", DELAY_RETRY_OPEN_SESSION.Seconds(), connectResp.err)
+                time.Sleep(DELAY_RETRY_OPEN_SESSION)
+                continue
+              default:
+                slog.Logln(mm, "refreshSession failure: ", connectResp.err)
+                return
+              }
+            }
+            break
+          }
 					//TODO: need to handle nil resp channel?
 					e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
 					//TODO: figure out missed updates
-					slog.Logln(mm, "refreshSessino done. Release the throttle")
+					slog.Logln(mm, "refreshSession done. Release the throttle")
 					mm.refreshSessionThrotttle[e.sessionId] = 0
 				}()
 
