@@ -2,117 +2,118 @@ package mtproto
 
 const (
 	SESSION MEventType = "session"
-	MCONN 	MEventType = "mconn"
+	MCONN   MEventType = "mconn"
 )
+
 type MEventType string
 type MEvent interface {
-	Type()	MEventType
+	Type() MEventType
 }
 
 // Session Events
 type newsession struct {
 	// If connId is zero, MManager makes new connection and assigns it the new session.
 	// Otherwise, the new session is allocated to the connection of connId.
-	connId			int32
-	phonenumber		string
-	addr 			string
-	useIPv6 		bool
-	resp 			chan sessionResponse
+	connId      int32
+	phonenumber string
+	addr        string
+	useIPv6     bool
+	resp        chan sessionResponse
 }
 
 type loadsession struct {
 	// If connId is zero, MManager makes new connection and assigns it the loaded session.
 	// Otherwise, the loaded session is allocated to the connection of connId.
-	connId			int32
-	phonenumber		string
-	preferredAddr 	string
-	resp			chan sessionResponse
+	connId        int32
+	phonenumber   string
+	preferredAddr string
+	resp          chan sessionResponse
 }
 
 type sessionResponse struct {
-	connId		int32
-	session 	*MSession
+	connId  int32
+	session *MSession
 	//mconn 	*MConn
-	err 	error
+	err error
 }
 
 // Established = made + bound
 type SessionEstablished struct {
 	//connId		int32
-	session 	*MSession
+	session *MSession
 	//sessionId 	int64
 	//mconn 	*MConn
 }
 
 type discardSession struct {
-	connId		int32
-	sessionId 	int64
-	resp 		chan sessionResponse
+	connId    int32
+	sessionId int64
+	resp      chan sessionResponse
 }
 
 type SessionDiscarded struct {
 	//connId		int32
 	//sessionId 	int64
-	boundConnId 				int32
-	discardedSessionId 			int64
-	discardedSessionUpdatesState 	TL_updates_state
+	boundConnId                  int32
+	discardedSessionId           int64
+	discardedSessionUpdatesState TL_updates_state
 }
 
 // discardSession + newsession
 type renewSession struct {
 	//connId		int32
-	sessionId	int64
-	phonenumber	string
-	addr 		string
-	useIPv6		bool
-	resp		chan sessionResponse
+	sessionId   int64
+	phonenumber string
+	addr        string
+	useIPv6     bool
+	resp        chan sessionResponse
 }
 
 // discardSession + loadsession
 type refreshSession struct {
 	//connId		int32
-	sessionId 	int64
-	phonenumber	string
-	resp 		chan sessionResponse
+	sessionId   int64
+	phonenumber string
+	resp        chan sessionResponse
 }
 
 // Connection Events
 type ConnectionOpened struct {
-	mconn 	*MConn
+	mconn *MConn
 }
 type sessionBound struct {
-	mconn 	*MConn
+	mconn *MConn
 }
 type sessionUnbound struct {
-	mconn 						*MConn
-	unboundSessionId 			int64
+	mconn            *MConn
+	unboundSessionId int64
 }
 type closeConnection struct {
-	connId 	int32
-	resp 	chan error
+	connId int32
+	resp   chan error
 }
 type connectionClosed struct {
-	closedConnId 	int32
+	closedConnId int32
 }
 
 // Update Event
 type updateReceived struct {
-	update 	MUpdate
+	update MUpdate
 }
 
-func (e newsession) Type() MEventType 			{return SESSION}
-func (e loadsession) Type() MEventType 			{return SESSION}
-func (e SessionEstablished) Type() MEventType 	{return SESSION}
-func (e renewSession) Type() MEventType 		{return SESSION}
-func (e refreshSession) Type() MEventType 		{return SESSION}
-func (e discardSession) Type() MEventType 		{return SESSION}
-func (e SessionDiscarded) Type() MEventType 	{return SESSION}
-func (e ConnectionOpened) Type() MEventType 	{return MCONN}
-func (e sessionBound) Type() MEventType 		{return MCONN}
-func (e sessionUnbound) Type() MEventType 		{return MCONN}
-func (e closeConnection) Type() MEventType 		{return MCONN}
-func (e connectionClosed) Type() MEventType 	{return MCONN}
-func (e updateReceived) Type() MEventType		{return SESSION}
+func (e newsession) Type() MEventType         { return SESSION }
+func (e loadsession) Type() MEventType        { return SESSION }
+func (e SessionEstablished) Type() MEventType { return SESSION }
+func (e renewSession) Type() MEventType       { return SESSION }
+func (e refreshSession) Type() MEventType     { return SESSION }
+func (e discardSession) Type() MEventType     { return SESSION }
+func (e SessionDiscarded) Type() MEventType   { return SESSION }
+func (e ConnectionOpened) Type() MEventType   { return MCONN }
+func (e sessionBound) Type() MEventType       { return MCONN }
+func (e sessionUnbound) Type() MEventType     { return MCONN }
+func (e closeConnection) Type() MEventType    { return MCONN }
+func (e connectionClosed) Type() MEventType   { return MCONN }
+func (e updateReceived) Type() MEventType     { return SESSION }
 
 //func (e newsession) SessionId() (int64)          {return 0}
 //func (e loadsession) SessionId() (int64)         {return 0}

@@ -1,15 +1,15 @@
 package mtproto
 
 import (
-	"fmt"
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"fmt"
 )
 
 func serialize(encrypt bool) {}
 
-func Deserialize(buf []byte, authKey []byte) (data interface{}, msgId int64, seqNo int32, err error){
+func Deserialize(buf []byte, authKey []byte) (data interface{}, msgId int64, seqNo int32, err error) {
 	dbuf := NewDecodeBuf(buf)
 
 	authKeyHash := dbuf.Bytes(8)

@@ -15,9 +15,9 @@ func (mconn *MConn) ContactsGetTopPeers(correspondents, botsPM, botsInline, grou
 		//Bots_inline:    botsInline,
 		//Groups:         groups,
 		//Channels:       channels,
-		Offset:         offset,
-		Limit:          limit,
-		Hash:           hash,
+		Offset: offset,
+		Limit:  limit,
+		Hash:   hash,
 	})
 
 	if x.err != nil {

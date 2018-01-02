@@ -1,27 +1,27 @@
 package mtproto
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/cjongseok/slog"
+	"io"
+	"math/rand"
 	"net"
 	"os"
-	"sync"
-	"fmt"
-	"errors"
-	"math/rand"
-	"time"
-	"io"
-	"encoding/json"
-	"strings"
-	"github.com/cjongseok/slog"
 	"reflect"
-  "strconv"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
 )
 
 const (
-  ENV_AUTHKEY = "MTPROTO_AUTHKEY"
-  ENV_AUTHHASH = "MTPROTO_AUTHHASH"
-  ENV_SERVER_SALT = "MTPROTO_SALT"
-  ENV_ADDR = "MTPROTO_ADDR"
-  ENV_USE_IPV6 = "MTPROTO_USE_IPV6"
+	ENV_AUTHKEY     = "MTPROTO_AUTHKEY"
+	ENV_AUTHHASH    = "MTPROTO_AUTHHASH"
+	ENV_SERVER_SALT = "MTPROTO_SALT"
+	ENV_ADDR        = "MTPROTO_ADDR"
+	ENV_USE_IPV6    = "MTPROTO_USE_IPV6"
 
 	// API Errors
 	errorSeeOther     = 303
@@ -34,23 +34,23 @@ const (
 )
 
 type MSession struct {
-	connId 			int32
-	sessionId		int64
-	phonenumber		string
-	addr         	string
-	useIPv6      	bool
-	listeners	 	[]chan MEvent
-	tcpconn      	*net.TCPConn
-	f            	*os.File
-	queueSend    	chan packetToSend
+	connId      int32
+	sessionId   int64
+	phonenumber string
+	addr        string
+	useIPv6     bool
+	listeners   []chan MEvent
+	tcpconn     *net.TCPConn
+	f           *os.File
+	queueSend   chan packetToSend
 
-	readInterrupter	chan struct{}
+	readInterrupter chan struct{}
 	sendInterrupter chan struct{}
 	pingInterrupter chan struct{}
 
-	readWaitGroup	sync.WaitGroup
-	sendWaitGroup	sync.WaitGroup
-	pingWaitGroup	sync.WaitGroup
+	readWaitGroup sync.WaitGroup
+	sendWaitGroup sync.WaitGroup
+	pingWaitGroup sync.WaitGroup
 
 	authKey     []byte
 	authKeyHash []byte
@@ -114,8 +114,8 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 		session.encrypted = false
 		err = session.open(appConfig, sessionListener)
 		if err != nil {
-		  return nil, err
-    }
+			return nil, err
+		}
 		return session, nil
 	}
 	return nil, err
@@ -123,23 +123,23 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 
 // byte array string is bracketed space separated numbers in a string
 func byteArrayString2byteArray(str string) []byte {
-  runes := []rune(str)
-  if len(runes) < 3 {
-    return nil
-  }
-  byteStrings := strings.Split(string(runes[1:len(runes)-1]), " ")
-  byteArr := make([]byte, len(byteStrings))
-  for i, s := range byteStrings {
-    s2int, _ := strconv.Atoi(s)
-    byteArr[i] = byte(s2int)
-  }
-  return byteArr
+	runes := []rune(str)
+	if len(runes) < 3 {
+		return nil
+	}
+	byteStrings := strings.Split(string(runes[1:len(runes)-1]), " ")
+	byteArr := make([]byte, len(byteStrings))
+	for i, s := range byteStrings {
+		s2int, _ := strconv.Atoi(s)
+		byteArr[i] = byte(s2int)
+	}
+	return byteArr
 }
 
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
-func loadSession(phonenumber string, preferredAddr string, appConfig Configuration, sessionListener chan MEvent) (*MSession, error){
+func loadSession(phonenumber string, preferredAddr string, appConfig Configuration, sessionListener chan MEvent) (*MSession, error) {
 	// session file exists?
 	sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
 	_, err := os.Stat(sessionfile)
@@ -147,59 +147,59 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 	err = nil
 
 	// load session info from either session file or env
-  // its precedence is; preferredAddr > sessionFile > env
-  session := new(MSession)
-  session.phonenumber = phonenumber
+	// its precedence is; preferredAddr > sessionFile > env
+	session := new(MSession)
+	session.phonenumber = phonenumber
 	if sessionExists {
 		session.f, err = os.OpenFile(sessionfile, os.O_RDONLY, 0600)
-    err = session.readSessionFile(session.f)
-  } else {
-    session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
-    session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
-    session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
-    session.addr = os.Getenv(ENV_ADDR)
-    session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
-    session.encrypted = true
-    if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
-      err = fmt.Errorf("Invalid Environment Variable")
-    } else {
-      session.f, err = os.OpenFile(sessionfile, os.O_WRONLY | os.O_CREATE, 0600)
-    }
-  }
+		err = session.readSessionFile(session.f)
+	} else {
+		session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
+		session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
+		session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
+		session.addr = os.Getenv(ENV_ADDR)
+		session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
+		session.encrypted = true
+		if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
+			err = fmt.Errorf("Invalid Environment Variable")
+		} else {
+			session.f, err = os.OpenFile(sessionfile, os.O_WRONLY|os.O_CREATE, 0600)
+		}
+	}
 
-  if err == nil {
-    if preferredAddr != "" {
-      tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
-      if err == nil {
-        if tcpAddr.IP.To4() != nil {
-          session.useIPv6 = false
-          session.addr = preferredAddr
-        } else if tcpAddr.IP.To16() != nil {
-          session.useIPv6 = true
-          session.addr = preferredAddr
-        } else {
-          // Invalid IP address. Ignore the preferred ip address
-        }
-      }
-    }
-  }
-  //fmt.Println("authkey:", session.authKey)
-  //fmt.Println("authHash:", session.authKeyHash)
-  //fmt.Println("salt:", session.serverSalt)
-  //fmt.Println("addr:", session.addr)
-  //fmt.Println("ipv6:", session.useIPv6)
-  if err == nil {
-    err = session.open(appConfig, sessionListener)
-    if err == nil {
-      return session, nil
-    }
-    return nil, fmt.Errorf("Handshaking Failure: %v", err)
-  } else {
-    return nil, fmt.Errorf("Cannot Load Session info from neither session file nor env: open new session:", err)
-  }
+	if err == nil {
+		if preferredAddr != "" {
+			tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
+			if err == nil {
+				if tcpAddr.IP.To4() != nil {
+					session.useIPv6 = false
+					session.addr = preferredAddr
+				} else if tcpAddr.IP.To16() != nil {
+					session.useIPv6 = true
+					session.addr = preferredAddr
+				} else {
+					// Invalid IP address. Ignore the preferred ip address
+				}
+			}
+		}
+	}
+	//fmt.Println("authkey:", session.authKey)
+	//fmt.Println("authHash:", session.authKeyHash)
+	//fmt.Println("salt:", session.serverSalt)
+	//fmt.Println("addr:", session.addr)
+	//fmt.Println("ipv6:", session.useIPv6)
+	if err == nil {
+		err = session.open(appConfig, sessionListener)
+		if err == nil {
+			return session, nil
+		}
+		return nil, fmt.Errorf("Handshaking Failure: %v", err)
+	} else {
+		return nil, fmt.Errorf("Cannot Load Session info from neither session file nor env: open new session:", err)
+	}
 
-  // no session file
-  return nil, fmt.Errorf("Load Session Failure: cannot get session info:", err)
+	// no session file
+	return nil, fmt.Errorf("Load Session Failure: cannot get session info:", err)
 }
 
 func (session *MSession) open(appConfig Configuration, sessionListener chan MEvent) error {
@@ -248,37 +248,37 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	session.msgsIdToAck = make(map[int64]packetToSend)
 	session.msgsIdToResp = make(map[int64]chan response)
 	session.mutex = &sync.Mutex{}
-  session.sendWaitGroup.Add(1)
-  session.readWaitGroup.Add(1)
+	session.sendWaitGroup.Add(1)
+	session.readWaitGroup.Add(1)
 	go session.sendRoutine(session.appConfig.SendInterval)
 	go session.readRoutine()
 
 	// (help_getConfig)
 	resp := make(chan response, 1)
-  session.queueSend <- packetToSend{
-    msg: TL_invokeWithLayer{
-      Layer: layer,
-      Query: TL_initConnection{
-        Api_id:         	session.appConfig.Id,
-        Device_model:   	session.appConfig.DeviceModel,
-        System_version: 	session.appConfig.SystemVersion,
-        App_version:    	session.appConfig.Version,
-        System_lang_code: 	session.appConfig.Language,
-        Lang_code:      	session.appConfig.Language,
-        Query:          	TL_help_getConfig{},
-      },
-    },
-    resp: resp,
-  }
-  var x response
-  select {
-    case x = <-resp:
-		  if x.err != nil {
-		    return x.err
-		  }
-    case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
-      return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
-  }
+	session.queueSend <- packetToSend{
+		msg: TL_invokeWithLayer{
+			Layer: layer,
+			Query: TL_initConnection{
+				Api_id:           session.appConfig.Id,
+				Device_model:     session.appConfig.DeviceModel,
+				System_version:   session.appConfig.SystemVersion,
+				App_version:      session.appConfig.Version,
+				System_lang_code: session.appConfig.Language,
+				Lang_code:        session.appConfig.Language,
+				Query:            TL_help_getConfig{},
+			},
+		},
+		resp: resp,
+	}
+	var x response
+	select {
+	case x = <-resp:
+		if x.err != nil {
+			return x.err
+		}
+	case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
+		return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
+	}
 
 	switch x.data.(type) {
 	case TL_config:
@@ -289,7 +289,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 			tcpAddr, err := net.ResolveIPAddr("ip", v.Ip_address)
 			if err == nil {
 				ip := tcpAddr.IP.To4()
-				if ip != nil{
+				if ip != nil {
 					isIPv6 = false
 				}
 				if session.useIPv6 {
@@ -316,20 +316,20 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	session.updatesState = new(TL_updates_state)
 	resp = make(chan response, 1)
 	session.queueSend <- packetToSend{
-		msg: TL_updates_getState{},
+		msg:  TL_updates_getState{},
 		resp: resp,
 	}
 	select {
-	  case x = <- resp:
+	case x = <-resp:
 		if x.err != nil {
-		  return x.err
+			return x.err
 		}
-		case <-time.After(TIMEOUT_UPDATES_GETSTATE):
-		  return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
-  }
+	case <-time.After(TIMEOUT_UPDATES_GETSTATE):
+		return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+	}
 
 	// start keep alive ping
-  session.pingWaitGroup.Add(1)
+	session.pingWaitGroup.Add(1)
 	go session.pingRoutine()
 
 	// notify the connection established
@@ -637,13 +637,13 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 	wg := sync.WaitGroup{}
 	t := time.NewTimer(interval)
 	go func() {
-	  for {
-	    select {
-	    case <-t.C:
-	      wg.Done()
-      }
-    }
-  }()
+		for {
+			select {
+			case <-t.C:
+				wg.Done()
+			}
+		}
+	}()
 	for {
 		select {
 		//case <-t.C:
@@ -655,8 +655,8 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
 			if x.msg != nil {
-			  //TODO: alternate interval based scheduler with frequency scheduler
-			  wg.Wait()
+				//TODO: alternate interval based scheduler with frequency scheduler
+				wg.Wait()
 				err := session.sendPacket(x.msg, x.resp)
 				wg.Add(1)
 				t.Reset(interval)
@@ -732,7 +732,7 @@ func (session *MSession) readRoutine() {
 
 // Implements interface error
 func (e TL_rpc_error) Error() string {
-	switch e.error_code{
+	switch e.error_code {
 	case errorSeeOther:
 		return fmt.Sprintf("mtproto RPC error: %d %s", e.error_code, e.error_message)
 	case errorBadRequest, errorUnauthorized, errorFlood, errorInternal:
@@ -741,4 +741,3 @@ func (e TL_rpc_error) Error() string {
 		return fmt.Sprintf("mtproto unknow RPC error: %d %s", e.error_code, e.error_message)
 	}
 }
-

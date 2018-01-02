@@ -1,19 +1,20 @@
 package mtproto
 
 import (
-	"github.com/cjongseok/slog"
-	"fmt"
 	"encoding/binary"
-	"io"
-	"sync"
-	"strings"
 	"errors"
+	"fmt"
+	"github.com/cjongseok/slog"
+	"io"
 	"os"
+	"strings"
+	"sync"
 )
 
 type dumpCallback struct {
 	out chan interface{}
 }
+
 func (cb dumpCallback) OnUpdate(u MUpdate) {
 	cb.out <- u
 }
@@ -23,10 +24,10 @@ type MDump struct {
 	updateCallback  dumpCallback
 	readWaitGroup   sync.WaitGroup
 	readInterrupter chan interface{}
-	authKey     []byte
-	authKeyHash []byte
-	serverSalt  []byte
-	reader      io.Reader
+	authKey         []byte
+	authKeyHash     []byte
+	serverSalt      []byte
+	reader          io.Reader
 }
 
 func NewMdump(authFileName, dumpFilename string, out chan interface{}) (*MDump, error) {
@@ -35,7 +36,7 @@ func NewMdump(authFileName, dumpFilename string, out chan interface{}) (*MDump, 
 	if err != nil {
 		return nil, err
 	}
-	dumpf, err := os.OpenFile(dumpFilename, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	dumpf, err := os.OpenFile(dumpFilename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +71,7 @@ func (md *MDump) read() (interface{}, error) {
 
 	// Read packet size
 	b := make([]byte, 1)
-	n, err = md.reader.Read(b)	// Wait for an incoming byte
+	n, err = md.reader.Read(b) // Wait for an incoming byte
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +114,7 @@ func (md *MDump) read() (interface{}, error) {
 
 }
 
-func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interface{} {
+func (md *MDump) process( /*msgId int64, seqNo int32, */ data interface{}) interface{} {
 	switch data.(type) {
 	case TL_msg_container:
 		data := data.(TL_msg_container).Items
@@ -137,9 +138,9 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 		md.updatesState.Seq = data.Seq
 		//marshaled, err := json.Marshal(data)
 		//if err == nil {
-			//slog.Logf(md.process, "updatesState: %s\n", marshaled)
+		//slog.Logf(md.process, "updatesState: %s\n", marshaled)
 		//} else {
-			//slog.Logf(md.process, "updatesState: %v\n", data)
+		//slog.Logf(md.process, "updatesState: %v\n", data)
 		//}
 		return data
 
@@ -231,9 +232,9 @@ func (md *MDump) process(/*msgId int64, seqNo int32, */data interface{}) interfa
 	default:
 		//marshaled, err := json.Marshal(data)
 		//if err == nil {
-			//slog.Logf(md.process, "process: unknown data type %T {%s}\n", data, marshaled)
+		//slog.Logf(md.process, "process: unknown data type %T {%s}\n", data, marshaled)
 		//} else {
-			//slog.Logf(md.process, "process: unknown data type %T {%v}\n", data, data)
+		//slog.Logf(md.process, "process: unknown data type %T {%v}\n", data, data)
 		//}
 		return data
 	}

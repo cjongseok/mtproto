@@ -5,9 +5,9 @@ import (
 	"encoding/binary"
 	"math"
 	"math/big"
-	"time"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func GenerateNonce(size int) []byte {

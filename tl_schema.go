@@ -10632,16 +10632,16 @@ func (e TL_messages_sendMessage) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
 	if e.Reply_to_msg_id != 0 {
-    x.Int(e.Reply_to_msg_id)
-  }
+		x.Int(e.Reply_to_msg_id)
+	}
 	x.String(e.Message)
 	x.Long(e.Random_id)
 	if e.Reply_markup != nil {
-    x.Bytes(e.Reply_markup.encode())
-  }
-  if len(e.Entities) > 0 {
-    x.Vector(e.Entities)
-  }
+		x.Bytes(e.Reply_markup.encode())
+	}
+	if len(e.Entities) > 0 {
+		x.Vector(e.Entities)
+	}
 	return x.buf
 }
 

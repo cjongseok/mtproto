@@ -1,13 +1,13 @@
 package mtproto
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/cjongseok/slog"
+	"math/rand"
 	"os"
 	"sync"
-	"fmt"
-	"math/rand"
 	"time"
-	"encoding/json"
-	"github.com/cjongseok/slog"
 )
 
 const (
@@ -22,19 +22,18 @@ var (
 )
 
 type MManager struct {
-	managerId 	int32
-	appConfig	Configuration
-	conns		map[int32]*MConn
-	sessions  	map[int64]*MSession
-	eventq    	chan MEvent
+	managerId               int32
+	appConfig               Configuration
+	conns                   map[int32]*MConn
+	sessions                map[int64]*MSession
+	eventq                  chan MEvent
 	refreshSessionThrotttle map[int64]int
 
 	manageInterrupter chan struct{}
 	manageWaitGroup   sync.WaitGroup
 }
 
-
-func NewManager (appConfig Configuration) (*MManager, error) {
+func NewManager(appConfig Configuration) (*MManager, error) {
 	var err error
 
 	err = appConfig.Check()
@@ -84,10 +83,10 @@ func (mm *MManager) IsAuthenticated(phonenumber string) bool {
 func (mm *MManager) LoadAuthentication(phonenumber string, preferredAddr string) (*MConn, error) {
 	// req connect
 	respCh := make(chan sessionResponse)
-	mm.eventq  <- loadsession{0, phonenumber, preferredAddr, respCh}
+	mm.eventq <- loadsession{0, phonenumber, preferredAddr, respCh}
 
 	// Wait for connection built
-	resp := <- respCh
+	resp := <-respCh
 	if resp.err != nil {
 		return nil, resp.err
 	}
@@ -122,7 +121,7 @@ func (mm *MManager) NewAuthentication(phonenumber string, addr string, useIPv6 b
 	mm.eventq <- newsession{0, phonenumber, addr, useIPv6, respCh}
 
 	// Wait for connection
-	resp := <- respCh
+	resp := <-respCh
 	if resp.err != nil {
 		return nil, nil, resp.err
 	}
@@ -149,7 +148,7 @@ func (mm *MManager) manageRoutine() {
 			slog.Logln(mm, "stop")
 			return
 
-		case e := <-mm.eventq :
+		case e := <-mm.eventq:
 			// Delegate event handlings to go routines
 			switch e.(type) {
 			// Session Event Handlers
@@ -170,7 +169,7 @@ func (mm *MManager) manageRoutine() {
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
 						// Bind the session with mconn and mmanager
-						mm.sessions[session.sessionId] = session	// Immediate registration
+						mm.sessions[session.sessionId] = session // Immediate registration
 						var mconn *MConn
 						if e.connId != 0 {
 							mconn = mm.conns[e.connId]
@@ -181,7 +180,7 @@ func (mm *MManager) manageRoutine() {
 								e.resp <- sessionResponse{0, nil, err}
 								return
 							}
-							mm.conns[mconn.connId] = mconn	// Immediate registration
+							mm.conns[mconn.connId] = mconn // Immediate registration
 						}
 						mconn.bind(session)
 						//TODO: need to handle nil resp channel?
@@ -206,7 +205,7 @@ func (mm *MManager) manageRoutine() {
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
 						// Bind the session with mconn and mmanager
-						mm.sessions[session.sessionId] = session	// Immediate registration
+						mm.sessions[session.sessionId] = session // Immediate registration
 						var mconn *MConn
 						if e.connId != 0 {
 							mconn = mm.conns[e.connId]
@@ -216,7 +215,7 @@ func (mm *MManager) manageRoutine() {
 								e.resp <- sessionResponse{0, nil, err}
 								return
 							}
-							mm.conns[mconn.connId] = mconn	// Immediate registration
+							mm.conns[mconn.connId] = mconn // Immediate registration
 						}
 						mconn.bind(session)
 						//TODO: need to handle nil resp channel?
@@ -265,7 +264,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(SessionDiscarded)
 					slog.Logln(mm, "session discarded ", e.discardedSessionId)
-					delete(mm.sessions, e.discardedSessionId)	// Late deregistration
+					delete(mm.sessions, e.discardedSessionId) // Late deregistration
 				}()
 
 			// In normal case, five events,
@@ -285,7 +284,7 @@ func (mm *MManager) manageRoutine() {
 					mm.sessions[e.sessionId].notify(discardSession{connId, e.sessionId, disconnectRespCh})
 
 					// Wait for disconnection
-					disconnectResp := <- disconnectRespCh
+					disconnectResp := <-disconnectRespCh
 					if disconnectResp.err != nil {
 						slog.Logf(mm, "renewSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
 						e.resp <- sessionResponse{0, nil, fmt.Errorf("cannot discardSession %d. %v", e.sessionId, disconnectResp.err)}
@@ -312,11 +311,11 @@ func (mm *MManager) manageRoutine() {
 			// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
 			// are generated and propagated.
 			case refreshSession:
-			  // throttle the refreshSession
-			  if mm.refreshSessionThrotttle[e.(refreshSession).sessionId] > 0 {
-			    continue
-        }
-			  mm.refreshSessionThrotttle[e.(refreshSession).sessionId] = 1
+				// throttle the refreshSession
+				if mm.refreshSessionThrotttle[e.(refreshSession).sessionId] > 0 {
+					continue
+				}
+				mm.refreshSessionThrotttle[e.(refreshSession).sessionId] = 1
 
 				go func() {
 					mm.manageWaitGroup.Add(1)
@@ -332,15 +331,15 @@ func (mm *MManager) manageRoutine() {
 					for spinLock {
 						select {
 						case <-time.After(1 * time.Second):
-							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0{
+							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0 {
 								spinLock = false
-                 slog.Logln(mm, "spinlocked. session(%d) is bound. release it now.", e.sessionId)
+								slog.Logln(mm, "spinlocked. session(%d) is bound. release it now.", e.sessionId)
 							} else if mm.sessions[e.sessionId] == nil {
-                 slog.Logf(mm, "spinlocked. session(%d) is still not registered. wait for the " +
-                   "session registration. Or is the session already deregistered?\n", e.sessionId)
-               } else {
-							  slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n",e.sessionId,  mm.sessions[e.sessionId])
-               }
+								slog.Logf(mm, "spinlocked. session(%d) is still not registered. wait for the "+
+									"session registration. Or is the session already deregistered?\n", e.sessionId)
+							} else {
+								slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n", e.sessionId, mm.sessions[e.sessionId])
+							}
 						}
 					}
 					connId := mm.sessions[e.sessionId].connId
@@ -351,7 +350,7 @@ func (mm *MManager) manageRoutine() {
 					mm.sessions[e.sessionId].notify(discardSession{connId, e.sessionId, disconnectRespCh})
 
 					// Wait for disconnected event
-					disconnectResp := <- disconnectRespCh
+					disconnectResp := <-disconnectRespCh
 					if disconnectResp.err != nil {
 						slog.Logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
 						return
@@ -361,7 +360,7 @@ func (mm *MManager) manageRoutine() {
 					slog.Logln(mm, "refreshRoutine: req loadsession")
 					connectRespCh := make(chan sessionResponse)
 					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
-					connectResp := <- connectRespCh
+					connectResp := <-connectRespCh
 					if connectResp.err != nil {
 						slog.Logln(mm, "refreshSession failure: ", connectResp.err)
 						return
@@ -417,7 +416,7 @@ func (mm *MManager) manageRoutine() {
 					mconn.notify(discardSession{e.connId, session.sessionId, discardSessionRespCh})
 
 					// close and deregister connection
-					discardSessionResp := <- discardSessionRespCh
+					discardSessionResp := <-discardSessionRespCh
 					if discardSessionResp.err == nil {
 						mconn.close()
 						e.resp <- nil
@@ -432,7 +431,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(connectionClosed)
 					slog.Logln(mm, "connectionClosed ", e.closedConnId)
-					delete(mm.conns, e.closedConnId)	// Late deregistration
+					delete(mm.conns, e.closedConnId) // Late deregistration
 				}()
 			case updateReceived:
 			default:
@@ -441,5 +440,3 @@ func (mm *MManager) manageRoutine() {
 	}
 	slog.Logln(mm, "done")
 }
-
-

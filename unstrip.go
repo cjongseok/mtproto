@@ -1,22 +1,22 @@
 package mtproto
 
-type unstripped interface{
+type unstripped interface {
 	Strip() unstrip
 }
 
 type unstrip interface {
-	Unstrip() unstripped	// CAVEAT: it make a copy of slice fields
+	Unstrip() unstripped // CAVEAT: it make a copy of slice fields
 	UnstrippedString() string
 }
 
 // unstripped types
 type US_messages_dialogsSlice struct {
-	Count 		int32
-	Dialogs 	[]TL_dialog
-	Messages 	[]TL_message
-	Chats 		[]TL_chat
-	Channels 	[]TL_channel
-	Users 		[]TL_user
+	Count    int32
+	Dialogs  []TL_dialog
+	Messages []TL_message
+	Chats    []TL_chat
+	Channels []TL_channel
+	Users    []TL_user
 }
 
 type US_contact struct {
@@ -25,88 +25,89 @@ type US_contact struct {
 }
 
 type US_contacts_contacts struct {
-	Contacts 	[]US_contact
-	Users 		[]TL_user
+	Contacts []US_contact
+	Users    []TL_user
 }
 
 type US_contacts_topPeers struct {
-	Categories  []TL_topPeerCategoryPeers
-	Chats []TL_chat
-	Channels	[]TL_channel
-	Users 		[]TL_user
+	Categories []TL_topPeerCategoryPeers
+	Chats      []TL_chat
+	Channels   []TL_channel
+	Users      []TL_user
 }
 
 type US_topPeerCategoryPeers struct {
-	Cetegory 	TL
-	Count 		int32
-	Peers 		[]TL_topPeer
+	Cetegory TL
+	Count    int32
+	Peers    []TL_topPeer
 }
 
 type US_messages_chats struct {
-	Chats 		[]TL_chat	// XXX: TL_chat is DEPRECATED?
-	Channels 	[]TL_channel
+	Chats    []TL_chat // XXX: TL_chat is DEPRECATED?
+	Channels []TL_channel
 }
 
 type US_messages_chatFull struct {
-	Full_chat 	TL_chatFull
+	Full_chat    TL_chatFull
 	Full_channel TL_channelFull
-	Chats		[]TL_chat
-	Channels 	[]TL_channel
-	Users 		[]TL_user
+	Chats        []TL_chat
+	Channels     []TL_channel
+	Users        []TL_user
 }
 
 type US_updates_difference struct {
-	New_messages 			[]TL_message
-	New_encrypted_messages 	[]TL_encryptedMessage
-	Other_updates 			[]TL
-	Chats 					[]TL_chat 	// XXX: TL_chat is DEPRECATED
-	Channels 				[]TL_channel
-	Users 					[]TL_user
-	State 					TL_updates_state
+	New_messages           []TL_message
+	New_encrypted_messages []TL_encryptedMessage
+	Other_updates          []TL
+	Chats                  []TL_chat // XXX: TL_chat is DEPRECATED
+	Channels               []TL_channel
+	Users                  []TL_user
+	State                  TL_updates_state
 }
 
 type US_updates struct {
-	Updates 	[]TL
-	Users 		[]TL_user
-	Chats 		[]TL_chat
+	Updates  []TL
+	Users    []TL_user
+	Chats    []TL_chat
 	Channels []TL_channel
-	Date  		int32
-	Seq 		int32
+	Date     int32
+	Seq      int32
 }
+
 //type US_updates_state struct {}
 //type US_updateShort struct {}
 //type US_updateShortMessage struct {}
 //type US_updateShortChatMessage struct {}
 //type US_updateShortSentMessage struct {}
 type US_updateNewMessage struct {
-	Message 	TL_message
-	Pts 		int32
-	Pts_count 	int32
+	Message   TL_message
+	Pts       int32
+	Pts_count int32
 }
+
 //type US_updateReadMessagesContents struct {}
 //type US_updateDeleteMessages struct {}
 type US_updateNewEncryptedMessage struct {
-	Message 	TL_encryptedMessage
-	Qts 		int32
+	Message TL_encryptedMessage
+	Qts     int32
 }
 
 type US_messages_messages struct {
-	Messages 	[]TL_message
-	Chats 		[]TL_chat
-	Channels 	[]TL_channel
-	Users 		[]TL_user
+	Messages []TL_message
+	Chats    []TL_chat
+	Channels []TL_channel
+	Users    []TL_user
 }
 
 type US_messages_channelMessages struct {
-	Flags 		int32
-	Pts 		int32
-	Count 		int32
-	Messages 	[]TL_message
-	Chats 		[]TL_chat
-	Channels 	[]TL_channel
-	Users 		[]TL_user
+	Flags    int32
+	Pts      int32
+	Count    int32
+	Messages []TL_message
+	Chats    []TL_chat
+	Channels []TL_channel
+	Users    []TL_user
 }
-
 
 // interface implementations
 func Unstrip(tl TL) (unstripped, bool) {
@@ -118,7 +119,7 @@ func Unstrip(tl TL) (unstripped, bool) {
 	}
 }
 
-func (us US_messages_dialogsSlice) Strip() unstrip {return nil}
+func (us US_messages_dialogsSlice) Strip() unstrip { return nil }
 func (tl TL_messages_dialogsSlice) Unstrip() unstripped {
 	return US_messages_dialogsSlice{
 		tl.Count,
@@ -130,8 +131,7 @@ func (tl TL_messages_dialogsSlice) Unstrip() unstripped {
 	}
 }
 
-
-func (us US_contacts_contacts) Strip() unstrip {return nil}
+func (us US_contacts_contacts) Strip() unstrip { return nil }
 func (tl TL_contacts_contacts) Unstrip() unstripped {
 	return US_contacts_contacts{
 		unstripTLcontacts(tl.Contacts),
@@ -139,17 +139,17 @@ func (tl TL_contacts_contacts) Unstrip() unstripped {
 	}
 }
 
-func (us US_contacts_topPeers) Strip() unstrip {return nil}
+func (us US_contacts_topPeers) Strip() unstrip { return nil }
 func (tl TL_contacts_topPeers) Unstrip() unstripped {
 	return US_contacts_topPeers{
-		unstripTLtopPeerCategoryPeerses(tl.Categories)	,
-		unstripTLchats(tl.Chats),		// XXX: TL_chat is DEPRECATED
+		unstripTLtopPeerCategoryPeerses(tl.Categories),
+		unstripTLchats(tl.Chats), // XXX: TL_chat is DEPRECATED
 		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 	}
 }
 
-func (us US_topPeerCategoryPeers) Strip() unstrip {return nil}
+func (us US_topPeerCategoryPeers) Strip() unstrip { return nil }
 func (tl TL_topPeerCategoryPeers) Unstrip() unstripped {
 	return US_topPeerCategoryPeers{
 		tl.Category,
@@ -158,55 +158,55 @@ func (tl TL_topPeerCategoryPeers) Unstrip() unstripped {
 	}
 }
 
-func (us US_messages_chats) Strip() unstrip {return nil}
+func (us US_messages_chats) Strip() unstrip { return nil }
 func (tl TL_messages_chats) Unstrip() unstripped {
 	return US_messages_chats{
-		unstripTLchats(tl.Chats),		// XXX: TL_chat is DEPRECATED?
+		unstripTLchats(tl.Chats), // XXX: TL_chat is DEPRECATED?
 		unstripTLchannels(tl.Chats),
 	}
 }
 
-func (us US_messages_chatFull) Strip() unstrip {return nil}
+func (us US_messages_chatFull) Strip() unstrip { return nil }
 func (tl TL_messages_chatFull) Unstrip() unstripped {
-  usChatfull := US_messages_chatFull{}
-  switch tl.Full_chat.(type) {
-  case TL_chatFull:
-    usChatfull.Full_chat = tl.Full_chat.(TL_chatFull)
-  case TL_channelFull:
-    usChatfull.Full_channel = tl.Full_chat.(TL_channelFull)
-  }
-  usChatfull.Chats = unstripTLchats(tl.Chats)
-  usChatfull.Channels = unstripTLchannels(tl.Chats)
-  usChatfull.Users = unstripTLusers(tl.Users)
-  return usChatfull
+	usChatfull := US_messages_chatFull{}
+	switch tl.Full_chat.(type) {
+	case TL_chatFull:
+		usChatfull.Full_chat = tl.Full_chat.(TL_chatFull)
+	case TL_channelFull:
+		usChatfull.Full_channel = tl.Full_chat.(TL_channelFull)
+	}
+	usChatfull.Chats = unstripTLchats(tl.Chats)
+	usChatfull.Channels = unstripTLchannels(tl.Chats)
+	usChatfull.Users = unstripTLusers(tl.Users)
+	return usChatfull
 }
 
-func (us US_updates_difference) Strip() unstrip {return nil}
+func (us US_updates_difference) Strip() unstrip { return nil }
 func (tl TL_updates_difference) Unstrip() unstripped {
 	return US_updates_difference{
 		unstripTLmsgs(tl.New_messages),
 		unstripTLencryptedMsg(tl.New_encrypted_messages),
 		tl.Other_updates,
-		unstripTLchats(tl.Chats), 	// XXX: TL_chat is DEPRECATED
+		unstripTLchats(tl.Chats), // XXX: TL_chat is DEPRECATED
 		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 		tl.State.(TL_updates_state),
 	}
 }
 
-func (us US_updates) Strip() unstrip {return nil}
+func (us US_updates) Strip() unstrip { return nil }
 func (tl TL_updates) Unstrip() unstripped {
 	return US_updates{
 		tl.Updates,
 		unstripTLusers(tl.Users),
 		unstripTLchats(tl.Chats),
-    unstripTLchannels(tl.Chats),
+		unstripTLchannels(tl.Chats),
 		tl.Date,
 		tl.Seq,
 	}
 }
 
-func (us US_updateNewMessage) Strip() unstrip {return nil}
+func (us US_updateNewMessage) Strip() unstrip { return nil }
 func (tl TL_updateNewMessage) Unstrip() unstripped {
 	return US_updateNewMessage{
 		tl.Message.(TL_message),
@@ -214,7 +214,7 @@ func (tl TL_updateNewMessage) Unstrip() unstripped {
 		tl.Pts_count,
 	}
 }
-func (us US_updateNewEncryptedMessage) Strip() unstrip {return nil}
+func (us US_updateNewEncryptedMessage) Strip() unstrip { return nil }
 func (tl TL_updateNewEncryptedMessage) Unstrip() unstripped {
 	return US_updateNewEncryptedMessage{
 		tl.Message.(TL_encryptedMessage),
@@ -222,17 +222,17 @@ func (tl TL_updateNewEncryptedMessage) Unstrip() unstripped {
 	}
 }
 
-func (us US_messages_messages) Strip() unstrip {return nil}
+func (us US_messages_messages) Strip() unstrip { return nil }
 func (tl TL_messages_messages) Unstrip() unstripped {
 	return US_messages_messages{
 		unstripTLmsgs(tl.Messages),
 		unstripTLchats(tl.Chats),
-    unstripTLchannels(tl.Chats),
+		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 	}
 }
 
-func (us US_messages_channelMessages) Strip() unstrip {return nil}
+func (us US_messages_channelMessages) Strip() unstrip { return nil }
 func (tl TL_messages_channelMessages) Unstrip() unstripped {
 	return US_messages_channelMessages{
 		tl.Flags,
@@ -240,7 +240,7 @@ func (tl TL_messages_channelMessages) Unstrip() unstripped {
 		tl.Count,
 		unstripTLmsgs(tl.Messages),
 		unstripTLchats(tl.Chats),
-    unstripTLchannels(tl.Chats),
+		unstripTLchannels(tl.Chats),
 		unstripTLusers(tl.Users),
 	}
 }
@@ -263,20 +263,20 @@ func unstripTLmsgs(tls []TL) []TL_message {
 func unstripTLchannels(tls []TL) []TL_channel {
 	var channels []TL_channel
 	for _, tl := range tls {
-	  switch tl.(type) {
-    case TL_channel:
-      channels = append(channels, tl.(TL_channel))
-    }
+		switch tl.(type) {
+		case TL_channel:
+			channels = append(channels, tl.(TL_channel))
+		}
 	}
 	return channels
 }
 func unstripTLchats(tls []TL) []TL_chat {
 	var chats []TL_chat
 	for _, tl := range tls {
-	  switch tl.(type) {
-    case TL_chat:
-      chats = append(chats, tl.(TL_chat))
-    }
+		switch tl.(type) {
+		case TL_chat:
+			chats = append(chats, tl.(TL_chat))
+		}
 	}
 	return chats
 }
@@ -285,7 +285,7 @@ func unstripTLusers(tls []TL) []TL_user {
 	for i, tl := range tls {
 		users[i] = tl.(TL_user)
 	}
-	return users;
+	return users
 }
 func unstripTLcontacts(tls []TL) []US_contact {
 	contacts := make([]US_contact, len(tls))
@@ -321,4 +321,3 @@ func unstripTLencryptedMsg(tls []TL) []TL_encryptedMessage {
 	}
 	return ems
 }
-

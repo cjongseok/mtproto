@@ -2,14 +2,14 @@ package mtproto
 
 import (
 	"fmt"
-	"runtime"
 	"os"
-	"time"
 	"os/user"
+	"runtime"
+	"time"
 )
 
 const (
-	appConfigError = "App configuration error: %s"
+	appConfigError      = "App configuration error: %s"
 	defaultPingInterval = 1 * time.Minute
 	defaultSendInterval = 500 * time.Millisecond
 )
@@ -68,10 +68,10 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 		appConfig.PingInterval = defaultPingInterval
 	}
 
-  appConfig.SendInterval = sendInterval
-  if sendInterval == 0 {
-    appConfig.SendInterval = defaultSendInterval
-  }
+	appConfig.SendInterval = sendInterval
+	if sendInterval == 0 {
+		appConfig.SendInterval = defaultSendInterval
+	}
 
 	return appConfig, nil
 }
@@ -95,4 +95,3 @@ func (appConfig Configuration) Check() error {
 
 	return nil
 }
-

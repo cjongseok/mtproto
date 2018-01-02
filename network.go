@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"time"
 	"github.com/cjongseok/slog"
+	"time"
 )
 
 func (session *MSession) sendPacket(msg TL, resp chan response) error {
@@ -102,7 +102,7 @@ func (session *MSession) read() (interface{}, error) {
 
 	// Read packet size
 	b := make([]byte, 1)
-	n, err = tcpconn.Read(b)	// Wait for an incoming byte
+	n, err = tcpconn.Read(b) // Wait for an incoming byte
 	if err != nil {
 		return nil, err
 	}

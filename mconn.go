@@ -1,18 +1,18 @@
 package mtproto
 
 import (
-	"time"
-	"math/rand"
-	"sync"
 	"fmt"
 	"github.com/cjongseok/slog"
+	"math/rand"
+	"sync"
+	"time"
 )
 
 const (
-	TIMEOUT_SESSION_BINDING = 3 * time.Second
-	TIMEOUT_RPC = 5 * time.Second
+	TIMEOUT_SESSION_BINDING   = 3 * time.Second
+	TIMEOUT_RPC               = 5 * time.Second
 	TIMEOUT_INVOKE_WITH_LAYER = TIMEOUT_RPC
-	TIMEOUT_UPDATES_GETSTATE = TIMEOUT_RPC
+	TIMEOUT_UPDATES_GETSTATE  = TIMEOUT_RPC
 )
 
 // MConn does not touch sessions.
@@ -41,7 +41,7 @@ func newConnection(connListener chan MEvent) (*MConn, error) {
 	mconn.AddConnListener(connListener)
 	mconn.AddConnListener(mconn.smonitor)
 	mconn.bindWaitGroup = sync.WaitGroup{}
-	defer mconn.bindWaitGroup.Add(1)		// wait for session binding ...
+	defer mconn.bindWaitGroup.Add(1) // wait for session binding ...
 
 	go mconn.monitorSession()
 
@@ -56,7 +56,7 @@ func (mconn *MConn) bind(session *MSession) error {
 	session.AddSessionListener(mconn.smonitor)
 	session.connId = mconn.connId
 	mconn.session = session
-	mconn.bindWaitGroup.Done()	// stop waiting for new session. Enable querying
+	mconn.bindWaitGroup.Done() // stop waiting for new session. Enable querying
 	mconn.notify(sessionBound{mconn})
 
 	//TODO: get updates difference on opening session rather than its binding
@@ -89,16 +89,16 @@ func (mconn *MConn) bind(session *MSession) error {
 }
 
 func (mconn *MConn) InvokeBlocked(msg TL) (*TL, error) {
-  // TODO: timeout the call
-  select {
-    case x := <-mconn.InvokeNonBlocked(msg):
-      if x.err == nil {
-        return &x.data, nil
-      }
-      return nil, x.err
-    case <-time.After(TIMEOUT_RPC):
-      return nil, fmt.Errorf("RPC Timeout(%f s)", TIMEOUT_RPC.Seconds())
-  }
+	// TODO: timeout the call
+	select {
+	case x := <-mconn.InvokeNonBlocked(msg):
+		if x.err == nil {
+			return &x.data, nil
+		}
+		return nil, x.err
+	case <-time.After(TIMEOUT_RPC):
+		return nil, fmt.Errorf("RPC Timeout(%f s)", TIMEOUT_RPC.Seconds())
+	}
 }
 
 func (mconn *MConn) InvokeNonBlocked(msg TL) chan response {
@@ -129,9 +129,9 @@ func (mconn *MConn) Session() (*MSession, error) {
 		//TODO: ping to prolong session life? Because session can be aborted
 	}()
 	select {
-	case <- c:
+	case <-c:
 		return mconn.session, nil
-	case <- time.After(TIMEOUT_SESSION_BINDING):
+	case <-time.After(TIMEOUT_SESSION_BINDING):
 		return nil, fmt.Errorf("No Session: session binding timeout")
 	}
 }
@@ -191,7 +191,7 @@ func (mconn *MConn) notify(e MEvent) {
 
 func (mconn *MConn) propagate(u MUpdate) {
 	for _, callback := range mconn.updateCallbacks {
-		go func() {callback.OnUpdate(u)}()
+		go func() { callback.OnUpdate(u) }()
 	}
 }
 
@@ -202,23 +202,23 @@ func (mconn *MConn) monitorSession() {
 		case <-mconn.interrupter:
 			slog.Logf(mconn, "stop")
 			return
-		case e := <- mconn.smonitor:
+		case e := <-mconn.smonitor:
 			switch e.(type) {
 			// Session Events
-			case newsession:	// never triggered on mconn
-			case loadsession:	// never triggered on mconn
+			case newsession: // never triggered on mconn
+			case loadsession: // never triggered on mconn
 			case SessionEstablished: // never triggered on mconn
 			case discardSession: // triggered only on reconnect (either renewSession or refreshSession)
-			go func() {
-				// Unbind the session until the connection has new session
-				slog.Logf(mconn, "session will be discarded%d\n", mconn.session.sessionId)
-				e := e.(discardSession)
-				mconn.bindWaitGroup.Add(1)
-				unbound := sessionUnbound{mconn, e.sessionId}
-				mconn.session = nil
-				// notify that inside selection needs non-blocking handlers
-				mconn.notify(unbound)
-			}()
+				go func() {
+					// Unbind the session until the connection has new session
+					slog.Logf(mconn, "session will be discarded%d\n", mconn.session.sessionId)
+					e := e.(discardSession)
+					mconn.bindWaitGroup.Add(1)
+					unbound := sessionUnbound{mconn, e.sessionId}
+					mconn.session = nil
+					// notify that inside selection needs non-blocking handlers
+					mconn.notify(unbound)
+				}()
 			case SessionDiscarded: // triggered only on reconnect (either renewSession or refreshSession)
 			case renewSession:
 			case refreshSession:
