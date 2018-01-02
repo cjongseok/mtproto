@@ -255,25 +255,30 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 
 	// (help_getConfig)
 	resp := make(chan response, 1)
-	session.queueSend <- packetToSend{
-		msg: TL_invokeWithLayer{
-			Layer: layer,
-			Query: TL_initConnection{
-				Api_id:         	session.appConfig.Id,
-				Device_model:   	session.appConfig.DeviceModel,
-				System_version: 	session.appConfig.SystemVersion,
-				App_version:    	session.appConfig.Version,
-				System_lang_code: 	session.appConfig.Language,
-				Lang_code:      	session.appConfig.Language,
-				Query:          	TL_help_getConfig{},
-			},
-		},
-		resp: resp,
-	}
-	x := <-resp
-	if x.err != nil {
-		return x.err
-	}
+  session.queueSend <- packetToSend{
+    msg: TL_invokeWithLayer{
+      Layer: layer,
+      Query: TL_initConnection{
+        Api_id:         	session.appConfig.Id,
+        Device_model:   	session.appConfig.DeviceModel,
+        System_version: 	session.appConfig.SystemVersion,
+        App_version:    	session.appConfig.Version,
+        System_lang_code: 	session.appConfig.Language,
+        Lang_code:      	session.appConfig.Language,
+        Query:          	TL_help_getConfig{},
+      },
+    },
+    resp: resp,
+  }
+  var x response
+  select {
+    case x = <-resp:
+		  if x.err != nil {
+		    return x.err
+		  }
+    case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
+      return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
+  }
 
 	switch x.data.(type) {
 	case TL_config:
@@ -314,10 +319,14 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		msg: TL_updates_getState{},
 		resp: resp,
 	}
-	x = <- resp
-	if x.err != nil {
-		return x.err
-	}
+	select {
+	  case x = <- resp:
+		if x.err != nil {
+		  return x.err
+		}
+		case <-time.After(TIMEOUT_UPDATES_GETSTATE):
+		  return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+  }
 
 	// start keep alive ping
   session.pingWaitGroup.Add(1)
@@ -378,7 +387,7 @@ func (session *MSession) notify(e MEvent) {
 	for _, listener := range session.listeners {
 		// TODO: it doesn't work. think of another solution to handle a deadlock on channel
 		//go func(){listener <- e}()
-		slog.Logf(session, "notify MEvent, %v\n, to %v", e, listener)
+		slog.Logf(session, "notify MEvent, %s\n, to %v", slog.Stringify(e), listener)
 		listener <- e
 	}
 }

@@ -10,6 +10,9 @@ import (
 
 const (
 	TIMEOUT_SESSION_BINDING = 3 * time.Second
+	TIMEOUT_RPC = 5 * time.Second
+	TIMEOUT_INVOKE_WITH_LAYER = TIMEOUT_RPC
+	TIMEOUT_UPDATES_GETSTATE = TIMEOUT_RPC
 )
 
 // MConn does not touch sessions.
@@ -86,13 +89,16 @@ func (mconn *MConn) bind(session *MSession) error {
 }
 
 func (mconn *MConn) InvokeBlocked(msg TL) (*TL, error) {
-	x := <-mconn.InvokeNonBlocked(msg)
-
-	if x.err != nil {
-		return nil, x.err
-	}
-
-	return &x.data, nil
+  // TODO: timeout the call
+  select {
+    case x := <-mconn.InvokeNonBlocked(msg):
+      if x.err == nil {
+        return &x.data, nil
+      }
+      return nil, x.err
+    case <-time.After(TIMEOUT_RPC):
+      return nil, fmt.Errorf("RPC Timeout(%f s)", TIMEOUT_RPC.Seconds())
+  }
 }
 
 func (mconn *MConn) InvokeNonBlocked(msg TL) chan response {
