@@ -112,7 +112,10 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 		session.addr = addr
 		session.useIPv6 = useIPv6
 		session.encrypted = false
-		session.open(appConfig, sessionListener)
+		err = session.open(appConfig, sessionListener)
+		if err != nil {
+		  return nil, err
+    }
 		return session, nil
 	}
 	return nil, err
@@ -245,6 +248,8 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	session.msgsIdToAck = make(map[int64]packetToSend)
 	session.msgsIdToResp = make(map[int64]chan response)
 	session.mutex = &sync.Mutex{}
+  session.sendWaitGroup.Add(1)
+  session.readWaitGroup.Add(1)
 	go session.sendRoutine(session.appConfig.SendInterval)
 	go session.readRoutine()
 
@@ -315,6 +320,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	}
 
 	// start keep alive ping
+  session.pingWaitGroup.Add(1)
 	go session.pingRoutine()
 
 	// notify the connection established
@@ -372,6 +378,7 @@ func (session *MSession) notify(e MEvent) {
 	for _, listener := range session.listeners {
 		// TODO: it doesn't work. think of another solution to handle a deadlock on channel
 		//go func(){listener <- e}()
+		slog.Logf(session, "notify MEvent, %v\n, to %v", e, listener)
 		listener <- e
 	}
 }
@@ -602,7 +609,7 @@ func (session *MSession) stopPing() {
 }
 
 func (session *MSession) pingRoutine() {
-	session.pingWaitGroup.Add(1)
+	slog.Logln(session, "ping: start")
 	defer session.pingWaitGroup.Done()
 	for {
 		select {
@@ -617,7 +624,6 @@ func (session *MSession) pingRoutine() {
 
 func (session *MSession) sendRoutine(interval time.Duration) {
 	slog.Logln(session, "send: start")
-	session.sendWaitGroup.Add(1)
 	defer session.sendWaitGroup.Done()
 	wg := sync.WaitGroup{}
 	t := time.NewTimer(interval)
@@ -655,7 +661,6 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 
 func (session *MSession) readRoutine() {
 	slog.Logln(session, "read: start")
-	session.readWaitGroup.Add(1)
 	defer session.readWaitGroup.Done()
 
 	innerRoutineWG := sync.WaitGroup{}
