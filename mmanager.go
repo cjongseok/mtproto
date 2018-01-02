@@ -27,6 +27,7 @@ type MManager struct {
 	conns		map[int32]*MConn
 	sessions  	map[int64]*MSession
 	eventq    	chan MEvent
+	refreshSessionThrotttle map[int64]int
 
 	manageInterrupter chan struct{}
 	manageWaitGroup   sync.WaitGroup
@@ -49,6 +50,7 @@ func NewManager (appConfig Configuration) (*MManager, error) {
 	mm.conns = make(map[int32]*MConn)
 	mm.sessions = make(map[int64]*MSession)
 	mm.eventq = make(chan MEvent)
+	mm.refreshSessionThrotttle = make(map[int64]int)
 	mm.manageInterrupter = make(chan struct{})
 	mm.manageWaitGroup = sync.WaitGroup{}
 
@@ -310,6 +312,12 @@ func (mm *MManager) manageRoutine() {
 			// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
 			// are generated and propagated.
 			case refreshSession:
+			  // throttle the refreshSession
+			  if mm.refreshSessionThrotttle[e.(refreshSession).sessionId] > 0 {
+			    continue
+        }
+			  mm.refreshSessionThrotttle[e.(refreshSession).sessionId] = 1
+
 				go func() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
@@ -324,10 +332,15 @@ func (mm *MManager) manageRoutine() {
 					for spinLock {
 						select {
 						case <-time.After(1 * time.Second):
-              slog.Logln(mm, "spinlocked. wait for session built and bound. (mm.sessions[%d]=%v, mm.sessions[%d].connId=%d)", mm.sessions[e.sessionId], mm.sessions[e.sessionId].connId)
 							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0{
 								spinLock = false
-							}
+                 slog.Logln(mm, "spinlocked. session(%d) is bound. release it now.", e.sessionId)
+							} else if mm.sessions[e.sessionId] == nil {
+                 slog.Logf(mm, "spinlocked. session(%d) is still not registered. wait for the " +
+                   "session registration. Or is the session already deregistered?\n", e.sessionId)
+               } else {
+							  slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n",e.sessionId,  mm.sessions[e.sessionId])
+               }
 						}
 					}
 					connId := mm.sessions[e.sessionId].connId
@@ -356,7 +369,8 @@ func (mm *MManager) manageRoutine() {
 					//TODO: need to handle nil resp channel?
 					e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
 					//TODO: figure out missed updates
-					slog.Logln(mm, "refreshSessino done")
+					slog.Logln(mm, "refreshSessino done. Release the throttle")
+					mm.refreshSessionThrotttle[e.sessionId] = 0
 				}()
 
 			// Connection Event Handlers
