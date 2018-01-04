@@ -16,8 +16,7 @@
 [[projects]]
   name = "github.com/cjongseok/slog"
   packages = ["."]
-  revision = "fb044c17ab93acf806c6d90cce7a0c85ea3d6fb5"
-  version = "v0.1.0"
+  revision = "74a16795eab715a4e9e1cf66fa9ae9cb31b59583"
 
 [[projects]]
   name = "github.com/montanaflynn/stats"
