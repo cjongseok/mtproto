@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/cjongseok/slog"
 	"fmt"
-	"os"
 	"github.com/cjongseok/mtproto"
+	"github.com/cjongseok/slog"
+	"os"
 	"sync"
 )
 
@@ -21,7 +21,8 @@ func handleError(err error) {
 	}
 }
 
-type callback struct {}
+type callback struct{}
+
 func (cb *callback) OnUpdate(u mtproto.MUpdate) {
 	fmt.Println("update:", slog.Stringify(u))
 }

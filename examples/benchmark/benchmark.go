@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"fmt"
+	"strconv"
 	"sync"
 	"time"
-	"strconv"
 
 	"github.com/cjongseok/mtproto"
 	"github.com/cjongseok/ntped"
@@ -14,14 +14,13 @@ import (
 	"github.com/montanaflynn/stats"
 )
 
-
 type condition func(float64) bool
 
 type updateBenchmarker struct {
-	latencies 	[]int64
-	updateNum	int
-	updateCount	int
-	join 		sync.WaitGroup
+	latencies   []int64
+	updateNum   int
+	updateCount int
+	join        sync.WaitGroup
 }
 
 func usage() {
@@ -73,12 +72,12 @@ func main() {
 	benchtime := time.Now()
 	y, mon, d := benchtime.Date()
 	h, min, s := benchtime.Clock()
-	dateString := fmt.Sprintf("%02d%02d%02d-%02d%02d%02d", (y%100), mon, d, h, min, s)
+	dateString := fmt.Sprintf("%02d%02d%02d-%02d%02d%02d", (y % 100), mon, d, h, min, s)
 	lfilename := fmt.Sprintf("%s_%s_benchmark.log", dateString, target)
 	bfilename := fmt.Sprintf("%s_%s_benchmark.bch", dateString, target)
 
 	// Set logfile
-	lfile, err := os.OpenFile(lfilename, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	lfile, err := os.OpenFile(lfilename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("error opening file: ", err)
 	}
@@ -87,7 +86,7 @@ func main() {
 	//log.SetOutput(os.Stdout)
 
 	// Set slog.Benchfile
-	bfile, err := os.OpenFile(bfilename, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	bfile, err := os.OpenFile(bfilename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("error opening file: ", err)
 	}
@@ -108,7 +107,7 @@ func main() {
 
 	switch bench {
 	case "UpdateLatency":
-		if len(os.Args) != 1 + minArgsNum {
+		if len(os.Args) != 1+minArgsNum {
 			usage()
 			return
 		}
@@ -120,7 +119,7 @@ func main() {
 		benchmarkUpdateLatency(config, updateNum)
 
 	case "UpdateLatencyWithPolling":
-		if len(os.Args) != 4 + minArgsNum {
+		if len(os.Args) != 4+minArgsNum {
 			usage()
 			return
 		}
@@ -146,11 +145,11 @@ func main() {
 }
 
 type benchConfig struct {
-	apiid 			int32
-	apihash 		string
-	phoneNumber 	string
-	preferredAddr 	string
-	pingInterval 	time.Duration
+	apiid         int32
+	apihash       string
+	phoneNumber   string
+	preferredAddr string
+	pingInterval  time.Duration
 }
 type abort func()
 type onMeasuring func(*mtproto.MConn) abort
@@ -219,7 +218,7 @@ func benchmarkUpdateLatency(config benchConfig, updateNum int) error {
 func measureUpdateLatency(config benchConfig, updateNum int, taskOnMeasuring onMeasuring) error {
 	slog.EnableLogging()
 	mm, mconn, err := initBenchmark(config)
-	if err !=  nil {
+	if err != nil {
 		return err
 	}
 
@@ -247,7 +246,7 @@ func measureUpdateLatency(config benchConfig, updateNum int, taskOnMeasuring onM
 	rvariance, _ := stats.Variance(floats)
 	rstd, _ := stats.StandardDeviation(floats)
 
-	filtered := filter(floats, func(x float64) bool {return x>500})
+	filtered := filter(floats, func(x float64) bool { return x > 500 })
 	fmean, _ := stats.Mean(floats)
 	fmedian, _ := stats.Median(floats)
 	fmin, _ := stats.Min(floats)
@@ -281,7 +280,7 @@ func filter(ints []float64, cond condition) []float64 {
 	size := 0
 	for _, x := range ints {
 		if cond(x) {
-			size ++
+			size++
 		}
 	}
 	filtered := make([]float64, size)
@@ -306,12 +305,12 @@ func NewUpdateBenchmarker(updateNum int) *updateBenchmarker {
 
 func (b *updateBenchmarker) OnUpdate(u mtproto.MUpdate) {
 	tic := ntped.UnixMilli()
-	updateDate := int64(u.UpdateDate()) * 1e3	// update date in milli
+	updateDate := int64(u.UpdateDate()) * 1e3 // update date in milli
 	diff := tic - updateDate
 	if updateDate != 0 {
 		slog.Benchf(b, "[tdiff = %d ms] got %s\n", diff, slog.Stringify(u))
 		b.latencies = append(b.latencies, diff)
-		b.updateCount ++
+		b.updateCount++
 		if b.updateNum == 0 {
 			// never stop
 		} else if b.updateCount >= b.updateNum {
@@ -322,15 +321,15 @@ func (b *updateBenchmarker) OnUpdate(u mtproto.MUpdate) {
 	}
 }
 
-func initBenchmark(config benchConfig) (*mtproto.MManager, *mtproto.MConn, error){
+func initBenchmark(config benchConfig) (*mtproto.MManager, *mtproto.MConn, error) {
 	const (
 		maxNtpRetry = 0
 		timeoutInMs = 10000
 
-		appVersion = "0.0.1"
-		deviceModel = ""
-		systemVersion = ""
-		language = ""
+		appVersion      = "0.0.1"
+		deviceModel     = ""
+		systemVersion   = ""
+		language        = ""
 		sessionFileHome = ""
 	)
 
@@ -431,4 +430,3 @@ func handleError(err error) {
 		slog.Fatalln(err)
 	}
 }
-
