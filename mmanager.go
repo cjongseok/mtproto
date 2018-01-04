@@ -26,6 +26,7 @@ type MManager struct {
 	appConfig               Configuration
 	conns                   map[int32]*MConn
 	sessions                map[int64]*MSession
+	stuckSessions           map[int64]*MSession
 	eventq                  chan MEvent
 	refreshSessionThrotttle map[int64]int
 
@@ -48,6 +49,7 @@ func NewManager(appConfig Configuration) (*MManager, error) {
 	//TODO: set proper buf size to channels
 	mm.conns = make(map[int32]*MConn)
 	mm.sessions = make(map[int64]*MSession)
+	mm.stuckSessions = make(map[int64]*MSession)
 	mm.eventq = make(chan MEvent)
 	mm.refreshSessionThrotttle = make(map[int64]int)
 	mm.manageInterrupter = make(chan struct{})
@@ -176,7 +178,7 @@ func (mm *MManager) manageRoutine() {
 							mconn = mm.conns[e.connId]
 						} else {
 							// Create new connection, if not exist
-							mconn, err = newConnection(mm.eventq)
+							mconn = newConnection(mm.eventq)
 							if err != nil {
 								e.resp <- sessionResponse{0, nil, err}
 								return
@@ -203,7 +205,10 @@ func (mm *MManager) manageRoutine() {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure", err)
 						slog.Logln(mm, "connect failure:", err)
-						//TODO: need to handle nil resp channel?
+						session.connId = e.connId
+						//TODO: separate the handshaking error into two cases and trigger refreshSession on tcp dialing
+						// failure
+						mm.stuckSessions[session.sessionId] = session // register as stuck session
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
 						// Bind the session with mconn and mmanager
@@ -212,11 +217,12 @@ func (mm *MManager) manageRoutine() {
 						if e.connId != 0 {
 							mconn = mm.conns[e.connId]
 						} else {
-							mconn, err = newConnection(mm.eventq)
-							if err != nil {
-								e.resp <- sessionResponse{0, nil, err}
-								return
-							}
+							//mconn, err = newConnection(mm.eventq)
+							//if err != nil {
+							//	e.resp <- sessionResponse{0, nil, err}
+							//	return
+							//}
+							mconn = newConnection(mm.eventq)
 							mm.conns[mconn.connId] = mconn // Immediate registration
 						}
 						mconn.bind(session)
@@ -332,15 +338,24 @@ func (mm *MManager) manageRoutine() {
 					}
 					for spinLock {
 						select {
+						// sleep timer
 						case <-time.After(1 * time.Second):
-							if mm.sessions[e.sessionId] != nil && mm.sessions[e.sessionId].connId != 0 {
+							if mm.sessions[e.sessionId] != nil {
+								if mm.sessions[e.sessionId].connId != 0 {
+									spinLock = false
+									slog.Logln(mm, "spinlocked. session(%d) is bound. Release the lock now.", e.sessionId)
+								} else {
+									slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n",
+										e.sessionId, mm.sessions[e.sessionId])
+								}
+							} else if mm.stuckSessions[e.sessionId] != nil {
 								spinLock = false
-								slog.Logln(mm, "spinlocked. session(%d) is bound. release it now.", e.sessionId)
-							} else if mm.sessions[e.sessionId] == nil {
-								slog.Logf(mm, "spinlocked. session(%d) is still not registered. wait for the "+
-									"session registration. Or is the session already deregistered?\n", e.sessionId)
+								delete(mm.stuckSessions, e.sessionId)
+								slog.Logf(mm, "spinlocked. Session(%d) is stuck on either invokeWithLayer or"+
+									"updatesGetState. Release the lock now and skip discardSession.\n", e.sessionId)
 							} else {
-								slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n", e.sessionId, mm.sessions[e.sessionId])
+								slog.Logf(mm, "spinlocked. Session(%d) is waiting for a response from either"+
+									"invokeWithLayer or updatesGetState.\n", e.sessionId)
 							}
 						}
 					}
@@ -359,33 +374,35 @@ func (mm *MManager) manageRoutine() {
 					}
 
 					// Req loadsession
+					connectRespCh := make(chan sessionResponse)
+					var connectResp sessionResponse
+					//for {
 					slog.Logln(mm, "req loadsession")
-          connectRespCh := make(chan sessionResponse)
-          var connectResp sessionResponse
-					for {
-            mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
-            connectResp = <-connectRespCh
-            if connectResp.err != nil {
-              switch connectResp.err.(type) {
-              case handshakingFailure:
-                slog.Logf(mm, "retry loadsession after %f seconds: %s", DELAY_RETRY_OPEN_SESSION.Seconds(), connectResp.err)
-                time.Sleep(DELAY_RETRY_OPEN_SESSION)
-                continue
-              default:
-                slog.Logln(mm, "refreshSession failure: ", connectResp.err)
-                return
-              }
-            }
-            break
-          }
-					//TODO: need to handle nil resp channel?
-					e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
+					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
+					connectResp = <-connectRespCh
+					if connectResp.err != nil {
+						//switch connectResp.err.(type) {
+						//case handshakingFailure:
+						//  slog.Logf(mm, "retry loadsession after %f seconds: %s", DELAY_RETRY_OPEN_SESSION.Seconds(), connectResp.err)
+						//  time.Sleep(DELAY_RETRY_OPEN_SESSION)
+						//  continue
+						//default:
+						slog.Logln(mm, "loadsession failure on refreshSession: ", connectResp.err)
+						//slog.Logln(mm ,"retry loadsession")
+						e.resp <- sessionResponse{0, nil, connectResp.err}
+						//}
+					} else {
+						//TODO: need to handle nil resp channel?
+						e.resp <- sessionResponse{connectResp.connId, connectResp.session, nil}
+					}
+					//break
+					//}
 					//TODO: figure out missed updates
 					slog.Logln(mm, "refreshSession done. Release the throttle")
 					mm.refreshSessionThrotttle[e.sessionId] = 0
 				}()
 
-			// Connection Event Handlers
+				// Connection Event Handlers
 			case ConnectionOpened:
 				go func() {
 					mm.manageWaitGroup.Add(1)

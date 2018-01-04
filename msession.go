@@ -32,11 +32,13 @@ const (
 	errorFlood        = 420
 	errorInternal     = 500
 )
+
 type handshakingFailure struct {
-  msg string
+	msg string
 }
+
 func (h handshakingFailure) Error() string {
-  return h.msg
+	return h.msg
 }
 
 type MSession struct {
@@ -260,6 +262,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	go session.readRoutine()
 
 	// (help_getConfig)
+	var x response
 	resp := make(chan response, 1)
 	session.queueSend <- packetToSend{
 		msg: TL_invokeWithLayer{
@@ -276,14 +279,14 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 		},
 		resp: resp,
 	}
-	var x response
 	select {
 	case x = <-resp:
 		if x.err != nil {
-			return x.err
+			return fmt.Errorf("TL_invokeWithLayer Failure:", x.err)
 		}
 	case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
 		return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
+		//slog.Logf(session, "TL_invokeWithLayer Timeout(%f s)\n", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
 	}
 
 	switch x.data.(type) {
@@ -328,10 +331,11 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	select {
 	case x = <-resp:
 		if x.err != nil {
-			return x.err
+			fmt.Errorf("TL_updates_getState Failure:", x.err)
 		}
 	case <-time.After(TIMEOUT_UPDATES_GETSTATE):
-		return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+		session.close()
+		fmt.Errorf("TL_updates_getState Timeout(%f s)\n", TIMEOUT_UPDATES_GETSTATE.Seconds())
 	}
 
 	// start keep alive ping

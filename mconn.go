@@ -9,11 +9,11 @@ import (
 )
 
 const (
-	TIMEOUT_SESSION_BINDING   = 3 * time.Second
 	TIMEOUT_RPC               = 5 * time.Second
-	TIMEOUT_INVOKE_WITH_LAYER = TIMEOUT_RPC
-	TIMEOUT_UPDATES_GETSTATE  = TIMEOUT_RPC
-	DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
+	TIMEOUT_INVOKE_WITH_LAYER = 3 * time.Second
+	TIMEOUT_UPDATES_GETSTATE  = 3 * time.Second
+	TIMEOUT_SESSION_BINDING   = TIMEOUT_INVOKE_WITH_LAYER + TIMEOUT_UPDATES_GETSTATE
+	//DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
 )
 
 // MConn does not touch sessions.
@@ -30,10 +30,10 @@ type MConn struct {
 }
 
 // open, close, and bind should be done by MManager
-func newConnection(connListener chan MEvent) (*MConn, error) {
-	if connListener == nil {
-		return nil, fmt.Errorf("nil listener")
-	}
+func newConnection(connListener chan MEvent) *MConn {
+	//if connListener == nil {
+	//	return nil, fmt.Errorf("nil listener")
+	//}
 	mconn := new(MConn)
 	rand.Seed(time.Now().UnixNano())
 	mconn.connId = rand.Int31()
@@ -47,7 +47,8 @@ func newConnection(connListener chan MEvent) (*MConn, error) {
 	go mconn.monitorSession()
 
 	mconn.notify(ConnectionOpened{mconn})
-	return mconn, nil
+	//return mconn, nil
+	return mconn
 }
 
 func (mconn *MConn) bind(session *MSession) error {
