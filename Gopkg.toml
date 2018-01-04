@@ -26,9 +26,9 @@
   version = "0.1.0"
 
 [[constraint]]
-  name = "github.com/cjongseok/slog"
-  version = "0.1.0"
-
-[[constraint]]
   name = "github.com/montanaflynn/stats"
   version = "0.2.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/cjongseok/slog"
