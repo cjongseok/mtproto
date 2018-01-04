@@ -338,16 +338,30 @@ func main() {
       //	handleError(err)
       //	fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
 
-    case "allchats": 	// $ allchats
-      if len(args) != 1 {
+    case "allchats": 	// $ allchats [-f <filename>]
+      switch len(args) {
+      case 1:
+        resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getAllChats{make([]int32, 0)})
+        handleError(err)
+        log.Println(*resp)
+        fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
+      case 3:
+        if args[1] == "-f" {
+          resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getAllChats{make([]int32, 0)})
+          handleError(err)
+          log.Println(*resp)
+          f, err := os.OpenFile(args[2], os.O_CREATE | os.O_WRONLY, 0666)
+          if err != nil {
+            fmt.Printf("Cannot create/open file (%s): %v\n", args[2], err)
+          } else {
+            f.WriteString(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
+          }
+        } else {
+          help()
+        }
+      default:
         help()
-        break
       }
-      resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getAllChats{make([]int32, 0)})
-      log.Println(*resp)
-      handleError(err)
-      fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
-
       //case "search":
       //	resp, err := mconn.InvokeBlocked(mtproto.TL_contacts_search{args[0], 0})
 
