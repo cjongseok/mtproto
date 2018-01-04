@@ -26,7 +26,7 @@ type MManager struct {
 	appConfig               Configuration
 	conns                   map[int32]*MConn
 	sessions                map[int64]*MSession
-	stuckSessions           map[int64]*MSession
+	stuckSessions           map[int64]int32
 	eventq                  chan MEvent
 	refreshSessionThrotttle map[int64]int
 
@@ -49,7 +49,7 @@ func NewManager(appConfig Configuration) (*MManager, error) {
 	//TODO: set proper buf size to channels
 	mm.conns = make(map[int32]*MConn)
 	mm.sessions = make(map[int64]*MSession)
-	mm.stuckSessions = make(map[int64]*MSession)
+	mm.stuckSessions = make(map[int64]int32)
 	mm.eventq = make(chan MEvent)
 	mm.refreshSessionThrotttle = make(map[int64]int)
 	mm.manageInterrupter = make(chan struct{})
@@ -191,9 +191,9 @@ func (mm *MManager) manageRoutine() {
 					}
 				}()
 
-			// In normal case, three resp events,
-			// SessionEstablished, ConnectionOpened, sessionBound,
-			// are generated and propagated.
+				// In normal case, three resp events,
+				// SessionEstablished, ConnectionOpened, sessionBound,
+				// are generated and propagated.
 			case loadsession:
 				go func() {
 					mm.manageWaitGroup.Add(1)
@@ -205,10 +205,18 @@ func (mm *MManager) manageRoutine() {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure", err)
 						slog.Logln(mm, "connect failure:", err)
-						session.connId = e.connId
+						switch err.(type) {
+						case handshakingFailure:
+							mm.stuckSessions[session.sessionId] = e.connId // register the stuck session
+							// usually TCP resets causes stuck sessions, and the sessions are refreshed in the cases.
+							// Sometimes TCP t/o makes stuck sessions, and the sessions are refreshed as well,
+							// however it takes too long to be identified.
+							// So trigger the refresh session by closing the TCP connection
+              //mm.eventq <- refreshSession{session.sessionId, session.phonenumber, nil}
+              session.close()
+						}
 						//TODO: separate the handshaking error into two cases and trigger refreshSession on tcp dialing
 						// failure
-						mm.stuckSessions[session.sessionId] = session // register as stuck session
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
 						// Bind the session with mconn and mmanager
@@ -239,9 +247,9 @@ func (mm *MManager) manageRoutine() {
 					slog.Logf(mm, "session established %d\n\n", e.session.sessionId)
 				}()
 
-			// In normal case, an event,
-			// SessionDiscarded,
-			// is generated and propagated.
+				// In normal case, an event,
+				// SessionDiscarded,
+				// is generated and propagated.
 			case discardSession:
 				go func() {
 					mm.manageWaitGroup.Add(1)
@@ -275,9 +283,9 @@ func (mm *MManager) manageRoutine() {
 					delete(mm.sessions, e.discardedSessionId) // Late deregistration
 				}()
 
-			// In normal case, five events,
-			// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
-			// are generated and propagated.
+				// In normal case, five events,
+				// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
+				// are generated and propagated.
 			case renewSession:
 				go func() {
 					mm.manageWaitGroup.Add(1)
@@ -315,9 +323,9 @@ func (mm *MManager) manageRoutine() {
 					slog.Logln(mm, "renewSession done")
 				}()
 
-			// In normal case, five events,
-			// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
-			// are generated and propagated.
+				// In normal case, five events,
+				// discardSesseion, (SessionDiscarded), newsession, (SessionEstablished, ConnectionOpened, sessionBound),
+				// are generated and propagated.
 			case refreshSession:
 				// throttle the refreshSession
 				if mm.refreshSessionThrotttle[e.(refreshSession).sessionId] > 0 {
@@ -332,9 +340,12 @@ func (mm *MManager) manageRoutine() {
 					slog.Logln(mm, "refreshSession ", e.sessionId)
 					//TODO: alternate the spin lock
 					// Wait for session registration and binding for graceful refreshing
-					spinLock := false
-					if mm.sessions[e.sessionId] == nil {
-						spinLock = true
+					var connId int32
+					spinLock := true
+					skipDiscardSession := false
+					if mm.sessions[e.sessionId] != nil {
+						connId = mm.sessions[e.sessionId].connId
+						spinLock = false
 					}
 					for spinLock {
 						select {
@@ -343,34 +354,36 @@ func (mm *MManager) manageRoutine() {
 							if mm.sessions[e.sessionId] != nil {
 								if mm.sessions[e.sessionId].connId != 0 {
 									spinLock = false
+									connId = mm.sessions[e.sessionId].connId
 									slog.Logln(mm, "spinlocked. session(%d) is bound. Release the lock now.", e.sessionId)
 								} else {
-									slog.Logf(mm, "spinlocked. wait for the session binding. (mm.sessions[%d]=%v)\n",
-										e.sessionId, mm.sessions[e.sessionId])
+									slog.Logf(mm, "spinlocked. wait for the session(%d) binding.\n", e.sessionId)
 								}
-							} else if mm.stuckSessions[e.sessionId] != nil {
+							} else if mm.stuckSessions[e.sessionId] != 0 {
 								spinLock = false
+								skipDiscardSession = true
+								connId = mm.stuckSessions[e.sessionId]
 								delete(mm.stuckSessions, e.sessionId)
-								slog.Logf(mm, "spinlocked. Session(%d) is stuck on either invokeWithLayer or"+
+								slog.Logf(mm, "spinlocked. Session(%d) is stuck on either invokeWithLayer or "+
 									"updatesGetState. Release the lock now and skip discardSession.\n", e.sessionId)
 							} else {
-								slog.Logf(mm, "spinlocked. Session(%d) is waiting for a response from either"+
+								slog.Logf(mm, "spinlocked. Session(%d) is waiting for a response from either "+
 									"invokeWithLayer or updatesGetState.\n", e.sessionId)
 							}
 						}
 					}
-					connId := mm.sessions[e.sessionId].connId
 
-					// Req discardSession
-					disconnectRespCh := make(chan sessionResponse)
-					//mm.eventq <- discardSession{e.SessionId(), disconnectRespCh}
-					mm.sessions[e.sessionId].notify(discardSession{connId, e.sessionId, disconnectRespCh})
+					if !skipDiscardSession {
+						// Req discardSession
+						disconnectRespCh := make(chan sessionResponse)
+						mm.sessions[e.sessionId].notify(discardSession{connId, e.sessionId, disconnectRespCh})
 
-					// Wait for disconnected event
-					disconnectResp := <-disconnectRespCh
-					if disconnectResp.err != nil {
-						slog.Logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
-						return
+						// Wait for disconnected event
+						disconnectResp := <-disconnectRespCh
+						if disconnectResp.err != nil {
+							slog.Logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
+							return
+						}
 					}
 
 					// Req loadsession
