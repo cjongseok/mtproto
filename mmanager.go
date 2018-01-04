@@ -164,7 +164,8 @@ func (mm *MManager) manageRoutine() {
 					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						slog.Fatalln(mm, "connect failure: ", err)
+						//slog.Fatalln(mm, "connect failure: ", err)
+						slog.Logln(mm, "connect failure:", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
 					} else {
@@ -200,7 +201,8 @@ func (mm *MManager) manageRoutine() {
 					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						slog.Fatalln(mm, "connect failure", err)
+						//slog.Fatalln(mm, "connect failure", err)
+						slog.Logln(mm, "connect failure:", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
 					} else {

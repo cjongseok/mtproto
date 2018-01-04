@@ -667,7 +667,8 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 				wg.Add(1)
 				t.Reset(interval)
 				if err != nil {
-					slog.Fatalln(session, "send: ", err)
+					//slog.Fatalln(session, "send: ", err)
+					slog.Logln(session, "send err:", err)
 				}
 			}
 		}
