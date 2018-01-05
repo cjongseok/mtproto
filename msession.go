@@ -656,7 +656,6 @@ func (session *MSession) pingRoutine() {
 		  session.isPing = false
 			return
 		case <-time.After(session.appConfig.PingInterval):
-			slog.Logln(session, "ping")
 			session.queueSend <- packetToSend{TL_ping{0xCADACADA}, nil}
 		}
 	}
@@ -688,7 +687,9 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 			return
 		case x := <-session.queueSend:
 			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
-			slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
+			if _, ok := x.msg.(TL_ping); !ok {
+        slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
+      }
 			if x.msg != nil {
 				//TODO: alternate interval based scheduler with frequency scheduler
 				wg.Wait()
@@ -728,7 +729,9 @@ func (session *MSession) readRoutine() {
 			defer innerRoutineWG.Done()
 
 			data, err := session.read()
-			slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			if _, ok := data.(TL_pong); !ok {
+        slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+      }
 			//slog.Logf(session, "read: %s\n", slog.Stringify(data))
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect

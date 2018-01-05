@@ -244,7 +244,7 @@ func (mm *MManager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(SessionEstablished)
-					slog.Logf(mm, "session established %d\n\n", e.session.sessionId)
+					slog.Logf(mm, "session established %d\n", e.session.sessionId)
 				}()
 
 				// In normal case, an event,
