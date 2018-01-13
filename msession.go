@@ -341,11 +341,11 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	select {
 	case x = <-resp:
 		if x.err != nil {
-			return fmt.Errorf("TL_updates_getState Failure:", x.err)
+			return fmt.Errorf("TL_updates_getState Failure: %s", x.err)
 		}
 	case <-time.After(TIMEOUT_UPDATES_GETSTATE):
-		session.close()
-		return fmt.Errorf("TL_updates_getState Timeout(%f s)\n", TIMEOUT_UPDATES_GETSTATE.Seconds())
+		//session.close()
+		return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
 	}
 
 	// start keep alive ping
