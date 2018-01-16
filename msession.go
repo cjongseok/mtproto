@@ -107,10 +107,10 @@ func (session *MSession) close() {
 
 	// notify that the connection is gracefully closed
 	if session.updatesState == nil {
-    session.notify(SessionDiscarded{session.connId, session.sessionId, TL_updates_state{}})
-  } else {
-    session.notify(SessionDiscarded{session.connId, session.sessionId, *session.updatesState})
-  }
+		session.notify(SessionDiscarded{session.connId, session.sessionId, TL_updates_state{}})
+	} else {
+		session.notify(SessionDiscarded{session.connId, session.sessionId, *session.updatesState})
+	}
 	session.listeners = nil
 }
 
@@ -626,34 +626,34 @@ func (session *MSession) saveSession() (err error) {
 }
 
 func (session *MSession) stopRead() {
-  if session.isReading {
-    close(session.readInterrupter)
-  }
+	if session.isReading {
+		close(session.readInterrupter)
+	}
 }
 
 func (session *MSession) stopSend() {
-  if session.isSending {
-    close(session.sendInterrupter)
-    close(session.queueSend)
-  }
+	if session.isSending {
+		close(session.sendInterrupter)
+		close(session.queueSend)
+	}
 }
 
 func (session *MSession) stopPing() {
-  if session.isPing {
-    close(session.pingInterrupter)
-  }
+	if session.isPing {
+		close(session.pingInterrupter)
+	}
 }
 
 func (session *MSession) pingRoutine() {
 	slog.Logln(session, "ping: start")
 	defer func() {
-	  session.isPing = false
-	  session.pingWaitGroup.Done()
-  }()
+		session.isPing = false
+		session.pingWaitGroup.Done()
+	}()
 	for {
 		select {
 		case <-session.pingInterrupter:
-		  session.isPing = false
+			session.isPing = false
 			return
 		case <-time.After(session.appConfig.PingInterval):
 			session.queueSend <- packetToSend{TL_ping{0xCADACADA}, nil}
@@ -664,9 +664,9 @@ func (session *MSession) pingRoutine() {
 func (session *MSession) sendRoutine(interval time.Duration) {
 	slog.Logln(session, "send: start")
 	defer func() {
-	  session.isSending = false
-	  session.sendWaitGroup.Done()
-  }()
+		session.isSending = false
+		session.sendWaitGroup.Done()
+	}()
 	wg := sync.WaitGroup{}
 	t := time.NewTimer(interval)
 	go func() {
@@ -688,8 +688,8 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 		case x := <-session.queueSend:
 			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			if _, ok := x.msg.(TL_ping); !ok {
-        slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
-      }
+				slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
+			}
 			if x.msg != nil {
 				//TODO: alternate interval based scheduler with frequency scheduler
 				wg.Wait()
@@ -708,9 +708,9 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 func (session *MSession) readRoutine() {
 	slog.Logln(session, "read: start")
 	defer func() {
-	  session.isReading = false
-	  session.readWaitGroup.Done()
-  }()
+		session.isReading = false
+		session.readWaitGroup.Done()
+	}()
 
 	innerRoutineWG := sync.WaitGroup{}
 
@@ -730,8 +730,8 @@ func (session *MSession) readRoutine() {
 
 			data, err := session.read()
 			if _, ok := data.(TL_pong); !ok {
-        slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
-      }
+				slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
+			}
 			//slog.Logf(session, "read: %s\n", slog.Stringify(data))
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
@@ -746,11 +746,11 @@ func (session *MSession) readRoutine() {
 					// 2. after authentication, there could be an accidental disconnection. -> need to refresh
 					refresh(session)
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
-          slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
-          refresh(session)
-        } else if strings.Contains(err.Error(), "i/o timeout") {
-          slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
-          refresh(session)
+					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					refresh(session)
+				} else if strings.Contains(err.Error(), "i/o timeout") {
+					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					refresh(session)
 				} else {
 					slog.Logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
 					refresh(session)
@@ -763,7 +763,7 @@ func (session *MSession) readRoutine() {
 		select {
 		case <-session.readInterrupter:
 			slog.Logln(session, "read: wait for inner routine ...")
-      session.isReading = false
+			session.isReading = false
 			innerRoutineWG.Wait()
 			slog.Logln(session, "read: stop")
 			return

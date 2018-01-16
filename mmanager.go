@@ -212,8 +212,8 @@ func (mm *MManager) manageRoutine() {
 							// Sometimes TCP t/o makes stuck sessions, and the sessions are refreshed as well,
 							// however it takes too long to be identified.
 							// So trigger the refresh session by closing the TCP connection
-              //mm.eventq <- refreshSession{session.sessionId, session.phonenumber, nil}
-              session.close()
+							//mm.eventq <- refreshSession{session.sessionId, session.phonenumber, nil}
+							session.close()
 						}
 						//TODO: separate the handshaking error into two cases and trigger refreshSession on tcp dialing
 						// failure
