@@ -128,7 +128,7 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 		session.addr = addr
 		session.useIPv6 = useIPv6
 		session.encrypted = false
-		err = session.open(appConfig, sessionListener)
+		err = session.open(appConfig, sessionListener, false)
 		if err != nil {
 			return nil, err
 		}
@@ -205,7 +205,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 	//fmt.Println("addr:", session.addr)
 	//fmt.Println("ipv6:", session.useIPv6)
 	if err == nil {
-		err = session.open(appConfig, sessionListener)
+		err = session.open(appConfig, sessionListener, true)
 		if err == nil {
 			return session, nil
 		}
@@ -218,7 +218,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 	return nil, fmt.Errorf("Load Session Failure: cannot get session info:", err)
 }
 
-func (session *MSession) open(appConfig Configuration, sessionListener chan MEvent) error {
+func (session *MSession) open(appConfig Configuration, sessionListener chan MEvent, getUpdateStates bool) error {
 	var err error
 	var tcpAddr *net.TCPAddr
 
@@ -331,21 +331,23 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 	}
 
 	// get updates state
-	//TODO: From second session, query getUpdatesState with invokeWithLayer and initConnection
 	session.updatesState = new(TL_updates_state)
-	resp = make(chan response, 1)
-	session.queueSend <- packetToSend{
-		msg:  TL_updates_getState{},
-		resp: resp,
-	}
-	select {
-	case x = <-resp:
-		if x.err != nil {
-			return fmt.Errorf("TL_updates_getState Failure: %s", x.err)
+	if getUpdateStates {
+		//TODO: From second session, query getUpdatesState with invokeWithLayer and initConnection
+		resp = make(chan response, 1)
+		session.queueSend <- packetToSend{
+			msg:  TL_updates_getState{},
+			resp: resp,
 		}
-	case <-time.After(TIMEOUT_UPDATES_GETSTATE):
-		//session.close()
-		return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+		select {
+		case x = <-resp:
+			if x.err != nil {
+				return fmt.Errorf("TL_updates_getState Failure: %s", x.err)
+			}
+		case <-time.After(TIMEOUT_UPDATES_GETSTATE):
+			//session.close()
+			return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+		}
 	}
 
 	// start keep alive ping

@@ -332,6 +332,60 @@ func main() {
 			//	log.Println(*resp)
 			//	handleError(err)
 			//	fmt.Println(slog.StringifyIndent((*resp).(mtproto.TL_messages_chats).Unstrip(), "  "))
+		case "chanids":	// $ chanids [-f <filename>]
+			//if len(args) != 1 {
+			//	help()
+			//	break
+			//}
+			var out *os.File
+			switch len(args) {
+			case 1:
+				out = os.Stdout
+			case 3:
+				if args[1] != "-f" {
+					help()
+					break
+				}
+				var err error
+				out, err = os.OpenFile(args[2], os.O_CREATE|os.O_WRONLY, 0666)
+				if err != nil {
+					fmt.Printf("Cannot create/open file (%s): %v\n", args[2], err)
+					break
+				}
+			default:
+				help()
+				break
+			}
+			resp, err := mconn.InvokeBlocked(mtproto.TL_messages_getAllChats{make([]int32, 0)})
+			handleError(err)
+			channels := (*resp).(mtproto.TL_messages_chats).Unstrip().(mtproto.US_messages_chats).Channels
+			chanIds(channels, out)
+
+		case "join": // $ join <channel...>
+			if len(args) == 1 {
+				help()
+				break
+			}
+
+			// convert channel list into a slice
+			var channels []int32
+			for i := 1; i < len(args); i++ {
+				c, err := strconv.ParseInt(args[i], 10, 32)
+				if err != nil {
+					fmt.Printf("%s is not a channel ID\n", args[i])
+					break
+				}
+				channels = append(channels, int32(c))
+			}
+
+			// join channels
+			for _, id := range channels {
+				resp, err := mconn.InvokeBlocked(mtproto.TL_channels_joinChannel{mtproto.TL_inputChannel{id, 0}})
+				if err != nil {
+					fmt.Printf("join channel(%d) failure: %v\n", id, err)
+				}
+				log.Println(slog.Stringify(*resp))
+			}
 
 		case "allchats": // $ allchats [-f <filename>]
 			switch len(args) {
@@ -408,4 +462,81 @@ func parseInputChannel(id string, hash string) (*mtproto.TL_inputChannel, error)
 	inputchannel.Channel_id = int32(id64)
 	inputchannel.Access_hash = hash64
 	return inputchannel, nil
+}
+
+func chanIds(channels []mtproto.TL_channel, out *os.File) {
+	titleToConstName := func(title string) (string, error) {
+		r := regexp.MustCompile("[a-zA-Z0-9]")
+		replaced := strings.Replace(title, " ", "", -1)
+		var runes []rune
+		strs := r.FindAllString(replaced, -1)
+		for _, s := range strs {
+			runes = append(runes, []rune(s)...)
+		}
+		//for len(runes) > 1 && runes[0] == '_' {
+		//  runes = runes[1:]
+		//}
+		//for len(runes) > 1 && runes[len(runes)-1] == '_' {
+		//  runes = runes[:len(runes)-2]
+		//}
+		if len(runes) == 0 { //} || runes[0] == '_' || runes[len(runes)-1] == '_' {
+			return "", fmt.Errorf("No Valid Character in Title")
+		}
+		return string(runes), nil
+	}
+
+	// build const map
+	const (
+		ChannelIdConstPrefix   = "TL_Channel_Id_"
+		ChannelHashConstPrefix = "TL_Channel_Hash_"
+	)
+	constMap := make(map[string]int32)
+	usernameMap := make(map[string]string)
+	hashMap := make(map[string]int64)
+	for _, c := range channels {
+		constName, err := titleToConstName(c.Title)
+		if err != nil {
+			constName = "Untitle"
+		}
+		i := 2
+
+		constName = ChannelIdConstPrefix + constName
+		uniqueName := constName
+		for {
+			if _, ok := constMap[uniqueName]; !ok {
+				break
+			}
+			uniqueName = fmt.Sprintf("%s_%d", constName, i)
+			i++
+		}
+		constMap[uniqueName] = c.Id
+		usernameMap[uniqueName] = c.Username
+		hashMap[uniqueName] = c.Access_hash
+	}
+
+	// print out consts
+	fmt.Fprintf(out, "//Channel IDs\nconst (\n")
+	for c, id := range constMap {
+		//fmt.Printf("%s = %d\n", c, id)
+		fmt.Fprintf(out, "%s = %d\n", c, id)
+	}
+	//fmt.Println("=========================")
+	fmt.Fprintf(out, ")\n\n//Hashes\nconst (\n")
+	for c, h := range hashMap {
+		hashConstName := strings.Replace(c, ChannelIdConstPrefix, ChannelHashConstPrefix, 1)
+		//fmt.Printf("%s = %d\n", hashConstName, h)
+		fmt.Fprintf(out, "%s = %d\n", hashConstName, h)
+	}
+	fmt.Fprintf(out, ")\n\n//Hash Map\nvar Hashes = map[int32]int64{\n")
+	for c, _ := range hashMap {
+		hashConstName := strings.Replace(c, ChannelIdConstPrefix, ChannelHashConstPrefix, 1)
+		//fmt.Printf("%s = %d\n", hashConstName, h)
+		//fmt.Fprintf(out, "%s = %d\n", hashConstName, h)
+		fmt.Fprintf(out, "%s: %s,\n", c, hashConstName)
+	}
+	fmt.Fprintln(out, "}")
+	//for c, u := range usernameMap {
+	//  fmt.Printf("%s: \"%s\",\n", c, u)
+	//}
+
 }

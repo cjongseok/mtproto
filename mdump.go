@@ -289,6 +289,7 @@ func (md *MDump) readRoutine() {
 		case data := <-ch:
 			if data == nil {
 				//slog.Logln(md.readRoutine, "data is nil")
+				md.updateCallback.OnUpdate(nil)
 				return
 			}
 			md.process(data)
