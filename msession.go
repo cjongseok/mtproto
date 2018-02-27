@@ -118,7 +118,7 @@ func sessionFilePath(sessionFileHome string, phonenumber string) string {
 	return sessionFileHome + "/.telegram_" + phonenumber
 }
 
-func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configuration, sessionListener chan MEvent) (*MSession, error) {
+func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configuration, /*sendQueue chan packetToSend,*/ sessionListener chan MEvent) (*MSession, error) {
 	var err error
 
 	session := new(MSession)
@@ -128,7 +128,7 @@ func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configu
 		session.addr = addr
 		session.useIPv6 = useIPv6
 		session.encrypted = false
-		err = session.open(appConfig, sessionListener, false)
+		err = session.open(appConfig, /*sendQueue,*/ sessionListener, false)
 		if err != nil {
 			return nil, err
 		}
@@ -155,7 +155,7 @@ func byteArrayString2byteArray(str string) []byte {
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
-func loadSession(phonenumber string, preferredAddr string, appConfig Configuration, sessionListener chan MEvent) (*MSession, error) {
+func loadSession(phonenumber string, preferredAddr string, appConfig Configuration, /*sendQueue chan packetToSend,*/ sessionListener chan MEvent) (*MSession, error) {
 	// session file exists?
 	sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
 	_, err := os.Stat(sessionfile)
@@ -199,13 +199,8 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 			}
 		}
 	}
-	//fmt.Println("authkey:", session.authKey)
-	//fmt.Println("authHash:", session.authKeyHash)
-	//fmt.Println("salt:", session.serverSalt)
-	//fmt.Println("addr:", session.addr)
-	//fmt.Println("ipv6:", session.useIPv6)
 	if err == nil {
-		err = session.open(appConfig, sessionListener, true)
+		err = session.open(appConfig, /*sendQueue,*/ sessionListener, true)
 		if err == nil {
 			return session, nil
 		}
@@ -218,7 +213,7 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 	return nil, fmt.Errorf("Load Session Failure: cannot get session info:", err)
 }
 
-func (session *MSession) open(appConfig Configuration, sessionListener chan MEvent, getUpdateStates bool) error {
+func (session *MSession) open(appConfig Configuration, /*sendQueue chan packetToSend,*/ sessionListener chan MEvent, getUpdateStates bool) error {
 	var err error
 	var tcpAddr *net.TCPAddr
 
@@ -253,6 +248,7 @@ func (session *MSession) open(appConfig Configuration, sessionListener chan MEve
 
 	// start goroutines
 	session.queueSend = make(chan packetToSend, 64)
+	//session.queueSend = sendQueue
 	session.sendInterrupter = make(chan struct{})
 	session.readInterrupter = make(chan struct{})
 	session.pingInterrupter = make(chan struct{})
@@ -416,178 +412,185 @@ func (session *MSession) notify(e MEvent) {
 }
 
 func (session *MSession) process(msgId int64, seqNo int32, data interface{}) interface{} {
-	switch data.(type) {
-	case TL_msg_container:
-		data := data.(TL_msg_container).Items
-		for _, v := range data {
-			session.process(v.Msg_id, v.Seq_no, v.Data)
+	returned := func() interface{} {
+		switch data.(type) {
+		case TL_msg_container:
+			data := data.(TL_msg_container).Items
+			for _, v := range data {
+				session.process(v.Msg_id, v.Seq_no, v.Data)
+			}
+
+		case TL_bad_server_salt:
+			data := data.(TL_bad_server_salt)
+			session.serverSalt = data.new_server_salt
+			// save the session on sign in
+			_ = session.saveSession()
+			session.mutex.Lock()
+			defer session.mutex.Unlock()
+			for k, v := range session.msgsIdToAck {
+				delete(session.msgsIdToAck, k)
+				session.queueSend <- v
+			}
+
+		case TL_new_session_created:
+			data := data.(TL_new_session_created)
+			session.serverSalt = data.server_salt
+			// save the session on sign in
+			_ = session.saveSession()
+
+		case TL_ping:
+			data := data.(TL_ping)
+			session.queueSend <- packetToSend{TL_pong{msgId, data.ping_id}, nil}
+
+		case TL_pong:
+			// ignore
+
+		case TL_msgs_ack:
+			data := data.(TL_msgs_ack)
+			session.mutex.Lock()
+			defer session.mutex.Unlock()
+			for _, v := range data.msgIds {
+				delete(session.msgsIdToAck, v)
+			}
+
+		case TL_rpc_result:
+			data := data.(TL_rpc_result)
+			x := session.process(msgId, seqNo, data.Obj)
+			session.mutex.Lock()
+			defer session.mutex.Unlock()
+			v, ok := session.msgsIdToResp[data.req_msg_id]
+			if ok {
+				go func() {
+					var resp response
+					rpcError, ok := x.(TL_rpc_error)
+					if ok {
+						//resp.err = session.handleRPCError(rpcError)
+						resp.err = rpcError
+					}
+					resp.data = x.(TL)
+					v <- resp
+					close(v)
+				}()
+			}
+			delete(session.msgsIdToAck, data.req_msg_id)
+
+			//TODO: Update classifier should be auto-generated from scheme.tl
+			//TODO: how to handle seq?
+			// Date, Pts, Qts updates
+		case TL_updates_state:
+			data := data.(TL_updates_state)
+			session.updatesState.Pts = data.Pts
+			session.updatesState.Qts = data.Qts
+			session.updatesState.Date = data.Date
+			session.updatesState.Seq = data.Seq
+			marshaled, err := json.Marshal(data)
+			if err == nil {
+				slog.Logf(session, "updatesState: %s\n", marshaled)
+			} else {
+				slog.Logf(session, "updatesState: %v\n", data)
+			}
+			return data
+
+			// Date updates
+		case TL_updates:
+			data := data.(TL_updates)
+			session.updatesState.Date = data.Date
+			session.updatesState.Seq = data.Seq
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateShort:
+			data := data.(TL_updateShort)
+			//session.updatesState.Pts ++	//TODO: need to comment in it?
+			session.updatesState.Date = data.Date
+			session.notify(updateReceived{data})
+			return data
+
+			// Pts updates
+		case TL_updateNewMessage:
+			data := data.(TL_updateNewMessage)
+			session.updatesState.Pts = data.Pts
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateReadMessagesContents:
+			data := data.(TL_updateReadMessagesContents)
+			session.updatesState.Pts = data.Pts
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateDeleteMessages:
+			data := data.(TL_updateDeleteMessages)
+			session.updatesState.Pts = data.Pts
+			session.notify(updateReceived{data})
+			return data
+
+			// Pts and Date updates
+		case TL_updateShortMessage:
+			data := data.(TL_updateShortMessage)
+			session.updatesState.Pts = data.Pts
+			session.updatesState.Date = data.Date
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateShortChatMessage:
+			data := data.(TL_updateShortChatMessage)
+			session.updatesState.Pts = data.Pts
+			session.updatesState.Date = data.Date
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateShortSentMessage:
+			data := data.(TL_updateShortSentMessage)
+			session.updatesState.Pts = data.Pts
+			session.updatesState.Date = data.Date
+			session.notify(updateReceived{data})
+			return data
+
+			// Qts updates
+		case TL_updateNewEncryptedMessage:
+			data := data.(TL_updateNewEncryptedMessage)
+			session.updatesState.Qts = data.Qts
+			session.notify(updateReceived{data})
+			return data
+
+			// Channel updates
+		case TL_updateChannel:
+			data := data.(TL_updateChannel)
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateChannelMessageViews:
+			data := data.(TL_updateChannelMessageViews)
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateChannelTooLong:
+			data := data.(TL_updateChannelTooLong)
+			session.updatesState.Pts = data.Pts
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateReadChannelInbox:
+			data := data.(TL_updateReadChannelInbox)
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateReadChannelOutbox:
+			data := data.(TL_updateReadChannelOutbox)
+			session.notify(updateReceived{data})
+			return data
+		case TL_updateNewChannelMessage:
+			data := data.(TL_updateNewChannelMessage)
+			session.updatesState.Pts = data.Pts
+			session.notify(updateReceived{data})
+			return data
+
+		default:
+			marshaled, err := json.Marshal(data)
+			if err == nil {
+				slog.Logf(session, "process: unknown data type %T {%s}\n", data, marshaled)
+			} else {
+				slog.Logf(session, "process: unknown data type %T {%v}\n", data, data)
+			}
+			return data
 		}
+		return nil
+	}()
 
-	case TL_bad_server_salt:
-		data := data.(TL_bad_server_salt)
-		session.serverSalt = data.new_server_salt
-		// save the session on sign in
-		_ = session.saveSession()
-		session.mutex.Lock()
-		defer session.mutex.Unlock()
-		for k, v := range session.msgsIdToAck {
-			delete(session.msgsIdToAck, k)
-			session.queueSend <- v
-		}
-
-	case TL_new_session_created:
-		data := data.(TL_new_session_created)
-		session.serverSalt = data.server_salt
-		// save the session on sign in
-		_ = session.saveSession()
-
-	case TL_ping:
-		data := data.(TL_ping)
-		session.queueSend <- packetToSend{TL_pong{msgId, data.ping_id}, nil}
-
-	case TL_pong:
-		// ignore
-
-	case TL_msgs_ack:
-		data := data.(TL_msgs_ack)
-		session.mutex.Lock()
-		defer session.mutex.Unlock()
-		for _, v := range data.msgIds {
-			delete(session.msgsIdToAck, v)
-		}
-
-	case TL_rpc_result:
-		data := data.(TL_rpc_result)
-		x := session.process(msgId, seqNo, data.Obj)
-		session.mutex.Lock()
-		defer session.mutex.Unlock()
-		v, ok := session.msgsIdToResp[data.req_msg_id]
-		if ok {
-			go func() {
-				var resp response
-				rpcError, ok := x.(TL_rpc_error)
-				if ok {
-					//resp.err = session.handleRPCError(rpcError)
-					resp.err = rpcError
-				}
-				resp.data = x.(TL)
-				v <- resp
-				close(v)
-			}()
-		}
-		delete(session.msgsIdToAck, data.req_msg_id)
-
-	//TODO: Update classifier should be auto-generated from scheme.tl
-	//TODO: how to handle seq?
-	// Date, Pts, Qts updates
-	case TL_updates_state:
-		data := data.(TL_updates_state)
-		session.updatesState.Pts = data.Pts
-		session.updatesState.Qts = data.Qts
-		session.updatesState.Date = data.Date
-		session.updatesState.Seq = data.Seq
-		marshaled, err := json.Marshal(data)
-		if err == nil {
-			slog.Logf(session, "updatesState: %s\n", marshaled)
-		} else {
-			slog.Logf(session, "updatesState: %v\n", data)
-		}
-		return data
-
-	// Date updates
-	case TL_updates:
-		data := data.(TL_updates)
-		session.updatesState.Date = data.Date
-		session.updatesState.Seq = data.Seq
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateShort:
-		data := data.(TL_updateShort)
-		//session.updatesState.Pts ++	//TODO: need to comment in it?
-		session.updatesState.Date = data.Date
-		session.notify(updateReceived{data})
-		return data
-
-	// Pts updates
-	case TL_updateNewMessage:
-		data := data.(TL_updateNewMessage)
-		session.updatesState.Pts = data.Pts
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateReadMessagesContents:
-		data := data.(TL_updateReadMessagesContents)
-		session.updatesState.Pts = data.Pts
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateDeleteMessages:
-		data := data.(TL_updateDeleteMessages)
-		session.updatesState.Pts = data.Pts
-		session.notify(updateReceived{data})
-		return data
-
-	// Pts and Date updates
-	case TL_updateShortMessage:
-		data := data.(TL_updateShortMessage)
-		session.updatesState.Pts = data.Pts
-		session.updatesState.Date = data.Date
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateShortChatMessage:
-		data := data.(TL_updateShortChatMessage)
-		session.updatesState.Pts = data.Pts
-		session.updatesState.Date = data.Date
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateShortSentMessage:
-		data := data.(TL_updateShortSentMessage)
-		session.updatesState.Pts = data.Pts
-		session.updatesState.Date = data.Date
-		session.notify(updateReceived{data})
-		return data
-
-	// Qts updates
-	case TL_updateNewEncryptedMessage:
-		data := data.(TL_updateNewEncryptedMessage)
-		session.updatesState.Qts = data.Qts
-		session.notify(updateReceived{data})
-		return data
-
-	// Channel updates
-	case TL_updateChannel:
-		data := data.(TL_updateChannel)
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateChannelMessageViews:
-		data := data.(TL_updateChannelMessageViews)
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateChannelTooLong:
-		data := data.(TL_updateChannelTooLong)
-		session.updatesState.Pts = data.Pts
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateReadChannelInbox:
-		data := data.(TL_updateReadChannelInbox)
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateReadChannelOutbox:
-		data := data.(TL_updateReadChannelOutbox)
-		session.notify(updateReceived{data})
-		return data
-	case TL_updateNewChannelMessage:
-		data := data.(TL_updateNewChannelMessage)
-		session.updatesState.Pts = data.Pts
-		session.notify(updateReceived{data})
-		return data
-
-	default:
-		marshaled, err := json.Marshal(data)
-		if err == nil {
-			slog.Logf(session, "process: unknown data type %T {%s}\n", data, marshaled)
-		} else {
-			slog.Logf(session, "process: unknown data type %T {%v}\n", data, data)
-		}
-		return data
+	if returned != nil {
+		return returned
 	}
 
 	// TODO: Check why I should do this
@@ -671,9 +674,13 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 	}()
 	wg := sync.WaitGroup{}
 	t := time.NewTimer(interval)
+	timerInterrupter := make(chan struct{})
 	go func() {
 		for {
 			select {
+			case <-timerInterrupter:
+				wg.Done()
+				return
 			case <-t.C:
 				wg.Done()
 			}
@@ -681,14 +688,12 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 	}()
 	for {
 		select {
-		//case <-t.C:
-		//  wg.Done()
 		case <-session.sendInterrupter:
 			slog.Logln(session, "send: stop")
 			session.isSending = false
+			close(timerInterrupter)
 			return
 		case x := <-session.queueSend:
-			//slog.Logf(session, "send: type: %v, data: %v", reflect.TypeOf(x.msg), x.msg)
 			if _, ok := x.msg.(TL_ping); !ok {
 				slog.Logf(session, "send %s\n", slog.Stringify(x.msg))
 			}
@@ -699,7 +704,6 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 				wg.Add(1)
 				t.Reset(interval)
 				if err != nil {
-					//slog.Fatalln(session, "send: ", err)
 					slog.Logln(session, "send err:", err)
 				}
 			}

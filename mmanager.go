@@ -29,6 +29,7 @@ type MManager struct {
 	stuckSessions           map[int64]int32
 	eventq                  chan MEvent
 	refreshSessionThrotttle map[int64]int
+	//queueSend chan packetToSend
 
 	manageInterrupter chan struct{}
 	manageWaitGroup   sync.WaitGroup
@@ -52,6 +53,7 @@ func NewManager(appConfig Configuration) (*MManager, error) {
 	mm.stuckSessions = make(map[int64]int32)
 	mm.eventq = make(chan MEvent)
 	mm.refreshSessionThrotttle = make(map[int64]int)
+	//mm.queueSend = make(chan packetToSend, 64)
 	mm.manageInterrupter = make(chan struct{})
 	mm.manageWaitGroup = sync.WaitGroup{}
 
@@ -163,7 +165,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(newsession)
 					slog.Logln(mm, "newsession to ", e.addr)
-					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig, mm.eventq)
+					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig, /*mm.queueSend,*/ mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure: ", err)
@@ -200,7 +202,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
 					slog.Logln(mm, "loadsession of ", e.phonenumber)
-					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, mm.eventq)
+					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, /*mm.queueSend,*/ mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure", err)
@@ -268,9 +270,11 @@ func (mm *MManager) manageRoutine() {
 					} else {
 						slog.Logf(mm, "session is discarded. keep its updates state, %v\n", session.updatesState)
 					}
-					mconn := mm.conns[e.connId]
-					mconn.discardedUpdatesState = new(TL_updates_state)
-					*mconn.discardedUpdatesState = *session.updatesState
+					if e.connId != 0 {
+						mconn := mm.conns[e.connId]
+						mconn.discardedUpdatesState = new(TL_updates_state)
+						*mconn.discardedUpdatesState = *session.updatesState
+					}
 					e.resp <- sessionResponse{e.connId, session, nil}
 				}()
 
@@ -359,10 +363,10 @@ func (mm *MManager) manageRoutine() {
 								} else {
 									slog.Logf(mm, "spinlocked. wait for the session(%d) binding.\n", e.sessionId)
 								}
-							} else if mm.stuckSessions[e.sessionId] != 0 {
+							} else if stuckSessionConnId, ok := mm.stuckSessions[e.sessionId]; ok {
 								spinLock = false
 								skipDiscardSession = true
-								connId = mm.stuckSessions[e.sessionId]
+								connId = stuckSessionConnId
 								delete(mm.stuckSessions, e.sessionId)
 								slog.Logf(mm, "spinlocked. Session(%d) is stuck on either invokeWithLayer or "+
 									"updatesGetState. Release the lock now and skip discardSession.\n", e.sessionId)

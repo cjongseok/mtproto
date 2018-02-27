@@ -9,9 +9,10 @@ import (
 )
 
 const (
+	//TODO: elastic timeout
 	TIMEOUT_RPC               = 5 * time.Second
-	TIMEOUT_INVOKE_WITH_LAYER = 5 * time.Second
-	TIMEOUT_UPDATES_GETSTATE  = 3 * time.Second
+	TIMEOUT_INVOKE_WITH_LAYER = 10 * time.Second
+	TIMEOUT_UPDATES_GETSTATE  = 7 * time.Second
 	TIMEOUT_SESSION_BINDING   = TIMEOUT_INVOKE_WITH_LAYER + TIMEOUT_UPDATES_GETSTATE
 	//DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
 )
@@ -98,6 +99,7 @@ func (mconn *MConn) InvokeBlocked(msg TL) (*TL, error) {
 			return &x.data, nil
 		}
 		return nil, x.err
+
 	case <-time.After(TIMEOUT_RPC):
 		return nil, fmt.Errorf("RPC Timeout(%f s)", TIMEOUT_RPC.Seconds())
 	}
