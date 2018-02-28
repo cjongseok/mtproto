@@ -354,6 +354,12 @@ func (session *MSession) open(appConfig Configuration, /*sendQueue chan packetTo
 	// notify the connection established
 	session.notify(SessionEstablished{session})
 
+	//fmt.Println("authKey:", session.authKey)
+	//fmt.Println("authKeyHash:", session.authKeyHash)
+	//fmt.Println("salt:", session.serverSalt)
+	//fmt.Println("addf:", session.addr)
+	//fmt.Println("ipv6:", session.useIPv6)
+
 	return nil
 }
 
@@ -679,7 +685,6 @@ func (session *MSession) sendRoutine(interval time.Duration) {
 		for {
 			select {
 			case <-timerInterrupter:
-				wg.Done()
 				return
 			case <-t.C:
 				wg.Done()
