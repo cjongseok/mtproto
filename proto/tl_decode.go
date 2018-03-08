@@ -21,10 +21,6 @@ type DecodeBuf struct {
 func NewDecodeBuf(b []byte) *DecodeBuf {
 	return &DecodeBuf{b, 0, len(b), nil}
 }
-const (
-	__debug = 10
-	DEBUG_LEVEL_DECODE_DETAILS = 0
-)
 
 func (m *DecodeBuf) Long() int64 {
 	if m.err != nil {
@@ -795,6 +791,6 @@ func (d *DecodeBuf) dump() {
 }
 
 func toBool(x TL) bool {
-	_, ok := x.(PredBoolTrue)
+	_, ok := x.(*PredBoolTrue)
 	return ok
 }

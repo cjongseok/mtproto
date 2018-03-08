@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"math"
 	"math/big"
+	"reflect"
 	"runtime"
 	"strings"
 	"time"
@@ -212,4 +213,24 @@ func (e TL_msgs_ack) encode() []byte {
 	x.UInt(crc_msgs_ack)
 	x.VectorLong(e.msgIds)
 	return x.buf
+}
+
+func toTLslice(slice interface{}) []TL {
+	if reflect.TypeOf(slice).Kind() != reflect.Slice {
+		return nil
+	}
+	s := reflect.ValueOf(slice)
+	if s.Len() < 1 {
+		return nil
+	}
+	switch s.Index(0).Interface().(type) {
+	case TL:
+		tlslice := make([]TL, s.Len())
+		for i := 0; i < s.Len(); i++ {
+			tlslice[i] = s.Index(i).Interface().(TL)
+		}
+		return tlslice
+	default:
+		return nil
+	}
 }

@@ -46,7 +46,7 @@ func normalize(s string) string {
 	until := len(x)
 	for i := 0; i < until; i++ {
 		r := x[i]
-		if r == '.' {
+		if r == '.' || r == '_' {
 			if until - i > 1 {
 				x = append(x[:i], strings.Title(string(x[i+1:]))...)
 				until--
@@ -106,7 +106,7 @@ func main() {
 	}
 
 	// process constructors
-	var _typeOrder, _predOrder, _methodOrder []string
+	var _predTypeOrder, _predOrder, _methodOrder []string
 
 	_preds := make(map[string]constructor)
 	_methods := make(map[string]constructor)
@@ -149,7 +149,7 @@ func main() {
 				_predOrder = append(_predOrder, _predicate)
 				_preds[_predicate] = constructor{_id, _predicate, _params, _type}
 				if _, ok := _predTypes[_type]; !ok {
-					_typeOrder = append(_typeOrder, _type)
+					_predTypeOrder = append(_predTypeOrder, _type)
 				}
 				_predTypes[_type] = append(_predTypes[_type], _predicate)
 			case "method":
@@ -174,14 +174,13 @@ package proto;
 import "google/protobuf/any.proto";`)
 
 
-	// types
+	// types in gRPC messages
 	fmt.Fprintf(toProto, "\n\n// Types\n")
-
 	var allTypes []string
 	for key, _ := range _nonPredTypes {
 		allTypes = append(allTypes, key)
 	}
-	allTypes = append(_typeOrder, allTypes...)
+	allTypes = append(_predTypeOrder, allTypes...)
 	for _, key := range allTypes {
 		// exclude Vector t
 		if key == "Vector t" {
@@ -223,7 +222,7 @@ import "google/protobuf/any.proto";`)
 	}
 
 	// predicates & methods in gRPC messages
-	printMessage := func(title string, c constructor) {
+	generateGRPCmessages := func(title string, c constructor) {
 		fmt.Fprintf(toProto, "message %s {\n", title)
 		for i, t := range c.params {
 			t.name = strings.Title(t.name)
@@ -276,10 +275,10 @@ import "google/protobuf/any.proto";`)
 				n, _ := fmt.Sscanf(_type, "Vector<%s", &inner)
 				if n == 1 {
 					subType := inner[:len(inner)-1]
-					//fmt.Fprintf(toProto, "\trepeated ")
 					name := t.name
 					if name == subType {
-						name = "values"
+						//name = "values"
+						name = fmt.Sprintf("%ss", name)
 					}
 					switch subType {
 					case "int":
@@ -312,7 +311,7 @@ import "google/protobuf/any.proto";`)
 		}
 		c, ok := _preds[key]
 		if ok {
-			printMessage(fmt.Sprintf("Pred%s", strings.Title(c.predicate)), c)
+			generateGRPCmessages(fmt.Sprintf("Pred%s", strings.Title(c.predicate)), c)
 		} else {
 			fmt.Fprintf(os.Stderr, "no predicate:", key)
 		}
@@ -323,7 +322,7 @@ import "google/protobuf/any.proto";`)
 	for _, key := range _methodOrder {
 		c, ok := _methods[key]
 		if ok {
-			printMessage(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
+			generateGRPCmessages(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
 		} else {
 			fmt.Fprintf(os.Stderr, "no method:", key)
 		}
@@ -366,14 +365,25 @@ import "google/protobuf/any.proto";`)
 
 
 
-
-
 	// Generate Go file
-
 	// constants
-	fmt.Fprint(toGo, "package proto\nimport \"fmt\"\nconst (\n")
+	fmt.Fprintln(toGo, `package proto
+import (
+"fmt"
+"strings"
+"github.com/golang/protobuf/ptypes"
+"github.com/golang/protobuf/ptypes/any"
+)
+`)
+	fmt.Fprintf(toGo, "// predicates crc\nconst (\n")
 	for _, key := range _predOrder {
 		c := _preds[key]
+		fmt.Fprintf(toGo, "crc_%s = %s\n", c.predicate, c.id)
+	}
+	fmt.Fprint(toGo, ")\n\n")
+	fmt.Fprintf(toGo, "// methods crc\nconst (\n")
+	for _, key := range _methodOrder {
+		c := _methods[key]
 		fmt.Fprintf(toGo, "crc_%s = %s\n", c.predicate, c.id)
 	}
 	fmt.Fprint(toGo, ")\n\n")
@@ -382,13 +392,13 @@ import "google/protobuf/any.proto";`)
 	fmt.Fprintf(toGo, "\n\n// Encode funcs for types\n")
 
 	// XXX: treat only types from predicates (ignore vector types)
-	for _, key := range _typeOrder {
+	for _, key := range _predTypeOrder {
 		// exclude Vector t
 		if key == "Vector t" {
 			continue
 		}
 		preds := _predTypes[key]
-		fmt.Fprintf(toGo, "func (e Type%s) encode() []byte {\n", strings.Title(key))
+		fmt.Fprintf(toGo, "func (e *Type%s) encode() []byte {\n", strings.Title(key))
 		switch len(preds) {
 		case 0:
 		case 1:
@@ -398,16 +408,13 @@ import "google/protobuf/any.proto";`)
 			for _, p := range preds {
 				fmt.Fprintf(toGo, "\t} else if e.GetValue() != nil {\n\t\treturn e.Get%s().encode()\n", strings.Title(p))
 			}
-			fmt.Fprintln(toGo, "\t}\n\treturn nil\n")
+			fmt.Fprintln(toGo, "\t}\n\treturn nil")
 		}
 		fmt.Fprintln(toGo, "}")
 	}
 
-	// encode funcs for predicates
-	fmt.Fprintf(toGo, "\n\n// Encode funcs for predicates\n")
-	for _, key := range _predOrder {
-		c := _preds[key]
-		fmt.Fprintf(toGo, "func (e Pred%s) encode() []byte {\n", strings.Title(c.predicate))
+	generateEncoder := func (constructorName string, c constructor) {
+		fmt.Fprintf(toGo, "func (e *%s) encode() []byte {\n", constructorName)
 		fmt.Fprint(toGo, "x := NewEncodeBuf(512)\n")
 		fmt.Fprintf(toGo, "x.UInt(crc_%s)\n", c.predicate)
 		for _, t := range c.params {
@@ -433,14 +440,19 @@ import "google/protobuf/any.proto";`)
 				case "Vector<string>":
 					fmt.Fprintf(toGo, "x.VectorString(e.%s)\n", strings.Title(t.name))
 				case "!X":
-					fmt.Fprintf(toGo, "x.Bytes(e.%s.encode())\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
 				case "Vector<double>":
 					panic(fmt.Sprintf("Unsupported %s", subType))
 				default:
 					var inner string
 					n, _ := fmt.Sscanf(subType, "Vector<%s", &inner)
 					if n == 1 {
-						fmt.Fprintf(toGo, "x.Vector(e.%s)\n", strings.Title(t.name))
+						inner = inner[:len(inner) - 1]
+						name := t.name
+						if name == inner {
+							name = fmt.Sprintf("%ss", name)
+						}
+						fmt.Fprintf(toGo, "x.Vector(toTLslice(e.%s))\n", strings.Title(name))
 					} else {
 						fmt.Fprintf(toGo, "x.Bytes(e.%s.encode())\n", strings.Title(t.name))
 					}
@@ -464,14 +476,19 @@ import "google/protobuf/any.proto";`)
 				case "Vector<string>":
 					fmt.Fprintf(toGo, "x.VectorString(e.%s)\n", strings.Title(t.name))
 				case "!X":
-					fmt.Fprintf(toGo, "x.Bytes(e.%s.encode())\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
 				case "Vector<double>":
 					panic(fmt.Sprintf("Unsupported %s", t._type))
 				default:
 					var inner string
 					n, _ := fmt.Sscanf(t._type, "Vector<%s", &inner)
 					if n == 1 {
-						fmt.Fprintf(toGo, "x.Vector(e.%s)\n", strings.Title(t.name))
+						inner = inner[:len(inner) - 1]
+						name := t.name
+						if name == inner {
+							name = fmt.Sprintf("%ss", name)
+						}
+						fmt.Fprintf(toGo, "x.Vector(toTLslice(e.%s))\n", strings.Title(name))
 					} else {
 						fmt.Fprintf(toGo, "x.Bytes(e.%s.encode())\n", strings.Title(t.name))
 					}
@@ -483,116 +500,234 @@ import "google/protobuf/any.proto";`)
 		fmt.Fprint(toGo, "}\n\n")
 	}
 
+	// predicate encoders
+	fmt.Fprintf(toGo, "\n\n// Encode funcs for predicates\n")
+	for _, key := range _predOrder {
+		if key == "vector" {
+			continue
+		}
+		c := _preds[key]
+		generateEncoder(fmt.Sprintf("Pred%s", strings.Title(c.predicate)), c)
+	}
+
+	// method encoders
+	fmt.Fprintf(toGo, "\n\n// Encode funcs for methods\n")
+	for _, key := range _methodOrder {
+		c := _methods[key]
+		generateEncoder(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
+	}
+
+	// TL slice converters to Type slice
+	for _, key := range _predTypeOrder {
+		// exclude Vector t
+		if key == "Vector t" {
+			continue
+		}
+		preds := _predTypes[key]
+		if len(preds) == 0 {
+			continue
+		}
+		fmt.Fprintf(toGo, "func toType%sSlice(tlslice []TL) (converted []*Type%s) {\n", strings.Title(key), strings.Title(key))
+		//fmt.Fprintf(toGo, "if len(tlslice) < 1 {\nreturn nil\n}\n")
+		fmt.Fprintf(toGo, "for _, tl := range tlslice {\nswitch x := tl.(type) {\n")
+		if len(preds) == 1 {
+			fmt.Fprintf(toGo, "	case *Pred%s:\n", strings.Title(preds[0]))
+			fmt.Fprintf(toGo, "converted = append(converted, &Type%s{x})\n", strings.Title(key))
+		} else {
+			for _, p := range preds {
+				fmt.Fprintf(toGo, "	case *Pred%s:\n", strings.Title(p))
+				fmt.Fprintf(toGo, "converted = append(converted, &Type%s{&Type%s_%s{x}})\n", strings.Title(key), strings.Title(key), strings.Title(p))
+			}
+		}
+		fmt.Fprintf(toGo, "default:\n// invalid predicate\n}	\n}\nreturn converted\n}\n")
+	}
 
 
-	//TOOD: for now, it does NOT support decoding to Vector
+	//TODO: for now, it does NOT support decoding to TypeVector... structs
 	// decode funcs
-//	fmt.Println(`
-//func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
-//	switch constructor {`)
+	fmt.Fprintln(toGo, `
+func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
+	switch constructor {`)
+
+
+	generateDecoder := func(constructorName string, c constructor) {
+		fmt.Fprintf(toGo, "case crc_%s:\n", c.predicate)
+		for _, t := range c.params {
+			if t._type == "#" {
+				fmt.Fprint(toGo, "flags := m.Flags()\n")
+				fmt.Fprint(toGo, "_ = flags\n")
+				break
+			}
+		}
+		fmt.Fprintf(toGo, "r = &%s{\n", constructorName)
+		for _, t := range c.params {
+			t.name = strings.Title(t.name)
+			if strings.HasPrefix(t._type, "flags") {
+				flagBit, _ := strconv.Atoi(string(t._type[strings.Index(t._type, "_") + 1:strings.Index(t._type, "?")]))
+				subType := string(t._type[strings.Index(t._type, "?") + 1:])
+				switch subType {
+				case "true":
+				case "int":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedInt(flags, %d),\n", flagBit))
+				case "long":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedLong(flags, %d),\n", flagBit))
+				case "string":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedString(flags, %d),\n", flagBit))
+				case "double":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedDouble(flags, %d),\n", flagBit))
+				case "bytes":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedStringBytes(flags, %d),\n", flagBit))
+				case "Vector<int>":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedVectorInt(flags, %d),\n", flagBit))
+				case "Vector<long>":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedVectorLong(flags, %d),\n", flagBit))
+				case "Vector<string>":
+					fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedVectorString(flags, %d),\n", flagBit))
+					fmt.Fprint(toGo, "m.VectorString(),\n")
+				case "!X":
+					fmt.Fprint(toGo, fmt.Sprintf("pack(m.FlaggedObject(flags, %d)),\n", flagBit))
+				case "Vector<double>":
+					panic(fmt.Sprintf("Unsupported %s", subType))
+				default:
+					var inner string
+					n, _ := fmt.Sscanf(subType, "Vector<%s", &inner)
+					if n == 1 {
+						inner = inner[:len(inner) - 1]
+						fmt.Fprint(toGo, fmt.Sprintf("toType%sSlice(m.FlaggedVector(flags, %d)),\n", strings.Title(inner), flagBit))
+					} else {
+						fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedObject(flags, %d).(*Type%s),\n", flagBit, strings.Title(subType)))
+					}
+				}
+			} else {
+				switch t._type {
+				case "#":
+					fmt.Fprint(toGo, "flags,\n")
+					//fmt.Fprint(toGo, "m.Flags(),\n")
+				case "int":
+					fmt.Fprint(toGo, "m.Int(),\n")
+				case "long":
+					fmt.Fprint(toGo, "m.Long(),\n")
+				case "string":
+					fmt.Fprint(toGo, "m.String(),\n")
+				case "double":
+					fmt.Fprint(toGo, "m.Double(),\n")
+				case "bytes":
+					fmt.Fprint(toGo, "m.StringBytes(),\n")
+				case "Vector<int>":
+					fmt.Fprint(toGo, "m.VectorInt(),\n")
+				case "Vector<long>":
+					fmt.Fprint(toGo, "m.VectorLong(),\n")
+				case "Vector<string>":
+					fmt.Fprint(toGo, "m.VectorString(),\n")
+				case "!X":
+					fmt.Fprint(toGo, "pack(m.Object()),\n")
+				case "Vector<double>":
+					panic(fmt.Sprintf("Unsupported %s", t._type))
+				default:
+					var inner string
+					n, _ := fmt.Sscanf(t._type, "Vector<%s", &inner)
+					if n == 1 {
+						inner = inner[:len(inner) - 1]
+						fmt.Fprintf(toGo, "toType%sSlice(m.Vector()),\n", strings.Title(inner))
+					} else {
+						fmt.Fprintf(toGo, "m.Object().(*Type%s),\n", strings.Title(t._type))
+					}
+				}
+			}
+		}
+		fmt.Fprint(toGo, "}\n\n")
+
+	}
+
+	// predicate decodes
+	for _, key := range _predOrder {
+		if key == "vector" {
+			continue
+		}
+		c := _preds[key]
+		generateDecoder(fmt.Sprintf("Pred%s", strings.Title(c.predicate)), c)
+	}
+
+	// method decoders
+	for _, key := range _methodOrder {
+		if key == "vector" {
+			continue
+		}
+		c := _methods[key]
+		generateDecoder(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
+	}
+
+	fmt.Fprintln(toGo, `
+	default:
+		m.err = fmt.Errorf("Unknown constructor: \u002508x", constructor)
+		return nil
+
+	}
+
+	if m.err != nil {
+		return nil
+	}
+
+	return
+}`)
+
+	// packers from method return type, TypeXXX to gRPC Any
+	// TODO: for now, it ignores TypeVectorXXX
+	fmt.Fprintln(toGo, "// Packer from TypeXXX to gRPC Any")
+	fmt.Fprintln(toGo, `func pack(tl TL) *any.Any {
+	var marshaled *any.Any
+	var err error
+	switch x := tl.(type) {`)
+
+	for _, key := range _predTypeOrder {
+		if key == "Vector t" {
+			continue
+		}
+		fmt.Fprintf(toGo, "case *Type%s:\nmarshaled, err = ptypes.MarshalAny(x)\n", strings.Title(key))
+	}
+	fmt.Fprintln(toGo, `	}
+	if err != nil {
+		return nil
+	}
+	return marshaled
+}`)
+//	for _, key := range _predTypeOrder {
+//		// exclude Vector t
+//		if key == "Vector t" {
+//			continue
+//		}
+//		//fmt.Fprintf(toGo, "func (e *Type%s) pack() *any.Any {\n", strings.Title(key))
 //
-//	for _, key := range _predOrder {
-//		c := _preds[key]
-//		fmt.Printf("case crc_%s:\n", c.predicate)
-//		for _, t := range c.params {
-//			if t._type == "#" {
-//				fmt.Print("flags := m.Flags()\n")
-//				fmt.Print("_ = flags\n")
-//				break
-//			}
-//		}
-//		fmt.Printf("r = TL_%s{\n", c.predicate)
-//		for _, t := range c.params {
-//			t.name = strings.Title(t.name)
-//			if strings.HasPrefix(t._type, "flags") {
-//				flagBit, _ := strconv.Atoi(string(t._type[strings.Index(t._type, "_") + 1:strings.Index(t._type, "?")]))
-//				subType := string(t._type[strings.Index(t._type, "?") + 1:])
-//				switch subType {
-//				case "true":
-//				case "int":
-//					fmt.Print(fmt.Sprintf("m.FlaggedInt(flags, %d),\n", flagBit))
-//				case "long":
-//					fmt.Print(fmt.Sprintf("m.FlaggedLong(flags, %d),\n", flagBit))
-//				case "string":
-//					fmt.Print(fmt.Sprintf("m.FlaggedString(flags, %d),\n", flagBit))
-//				case "double":
-//					fmt.Print(fmt.Sprintf("m.FlaggedDouble(flags, %d),\n", flagBit))
-//				case "bytes":
-//					fmt.Print(fmt.Sprintf("m.FlaggedStringBytes(flags, %d),\n", flagBit))
-//				case "Vector<int>":
-//					fmt.Print(fmt.Sprintf("m.FlaggedVectorInt(flags, %d),\n", flagBit))
-//				case "Vector<long>":
-//					fmt.Print(fmt.Sprintf("m.FlaggedVectorLong(flags, %d),\n", flagBit))
-//				case "Vector<string>":
-//					fmt.Print(fmt.Sprintf("m.FlaggedVectorString(flags, %d),\n", flagBit))
-//					fmt.Print("m.VectorString(),\n")
-//				case "!X":
-//					fmt.Print(fmt.Sprintf("m.FlaggedObject(flags, %d),\n", flagBit))
-//				case "Vector<double>":
-//					panic(fmt.Sprintf("Unsupported %s", subType))
-//				default:
-//					var inner string
-//					n, _ := fmt.Sscanf(subType, "Vector<%s", &inner)
-//					if n == 1 {
-//						fmt.Print(fmt.Sprintf("m.FlaggedVector(flags, %d),\n", flagBit))
-//					} else {
-//						fmt.Print(fmt.Sprintf("m.FlaggedObject(flags, %d),\n", flagBit))
-//					}
-//				}
-//			} else {
-//				switch t._type {
-//				case "#":
-//					fmt.Print("flags,\n")
-//					//fmt.Print("m.Flags(),\n")
-//				case "int":
-//					fmt.Print("m.Int(),\n")
-//				case "long":
-//					fmt.Print("m.Long(),\n")
-//				case "string":
-//					fmt.Print("m.String(),\n")
-//				case "double":
-//					fmt.Print("m.Double(),\n")
-//				case "bytes":
-//					fmt.Print("m.StringBytes(),\n")
-//				case "Vector<int>":
-//					fmt.Print("m.VectorInt(),\n")
-//				case "Vector<long>":
-//					fmt.Print("m.VectorLong(),\n")
-//				case "Vector<string>":
-//					fmt.Print("m.VectorString(),\n")
-//				case "!X":
-//					fmt.Print("m.Object(),\n")
-//				case "Vector<double>":
-//					panic(fmt.Sprintf("Unsupported %s", t._type))
-//				default:
-//					var inner string
-//					n, _ := fmt.Sscanf(t._type, "Vector<%s", &inner)
-//					if n == 1 {
-//						fmt.Print("m.Vector(),\n")
-//					} else {
-//						fmt.Print("m.Object(),\n")
-//					}
-//				}
-//			}
-//		}
-//		fmt.Print("}\n\n")
+//		fmt.Fprintf(toGo, `x, err := ptypes.MarshalAny(e)
+//if err != nil {
+//	return nil
+//}
+//return x
+//}
+//`)
 //	}
+
+	// unpacker from gRPC Any to ReqXXX
+	fmt.Fprintln(toGo, "// Unpacker from gRPC Any to ReqXXX")
+	fmt.Fprintf(toGo, "func unpack(x *any.Any) TL {\n")
+	fmt.Fprintln(toGo, `splits := strings.Split(x.TypeUrl, ".")
+if len(splits) < 1 {
+	return nil
+}
+typeString := splits[len(splits) - 1]
+switch typeString {`)
+	for _, key := range _methodOrder {
+		c := _methods[key]
+		fmt.Fprintf(toGo, "case \"Req%s\":\nu := &Req%s{}\n", strings.Title(c.predicate), strings.Title(c.predicate))
+		fmt.Fprintln(toGo, `err := ptypes.UnmarshalAny(x, u)
+if err == nil {
+	return nil
+}
+return u`)
+	}
+	fmt.Fprintf(toGo, "}\nreturn nil\n}\n")
 
 	toGo.Flush()
 	goFp.Close()
-
-//	fmt.Println(`
-//	default:
-//		m.err = fmt.Errorf("Unknown constructor: \u002508x", constructor)
-//		return nil
-//
-//	}
-//
-//	if m.err != nil {
-//		return nil
-//	}
-//
-//	return
-//}`)
 
 }
