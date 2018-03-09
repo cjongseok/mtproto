@@ -1,4 +1,4 @@
-package proto
+package mtp
 
 const (
 	layer = 71

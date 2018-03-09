@@ -170,7 +170,7 @@ func main() {
 
 	// proto meta
 	fmt.Fprintln(toProto, `syntax = "proto3";
-package proto;
+package mtp;
 import "google/protobuf/any.proto";`)
 
 
@@ -367,7 +367,7 @@ import "google/protobuf/any.proto";`)
 
 	// Generate Go file
 	// constants
-	fmt.Fprintln(toGo, `package proto
+	fmt.Fprintln(toGo, `package mtp
 import (
 "fmt"
 "strings"
@@ -404,11 +404,14 @@ import (
 		case 1:
 			fmt.Fprintf(toGo, "\treturn e.GetValue().encode()\n")
 		default:
-			fmt.Fprintf(toGo, "\tif e.GetValue() != nil {\n\t\treturn e.Get%s().encode()\n", strings.Title(preds[0]))
+			fmt.Fprintf(toGo, "switch x := e.GetValue().(type) {\n")
+			//fmt.Fprintf(toGo, "\tif e.GetValue() != nil {\n\t\treturn e.Get%s().encode()\n", strings.Title(preds[0]))
 			for _, p := range preds {
-				fmt.Fprintf(toGo, "\t} else if e.GetValue() != nil {\n\t\treturn e.Get%s().encode()\n", strings.Title(p))
+				fmt.Fprintf(toGo, "case *Type%s_%s:\nreturn x.%s.encode()\n", strings.Title(key), strings.Title(p), strings.Title(p))
+				//fmt.Fprintf(toGo, "\t} else if e.GetValue() != nil {\n\t\treturn e.Get%s().encode()\n", strings.Title(p))
 			}
-			fmt.Fprintln(toGo, "\t}\n\treturn nil")
+			fmt.Fprintf(toGo, "}\nreturn nil\n")
+			//fmt.Fprintln(toGo, "\t}\n\treturn nil")
 		}
 		fmt.Fprintln(toGo, "}")
 	}
@@ -440,7 +443,8 @@ import (
 				case "Vector<string>":
 					fmt.Fprintf(toGo, "x.VectorString(e.%s)\n", strings.Title(t.name))
 				case "!X":
-					fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "unpacked%s := unpack(e.%s)\nif unpacked%s != nil {\nx.Bytes(unpacked%s.encode())\n}\n", strings.Title(t.name), strings.Title(t.name), strings.Title(t.name), strings.Title(t.name))
+					//fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
 				case "Vector<double>":
 					panic(fmt.Sprintf("Unsupported %s", subType))
 				default:
@@ -476,7 +480,15 @@ import (
 				case "Vector<string>":
 					fmt.Fprintf(toGo, "x.VectorString(e.%s)\n", strings.Title(t.name))
 				case "!X":
-					fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
+					//fmt.Fprintln(toGo, `
+//splits := strings.Split(x.TypeUrl, ".")
+//if len(splits) < 1 {
+//	return nil
+//}
+//typeString := splits[len(splits) - 1]
+//`)
+					fmt.Fprintf(toGo, "unpacked%s := unpack(e.%s)\nif unpacked%s != nil {\nx.Bytes(unpacked%s.encode())\n}\n", strings.Title(t.name), strings.Title(t.name), strings.Title(t.name), strings.Title(t.name))
+					//fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
 				case "Vector<double>":
 					panic(fmt.Sprintf("Unsupported %s", t._type))
 				default:
@@ -497,7 +509,7 @@ import (
 
 		}
 		fmt.Fprint(toGo, "return x.buf\n")
-		fmt.Fprint(toGo, "}\n\n")
+		fmt.Fprint(toGo, "}\n")
 	}
 
 	// predicate encoders
@@ -517,7 +529,31 @@ import (
 		generateEncoder(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
 	}
 
+	// TL converters to Type
+	fmt.Fprintf(toGo, "\n\n// TL converters to a Type\n")
+	for _, key := range _predTypeOrder {
+		if key == "Vector t" {
+			continue
+		}
+		preds := _predTypes[key]
+		if len(preds) == 0 {
+			continue
+		}
+		fmt.Fprintf(toGo, "func toType%s(tl TL) *Type%s {\n", strings.Title(key), strings.Title(key))
+		fmt.Fprintf(toGo, "switch x := tl.(type) {\n")
+		for _, p := range preds {
+			c := _preds[p]
+			if len(preds) == 1 {
+				fmt.Fprintf(toGo, "case *Pred%s:\nreturn &Type%s{x}\n", strings.Title(c.predicate), strings.Title(key))
+			} else {
+				fmt.Fprintf(toGo, "case *Pred%s:\nreturn &Type%s{&Type%s_%s{x}}\n", strings.Title(c.predicate), strings.Title(key), strings.Title(key), strings.Title(c.predicate))
+			}
+		}
+		fmt.Fprintf(toGo, "}\nreturn nil\n}\n")
+	}
+
 	// TL slice converters to Type slice
+	fmt.Fprintf(toGo, "\n\n// TL slice converters to a Type slice\n")
 	for _, key := range _predTypeOrder {
 		// exclude Vector t
 		if key == "Vector t" {
@@ -549,7 +585,6 @@ import (
 func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	switch constructor {`)
 
-
 	generateDecoder := func(constructorName string, c constructor) {
 		fmt.Fprintf(toGo, "case crc_%s:\n", c.predicate)
 		for _, t := range c.params {
@@ -563,7 +598,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		for _, t := range c.params {
 			t.name = strings.Title(t.name)
 			if strings.HasPrefix(t._type, "flags") {
-				flagBit, _ := strconv.Atoi(string(t._type[strings.Index(t._type, "_") + 1:strings.Index(t._type, "?")]))
+				flagBit, _ := strconv.Atoi(string(t._type[strings.Index(t._type, ".") + 1:strings.Index(t._type, "?")]))
 				subType := string(t._type[strings.Index(t._type, "?") + 1:])
 				switch subType {
 				case "true":
@@ -595,7 +630,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 						inner = inner[:len(inner) - 1]
 						fmt.Fprint(toGo, fmt.Sprintf("toType%sSlice(m.FlaggedVector(flags, %d)),\n", strings.Title(inner), flagBit))
 					} else {
-						fmt.Fprint(toGo, fmt.Sprintf("m.FlaggedObject(flags, %d).(*Type%s),\n", flagBit, strings.Title(subType)))
+						fmt.Fprint(toGo, fmt.Sprintf("toType%s(m.FlaggedObject(flags, %d)),\n", strings.Title(subType), flagBit))
 					}
 				}
 			} else {
@@ -630,7 +665,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 						inner = inner[:len(inner) - 1]
 						fmt.Fprintf(toGo, "toType%sSlice(m.Vector()),\n", strings.Title(inner))
 					} else {
-						fmt.Fprintf(toGo, "m.Object().(*Type%s),\n", strings.Title(t._type))
+						fmt.Fprintf(toGo, "toType%s(m.Object()),\n", strings.Title(t._type))
 					}
 				}
 			}
@@ -671,19 +706,26 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	return
 }`)
 
-	// packers from method return type, TypeXXX to gRPC Any
+	// packers from types(TypeXXX) to gRPC Any
 	// TODO: for now, it ignores TypeVectorXXX
 	fmt.Fprintln(toGo, "// Packer from TypeXXX to gRPC Any")
 	fmt.Fprintln(toGo, `func pack(tl TL) *any.Any {
 	var marshaled *any.Any
 	var err error
-	switch x := tl.(type) {`)
-
+	if tl == nil {
+		return nil
+	}
+	switch x := tl.(type) {
+	// types`)
 	for _, key := range _predTypeOrder {
 		if key == "Vector t" {
 			continue
 		}
 		fmt.Fprintf(toGo, "case *Type%s:\nmarshaled, err = ptypes.MarshalAny(x)\n", strings.Title(key))
+	}
+	fmt.Fprintf(toGo, "\n// methods\n")
+	for _, key := range _methodOrder{
+		fmt.Fprintf(toGo, "case *Req%s:\nmarshaled, err = ptypes.MarshalAny(x)\n", strings.Title(key))
 	}
 	fmt.Fprintln(toGo, `	}
 	if err != nil {
@@ -710,7 +752,10 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	// unpacker from gRPC Any to ReqXXX
 	fmt.Fprintln(toGo, "// Unpacker from gRPC Any to ReqXXX")
 	fmt.Fprintf(toGo, "func unpack(x *any.Any) TL {\n")
-	fmt.Fprintln(toGo, `splits := strings.Split(x.TypeUrl, ".")
+	fmt.Fprintln(toGo, `if x == nil {
+return nil
+}
+splits := strings.Split(x.TypeUrl, ".")
 if len(splits) < 1 {
 	return nil
 }
@@ -720,7 +765,7 @@ switch typeString {`)
 		c := _methods[key]
 		fmt.Fprintf(toGo, "case \"Req%s\":\nu := &Req%s{}\n", strings.Title(c.predicate), strings.Title(c.predicate))
 		fmt.Fprintln(toGo, `err := ptypes.UnmarshalAny(x, u)
-if err == nil {
+if err != nil {
 	return nil
 }
 return u`)

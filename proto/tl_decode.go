@@ -1,4 +1,4 @@
-package proto
+package mtp
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"github.com/cjongseok/slog"
 	"math"
 	"math/big"
 )
@@ -19,6 +20,9 @@ type DecodeBuf struct {
 }
 
 func NewDecodeBuf(b []byte) *DecodeBuf {
+	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
+		slog.Logln("Decode::NewBuf::", "bytes = ", b)
+	}
 	return &DecodeBuf{b, 0, len(b), nil}
 }
 
@@ -33,7 +37,7 @@ func (m *DecodeBuf) Long() int64 {
 	x := int64(binary.LittleEndian.Uint64(m.buf[m.off : m.off+8]))
 	m.off += 8
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::Long::", x)
+		slog.Logln("Decode::Long::", x)
 	}
 	return x
 }
@@ -49,7 +53,7 @@ func (m *DecodeBuf) Double() float64 {
 	x := math.Float64frombits(binary.LittleEndian.Uint64(m.buf[m.off : m.off+8]))
 	m.off += 8
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::Double::", x)
+		slog.Logln("Decode::Double::", x)
 	}
 	return x
 }
@@ -65,7 +69,7 @@ func (m *DecodeBuf) Int() int32 {
 	x := binary.LittleEndian.Uint32(m.buf[m.off : m.off+4])
 	m.off += 4
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::Int::", x)
+		slog.Logln("Decode::Int::", x)
 	}
 	return int32(x)
 }
@@ -81,7 +85,7 @@ func (m *DecodeBuf) UInt() uint32 {
 	x := binary.LittleEndian.Uint32(m.buf[m.off : m.off+4])
 	m.off += 4
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println(fmt.Sprintf("Decode::UInt::%x", x))
+		slog.Logf("Decode::UInt::", "%d(0x%x)", x, x)
 	}
 	return x
 }
@@ -99,9 +103,9 @@ func (m *DecodeBuf) Bytes(size int) []byte {
 	m.off += size
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
 		if len(x) > 10 {
-			fmt.Println("Decode::Bytes::", len(x), x[:10], " ...")
+			slog.Logln("Decode::Bytes::", len(x), x[:10], " ...")
 		} else {
-			fmt.Println("Decode::Bytes::", len(x), x)
+			slog.Logln("Decode::Bytes::", len(x), x)
 		}
 
 	}
@@ -146,9 +150,9 @@ func (m *DecodeBuf) StringBytes() []byte {
 	m.off += padding
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
 		if len(x) > 10 {
-			fmt.Println("Decode::StringBytes::", len(x), x[:10], " ...")
+			slog.Logln("Decode::StringBytes::", len(x), x[:10], " ...")
 		} else {
-			fmt.Println("Decode::StringBytes::", len(x), x)
+			slog.Logln("Decode::StringBytes::", len(x), x)
 		}
 
 	}
@@ -162,7 +166,7 @@ func (m *DecodeBuf) String() string {
 	}
 	x := string(b)
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::String::", x)
+		slog.Logln("Decode::String::", x)
 	}
 	return x
 }
@@ -177,7 +181,7 @@ func (m *DecodeBuf) BigInt() *big.Int {
 	copy(y[1:], b)
 	x := new(big.Int).SetBytes(y)
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::BigInt::", x)
+		slog.Logln("Decode::BigInt::", x)
 	}
 	return x
 }
@@ -210,7 +214,7 @@ func (m *DecodeBuf) VectorInt() []int32 {
 		i++
 	}
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::VectorInt::", x)
+		slog.Logln("Decode::VectorInt::", x)
 	}
 	return x
 }
@@ -243,7 +247,7 @@ func (m *DecodeBuf) VectorLong() []int64 {
 		i++
 	}
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::VectorLong::", x)
+		slog.Logln("Decode::VectorLong::", x)
 	}
 	return x
 }
@@ -276,7 +280,7 @@ func (m *DecodeBuf) VectorString() []string {
 		i++
 	}
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::VectorString::", x)
+		slog.Logln("Decode::VectorString::", x)
 	}
 	return x
 }
@@ -289,12 +293,12 @@ func (m *DecodeBuf) Bool() bool {
 	switch constructor {
 	case crc_boolFalse:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("Decode::Bool::", false)
+			slog.Logln("Decode::Bool::", false)
 		}
 		return false
 	case crc_boolTrue:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("Decode::Bool::", true)
+			slog.Logln("Decode::Bool::", true)
 		}
 		return true
 	}
@@ -310,13 +314,13 @@ func (m *DecodeBuf) TL_Vector() []TL {
 	//	m.err = fmt.Errorf("DecodeTL_Vector: Wrong constructor (0x%08x)", constructor)
 	//	return nil
 	//}
-	//fmt.Println("byte len=", len(m.buf))
-	//fmt.Println("m.size=", m.size)
-	//fmt.Println(hex.EncodeToString(m.buf))
+	//slog.Logln("byte len=", len(m.buf))
+	//slog.Logln("m.size=", m.size)
+	//slog.Logln(hex.EncodeToString(m.buf))
 	//xx := m.UInt()
-	//fmt.Println("x=", xx)
+	//slog.Logln("x=", xx)
 	//size := m.Int()
-	//fmt.Println("size=", size)
+	//slog.Logln("size=", size)
 	//if m.err != nil {
 	//	return nil
 	//}
@@ -335,7 +339,7 @@ func (m *DecodeBuf) TL_Vector() []TL {
 	//	i++
 	//}
 	//if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-	//	fmt.Println("Decode::Vector::", x)
+	//	slog.Logln("Decode::Vector::", x)
 	//}
 	//return x
 	m.err = fmt.Errorf("DecodeTL_Vector: NOT SUPPORTED YET")
@@ -370,7 +374,7 @@ func (m *DecodeBuf) Vector() []TL {
 		i++
 	}
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::Vector::", x)
+		slog.Logln("Decode::Vector::", x)
 	}
 	return x
 }
@@ -384,19 +388,19 @@ func (m *DecodeBuf) Object() (r TL) {
 
 	case crc_resPQ:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("reqPQ", constructor)
+			slog.Logln("reqPQ", constructor)
 		}
 		r = TL_resPQ{m.Bytes(16), m.Bytes(16), m.BigInt(), m.VectorLong()}
 
 	case crc_server_DH_params_ok:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("server_DH_params_ok", constructor)
+			slog.Logln("server_DH_params_ok", constructor)
 		}
 		r = TL_server_DH_params_ok{m.Bytes(16), m.Bytes(16), m.StringBytes()}
 
 	case crc_server_DH_inner_data:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("server_DH_inner_data", constructor)
+			slog.Logln("server_DH_inner_data", constructor)
 		}
 		r = TL_server_DH_inner_data{
 			m.Bytes(16), m.Bytes(16), m.Int(),
@@ -405,33 +409,33 @@ func (m *DecodeBuf) Object() (r TL) {
 
 	case crc_dh_gen_ok:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("dh_gen_ok", constructor)
+			slog.Logln("dh_gen_ok", constructor)
 		}
 		r = TL_dh_gen_ok{m.Bytes(16), m.Bytes(16), m.Bytes(16)}
 
 	case crc_ping:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("ping", constructor)
+			slog.Logln("ping", constructor)
 		}
 		r = TL_ping{m.Long()}
 
 	case crc_pong:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("pong", constructor)
+			slog.Logln("pong", constructor)
 		}
 		r = TL_pong{m.Long(), m.Long()}
 
 	case crc_msg_container:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("msg_container", constructor)
+			slog.Logln("msg_container", constructor)
 		}
 		size := m.Int()
 		arr := make([]TL_MT_message, size)
 		for i := int32(0); i < size; i++ {
 			arr[i] = TL_MT_message{m.Long(), m.Int(), m.Int(), m.Object()}
-			//fmt.Println(constructor, arr[i])
+			//slog.Logln(constructor, arr[i])
 			if m.err != nil {
-				fmt.Println(m.err.Error())
+				slog.Logln(m.err.Error())
 				return nil
 			}
 		}
@@ -439,43 +443,43 @@ func (m *DecodeBuf) Object() (r TL) {
 
 	case crc_rpc_result:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("rpc_result", constructor)
+			slog.Logln("rpc_result", constructor)
 		}
 		r = TL_rpc_result{m.Long(), m.Object()}
 
 	case crc_rpc_error:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("rpc_error", constructor)
+			slog.Logln("rpc_error", constructor)
 		}
 		r = TL_rpc_error{m.Int(), m.String()}
 
 	case crc_new_session_created:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("new_session_created", constructor)
+			slog.Logln("new_session_created", constructor)
 		}
 		r = TL_new_session_created{m.Long(), m.Long(), m.Bytes(8)}
 
 	case crc_bad_server_salt:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("bad_server_salt", constructor)
+			slog.Logln("bad_server_salt", constructor)
 		}
 		r = TL_bad_server_salt{m.Long(), m.Int(), m.Int(), m.Bytes(8)}
 
 	case crc_bad_msg_notification:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("bad_msg_notification", constructor)
+			slog.Logln("bad_msg_notification", constructor)
 		}
 		r = TL_crc_bad_msg_notification{m.Long(), m.Int(), m.Int()}
 
 	case crc_msgs_ack:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("msgs_ack", constructor)
+			slog.Logln("msgs_ack", constructor)
 		}
 		r = TL_msgs_ack{m.VectorLong()}
 
 	case crc_gzip_packed:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println("gzip_packed", constructor)
+			slog.Logln("gzip_packed", constructor)
 		}
 		obj := make([]byte, 0, 4096)
 
@@ -495,14 +499,14 @@ func (m *DecodeBuf) Object() (r TL) {
 
 	default:
 		if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-			fmt.Println(fmt.Sprintf("default %x", constructor))
+			slog.Logln(fmt.Sprintf("default %x", constructor))
 		}
 		r = m.ObjectGenerated(constructor)
 
 	}
 
 	if m.err != nil {
-		fmt.Println(m.err.Error())
+		slog.Logln(m.err.Error())
 		return nil
 	}
 	return
@@ -519,7 +523,7 @@ func (m *DecodeBuf) Flags() int32 {
 	x := binary.LittleEndian.Uint32(m.buf[m.off : m.off+4])
 	m.off += 4
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::Flags::", x)
+		slog.Logln("Decode::Flags::", x)
 	}
 	return int32(x)
 }
@@ -540,7 +544,7 @@ func (m *DecodeBuf) FlaggedLong(flags, f int32) int64 {
 	x := int64(binary.LittleEndian.Uint64(m.buf[m.off : m.off+8]))
 	m.off += 8
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::FlaggedLong::", x)
+		slog.Logln("Decode::FlaggedLong::", x)
 	}
 	return x
 }
@@ -561,7 +565,7 @@ func (m *DecodeBuf) FlaggedDouble(flags, f int32) float64 {
 	x := math.Float64frombits(binary.LittleEndian.Uint64(m.buf[m.off : m.off+8]))
 	m.off += 8
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::FlaggedDouble::", x)
+		slog.Logln("Decode::FlaggedDouble::", x)
 	}
 	return x
 }
@@ -582,7 +586,7 @@ func (m *DecodeBuf) FlaggedInt(flags, f int32) int32 {
 	x := binary.LittleEndian.Uint32(m.buf[m.off : m.off+4])
 	m.off += 4
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::FlaggedInt::", x)
+		slog.Logln("Decode::FlaggedInt::", x)
 	}
 	return int32(x)
 }
@@ -599,7 +603,7 @@ func (m *DecodeBuf) FlaggedString(flags, f int32) string {
 	}
 	x := string(b)
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::FlaggedString::", x)
+		slog.Logln("Decode::FlaggedString::", x)
 	}
 	return x
 }
@@ -636,7 +640,7 @@ func (m *DecodeBuf) FlaggedVector(flags, f int32) []TL {
 		i++
 	}
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
-		fmt.Println("Decode::FlaggedVector::", x)
+		slog.Logln("Decode::FlaggedVector::", x)
 	}
 	return x
 }
@@ -679,9 +683,9 @@ func (m *DecodeBuf) FlaggedObject(flags, f int32) (r TL) {
 		arr := make([]TL_MT_message, size)
 		for i := int32(0); i < size; i++ {
 			arr[i] = TL_MT_message{m.Long(), m.Int(), m.Int(), m.Object()}
-			//fmt.Println(constructor, arr[i])
+			//slog.Logln(constructor, arr[i])
 			if m.err != nil {
-				fmt.Println(m.err.Error())
+				slog.Logln(m.err.Error())
 				return nil
 			}
 		}
@@ -777,9 +781,9 @@ func (m *DecodeBuf) FlaggedStringBytes(flags, f int32) []byte {
 
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
 		if len(x) > 10 {
-			fmt.Println("Decode::FlaggedStringBytes::", len(x), x[:10], " ...")
+			slog.Logln("Decode::FlaggedStringBytes::", len(x), x[:10], " ...")
 		} else {
-			fmt.Println("Decode::FlaggedStringBytes::", len(x), x)
+			slog.Logln("Decode::FlaggedStringBytes::", len(x), x)
 		}
 
 	}
@@ -787,7 +791,7 @@ func (m *DecodeBuf) FlaggedStringBytes(flags, f int32) []byte {
 }
 
 func (d *DecodeBuf) dump() {
-	fmt.Println(hex.Dump(d.buf[d.off:d.size]))
+	slog.Logln(hex.Dump(d.buf[d.off:d.size]))
 }
 
 func toBool(x TL) bool {

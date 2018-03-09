@@ -1,8 +1,9 @@
-package proto
+package mtp
 
 import (
 	"crypto/rand"
 	"encoding/binary"
+	"github.com/cjongseok/slog"
 	"math"
 	"math/big"
 	"reflect"
@@ -34,35 +35,56 @@ type EncodeBuf struct {
 }
 
 func NewEncodeBuf(cap int) *EncodeBuf {
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::NewBuf::", "cap=", cap)
+	}
 	return &EncodeBuf{make([]byte, 0, cap)}
 }
 
 func (e *EncodeBuf) Int(s int32) {
 	e.buf = append(e.buf, 0, 0, 0, 0)
 	binary.LittleEndian.PutUint32(e.buf[len(e.buf)-4:], uint32(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Int::", s)
+	}
 }
 
 func (e *EncodeBuf) UInt(s uint32) {
 	e.buf = append(e.buf, 0, 0, 0, 0)
 	binary.LittleEndian.PutUint32(e.buf[len(e.buf)-4:], s)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logf("Encode::UInt::", "%d(0x%x)", s, s)
+	}
 }
 
 func (e *EncodeBuf) Long(s int64) {
 	e.buf = append(e.buf, 0, 0, 0, 0, 0, 0, 0, 0)
 	binary.LittleEndian.PutUint64(e.buf[len(e.buf)-8:], uint64(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Long::", s)
+	}
 }
 
 func (e *EncodeBuf) Double(s float64) {
 	e.buf = append(e.buf, 0, 0, 0, 0, 0, 0, 0, 0)
 	binary.LittleEndian.PutUint64(e.buf[len(e.buf)-8:], math.Float64bits(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Double::", s)
+	}
 }
 
 func (e *EncodeBuf) String(s string) {
 	e.StringBytes([]byte(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::String::", s)
+	}
 }
 
 func (e *EncodeBuf) BigInt(s *big.Int) {
 	e.StringBytes(s.Bytes())
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::BigInt::", s)
+	}
 }
 
 func (e *EncodeBuf) StringBytes(s []byte) {
@@ -82,10 +104,16 @@ func (e *EncodeBuf) StringBytes(s []byte) {
 
 	}
 	e.buf = append(e.buf, res...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::StringBytes::", s)
+	}
 }
 
 func (e *EncodeBuf) Bytes(s []byte) {
 	e.buf = append(e.buf, s...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Bytes::", s)
+	}
 }
 
 func (e *EncodeBuf) VectorInt(v []int32) {
@@ -98,6 +126,9 @@ func (e *EncodeBuf) VectorInt(v []int32) {
 		i += 4
 	}
 	e.buf = append(e.buf, x...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorInt::", v)
+	}
 }
 
 func (e *EncodeBuf) VectorLong(v []int64) {
@@ -110,6 +141,9 @@ func (e *EncodeBuf) VectorLong(v []int64) {
 		i += 8
 	}
 	e.buf = append(e.buf, x...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorLong::", v)
+	}
 }
 
 func (e *EncodeBuf) VectorString(v []string) {
@@ -120,6 +154,9 @@ func (e *EncodeBuf) VectorString(v []string) {
 	for _, v := range v {
 		e.String(v)
 	}
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorString::", v)
+	}
 }
 
 func (e *EncodeBuf) Vector(v []TL) {
@@ -129,6 +166,9 @@ func (e *EncodeBuf) Vector(v []TL) {
 	e.buf = append(e.buf, x...)
 	for _, v := range v {
 		e.buf = append(e.buf, v.encode()...)
+	}
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Vector::", v)
 	}
 }
 

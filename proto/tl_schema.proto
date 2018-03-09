@@ -1,5 +1,5 @@
 syntax = "proto3";
-package proto;
+package mtp;
 import "google/protobuf/any.proto";
 
 
@@ -1201,15 +1201,6 @@ message TypeMessagesFavedStickers {
 		PredMessagesFavedStickersNotModified MessagesFavedStickersNotModified = 2;
 	}
 }
-message TypeVectorUser {
-	repeated TypeUser User = 1;
-}
-message TypeVectorReceivedNotifyMessage {
-	repeated TypeReceivedNotifyMessage ReceivedNotifyMessage = 1;
-}
-message TypeVectorStickerSetCovered {
-	repeated TypeStickerSetCovered StickerSetCovered = 1;
-}
 message TypeVectorLangPackString {
 	repeated TypeLangPackString LangPackString = 1;
 }
@@ -1218,6 +1209,9 @@ message TypeVectorWallPaper {
 }
 message TypeVectorLong {
 	repeated int64 values = 1;
+}
+message TypeVectorStickerSetCovered {
+	repeated TypeStickerSetCovered StickerSetCovered = 1;
 }
 message TypeVectorInt {
 	repeated int32 values = 1;
@@ -1228,8 +1222,14 @@ message TypeVectorCdnFileHash {
 message TypeVectorLangPackLanguage {
 	repeated TypeLangPackLanguage LangPackLanguage = 1;
 }
+message TypeVectorUser {
+	repeated TypeUser User = 1;
+}
 message TypeVectorContactStatus {
 	repeated TypeContactStatus ContactStatus = 1;
+}
+message TypeVectorReceivedNotifyMessage {
+	repeated TypeReceivedNotifyMessage ReceivedNotifyMessage = 1;
 }
 
 
@@ -1255,7 +1255,7 @@ message PredInputPeerSelf {
 }
 
 message PredInputPeerChat {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message PredInputUserEmpty {
@@ -1265,17 +1265,17 @@ message PredInputUserSelf {
 }
 
 message PredInputPhoneContact {
-	int64 Client_id = 1;
+	int64 ClientId = 1;
 	string Phone = 2;
-	string First_name = 3;
-	string Last_name = 4;
+	string FirstName = 3;
+	string LastName = 4;
 }
 
 message PredInputFile {
 	int64 Id = 1;
 	int32 Parts = 2;
 	string Name = 3;
-	string Md5_checksum = 4;
+	string Md5Checksum = 4;
 }
 
 message PredInputMediaEmpty {
@@ -1288,7 +1288,7 @@ message PredInputMediaUploadedPhoto {
 	string Caption = 3;
 // default: Vector<InputDocument>
 	repeated TypeInputDocument Stickers = 4;// flags.0?Vector<InputDocument>
-	int32 Ttl_seconds = 5;
+	int32 TtlSeconds = 5;
 }
 
 message PredInputMediaPhoto {
@@ -1296,18 +1296,18 @@ message PredInputMediaPhoto {
 // default: InputPhoto
 	TypeInputPhoto Id = 2;
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredInputMediaGeoPoint {
 // default: InputGeoPoint
-	TypeInputGeoPoint Geo_point = 1;
+	TypeInputGeoPoint GeoPoint = 1;
 }
 
 message PredInputMediaContact {
-	string Phone_number = 1;
-	string First_name = 2;
-	string Last_name = 3;
+	string PhoneNumber = 1;
+	string FirstName = 2;
+	string LastName = 3;
 }
 
 message PredInputChatPhotoEmpty {
@@ -1336,12 +1336,12 @@ message PredInputPhotoEmpty {
 
 message PredInputPhoto {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredInputFileLocation {
-	int64 Volume_id = 1;
-	int32 Local_id = 2;
+	int64 VolumeId = 1;
+	int32 LocalId = 2;
 	int64 Secret = 3;
 }
 
@@ -1353,11 +1353,11 @@ message PredInputAppEvent {
 }
 
 message PredPeerUser {
-	int32 User_id = 1;
+	int32 UserId = 1;
 }
 
 message PredPeerChat {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message PredStorageFileUnknown {
@@ -1388,15 +1388,15 @@ message PredStorageFileWebp {
 }
 
 message PredFileLocationUnavailable {
-	int64 Volume_id = 1;
-	int32 Local_id = 2;
+	int64 VolumeId = 1;
+	int32 LocalId = 2;
 	int64 Secret = 3;
 }
 
 message PredFileLocation {
-	int32 Dc_id = 1;
-	int64 Volume_id = 2;
-	int32 Local_id = 3;
+	int32 DcId = 1;
+	int64 VolumeId = 2;
+	int32 LocalId = 3;
 	int64 Secret = 4;
 }
 
@@ -1408,11 +1408,11 @@ message PredUserProfilePhotoEmpty {
 }
 
 message PredUserProfilePhoto {
-	int64 Photo_id = 1;
+	int64 PhotoId = 1;
 // default: FileLocation
-	TypeFileLocation Photo_small = 2;
+	TypeFileLocation PhotoSmall = 2;
 // default: FileLocation
-	TypeFileLocation Photo_big = 3;
+	TypeFileLocation PhotoBig = 3;
 }
 
 message PredUserStatusEmpty {
@@ -1423,7 +1423,7 @@ message PredUserStatusOnline {
 }
 
 message PredUserStatusOffline {
-	int32 Was_online = 1;
+	int32 WasOnline = 1;
 }
 
 message PredChatEmpty {
@@ -1435,18 +1435,18 @@ message PredChat {
 // Creator	bool // flags.0?true
 // Kicked	bool // flags.1?true
 // Left	bool // flags.2?true
-// Admins_enabled	bool // flags.3?true
+// AdminsEnabled	bool // flags.3?true
 // Admin	bool // flags.4?true
 // Deactivated	bool // flags.5?true
 	int32 Id = 8;
 	string Title = 9;
 // default: ChatPhoto
 	TypeChatPhoto Photo = 10;
-	int32 Participants_count = 11;
+	int32 ParticipantsCount = 11;
 	int32 Date = 12;
 	int32 Version = 13;
 // default: InputChannel
-	TypeInputChannel Migrated_to = 14;// flags.6?InputChannel
+	TypeInputChannel MigratedTo = 14;// flags.6?InputChannel
 }
 
 message PredChatForbidden {
@@ -1459,30 +1459,30 @@ message PredChatFull {
 // default: ChatParticipants
 	TypeChatParticipants Participants = 2;
 // default: Photo
-	TypePhoto Chat_photo = 3;
+	TypePhoto ChatPhoto = 3;
 // default: PeerNotifySettings
-	TypePeerNotifySettings Notify_settings = 4;
+	TypePeerNotifySettings NotifySettings = 4;
 // default: ExportedChatInvite
-	TypeExportedChatInvite Exported_invite = 5;
+	TypeExportedChatInvite ExportedInvite = 5;
 // default: Vector<BotInfo>
-	repeated TypeBotInfo Bot_info = 6;
+	repeated TypeBotInfo BotInfos = 6;
 }
 
 message PredChatParticipant {
-	int32 User_id = 1;
-	int32 Inviter_id = 2;
+	int32 UserId = 1;
+	int32 InviterId = 2;
 	int32 Date = 3;
 }
 
 message PredChatParticipantsForbidden {
 	int32 Flags = 1;
-	int32 Chat_id = 2;
+	int32 ChatId = 2;
 // default: ChatParticipant
-	TypeChatParticipant Self_participant = 3;// flags.0?ChatParticipant
+	TypeChatParticipant SelfParticipant = 3;// flags.0?ChatParticipant
 }
 
 message PredChatParticipants {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: Vector<ChatParticipant>
 	repeated TypeChatParticipant Participants = 2;
 	int32 Version = 3;
@@ -1493,9 +1493,9 @@ message PredChatPhotoEmpty {
 
 message PredChatPhoto {
 // default: FileLocation
-	TypeFileLocation Photo_small = 1;
+	TypeFileLocation PhotoSmall = 1;
 // default: FileLocation
-	TypeFileLocation Photo_big = 2;
+	TypeFileLocation PhotoBig = 2;
 }
 
 message PredMessageEmpty {
@@ -1506,42 +1506,42 @@ message PredMessage {
 	int32 Flags = 1;
 // Out	bool // flags.1?true
 // Mentioned	bool // flags.4?true
-// Media_unread	bool // flags.5?true
+// MediaUnread	bool // flags.5?true
 // Silent	bool // flags.13?true
 // Post	bool // flags.14?true
 	int32 Id = 7;
-	int32 From_id = 8;
+	int32 FromId = 8;
 // default: Peer
-	TypePeer To_id = 9;
+	TypePeer ToId = 9;
 // default: MessageFwdHeader
-	TypeMessageFwdHeader Fwd_from = 10;// flags.2?MessageFwdHeader
-	int32 Via_bot_id = 11;
-	int32 Reply_to_msg_id = 12;
+	TypeMessageFwdHeader FwdFrom = 10;// flags.2?MessageFwdHeader
+	int32 ViaBotId = 11;
+	int32 ReplyToMsgId = 12;
 	int32 Date = 13;
 	string Message = 14;
 // default: MessageMedia
 	TypeMessageMedia Media = 15;// flags.9?MessageMedia
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 16;// flags.6?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 16;// flags.6?ReplyMarkup
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 17;// flags.7?Vector<MessageEntity>
 	int32 Views = 18;
-	int32 Edit_date = 19;
-	string Post_author = 20;
+	int32 EditDate = 19;
+	string PostAuthor = 20;
 }
 
 message PredMessageService {
 	int32 Flags = 1;
 // Out	bool // flags.1?true
 // Mentioned	bool // flags.4?true
-// Media_unread	bool // flags.5?true
+// MediaUnread	bool // flags.5?true
 // Silent	bool // flags.13?true
 // Post	bool // flags.14?true
 	int32 Id = 7;
-	int32 From_id = 8;
+	int32 FromId = 8;
 // default: Peer
-	TypePeer To_id = 9;
-	int32 Reply_to_msg_id = 10;
+	TypePeer ToId = 9;
+	int32 ReplyToMsgId = 10;
 	int32 Date = 11;
 // default: MessageAction
 	TypeMessageAction Action = 12;
@@ -1555,7 +1555,7 @@ message PredMessageMediaPhoto {
 // default: Photo
 	TypePhoto Photo = 2;// flags.0?Photo
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredMessageMediaGeo {
@@ -1564,10 +1564,10 @@ message PredMessageMediaGeo {
 }
 
 message PredMessageMediaContact {
-	string Phone_number = 1;
-	string First_name = 2;
-	string Last_name = 3;
-	int32 User_id = 4;
+	string PhoneNumber = 1;
+	string FirstName = 2;
+	string LastName = 3;
+	int32 UserId = 4;
 }
 
 message PredMessageMediaUnsupported {
@@ -1598,7 +1598,7 @@ message PredMessageActionChatAddUser {
 }
 
 message PredMessageActionChatDeleteUser {
-	int32 User_id = 1;
+	int32 UserId = 1;
 }
 
 message PredDialog {
@@ -1606,13 +1606,13 @@ message PredDialog {
 // Pinned	bool // flags.2?true
 // default: Peer
 	TypePeer Peer = 3;
-	int32 Top_message = 4;
-	int32 Read_inbox_max_id = 5;
-	int32 Read_outbox_max_id = 6;
-	int32 Unread_count = 7;
-	int32 Unread_mentions_count = 8;
+	int32 TopMessage = 4;
+	int32 ReadInboxMaxId = 5;
+	int32 ReadOutboxMaxId = 6;
+	int32 UnreadCount = 7;
+	int32 UnreadMentionsCount = 8;
 // default: PeerNotifySettings
-	TypePeerNotifySettings Notify_settings = 9;
+	TypePeerNotifySettings NotifySettings = 9;
 	int32 Pts = 10;
 // default: DraftMessage
 	TypeDraftMessage Draft = 11;// flags.1?DraftMessage
@@ -1624,9 +1624,9 @@ message PredPhotoEmpty {
 
 message PredPhoto {
 	int32 Flags = 1;
-// Has_stickers	bool // flags.0?true
+// HasStickers	bool // flags.0?true
 	int64 Id = 3;
-	int64 Access_hash = 4;
+	int64 AccessHash = 4;
 	int32 Date = 5;
 // default: Vector<PhotoSize>
 	repeated TypePhotoSize Sizes = 6;
@@ -1664,23 +1664,23 @@ message PredGeoPoint {
 
 message PredAuthCheckedPhone {
 // default: Bool
-	TypeBool Phone_registered = 1;
+	TypeBool PhoneRegistered = 1;
 }
 
 message PredAuthSentCode {
 	int32 Flags = 1;
-// Phone_registered	bool // flags.0?true
+// PhoneRegistered	bool // flags.0?true
 // default: authSentCodeType
 	TypeAuthSentCodeType Type = 3;
-	string Phone_code_hash = 4;
+	string PhoneCodeHash = 4;
 // default: authCodeType
-	TypeAuthCodeType Next_type = 5;// flags.1?authCodeType
+	TypeAuthCodeType NextType = 5;// flags.1?authCodeType
 	int32 Timeout = 6;
 }
 
 message PredAuthAuthorization {
 	int32 Flags = 1;
-	int32 Tmp_sessions = 2;
+	int32 TmpSessions = 2;
 // default: User
 	TypeUser User = 3;
 }
@@ -1706,9 +1706,9 @@ message PredInputNotifyAll {
 
 message PredInputPeerNotifySettings {
 	int32 Flags = 1;
-// Show_previews	bool // flags.0?true
+// ShowPreviews	bool // flags.0?true
 // Silent	bool // flags.1?true
-	int32 Mute_until = 4;
+	int32 MuteUntil = 4;
 	string Sound = 5;
 }
 
@@ -1723,9 +1723,9 @@ message PredPeerNotifySettingsEmpty {
 
 message PredPeerNotifySettings {
 	int32 Flags = 1;
-// Show_previews	bool // flags.0?true
+// ShowPreviews	bool // flags.0?true
 // Silent	bool // flags.1?true
-	int32 Mute_until = 4;
+	int32 MuteUntil = 4;
 	string Sound = 5;
 }
 
@@ -1740,49 +1740,49 @@ message PredWallPaper {
 message PredUserFull {
 	int32 Flags = 1;
 // Blocked	bool // flags.0?true
-// Phone_calls_available	bool // flags.4?true
-// Phone_calls_private	bool // flags.5?true
+// PhoneCallsAvailable	bool // flags.4?true
+// PhoneCallsPrivate	bool // flags.5?true
 // default: User
 	TypeUser User = 5;
 	string About = 6;
 // default: contactsLink
 	TypeContactsLink Link = 7;
 // default: Photo
-	TypePhoto Profile_photo = 8;// flags.2?Photo
+	TypePhoto ProfilePhoto = 8;// flags.2?Photo
 // default: PeerNotifySettings
-	TypePeerNotifySettings Notify_settings = 9;
+	TypePeerNotifySettings NotifySettings = 9;
 // default: BotInfo
-	TypeBotInfo Bot_info = 10;// flags.3?BotInfo
-	int32 Common_chats_count = 11;
+	TypeBotInfo BotInfo = 10;// flags.3?BotInfo
+	int32 CommonChatsCount = 11;
 }
 
 message PredContact {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: Bool
 	TypeBool Mutual = 2;
 }
 
 message PredImportedContact {
-	int32 User_id = 1;
-	int64 Client_id = 2;
+	int32 UserId = 1;
+	int64 ClientId = 2;
 }
 
 message PredContactBlocked {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	int32 Date = 2;
 }
 
 message PredContactStatus {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: UserStatus
 	TypeUserStatus Status = 2;
 }
 
 message PredContactsLink {
 // default: ContactLink
-	TypeContactLink My_link = 1;
+	TypeContactLink MyLink = 1;
 // default: ContactLink
-	TypeContactLink Foreign_link = 2;
+	TypeContactLink ForeignLink = 2;
 // default: User
 	TypeUser User = 3;
 }
@@ -1790,7 +1790,7 @@ message PredContactsLink {
 message PredContactsContacts {
 // default: Vector<Contact>
 	repeated TypeContact Contacts = 1;
-	int32 Saved_count = 2;
+	int32 SavedCount = 2;
 // default: Vector<User>
 	repeated TypeUser Users = 3;
 }
@@ -1802,8 +1802,8 @@ message PredContactsImportedContacts {
 // default: Vector<ImportedContact>
 	repeated TypeImportedContact Imported = 1;
 // default: Vector<PopularContact>
-	repeated TypePopularContact Popular_invites = 2;
-	repeated int64 Retry_contacts = 3;
+	repeated TypePopularContact PopularInvites = 2;
+	repeated int64 RetryContacts = 3;
 // default: Vector<User>
 	repeated TypeUser Users = 4;
 }
@@ -1881,7 +1881,7 @@ message PredMessagesChats {
 
 message PredMessagesChatFull {
 // default: ChatFull
-	TypeChatFull Full_chat = 1;
+	TypeChatFull FullChat = 1;
 // default: Vector<Chat>
 	repeated TypeChat Chats = 2;
 // default: Vector<User>
@@ -1890,7 +1890,7 @@ message PredMessagesChatFull {
 
 message PredMessagesAffectedHistory {
 	int32 Pts = 1;
-	int32 Pts_count = 2;
+	int32 PtsCount = 2;
 	int32 Offset = 3;
 }
 
@@ -1910,29 +1910,29 @@ message PredUpdateNewMessage {
 // default: Message
 	TypeMessage Message = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredUpdateMessageID {
 	int32 Id = 1;
-	int64 Random_id = 2;
+	int64 RandomId = 2;
 }
 
 message PredUpdateDeleteMessages {
 	repeated int32 Messages = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredUpdateUserTyping {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: SendMessageAction
 	TypeSendMessageAction Action = 2;
 }
 
 message PredUpdateChatUserTyping {
-	int32 Chat_id = 1;
-	int32 User_id = 2;
+	int32 ChatId = 1;
+	int32 UserId = 2;
 // default: SendMessageAction
 	TypeSendMessageAction Action = 3;
 }
@@ -1943,20 +1943,20 @@ message PredUpdateChatParticipants {
 }
 
 message PredUpdateUserStatus {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: UserStatus
 	TypeUserStatus Status = 2;
 }
 
 message PredUpdateUserName {
-	int32 User_id = 1;
-	string First_name = 2;
-	string Last_name = 3;
+	int32 UserId = 1;
+	string FirstName = 2;
+	string LastName = 3;
 	string Username = 4;
 }
 
 message PredUpdateUserPhoto {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	int32 Date = 2;
 // default: UserProfilePhoto
 	TypeUserProfilePhoto Photo = 3;
@@ -1965,16 +1965,16 @@ message PredUpdateUserPhoto {
 }
 
 message PredUpdateContactRegistered {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	int32 Date = 2;
 }
 
 message PredUpdateContactLink {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: ContactLink
-	TypeContactLink My_link = 2;
+	TypeContactLink MyLink = 2;
 // default: ContactLink
-	TypeContactLink Foreign_link = 3;
+	TypeContactLink ForeignLink = 3;
 }
 
 message PredUpdatesState {
@@ -1982,7 +1982,7 @@ message PredUpdatesState {
 	int32 Qts = 2;
 	int32 Date = 3;
 	int32 Seq = 4;
-	int32 Unread_count = 5;
+	int32 UnreadCount = 5;
 }
 
 message PredUpdatesDifferenceEmpty {
@@ -1992,11 +1992,11 @@ message PredUpdatesDifferenceEmpty {
 
 message PredUpdatesDifference {
 // default: Vector<Message>
-	repeated TypeMessage New_messages = 1;
+	repeated TypeMessage NewMessages = 1;
 // default: Vector<EncryptedMessage>
-	repeated TypeEncryptedMessage New_encrypted_messages = 2;
+	repeated TypeEncryptedMessage NewEncryptedMessages = 2;
 // default: Vector<Update>
-	repeated TypeUpdate Other_updates = 3;
+	repeated TypeUpdate OtherUpdates = 3;
 // default: Vector<Chat>
 	repeated TypeChat Chats = 4;
 // default: Vector<User>
@@ -2007,17 +2007,17 @@ message PredUpdatesDifference {
 
 message PredUpdatesDifferenceSlice {
 // default: Vector<Message>
-	repeated TypeMessage New_messages = 1;
+	repeated TypeMessage NewMessages = 1;
 // default: Vector<EncryptedMessage>
-	repeated TypeEncryptedMessage New_encrypted_messages = 2;
+	repeated TypeEncryptedMessage NewEncryptedMessages = 2;
 // default: Vector<Update>
-	repeated TypeUpdate Other_updates = 3;
+	repeated TypeUpdate OtherUpdates = 3;
 // default: Vector<Chat>
 	repeated TypeChat Chats = 4;
 // default: Vector<User>
 	repeated TypeUser Users = 5;
 // default: updatesState
-	TypeUpdatesState Intermediate_state = 6;
+	TypeUpdatesState IntermediateState = 6;
 }
 
 message PredUpdatesTooLong {
@@ -2027,18 +2027,18 @@ message PredUpdateShortMessage {
 	int32 Flags = 1;
 // Out	bool // flags.1?true
 // Mentioned	bool // flags.4?true
-// Media_unread	bool // flags.5?true
+// MediaUnread	bool // flags.5?true
 // Silent	bool // flags.13?true
 	int32 Id = 6;
-	int32 User_id = 7;
+	int32 UserId = 7;
 	string Message = 8;
 	int32 Pts = 9;
-	int32 Pts_count = 10;
+	int32 PtsCount = 10;
 	int32 Date = 11;
 // default: MessageFwdHeader
-	TypeMessageFwdHeader Fwd_from = 12;// flags.2?MessageFwdHeader
-	int32 Via_bot_id = 13;
-	int32 Reply_to_msg_id = 14;
+	TypeMessageFwdHeader FwdFrom = 12;// flags.2?MessageFwdHeader
+	int32 ViaBotId = 13;
+	int32 ReplyToMsgId = 14;
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 15;// flags.7?Vector<MessageEntity>
 }
@@ -2047,19 +2047,19 @@ message PredUpdateShortChatMessage {
 	int32 Flags = 1;
 // Out	bool // flags.1?true
 // Mentioned	bool // flags.4?true
-// Media_unread	bool // flags.5?true
+// MediaUnread	bool // flags.5?true
 // Silent	bool // flags.13?true
 	int32 Id = 6;
-	int32 From_id = 7;
-	int32 Chat_id = 8;
+	int32 FromId = 7;
+	int32 ChatId = 8;
 	string Message = 9;
 	int32 Pts = 10;
-	int32 Pts_count = 11;
+	int32 PtsCount = 11;
 	int32 Date = 12;
 // default: MessageFwdHeader
-	TypeMessageFwdHeader Fwd_from = 13;// flags.2?MessageFwdHeader
-	int32 Via_bot_id = 14;
-	int32 Reply_to_msg_id = 15;
+	TypeMessageFwdHeader FwdFrom = 13;// flags.2?MessageFwdHeader
+	int32 ViaBotId = 14;
+	int32 ReplyToMsgId = 15;
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 16;// flags.7?Vector<MessageEntity>
 }
@@ -2078,7 +2078,7 @@ message PredUpdatesCombined {
 // default: Vector<Chat>
 	repeated TypeChat Chats = 3;
 	int32 Date = 4;
-	int32 Seq_start = 5;
+	int32 SeqStart = 5;
 	int32 Seq = 6;
 }
 
@@ -2110,59 +2110,59 @@ message PredUploadFile {
 message PredDcOption {
 	int32 Flags = 1;
 // Ipv6	bool // flags.0?true
-// Media_only	bool // flags.1?true
-// Tcpo_only	bool // flags.2?true
+// MediaOnly	bool // flags.1?true
+// TcpoOnly	bool // flags.2?true
 // Cdn	bool // flags.3?true
 // Static	bool // flags.4?true
 	int32 Id = 7;
-	string Ip_address = 8;
+	string IpAddress = 8;
 	int32 Port = 9;
 }
 
 message PredConfig {
 	int32 Flags = 1;
-// Phonecalls_enabled	bool // flags.1?true
+// PhonecallsEnabled	bool // flags.1?true
 	int32 Date = 3;
 	int32 Expires = 4;
 // default: Bool
-	TypeBool Test_mode = 5;
-	int32 This_dc = 6;
+	TypeBool TestMode = 5;
+	int32 ThisDc = 6;
 // default: Vector<DcOption>
-	repeated TypeDcOption Dc_options = 7;
-	int32 Chat_size_max = 8;
-	int32 Megagroup_size_max = 9;
-	int32 Forwarded_count_max = 10;
-	int32 Online_update_period_ms = 11;
-	int32 Offline_blur_timeout_ms = 12;
-	int32 Offline_idle_timeout_ms = 13;
-	int32 Online_cloud_timeout_ms = 14;
-	int32 Notify_cloud_delay_ms = 15;
-	int32 Notify_default_delay_ms = 16;
-	int32 Chat_big_size = 17;
-	int32 Push_chat_period_ms = 18;
-	int32 Push_chat_limit = 19;
-	int32 Saved_gifs_limit = 20;
-	int32 Edit_time_limit = 21;
-	int32 Rating_e_decay = 22;
-	int32 Stickers_recent_limit = 23;
-	int32 Stickers_faved_limit = 24;
-	int32 Tmp_sessions = 25;
-	int32 Pinned_dialogs_count_max = 26;
-	int32 Call_receive_timeout_ms = 27;
-	int32 Call_ring_timeout_ms = 28;
-	int32 Call_connect_timeout_ms = 29;
-	int32 Call_packet_timeout_ms = 30;
-	string Me_url_prefix = 31;
-	string Suggested_lang_code = 32;
-	int32 Lang_pack_version = 33;
+	repeated TypeDcOption DcOptions = 7;
+	int32 ChatSizeMax = 8;
+	int32 MegagroupSizeMax = 9;
+	int32 ForwardedCountMax = 10;
+	int32 OnlineUpdatePeriodMs = 11;
+	int32 OfflineBlurTimeoutMs = 12;
+	int32 OfflineIdleTimeoutMs = 13;
+	int32 OnlineCloudTimeoutMs = 14;
+	int32 NotifyCloudDelayMs = 15;
+	int32 NotifyDefaultDelayMs = 16;
+	int32 ChatBigSize = 17;
+	int32 PushChatPeriodMs = 18;
+	int32 PushChatLimit = 19;
+	int32 SavedGifsLimit = 20;
+	int32 EditTimeLimit = 21;
+	int32 RatingEDecay = 22;
+	int32 StickersRecentLimit = 23;
+	int32 StickersFavedLimit = 24;
+	int32 TmpSessions = 25;
+	int32 PinnedDialogsCountMax = 26;
+	int32 CallReceiveTimeoutMs = 27;
+	int32 CallRingTimeoutMs = 28;
+	int32 CallConnectTimeoutMs = 29;
+	int32 CallPacketTimeoutMs = 30;
+	string MeUrlPrefix = 31;
+	string SuggestedLangCode = 32;
+	int32 LangPackVersion = 33;
 // default: Vector<DisabledFeature>
-	repeated TypeDisabledFeature Disabled_features = 34;
+	repeated TypeDisabledFeature DisabledFeatures = 34;
 }
 
 message PredNearestDc {
 	string Country = 1;
-	int32 This_dc = 2;
-	int32 Nearest_dc = 3;
+	int32 ThisDc = 2;
+	int32 NearestDc = 3;
 }
 
 message PredHelpAppUpdate {
@@ -2204,7 +2204,7 @@ message PredPhotosPhotosSlice {
 message PredWallPaperSolid {
 	int32 Id = 1;
 	string Title = 2;
-	int32 Bg_color = 3;
+	int32 BgColor = 3;
 	int32 Color = 4;
 }
 
@@ -2215,7 +2215,7 @@ message PredUpdateNewEncryptedMessage {
 }
 
 message PredUpdateEncryptedChatTyping {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message PredUpdateEncryption {
@@ -2225,8 +2225,8 @@ message PredUpdateEncryption {
 }
 
 message PredUpdateEncryptedMessagesRead {
-	int32 Chat_id = 1;
-	int32 Max_date = 2;
+	int32 ChatId = 1;
+	int32 MaxDate = 2;
 	int32 Date = 3;
 }
 
@@ -2236,29 +2236,29 @@ message PredEncryptedChatEmpty {
 
 message PredEncryptedChatWaiting {
 	int32 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
 }
 
 message PredEncryptedChatRequested {
 	int32 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
-	bytes G_a = 6;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
+	bytes GA = 6;
 }
 
 message PredEncryptedChat {
 	int32 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
-	bytes G_a_or_b = 6;
-	int64 Key_fingerprint = 7;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
+	bytes GAOrB = 6;
+	int64 KeyFingerprint = 7;
 }
 
 message PredEncryptedChatDiscarded {
@@ -2266,8 +2266,8 @@ message PredEncryptedChatDiscarded {
 }
 
 message PredInputEncryptedChat {
-	int32 Chat_id = 1;
-	int64 Access_hash = 2;
+	int32 ChatId = 1;
+	int64 AccessHash = 2;
 }
 
 message PredEncryptedFileEmpty {
@@ -2275,10 +2275,10 @@ message PredEncryptedFileEmpty {
 
 message PredEncryptedFile {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Size = 3;
-	int32 Dc_id = 4;
-	int32 Key_fingerprint = 5;
+	int32 DcId = 4;
+	int32 KeyFingerprint = 5;
 }
 
 message PredInputEncryptedFileEmpty {
@@ -2287,23 +2287,23 @@ message PredInputEncryptedFileEmpty {
 message PredInputEncryptedFileUploaded {
 	int64 Id = 1;
 	int32 Parts = 2;
-	string Md5_checksum = 3;
-	int32 Key_fingerprint = 4;
+	string Md5Checksum = 3;
+	int32 KeyFingerprint = 4;
 }
 
 message PredInputEncryptedFile {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredInputEncryptedFileLocation {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredEncryptedMessage {
-	int64 Random_id = 1;
-	int32 Chat_id = 2;
+	int64 RandomId = 1;
+	int32 ChatId = 2;
 	int32 Date = 3;
 	bytes Bytes = 4;
 // default: EncryptedFile
@@ -2311,8 +2311,8 @@ message PredEncryptedMessage {
 }
 
 message PredEncryptedMessageService {
-	int64 Random_id = 1;
-	int32 Chat_id = 2;
+	int64 RandomId = 1;
+	int32 ChatId = 2;
 	int32 Date = 3;
 	bytes Bytes = 4;
 }
@@ -2347,7 +2347,7 @@ message PredInputFileBig {
 message PredInputEncryptedFileBigUploaded {
 	int64 Id = 1;
 	int32 Parts = 2;
-	int32 Key_fingerprint = 3;
+	int32 KeyFingerprint = 3;
 }
 
 message PredStorageFilePdf {
@@ -2360,22 +2360,22 @@ message PredInputMessagesFilterPhotoVideoDocuments {
 }
 
 message PredUpdateChatParticipantAdd {
-	int32 Chat_id = 1;
-	int32 User_id = 2;
-	int32 Inviter_id = 3;
+	int32 ChatId = 1;
+	int32 UserId = 2;
+	int32 InviterId = 3;
 	int32 Date = 4;
 	int32 Version = 5;
 }
 
 message PredUpdateChatParticipantDelete {
-	int32 Chat_id = 1;
-	int32 User_id = 2;
+	int32 ChatId = 1;
+	int32 UserId = 2;
 	int32 Version = 3;
 }
 
 message PredUpdateDcOptions {
 // default: Vector<DcOption>
-	repeated TypeDcOption Dc_options = 1;
+	repeated TypeDcOption DcOptions = 1;
 }
 
 message PredInputMediaUploadedDocument {
@@ -2384,13 +2384,13 @@ message PredInputMediaUploadedDocument {
 	TypeInputFile File = 2;
 // default: InputFile
 	TypeInputFile Thumb = 3;// flags.2?InputFile
-	string Mime_type = 4;
+	string MimeType = 4;
 // default: Vector<DocumentAttribute>
 	repeated TypeDocumentAttribute Attributes = 5;
 	string Caption = 6;
 // default: Vector<InputDocument>
 	repeated TypeInputDocument Stickers = 7;// flags.0?Vector<InputDocument>
-	int32 Ttl_seconds = 8;
+	int32 TtlSeconds = 8;
 }
 
 message PredInputMediaDocument {
@@ -2398,7 +2398,7 @@ message PredInputMediaDocument {
 // default: InputDocument
 	TypeInputDocument Id = 2;
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredMessageMediaDocument {
@@ -2406,7 +2406,7 @@ message PredMessageMediaDocument {
 // default: Document
 	TypeDocument Document = 2;// flags.0?Document
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredInputDocumentEmpty {
@@ -2414,12 +2414,12 @@ message PredInputDocumentEmpty {
 
 message PredInputDocument {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredInputDocumentFileLocation {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Version = 3;
 }
 
@@ -2429,20 +2429,20 @@ message PredDocumentEmpty {
 
 message PredDocument {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	string Mime_type = 4;
+	string MimeType = 4;
 	int32 Size = 5;
 // default: PhotoSize
 	TypePhotoSize Thumb = 6;
-	int32 Dc_id = 7;
+	int32 DcId = 7;
 	int32 Version = 8;
 // default: Vector<DocumentAttribute>
 	repeated TypeDocumentAttribute Attributes = 9;
 }
 
 message PredHelpSupport {
-	string Phone_number = 1;
+	string PhoneNumber = 1;
 // default: User
 	TypeUser User = 2;
 }
@@ -2462,7 +2462,7 @@ message PredNotifyUsers {
 }
 
 message PredUpdateUserBlocked {
-	int32 User_id = 1;
+	int32 UserId = 1;
 // default: Bool
 	TypeBool Blocked = 2;
 }
@@ -2471,7 +2471,7 @@ message PredUpdateNotifySettings {
 // default: NotifyPeer
 	TypeNotifyPeer Peer = 1;
 // default: PeerNotifySettings
-	TypePeerNotifySettings Notify_settings = 2;
+	TypePeerNotifySettings NotifySettings = 2;
 }
 
 message PredSendMessageTypingAction {
@@ -2511,7 +2511,7 @@ message PredSendMessageChooseContactAction {
 message PredUpdateServiceNotification {
 	int32 Flags = 1;
 // Popup	bool // flags.0?true
-	int32 Inbox_date = 3;
+	int32 InboxDate = 3;
 	string Type = 4;
 	string Message = 5;
 // default: MessageMedia
@@ -2596,7 +2596,7 @@ message PredAccountDaysTTL {
 }
 
 message PredUpdateUserPhone {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	string Phone = 2;
 }
 
@@ -2620,12 +2620,12 @@ message PredDocumentAttributeSticker {
 // default: InputStickerSet
 	TypeInputStickerSet Stickerset = 4;
 // default: MaskCoords
-	TypeMaskCoords Mask_coords = 5;// flags.0?MaskCoords
+	TypeMaskCoords MaskCoords = 5;// flags.0?MaskCoords
 }
 
 message PredDocumentAttributeVideo {
 	int32 Flags = 1;
-// Round_message	bool // flags.0?true
+// RoundMessage	bool // flags.0?true
 	int32 Duration = 3;
 	int32 W = 4;
 	int32 H = 5;
@@ -2641,7 +2641,7 @@ message PredDocumentAttributeAudio {
 }
 
 message PredDocumentAttributeFilename {
-	string File_name = 1;
+	string FileName = 1;
 }
 
 message PredMessagesStickersNotModified {
@@ -2668,38 +2668,38 @@ message PredMessagesAllStickers {
 }
 
 message PredAccountNoPassword {
-	bytes New_salt = 1;
-	string Email_unconfirmed_pattern = 2;
+	bytes NewSalt = 1;
+	string EmailUnconfirmedPattern = 2;
 }
 
 message PredAccountPassword {
-	bytes Current_salt = 1;
-	bytes New_salt = 2;
+	bytes CurrentSalt = 1;
+	bytes NewSalt = 2;
 	string Hint = 3;
 // default: Bool
-	TypeBool Has_recovery = 4;
-	string Email_unconfirmed_pattern = 5;
+	TypeBool HasRecovery = 4;
+	string EmailUnconfirmedPattern = 5;
 }
 
 message PredUpdateReadHistoryInbox {
 // default: Peer
 	TypePeer Peer = 1;
-	int32 Max_id = 2;
+	int32 MaxId = 2;
 	int32 Pts = 3;
-	int32 Pts_count = 4;
+	int32 PtsCount = 4;
 }
 
 message PredUpdateReadHistoryOutbox {
 // default: Peer
 	TypePeer Peer = 1;
-	int32 Max_id = 2;
+	int32 MaxId = 2;
 	int32 Pts = 3;
-	int32 Pts_count = 4;
+	int32 PtsCount = 4;
 }
 
 message PredMessagesAffectedMessages {
 	int32 Pts = 1;
-	int32 Pts_count = 2;
+	int32 PtsCount = 2;
 }
 
 message PredContactLinkUnknown {
@@ -2718,7 +2718,7 @@ message PredUpdateWebPage {
 // default: WebPage
 	TypeWebPage Webpage = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredWebPageEmpty {
@@ -2734,24 +2734,24 @@ message PredWebPage {
 	int32 Flags = 1;
 	int64 Id = 2;
 	string Url = 3;
-	string Display_url = 4;
+	string DisplayUrl = 4;
 	int32 Hash = 5;
 	string Type = 6;
-	string Site_name = 7;
+	string SiteName = 7;
 	string Title = 8;
 	string Description = 9;
 // default: Photo
 	TypePhoto Photo = 10;// flags.4?Photo
-	string Embed_url = 11;
-	string Embed_type = 12;
-	int32 Embed_width = 13;
-	int32 Embed_height = 14;
+	string EmbedUrl = 11;
+	string EmbedType = 12;
+	int32 EmbedWidth = 13;
+	int32 EmbedHeight = 14;
 	int32 Duration = 15;
 	string Author = 16;
 // default: Document
 	TypeDocument Document = 17;// flags.9?Document
 // default: Page
-	TypePage Cached_page = 18;// flags.10?Page
+	TypePage CachedPage = 18;// flags.10?Page
 }
 
 message PredMessageMediaWebPage {
@@ -2762,14 +2762,14 @@ message PredMessageMediaWebPage {
 message PredAuthorization {
 	int64 Hash = 1;
 	int32 Flags = 2;
-	string Device_model = 3;
+	string DeviceModel = 3;
 	string Platform = 4;
-	string System_version = 5;
-	int32 Api_id = 6;
-	string App_name = 7;
-	string App_version = 8;
-	int32 Date_created = 9;
-	int32 Date_active = 10;
+	string SystemVersion = 5;
+	int32 ApiId = 6;
+	string AppName = 7;
+	string AppVersion = 8;
+	int32 DateCreated = 9;
+	int32 DateActive = 10;
 	string Ip = 11;
 	string Country = 12;
 	string Region = 13;
@@ -2786,23 +2786,23 @@ message PredAccountPasswordSettings {
 
 message PredAccountPasswordInputSettings {
 	int32 Flags = 1;
-	bytes New_salt = 2;
-	bytes New_password_hash = 3;
+	bytes NewSalt = 2;
+	bytes NewPasswordHash = 3;
 	string Hint = 4;
 	string Email = 5;
 }
 
 message PredAuthPasswordRecovery {
-	string Email_pattern = 1;
+	string EmailPattern = 1;
 }
 
 message PredInputMediaVenue {
 // default: InputGeoPoint
-	TypeInputGeoPoint Geo_point = 1;
+	TypeInputGeoPoint GeoPoint = 1;
 	string Title = 2;
 	string Address = 3;
 	string Provider = 4;
-	string Venue_id = 5;
+	string VenueId = 5;
 }
 
 message PredMessageMediaVenue {
@@ -2811,7 +2811,7 @@ message PredMessageMediaVenue {
 	string Title = 2;
 	string Address = 3;
 	string Provider = 4;
-	string Venue_id = 5;
+	string VenueId = 5;
 }
 
 message PredReceivedNotifyMessage {
@@ -2840,19 +2840,19 @@ message PredChatInvite {
 	string Title = 6;
 // default: ChatPhoto
 	TypeChatPhoto Photo = 7;
-	int32 Participants_count = 8;
+	int32 ParticipantsCount = 8;
 // default: Vector<User>
 	repeated TypeUser Participants = 9;// flags.4?Vector<User>
 }
 
 message PredMessageActionChatJoinedByLink {
-	int32 Inviter_id = 1;
+	int32 InviterId = 1;
 }
 
 message PredUpdateReadMessagesContents {
 	repeated int32 Messages = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredInputStickerSetEmpty {
@@ -2860,11 +2860,11 @@ message PredInputStickerSetEmpty {
 
 message PredInputStickerSetID {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredInputStickerSetShortName {
-	string Short_name = 1;
+	string ShortName = 1;
 }
 
 message PredStickerSet {
@@ -2874,9 +2874,9 @@ message PredStickerSet {
 // Official	bool // flags.2?true
 // Masks	bool // flags.3?true
 	int64 Id = 6;
-	int64 Access_hash = 7;
+	int64 AccessHash = 7;
 	string Title = 8;
-	string Short_name = 9;
+	string ShortName = 9;
 	int32 Count = 10;
 	int32 Hash = 11;
 }
@@ -2894,29 +2894,29 @@ message PredUser {
 	int32 Flags = 1;
 // Self	bool // flags.10?true
 // Contact	bool // flags.11?true
-// Mutual_contact	bool // flags.12?true
+// MutualContact	bool // flags.12?true
 // Deleted	bool // flags.13?true
 // Bot	bool // flags.14?true
-// Bot_chat_history	bool // flags.15?true
-// Bot_nochats	bool // flags.16?true
+// BotChatHistory	bool // flags.15?true
+// BotNochats	bool // flags.16?true
 // Verified	bool // flags.17?true
 // Restricted	bool // flags.18?true
 // Min	bool // flags.20?true
-// Bot_inline_geo	bool // flags.21?true
+// BotInlineGeo	bool // flags.21?true
 	int32 Id = 13;
-	int64 Access_hash = 14;
-	string First_name = 15;
-	string Last_name = 16;
+	int64 AccessHash = 14;
+	string FirstName = 15;
+	string LastName = 16;
 	string Username = 17;
 	string Phone = 18;
 // default: UserProfilePhoto
 	TypeUserProfilePhoto Photo = 19;// flags.5?UserProfilePhoto
 // default: UserStatus
 	TypeUserStatus Status = 20;// flags.6?UserStatus
-	int32 Bot_info_version = 21;
-	string Restriction_reason = 22;
-	string Bot_inline_placeholder = 23;
-	string Lang_code = 24;
+	int32 BotInfoVersion = 21;
+	string RestrictionReason = 22;
+	string BotInlinePlaceholder = 23;
+	string LangCode = 24;
 }
 
 message PredBotCommand {
@@ -2925,7 +2925,7 @@ message PredBotCommand {
 }
 
 message PredBotInfo {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	string Description = 2;
 // default: Vector<BotCommand>
 	repeated TypeBotCommand Commands = 3;
@@ -2947,14 +2947,14 @@ message PredReplyKeyboardHide {
 
 message PredReplyKeyboardForceReply {
 	int32 Flags = 1;
-// Single_use	bool // flags.1?true
+// SingleUse	bool // flags.1?true
 // Selective	bool // flags.2?true
 }
 
 message PredReplyKeyboardMarkup {
 	int32 Flags = 1;
 // Resize	bool // flags.0?true
-// Single_use	bool // flags.1?true
+// SingleUse	bool // flags.1?true
 // Selective	bool // flags.2?true
 // default: Vector<KeyboardButtonRow>
 	repeated TypeKeyboardButtonRow Rows = 5;
@@ -2964,13 +2964,13 @@ message PredInputMessagesFilterUrl {
 }
 
 message PredInputPeerUser {
-	int32 User_id = 1;
-	int64 Access_hash = 2;
+	int32 UserId = 1;
+	int64 AccessHash = 2;
 }
 
 message PredInputUser {
-	int32 User_id = 1;
-	int64 Access_hash = 2;
+	int32 UserId = 1;
+	int64 AccessHash = 2;
 }
 
 message PredMessageEntityUnknown {
@@ -3035,7 +3035,7 @@ message PredUpdateShortSentMessage {
 // Out	bool // flags.1?true
 	int32 Id = 3;
 	int32 Pts = 4;
-	int32 Pts_count = 5;
+	int32 PtsCount = 5;
 	int32 Date = 6;
 // default: MessageMedia
 	TypeMessageMedia Media = 7;// flags.9?MessageMedia
@@ -3044,12 +3044,12 @@ message PredUpdateShortSentMessage {
 }
 
 message PredInputPeerChannel {
-	int32 Channel_id = 1;
-	int64 Access_hash = 2;
+	int32 ChannelId = 1;
+	int64 AccessHash = 2;
 }
 
 message PredPeerChannel {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 }
 
 message PredChannel {
@@ -3065,18 +3065,18 @@ message PredChannel {
 // Signatures	bool // flags.11?true
 // Min	bool // flags.12?true
 	int32 Id = 12;
-	int64 Access_hash = 13;
+	int64 AccessHash = 13;
 	string Title = 14;
 	string Username = 15;
 // default: ChatPhoto
 	TypeChatPhoto Photo = 16;
 	int32 Date = 17;
 	int32 Version = 18;
-	string Restriction_reason = 19;
+	string RestrictionReason = 19;
 // default: ChannelAdminRights
-	TypeChannelAdminRights Admin_rights = 20;// flags.14?ChannelAdminRights
+	TypeChannelAdminRights AdminRights = 20;// flags.14?ChannelAdminRights
 // default: ChannelBannedRights
-	TypeChannelBannedRights Banned_rights = 21;// flags.15?ChannelBannedRights
+	TypeChannelBannedRights BannedRights = 21;// flags.15?ChannelBannedRights
 }
 
 message PredChannelForbidden {
@@ -3084,36 +3084,36 @@ message PredChannelForbidden {
 // Broadcast	bool // flags.5?true
 // Megagroup	bool // flags.8?true
 	int32 Id = 4;
-	int64 Access_hash = 5;
+	int64 AccessHash = 5;
 	string Title = 6;
-	int32 Until_date = 7;
+	int32 UntilDate = 7;
 }
 
 message PredChannelFull {
 	int32 Flags = 1;
-// Can_view_participants	bool // flags.3?true
-// Can_set_username	bool // flags.6?true
-// Can_set_stickers	bool // flags.7?true
+// CanViewParticipants	bool // flags.3?true
+// CanSetUsername	bool // flags.6?true
+// CanSetStickers	bool // flags.7?true
 	int32 Id = 5;
 	string About = 6;
-	int32 Participants_count = 7;
-	int32 Admins_count = 8;
-	int32 Kicked_count = 9;
-	int32 Banned_count = 10;
-	int32 Read_inbox_max_id = 11;
-	int32 Read_outbox_max_id = 12;
-	int32 Unread_count = 13;
+	int32 ParticipantsCount = 7;
+	int32 AdminsCount = 8;
+	int32 KickedCount = 9;
+	int32 BannedCount = 10;
+	int32 ReadInboxMaxId = 11;
+	int32 ReadOutboxMaxId = 12;
+	int32 UnreadCount = 13;
 // default: Photo
-	TypePhoto Chat_photo = 14;
+	TypePhoto ChatPhoto = 14;
 // default: PeerNotifySettings
-	TypePeerNotifySettings Notify_settings = 15;
+	TypePeerNotifySettings NotifySettings = 15;
 // default: ExportedChatInvite
-	TypeExportedChatInvite Exported_invite = 16;
+	TypeExportedChatInvite ExportedInvite = 16;
 // default: Vector<BotInfo>
-	repeated TypeBotInfo Bot_info = 17;
-	int32 Migrated_from_chat_id = 18;
-	int32 Migrated_from_max_id = 19;
-	int32 Pinned_msg_id = 20;
+	repeated TypeBotInfo BotInfos = 17;
+	int32 MigratedFromChatId = 18;
+	int32 MigratedFromMaxId = 19;
+	int32 PinnedMsgId = 20;
 // default: StickerSet
 	TypeStickerSet Stickerset = 21;// flags.8?StickerSet
 }
@@ -3136,35 +3136,35 @@ message PredMessagesChannelMessages {
 
 message PredUpdateChannelTooLong {
 	int32 Flags = 1;
-	int32 Channel_id = 2;
+	int32 ChannelId = 2;
 	int32 Pts = 3;
 }
 
 message PredUpdateChannel {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 }
 
 message PredUpdateNewChannelMessage {
 // default: Message
 	TypeMessage Message = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredUpdateReadChannelInbox {
-	int32 Channel_id = 1;
-	int32 Max_id = 2;
+	int32 ChannelId = 1;
+	int32 MaxId = 2;
 }
 
 message PredUpdateDeleteChannelMessages {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 	repeated int32 Messages = 2;
 	int32 Pts = 3;
-	int32 Pts_count = 4;
+	int32 PtsCount = 4;
 }
 
 message PredUpdateChannelMessageViews {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 	int32 Id = 2;
 	int32 Views = 3;
 }
@@ -3173,8 +3173,8 @@ message PredInputChannelEmpty {
 }
 
 message PredInputChannel {
-	int32 Channel_id = 1;
-	int64 Access_hash = 2;
+	int32 ChannelId = 1;
+	int64 AccessHash = 2;
 }
 
 message PredContactsResolvedPeer {
@@ -3187,8 +3187,8 @@ message PredContactsResolvedPeer {
 }
 
 message PredMessageRange {
-	int32 Min_id = 1;
-	int32 Max_id = 2;
+	int32 MinId = 1;
+	int32 MaxId = 2;
 }
 
 message PredUpdatesChannelDifferenceEmpty {
@@ -3203,11 +3203,11 @@ message PredUpdatesChannelDifferenceTooLong {
 // Final	bool // flags.0?true
 	int32 Pts = 3;
 	int32 Timeout = 4;
-	int32 Top_message = 5;
-	int32 Read_inbox_max_id = 6;
-	int32 Read_outbox_max_id = 7;
-	int32 Unread_count = 8;
-	int32 Unread_mentions_count = 9;
+	int32 TopMessage = 5;
+	int32 ReadInboxMaxId = 6;
+	int32 ReadOutboxMaxId = 7;
+	int32 UnreadCount = 8;
+	int32 UnreadMentionsCount = 9;
 // default: Vector<Message>
 	repeated TypeMessage Messages = 10;
 // default: Vector<Chat>
@@ -3222,9 +3222,9 @@ message PredUpdatesChannelDifference {
 	int32 Pts = 3;
 	int32 Timeout = 4;
 // default: Vector<Message>
-	repeated TypeMessage New_messages = 5;
+	repeated TypeMessage NewMessages = 5;
 // default: Vector<Update>
-	repeated TypeUpdate Other_updates = 6;
+	repeated TypeUpdate OtherUpdates = 6;
 // default: Vector<Chat>
 	repeated TypeChat Chats = 7;
 // default: Vector<User>
@@ -3236,24 +3236,24 @@ message PredChannelMessagesFilterEmpty {
 
 message PredChannelMessagesFilter {
 	int32 Flags = 1;
-// Exclude_new_messages	bool // flags.1?true
+// ExcludeNewMessages	bool // flags.1?true
 // default: Vector<MessageRange>
 	repeated TypeMessageRange Ranges = 3;
 }
 
 message PredChannelParticipant {
-	int32 User_id = 1;
+	int32 UserId = 1;
 	int32 Date = 2;
 }
 
 message PredChannelParticipantSelf {
-	int32 User_id = 1;
-	int32 Inviter_id = 2;
+	int32 UserId = 1;
+	int32 InviterId = 2;
 	int32 Date = 3;
 }
 
 message PredChannelParticipantCreator {
-	int32 User_id = 1;
+	int32 UserId = 1;
 }
 
 message PredChannelParticipantsRecent {
@@ -3285,37 +3285,37 @@ message PredTrue {
 }
 
 message PredChatParticipantCreator {
-	int32 User_id = 1;
+	int32 UserId = 1;
 }
 
 message PredChatParticipantAdmin {
-	int32 User_id = 1;
-	int32 Inviter_id = 2;
+	int32 UserId = 1;
+	int32 InviterId = 2;
 	int32 Date = 3;
 }
 
 message PredUpdateChatAdmins {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: Bool
 	TypeBool Enabled = 2;
 	int32 Version = 3;
 }
 
 message PredUpdateChatParticipantAdmin {
-	int32 Chat_id = 1;
-	int32 User_id = 2;
+	int32 ChatId = 1;
+	int32 UserId = 2;
 // default: Bool
-	TypeBool Is_admin = 3;
+	TypeBool IsAdmin = 3;
 	int32 Version = 4;
 }
 
 message PredMessageActionChatMigrateTo {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 }
 
 message PredMessageActionChannelMigrateFrom {
 	string Title = 1;
-	int32 Chat_id = 2;
+	int32 ChatId = 2;
 }
 
 message PredChannelParticipantsBots {
@@ -3354,9 +3354,9 @@ message PredHelpTermsOfService {
 
 message PredFoundGif {
 	string Url = 1;
-	string Thumb_url = 2;
-	string Content_url = 3;
-	string Content_type = 4;
+	string ThumbUrl = 2;
+	string ContentUrl = 3;
+	string ContentType = 4;
 	int32 W = 5;
 	int32 H = 6;
 }
@@ -3367,7 +3367,7 @@ message PredInputMediaGifExternal {
 }
 
 message PredMessagesFoundGifs {
-	int32 Next_offset = 1;
+	int32 NextOffset = 1;
 // default: Vector<FoundGif>
 	repeated TypeFoundGif Results = 2;
 }
@@ -3380,8 +3380,8 @@ message PredUpdateSavedGifs {
 
 message PredUpdateBotInlineQuery {
 	int32 Flags = 1;
-	int64 Query_id = 2;
-	int32 User_id = 3;
+	int64 QueryId = 2;
+	int32 UserId = 3;
 	string Query = 4;
 // default: GeoPoint
 	TypeGeoPoint Geo = 5;// flags.0?GeoPoint
@@ -3409,17 +3409,17 @@ message PredInputBotInlineMessageMediaAuto {
 	int32 Flags = 1;
 	string Caption = 2;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 3;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 3;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineMessageText {
 	int32 Flags = 1;
-// No_webpage	bool // flags.0?true
+// NoWebpage	bool // flags.0?true
 	string Message = 3;
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 4;// flags.1?Vector<MessageEntity>
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 5;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 5;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineResult {
@@ -3429,31 +3429,31 @@ message PredInputBotInlineResult {
 	string Title = 4;
 	string Description = 5;
 	string Url = 6;
-	string Thumb_url = 7;
-	string Content_url = 8;
-	string Content_type = 9;
+	string ThumbUrl = 7;
+	string ContentUrl = 8;
+	string ContentType = 9;
 	int32 W = 10;
 	int32 H = 11;
 	int32 Duration = 12;
 // default: InputBotInlineMessage
-	TypeInputBotInlineMessage Send_message = 13;
+	TypeInputBotInlineMessage SendMessage = 13;
 }
 
 message PredBotInlineMessageMediaAuto {
 	int32 Flags = 1;
 	string Caption = 2;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 3;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 3;// flags.2?ReplyMarkup
 }
 
 message PredBotInlineMessageText {
 	int32 Flags = 1;
-// No_webpage	bool // flags.0?true
+// NoWebpage	bool // flags.0?true
 	string Message = 3;
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 4;// flags.1?Vector<MessageEntity>
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 5;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 5;// flags.2?ReplyMarkup
 }
 
 message PredBotInlineResult {
@@ -3463,26 +3463,26 @@ message PredBotInlineResult {
 	string Title = 4;
 	string Description = 5;
 	string Url = 6;
-	string Thumb_url = 7;
-	string Content_url = 8;
-	string Content_type = 9;
+	string ThumbUrl = 7;
+	string ContentUrl = 8;
+	string ContentType = 9;
 	int32 W = 10;
 	int32 H = 11;
 	int32 Duration = 12;
 // default: BotInlineMessage
-	TypeBotInlineMessage Send_message = 13;
+	TypeBotInlineMessage SendMessage = 13;
 }
 
 message PredMessagesBotResults {
 	int32 Flags = 1;
 // Gallery	bool // flags.0?true
-	int64 Query_id = 3;
-	string Next_offset = 4;
+	int64 QueryId = 3;
+	string NextOffset = 4;
 // default: InlineBotSwitchPM
-	TypeInlineBotSwitchPM Switch_pm = 5;// flags.2?InlineBotSwitchPM
+	TypeInlineBotSwitchPM SwitchPm = 5;// flags.2?InlineBotSwitchPM
 // default: Vector<BotInlineResult>
 	repeated TypeBotInlineResult Results = 6;
-	int32 Cache_time = 7;
+	int32 CacheTime = 7;
 }
 
 message PredInputMessagesFilterVoice {
@@ -3493,13 +3493,13 @@ message PredInputMessagesFilterMusic {
 
 message PredUpdateBotInlineSend {
 	int32 Flags = 1;
-	int32 User_id = 2;
+	int32 UserId = 2;
 	string Query = 3;
 // default: GeoPoint
 	TypeGeoPoint Geo = 4;// flags.0?GeoPoint
 	string Id = 5;
 // default: InputBotInlineMessageID
-	TypeInputBotInlineMessageID Msg_id = 6;// flags.1?InputBotInlineMessageID
+	TypeInputBotInlineMessageID MsgId = 6;// flags.1?InputBotInlineMessageID
 }
 
 message PredInputPrivacyKeyChatInvite {
@@ -3512,7 +3512,7 @@ message PredUpdateEditChannelMessage {
 // default: Message
 	TypeMessage Message = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredExportedMessageLink {
@@ -3521,11 +3521,11 @@ message PredExportedMessageLink {
 
 message PredMessageFwdHeader {
 	int32 Flags = 1;
-	int32 From_id = 2;
+	int32 FromId = 2;
 	int32 Date = 3;
-	int32 Channel_id = 4;
-	int32 Channel_post = 5;
-	string Post_author = 6;
+	int32 ChannelId = 4;
+	int32 ChannelPost = 5;
+	string PostAuthor = 6;
 }
 
 message PredMessageActionPinMessage {
@@ -3533,11 +3533,11 @@ message PredMessageActionPinMessage {
 
 message PredPeerSettings {
 	int32 Flags = 1;
-// Report_spam	bool // flags.0?true
+// ReportSpam	bool // flags.0?true
 }
 
 message PredUpdateChannelPinnedMessage {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 	int32 Id = 2;
 }
 
@@ -3586,7 +3586,7 @@ message PredAuthSentCodeTypeFlashCall {
 
 message PredKeyboardButtonSwitchInline {
 	int32 Flags = 1;
-// Same_peer	bool // flags.0?true
+// SamePeer	bool // flags.0?true
 	string Text = 3;
 	string Query = 4;
 }
@@ -3599,22 +3599,22 @@ message PredReplyInlineMarkup {
 message PredMessagesBotCallbackAnswer {
 	int32 Flags = 1;
 // Alert	bool // flags.1?true
-// Has_url	bool // flags.3?true
+// HasUrl	bool // flags.3?true
 	string Message = 4;
 	string Url = 5;
-	int32 Cache_time = 6;
+	int32 CacheTime = 6;
 }
 
 message PredUpdateBotCallbackQuery {
 	int32 Flags = 1;
-	int64 Query_id = 2;
-	int32 User_id = 3;
+	int64 QueryId = 2;
+	int32 UserId = 3;
 // default: Peer
 	TypePeer Peer = 4;
-	int32 Msg_id = 5;
-	int64 Chat_instance = 6;
+	int32 MsgId = 5;
+	int64 ChatInstance = 6;
 	bytes Data = 7;
-	string Game_short_name = 8;
+	string GameShortName = 8;
 }
 
 message PredMessagesMessageEditData {
@@ -3626,36 +3626,36 @@ message PredUpdateEditMessage {
 // default: Message
 	TypeMessage Message = 1;
 	int32 Pts = 2;
-	int32 Pts_count = 3;
+	int32 PtsCount = 3;
 }
 
 message PredInputBotInlineMessageMediaGeo {
 	int32 Flags = 1;
 // default: InputGeoPoint
-	TypeInputGeoPoint Geo_point = 2;
+	TypeInputGeoPoint GeoPoint = 2;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 3;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 3;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineMessageMediaVenue {
 	int32 Flags = 1;
 // default: InputGeoPoint
-	TypeInputGeoPoint Geo_point = 2;
+	TypeInputGeoPoint GeoPoint = 2;
 	string Title = 3;
 	string Address = 4;
 	string Provider = 5;
-	string Venue_id = 6;
+	string VenueId = 6;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 7;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 7;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineMessageMediaContact {
 	int32 Flags = 1;
-	string Phone_number = 2;
-	string First_name = 3;
-	string Last_name = 4;
+	string PhoneNumber = 2;
+	string FirstName = 3;
+	string LastName = 4;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 5;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 5;// flags.2?ReplyMarkup
 }
 
 message PredBotInlineMessageMediaGeo {
@@ -3663,7 +3663,7 @@ message PredBotInlineMessageMediaGeo {
 // default: GeoPoint
 	TypeGeoPoint Geo = 2;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 3;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 3;// flags.2?ReplyMarkup
 }
 
 message PredBotInlineMessageMediaVenue {
@@ -3673,18 +3673,18 @@ message PredBotInlineMessageMediaVenue {
 	string Title = 3;
 	string Address = 4;
 	string Provider = 5;
-	string Venue_id = 6;
+	string VenueId = 6;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 7;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 7;// flags.2?ReplyMarkup
 }
 
 message PredBotInlineMessageMediaContact {
 	int32 Flags = 1;
-	string Phone_number = 2;
-	string First_name = 3;
-	string Last_name = 4;
+	string PhoneNumber = 2;
+	string FirstName = 3;
+	string LastName = 4;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 5;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 5;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineResultPhoto {
@@ -3693,7 +3693,7 @@ message PredInputBotInlineResultPhoto {
 // default: InputPhoto
 	TypeInputPhoto Photo = 3;
 // default: InputBotInlineMessage
-	TypeInputBotInlineMessage Send_message = 4;
+	TypeInputBotInlineMessage SendMessage = 4;
 }
 
 message PredInputBotInlineResultDocument {
@@ -3705,7 +3705,7 @@ message PredInputBotInlineResultDocument {
 // default: InputDocument
 	TypeInputDocument Document = 6;
 // default: InputBotInlineMessage
-	TypeInputBotInlineMessage Send_message = 7;
+	TypeInputBotInlineMessage SendMessage = 7;
 }
 
 message PredBotInlineMediaResult {
@@ -3719,42 +3719,42 @@ message PredBotInlineMediaResult {
 	string Title = 6;
 	string Description = 7;
 // default: BotInlineMessage
-	TypeBotInlineMessage Send_message = 8;
+	TypeBotInlineMessage SendMessage = 8;
 }
 
 message PredInputBotInlineMessageID {
-	int32 Dc_id = 1;
+	int32 DcId = 1;
 	int64 Id = 2;
-	int64 Access_hash = 3;
+	int64 AccessHash = 3;
 }
 
 message PredUpdateInlineBotCallbackQuery {
 	int32 Flags = 1;
-	int64 Query_id = 2;
-	int32 User_id = 3;
+	int64 QueryId = 2;
+	int32 UserId = 3;
 // default: InputBotInlineMessageID
-	TypeInputBotInlineMessageID Msg_id = 4;
-	int64 Chat_instance = 5;
+	TypeInputBotInlineMessageID MsgId = 4;
+	int64 ChatInstance = 5;
 	bytes Data = 6;
-	string Game_short_name = 7;
+	string GameShortName = 7;
 }
 
 message PredInlineBotSwitchPM {
 	string Text = 1;
-	string Start_param = 2;
+	string StartParam = 2;
 }
 
 message PredMessageEntityMentionName {
 	int32 Offset = 1;
 	int32 Length = 2;
-	int32 User_id = 3;
+	int32 UserId = 3;
 }
 
 message PredInputMessageEntityMentionName {
 	int32 Offset = 1;
 	int32 Length = 2;
 // default: InputUser
-	TypeInputUser User_id = 3;
+	TypeInputUser UserId = 3;
 }
 
 message PredMessagesPeerDialogs {
@@ -3815,8 +3815,8 @@ message PredInputMessagesFilterChatPhotos {
 }
 
 message PredUpdateReadChannelOutbox {
-	int32 Channel_id = 1;
-	int32 Max_id = 2;
+	int32 ChannelId = 1;
+	int32 MaxId = 2;
 }
 
 message PredUpdateDraftMessage {
@@ -3831,8 +3831,8 @@ message PredDraftMessageEmpty {
 
 message PredDraftMessage {
 	int32 Flags = 1;
-// No_webpage	bool // flags.1?true
-	int32 Reply_to_msg_id = 3;
+// NoWebpage	bool // flags.1?true
+	int32 ReplyToMsgId = 3;
 	string Message = 4;
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 5;// flags.3?Vector<MessageEntity>
@@ -3892,14 +3892,14 @@ message PredInputMediaPhotoExternal {
 	int32 Flags = 1;
 	string Url = 2;
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredInputMediaDocumentExternal {
 	int32 Flags = 1;
 	string Url = 2;
 	string Caption = 3;
-	int32 Ttl_seconds = 4;
+	int32 TtlSeconds = 4;
 }
 
 message PredUpdateConfig {
@@ -3909,7 +3909,7 @@ message PredUpdatePtsChanged {
 }
 
 message PredMessageActionGameScore {
-	int64 Game_id = 1;
+	int64 GameId = 1;
 	int32 Score = 2;
 }
 
@@ -3957,21 +3957,21 @@ message PredMessageMediaGame {
 message PredInputBotInlineMessageGame {
 	int32 Flags = 1;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 2;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 2;// flags.2?ReplyMarkup
 }
 
 message PredInputBotInlineResultGame {
 	string Id = 1;
-	string Short_name = 2;
+	string ShortName = 2;
 // default: InputBotInlineMessage
-	TypeInputBotInlineMessage Send_message = 3;
+	TypeInputBotInlineMessage SendMessage = 3;
 }
 
 message PredGame {
 	int32 Flags = 1;
 	int64 Id = 2;
-	int64 Access_hash = 3;
-	string Short_name = 4;
+	int64 AccessHash = 3;
+	string ShortName = 4;
 	string Title = 5;
 	string Description = 6;
 // default: Photo
@@ -3982,18 +3982,18 @@ message PredGame {
 
 message PredInputGameID {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredInputGameShortName {
 // default: InputUser
-	TypeInputUser Bot_id = 1;
-	string Short_name = 2;
+	TypeInputUser BotId = 1;
+	string ShortName = 2;
 }
 
 message PredHighScore {
 	int32 Pos = 1;
-	int32 User_id = 2;
+	int32 UserId = 2;
 	int32 Score = 3;
 }
 
@@ -4011,11 +4011,11 @@ message PredMessagesChatsSlice {
 }
 
 message PredUpdateChannelWebPage {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 // default: WebPage
 	TypeWebPage Webpage = 2;
 	int32 Pts = 3;
-	int32 Pts_count = 4;
+	int32 PtsCount = 4;
 }
 
 message PredUpdatesDifferenceTooLong {
@@ -4064,7 +4064,7 @@ message PredTextUrl {
 // default: RichText
 	TypeRichText Text = 1;
 	string Url = 2;
-	int64 Webpage_id = 3;
+	int64 WebpageId = 3;
 }
 
 message PredTextEmail {
@@ -4091,7 +4091,7 @@ message PredPageBlockSubtitle {
 message PredPageBlockAuthorDate {
 // default: RichText
 	TypeRichText Author = 1;
-	int32 Published_date = 2;
+	int32 PublishedDate = 2;
 }
 
 message PredPageBlockHeader {
@@ -4145,7 +4145,7 @@ message PredPageBlockPullquote {
 }
 
 message PredPageBlockPhoto {
-	int64 Photo_id = 1;
+	int64 PhotoId = 1;
 // default: RichText
 	TypeRichText Caption = 2;
 }
@@ -4154,7 +4154,7 @@ message PredPageBlockVideo {
 	int32 Flags = 1;
 // Autoplay	bool // flags.0?true
 // Loop	bool // flags.1?true
-	int64 Video_id = 4;
+	int64 VideoId = 4;
 // default: RichText
 	TypeRichText Caption = 5;
 }
@@ -4166,11 +4166,11 @@ message PredPageBlockCover {
 
 message PredPageBlockEmbed {
 	int32 Flags = 1;
-// Full_width	bool // flags.0?true
-// Allow_scrolling	bool // flags.3?true
+// FullWidth	bool // flags.0?true
+// AllowScrolling	bool // flags.3?true
 	string Url = 4;
 	string Html = 5;
-	int64 Poster_photo_id = 6;
+	int64 PosterPhotoId = 6;
 	int32 W = 7;
 	int32 H = 8;
 // default: RichText
@@ -4179,8 +4179,8 @@ message PredPageBlockEmbed {
 
 message PredPageBlockEmbedPost {
 	string Url = 1;
-	int64 Webpage_id = 2;
-	int64 Author_photo_id = 3;
+	int64 WebpageId = 2;
+	int64 AuthorPhotoId = 3;
 	string Author = 4;
 	int32 Date = 5;
 // default: Vector<PageBlock>
@@ -4216,7 +4216,7 @@ message PredPageFull {
 
 message PredUpdatePhoneCall {
 // default: PhoneCall
-	TypePhoneCall Phone_call = 1;
+	TypePhoneCall PhoneCall = 1;
 }
 
 message PredUpdateDialogPinned {
@@ -4254,7 +4254,7 @@ message PredPageBlockCollage {
 
 message PredInputPhoneCall {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredPhoneCallEmpty {
@@ -4264,47 +4264,47 @@ message PredPhoneCallEmpty {
 message PredPhoneCallWaiting {
 	int32 Flags = 1;
 	int64 Id = 2;
-	int64 Access_hash = 3;
+	int64 AccessHash = 3;
 	int32 Date = 4;
-	int32 Admin_id = 5;
-	int32 Participant_id = 6;
+	int32 AdminId = 5;
+	int32 ParticipantId = 6;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 7;
-	int32 Receive_date = 8;
+	int32 ReceiveDate = 8;
 }
 
 message PredPhoneCallRequested {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
-	bytes G_a_hash = 6;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
+	bytes GAHash = 6;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 7;
 }
 
 message PredPhoneCall {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
-	bytes G_a_or_b = 6;
-	int64 Key_fingerprint = 7;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
+	bytes GAOrB = 6;
+	int64 KeyFingerprint = 7;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 8;
 // default: PhoneConnection
 	TypePhoneConnection Connection = 9;
 // default: Vector<PhoneConnection>
-	repeated TypePhoneConnection Alternative_connections = 10;
-	int32 Start_date = 11;
+	repeated TypePhoneConnection AlternativeConnections = 10;
+	int32 StartDate = 11;
 }
 
 message PredPhoneCallDiscarded {
 	int32 Flags = 1;
-// Need_rating	bool // flags.2?true
-// Need_debug	bool // flags.3?true
+// NeedRating	bool // flags.2?true
+// NeedDebug	bool // flags.3?true
 	int64 Id = 4;
 // default: PhoneCallDiscardReason
 	TypePhoneCallDiscardReason Reason = 5;// flags.0?PhoneCallDiscardReason
@@ -4316,20 +4316,20 @@ message PredPhoneConnection {
 	string Ip = 2;
 	string Ipv6 = 3;
 	int32 Port = 4;
-	bytes Peer_tag = 5;
+	bytes PeerTag = 5;
 }
 
 message PredPhoneCallProtocol {
 	int32 Flags = 1;
-// Udp_p2p	bool // flags.0?true
-// Udp_reflector	bool // flags.1?true
-	int32 Min_layer = 4;
-	int32 Max_layer = 5;
+// UdpP2p	bool // flags.0?true
+// UdpReflector	bool // flags.1?true
+	int32 MinLayer = 4;
+	int32 MaxLayer = 5;
 }
 
 message PredPhonePhoneCall {
 // default: PhoneCall
-	TypePhoneCall Phone_call = 1;
+	TypePhoneCall PhoneCall = 1;
 // default: Vector<User>
 	repeated TypeUser Users = 2;
 }
@@ -4353,7 +4353,7 @@ message PredInputMessagesFilterPhoneCalls {
 
 message PredMessageActionPhoneCall {
 	int32 Flags = 1;
-	int64 Call_id = 2;
+	int64 CallId = 2;
 // default: PhoneCallDiscardReason
 	TypePhoneCallDiscardReason Reason = 3;// flags.0?PhoneCallDiscardReason
 	int32 Duration = 4;
@@ -4362,10 +4362,10 @@ message PredMessageActionPhoneCall {
 message PredInvoice {
 	int32 Flags = 1;
 // Test	bool // flags.0?true
-// Name_requested	bool // flags.1?true
-// Phone_requested	bool // flags.2?true
-// Email_requested	bool // flags.3?true
-// Shipping_address_requested	bool // flags.4?true
+// NameRequested	bool // flags.1?true
+// PhoneRequested	bool // flags.2?true
+// EmailRequested	bool // flags.3?true
+// ShippingAddressRequested	bool // flags.4?true
 // Flexible	bool // flags.5?true
 	string Currency = 8;
 // default: Vector<LabeledPrice>
@@ -4382,33 +4382,33 @@ message PredInputMediaInvoice {
 	TypeInvoice Invoice = 5;
 	bytes Payload = 6;
 	string Provider = 7;
-	string Start_param = 8;
+	string StartParam = 8;
 }
 
 message PredMessageActionPaymentSentMe {
 	int32 Flags = 1;
 	string Currency = 2;
-	int64 Total_amount = 3;
+	int64 TotalAmount = 3;
 	bytes Payload = 4;
 // default: PaymentRequestedInfo
 	TypePaymentRequestedInfo Info = 5;// flags.0?PaymentRequestedInfo
-	string Shipping_option_id = 6;
+	string ShippingOptionId = 6;
 // default: PaymentCharge
 	TypePaymentCharge Charge = 7;
 }
 
 message PredMessageMediaInvoice {
 	int32 Flags = 1;
-// Shipping_address_requested	bool // flags.1?true
+// ShippingAddressRequested	bool // flags.1?true
 // Test	bool // flags.3?true
 	string Title = 4;
 	string Description = 5;
 // default: WebDocument
 	TypeWebDocument Photo = 6;// flags.0?WebDocument
-	int32 Receipt_msg_id = 7;
+	int32 ReceiptMsgId = 7;
 	string Currency = 8;
-	int64 Total_amount = 9;
-	string Start_param = 10;
+	int64 TotalAmount = 9;
+	string StartParam = 10;
 }
 
 message PredKeyboardButtonBuy {
@@ -4417,36 +4417,36 @@ message PredKeyboardButtonBuy {
 
 message PredMessageActionPaymentSent {
 	string Currency = 1;
-	int64 Total_amount = 2;
+	int64 TotalAmount = 2;
 }
 
 message PredPaymentsPaymentForm {
 	int32 Flags = 1;
-// Can_save_credentials	bool // flags.2?true
-// Password_missing	bool // flags.3?true
-	int32 Bot_id = 4;
+// CanSaveCredentials	bool // flags.2?true
+// PasswordMissing	bool // flags.3?true
+	int32 BotId = 4;
 // default: Invoice
 	TypeInvoice Invoice = 5;
-	int32 Provider_id = 6;
+	int32 ProviderId = 6;
 	string Url = 7;
-	string Native_provider = 8;
+	string NativeProvider = 8;
 // default: DataJSON
-	TypeDataJSON Native_params = 9;// flags.4?DataJSON
+	TypeDataJSON NativeParams = 9;// flags.4?DataJSON
 // default: PaymentRequestedInfo
-	TypePaymentRequestedInfo Saved_info = 10;// flags.0?PaymentRequestedInfo
+	TypePaymentRequestedInfo SavedInfo = 10;// flags.0?PaymentRequestedInfo
 // default: PaymentSavedCredentials
-	TypePaymentSavedCredentials Saved_credentials = 11;// flags.1?PaymentSavedCredentials
+	TypePaymentSavedCredentials SavedCredentials = 11;// flags.1?PaymentSavedCredentials
 // default: Vector<User>
 	repeated TypeUser Users = 12;
 }
 
 message PredPostAddress {
-	string Street_line1 = 1;
-	string Street_line2 = 2;
+	string StreetLine1 = 1;
+	string StreetLine2 = 2;
 	string City = 3;
 	string State = 4;
-	string Country_iso2 = 5;
-	string Post_code = 6;
+	string CountryIso2 = 5;
+	string PostCode = 6;
 }
 
 message PredPaymentRequestedInfo {
@@ -4455,7 +4455,7 @@ message PredPaymentRequestedInfo {
 	string Phone = 3;
 	string Email = 4;
 // default: PostAddress
-	TypePostAddress Shipping_address = 5;// flags.3?PostAddress
+	TypePostAddress ShippingAddress = 5;// flags.3?PostAddress
 }
 
 message PredUpdateBotWebhookJSON {
@@ -4464,30 +4464,30 @@ message PredUpdateBotWebhookJSON {
 }
 
 message PredUpdateBotWebhookJSONQuery {
-	int64 Query_id = 1;
+	int64 QueryId = 1;
 // default: DataJSON
 	TypeDataJSON Data = 2;
 	int32 Timeout = 3;
 }
 
 message PredUpdateBotShippingQuery {
-	int64 Query_id = 1;
-	int32 User_id = 2;
+	int64 QueryId = 1;
+	int32 UserId = 2;
 	bytes Payload = 3;
 // default: PostAddress
-	TypePostAddress Shipping_address = 4;
+	TypePostAddress ShippingAddress = 4;
 }
 
 message PredUpdateBotPrecheckoutQuery {
 	int32 Flags = 1;
-	int64 Query_id = 2;
-	int32 User_id = 3;
+	int64 QueryId = 2;
+	int32 UserId = 3;
 	bytes Payload = 4;
 // default: PaymentRequestedInfo
 	TypePaymentRequestedInfo Info = 5;// flags.0?PaymentRequestedInfo
-	string Shipping_option_id = 6;
+	string ShippingOptionId = 6;
 	string Currency = 7;
-	int64 Total_amount = 8;
+	int64 TotalAmount = 8;
 }
 
 message PredDataJSON {
@@ -4501,7 +4501,7 @@ message PredLabeledPrice {
 
 message PredPaymentCharge {
 	string Id = 1;
-	string Provider_charge_id = 2;
+	string ProviderChargeId = 2;
 }
 
 message PredPaymentSavedCredentialsCard {
@@ -4511,32 +4511,32 @@ message PredPaymentSavedCredentialsCard {
 
 message PredWebDocument {
 	string Url = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Size = 3;
-	string Mime_type = 4;
+	string MimeType = 4;
 // default: Vector<DocumentAttribute>
 	repeated TypeDocumentAttribute Attributes = 5;
-	int32 Dc_id = 6;
+	int32 DcId = 6;
 }
 
 message PredInputWebDocument {
 	string Url = 1;
 	int32 Size = 2;
-	string Mime_type = 3;
+	string MimeType = 3;
 // default: Vector<DocumentAttribute>
 	repeated TypeDocumentAttribute Attributes = 4;
 }
 
 message PredInputWebFileLocation {
 	string Url = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 }
 
 message PredUploadWebFile {
 	int32 Size = 1;
-	string Mime_type = 2;
+	string MimeType = 2;
 // default: storageFileType
-	TypeStorageFileType File_type = 3;
+	TypeStorageFileType FileType = 3;
 	int32 Mtime = 4;
 	bytes Bytes = 5;
 }
@@ -4545,7 +4545,7 @@ message PredPaymentsValidatedRequestedInfo {
 	int32 Flags = 1;
 	string Id = 2;
 // default: Vector<ShippingOption>
-	repeated TypeShippingOption Shipping_options = 3;// flags.1?Vector<ShippingOption>
+	repeated TypeShippingOption ShippingOptions = 3;// flags.1?Vector<ShippingOption>
 }
 
 message PredPaymentsPaymentResult {
@@ -4560,31 +4560,31 @@ message PredPaymentsPaymentVerficationNeeded {
 message PredPaymentsPaymentReceipt {
 	int32 Flags = 1;
 	int32 Date = 2;
-	int32 Bot_id = 3;
+	int32 BotId = 3;
 // default: Invoice
 	TypeInvoice Invoice = 4;
-	int32 Provider_id = 5;
+	int32 ProviderId = 5;
 // default: PaymentRequestedInfo
 	TypePaymentRequestedInfo Info = 6;// flags.0?PaymentRequestedInfo
 // default: ShippingOption
 	TypeShippingOption Shipping = 7;// flags.1?ShippingOption
 	string Currency = 8;
-	int64 Total_amount = 9;
-	string Credentials_title = 10;
+	int64 TotalAmount = 9;
+	string CredentialsTitle = 10;
 // default: Vector<User>
 	repeated TypeUser Users = 11;
 }
 
 message PredPaymentsSavedInfo {
 	int32 Flags = 1;
-// Has_saved_credentials	bool // flags.1?true
+// HasSavedCredentials	bool // flags.1?true
 // default: PaymentRequestedInfo
-	TypePaymentRequestedInfo Saved_info = 3;// flags.0?PaymentRequestedInfo
+	TypePaymentRequestedInfo SavedInfo = 3;// flags.0?PaymentRequestedInfo
 }
 
 message PredInputPaymentCredentialsSaved {
 	string Id = 1;
-	bytes Tmp_password = 2;
+	bytes TmpPassword = 2;
 }
 
 message PredInputPaymentCredentials {
@@ -4595,8 +4595,8 @@ message PredInputPaymentCredentials {
 }
 
 message PredAccountTmpPassword {
-	bytes Tmp_password = 1;
-	int32 Valid_until = 2;
+	bytes TmpPassword = 1;
+	int32 ValidUntil = 2;
 }
 
 message PredShippingOption {
@@ -4608,11 +4608,11 @@ message PredShippingOption {
 
 message PredPhoneCallAccepted {
 	int64 Id = 1;
-	int64 Access_hash = 2;
+	int64 AccessHash = 2;
 	int32 Date = 3;
-	int32 Admin_id = 4;
-	int32 Participant_id = 5;
-	bytes G_b = 6;
+	int32 AdminId = 4;
+	int32 ParticipantId = 5;
+	bytes GB = 6;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 7;
 }
@@ -4624,12 +4624,12 @@ message PredInputMessagesFilterRoundVideo {
 }
 
 message PredUploadFileCdnRedirect {
-	int32 Dc_id = 1;
-	bytes File_token = 2;
-	bytes Encryption_key = 3;
-	bytes Encryption_iv = 4;
+	int32 DcId = 1;
+	bytes FileToken = 2;
+	bytes EncryptionKey = 3;
+	bytes EncryptionIv = 4;
 // default: Vector<CdnFileHash>
-	repeated TypeCdnFileHash Cdn_file_hashes = 5;
+	repeated TypeCdnFileHash CdnFileHashes = 5;
 }
 
 message PredSendMessageRecordRoundAction {
@@ -4640,7 +4640,7 @@ message PredSendMessageUploadRoundAction {
 }
 
 message PredUploadCdnFileReuploadNeeded {
-	bytes Request_token = 1;
+	bytes RequestToken = 1;
 }
 
 message PredUploadCdnFile {
@@ -4648,13 +4648,13 @@ message PredUploadCdnFile {
 }
 
 message PredCdnPublicKey {
-	int32 Dc_id = 1;
-	string Public_key = 2;
+	int32 DcId = 1;
+	string PublicKey = 2;
 }
 
 message PredCdnConfig {
 // default: Vector<CdnPublicKey>
-	repeated TypeCdnPublicKey Public_keys = 1;
+	repeated TypeCdnPublicKey PublicKeys = 1;
 }
 
 message PredUpdateLangPackTooLong {
@@ -4676,7 +4676,7 @@ message PredInputStickerSetItem {
 	TypeInputDocument Document = 2;
 	string Emoji = 3;
 // default: MaskCoords
-	TypeMaskCoords Mask_coords = 4;// flags.0?MaskCoords
+	TypeMaskCoords MaskCoords = 4;// flags.0?MaskCoords
 }
 
 message PredLangPackString {
@@ -4687,12 +4687,12 @@ message PredLangPackString {
 message PredLangPackStringPluralized {
 	int32 Flags = 1;
 	string Key = 2;
-	string Zero_value = 3;
-	string One_value = 4;
-	string Two_value = 5;
-	string Few_value = 6;
-	string Many_value = 7;
-	string Other_value = 8;
+	string ZeroValue = 3;
+	string OneValue = 4;
+	string TwoValue = 5;
+	string FewValue = 6;
+	string ManyValue = 7;
+	string OtherValue = 8;
 }
 
 message PredLangPackStringDeleted {
@@ -4700,8 +4700,8 @@ message PredLangPackStringDeleted {
 }
 
 message PredLangPackDifference {
-	string Lang_code = 1;
-	int32 From_version = 2;
+	string LangCode = 1;
+	int32 FromVersion = 2;
 	int32 Version = 3;
 // default: Vector<LangPackString>
 	repeated TypeLangPackString Strings = 4;
@@ -4709,29 +4709,29 @@ message PredLangPackDifference {
 
 message PredLangPackLanguage {
 	string Name = 1;
-	string Native_name = 2;
-	string Lang_code = 3;
+	string NativeName = 2;
+	string LangCode = 3;
 }
 
 message PredChannelParticipantAdmin {
 	int32 Flags = 1;
-// Can_edit	bool // flags.0?true
-	int32 User_id = 3;
-	int32 Inviter_id = 4;
-	int32 Promoted_by = 5;
+// CanEdit	bool // flags.0?true
+	int32 UserId = 3;
+	int32 InviterId = 4;
+	int32 PromotedBy = 5;
 	int32 Date = 6;
 // default: ChannelAdminRights
-	TypeChannelAdminRights Admin_rights = 7;
+	TypeChannelAdminRights AdminRights = 7;
 }
 
 message PredChannelParticipantBanned {
 	int32 Flags = 1;
 // Left	bool // flags.0?true
-	int32 User_id = 3;
-	int32 Kicked_by = 4;
+	int32 UserId = 3;
+	int32 KickedBy = 4;
 	int32 Date = 5;
 // default: ChannelBannedRights
-	TypeChannelBannedRights Banned_rights = 6;
+	TypeChannelBannedRights BannedRights = 6;
 }
 
 message PredChannelParticipantsBanned {
@@ -4746,67 +4746,67 @@ message PredTopPeerCategoryPhoneCalls {
 }
 
 message PredPageBlockAudio {
-	int64 Audio_id = 1;
+	int64 AudioId = 1;
 // default: RichText
 	TypeRichText Caption = 2;
 }
 
 message PredChannelAdminRights {
 	int32 Flags = 1;
-// Change_info	bool // flags.0?true
-// Post_messages	bool // flags.1?true
-// Edit_messages	bool // flags.2?true
-// Delete_messages	bool // flags.3?true
-// Ban_users	bool // flags.4?true
-// Invite_users	bool // flags.5?true
-// Invite_link	bool // flags.6?true
-// Pin_messages	bool // flags.7?true
-// Add_admins	bool // flags.9?true
+// ChangeInfo	bool // flags.0?true
+// PostMessages	bool // flags.1?true
+// EditMessages	bool // flags.2?true
+// DeleteMessages	bool // flags.3?true
+// BanUsers	bool // flags.4?true
+// InviteUsers	bool // flags.5?true
+// InviteLink	bool // flags.6?true
+// PinMessages	bool // flags.7?true
+// AddAdmins	bool // flags.9?true
 }
 
 message PredChannelBannedRights {
 	int32 Flags = 1;
-// View_messages	bool // flags.0?true
-// Send_messages	bool // flags.1?true
-// Send_media	bool // flags.2?true
-// Send_stickers	bool // flags.3?true
-// Send_gifs	bool // flags.4?true
-// Send_games	bool // flags.5?true
-// Send_inline	bool // flags.6?true
-// Embed_links	bool // flags.7?true
-	int32 Until_date = 10;
+// ViewMessages	bool // flags.0?true
+// SendMessages	bool // flags.1?true
+// SendMedia	bool // flags.2?true
+// SendStickers	bool // flags.3?true
+// SendGifs	bool // flags.4?true
+// SendGames	bool // flags.5?true
+// SendInline	bool // flags.6?true
+// EmbedLinks	bool // flags.7?true
+	int32 UntilDate = 10;
 }
 
 message PredChannelAdminLogEventActionChangeTitle {
-	string Prev_value = 1;
-	string New_value = 2;
+	string PrevValue = 1;
+	string NewValue = 2;
 }
 
 message PredChannelAdminLogEventActionChangeAbout {
-	string Prev_value = 1;
-	string New_value = 2;
+	string PrevValue = 1;
+	string NewValue = 2;
 }
 
 message PredChannelAdminLogEventActionChangeUsername {
-	string Prev_value = 1;
-	string New_value = 2;
+	string PrevValue = 1;
+	string NewValue = 2;
 }
 
 message PredChannelAdminLogEventActionChangePhoto {
 // default: ChatPhoto
-	TypeChatPhoto Prev_photo = 1;
+	TypeChatPhoto PrevPhoto = 1;
 // default: ChatPhoto
-	TypeChatPhoto New_photo = 2;
+	TypeChatPhoto NewPhoto = 2;
 }
 
 message PredChannelAdminLogEventActionToggleInvites {
 // default: Bool
-	TypeBool New_value = 1;
+	TypeBool NewValue = 1;
 }
 
 message PredChannelAdminLogEventActionToggleSignatures {
 // default: Bool
-	TypeBool New_value = 1;
+	TypeBool NewValue = 1;
 }
 
 message PredChannelAdminLogEventActionUpdatePinned {
@@ -4816,9 +4816,9 @@ message PredChannelAdminLogEventActionUpdatePinned {
 
 message PredChannelAdminLogEventActionEditMessage {
 // default: Message
-	TypeMessage Prev_message = 1;
+	TypeMessage PrevMessage = 1;
 // default: Message
-	TypeMessage New_message = 2;
+	TypeMessage NewMessage = 2;
 }
 
 message PredChannelAdminLogEventActionDeleteMessage {
@@ -4839,22 +4839,22 @@ message PredChannelAdminLogEventActionParticipantInvite {
 
 message PredChannelAdminLogEventActionParticipantToggleBan {
 // default: ChannelParticipant
-	TypeChannelParticipant Prev_participant = 1;
+	TypeChannelParticipant PrevParticipant = 1;
 // default: ChannelParticipant
-	TypeChannelParticipant New_participant = 2;
+	TypeChannelParticipant NewParticipant = 2;
 }
 
 message PredChannelAdminLogEventActionParticipantToggleAdmin {
 // default: ChannelParticipant
-	TypeChannelParticipant Prev_participant = 1;
+	TypeChannelParticipant PrevParticipant = 1;
 // default: ChannelParticipant
-	TypeChannelParticipant New_participant = 2;
+	TypeChannelParticipant NewParticipant = 2;
 }
 
 message PredChannelAdminLogEvent {
 	int64 Id = 1;
 	int32 Date = 2;
-	int32 User_id = 3;
+	int32 UserId = 3;
 // default: ChannelAdminLogEventAction
 	TypeChannelAdminLogEventAction Action = 4;
 }
@@ -4890,7 +4890,7 @@ message PredMessageActionScreenshotTaken {
 }
 
 message PredPopularContact {
-	int64 Client_id = 1;
+	int64 ClientId = 1;
 	int32 Importers = 2;
 }
 
@@ -4911,9 +4911,9 @@ message PredUpdateContactsReset {
 
 message PredChannelAdminLogEventActionChangeStickerSet {
 // default: InputStickerSet
-	TypeInputStickerSet Prev_stickerset = 1;
+	TypeInputStickerSet PrevStickerset = 1;
 // default: InputStickerSet
-	TypeInputStickerSet New_stickerset = 2;
+	TypeInputStickerSet NewStickerset = 2;
 }
 
 message PredUpdateFavedStickers {
@@ -4931,7 +4931,7 @@ message PredMessagesFavedStickersNotModified {
 }
 
 message PredUpdateChannelReadMessagesContents {
-	int32 Channel_id = 1;
+	int32 ChannelId = 1;
 	repeated int32 Messages = 2;
 }
 
@@ -4939,41 +4939,41 @@ message PredUpdateChannelReadMessagesContents {
 
 // Requests
 message ReqInvokeAfterMsg {
-	int64 Msg_id = 1;
+	int64 MsgId = 1;
 	google.protobuf.Any Query = 2;
 }
 
 message ReqInvokeAfterMsgs {
-	repeated int64 Msg_ids = 1;
+	repeated int64 MsgIds = 1;
 	google.protobuf.Any Query = 2;
 }
 
 message ReqAuthCheckPhone {
-	string Phone_number = 1;
+	string PhoneNumber = 1;
 }
 
 message ReqAuthSendCode {
 	int32 Flags = 1;
-// Allow_flashcall	bool // flags.0?true
-	string Phone_number = 3;
+// AllowFlashcall	bool // flags.0?true
+	string PhoneNumber = 3;
 // default: Bool
-	TypeBool Current_number = 4;// flags.0?Bool
-	int32 Api_id = 5;
-	string Api_hash = 6;
+	TypeBool CurrentNumber = 4;// flags.0?Bool
+	int32 ApiId = 5;
+	string ApiHash = 6;
 }
 
 message ReqAuthSignUp {
-	string Phone_number = 1;
-	string Phone_code_hash = 2;
-	string Phone_code = 3;
-	string First_name = 4;
-	string Last_name = 5;
+	string PhoneNumber = 1;
+	string PhoneCodeHash = 2;
+	string PhoneCode = 3;
+	string FirstName = 4;
+	string LastName = 5;
 }
 
 message ReqAuthSignIn {
-	string Phone_number = 1;
-	string Phone_code_hash = 2;
-	string Phone_code = 3;
+	string PhoneNumber = 1;
+	string PhoneCodeHash = 2;
+	string PhoneCode = 3;
 }
 
 message ReqAuthLogOut {
@@ -4983,12 +4983,12 @@ message ReqAuthResetAuthorizations {
 }
 
 message ReqAuthSendInvites {
-	repeated string Phone_numbers = 1;
+	repeated string PhoneNumbers = 1;
 	string Message = 2;
 }
 
 message ReqAuthExportAuthorization {
-	int32 Dc_id = 1;
+	int32 DcId = 1;
 }
 
 message ReqAuthImportAuthorization {
@@ -4997,12 +4997,12 @@ message ReqAuthImportAuthorization {
 }
 
 message ReqAccountRegisterDevice {
-	int32 Token_type = 1;
+	int32 TokenType = 1;
 	string Token = 2;
 }
 
 message ReqAccountUnregisterDevice {
-	int32 Token_type = 1;
+	int32 TokenType = 1;
 	string Token = 2;
 }
 
@@ -5023,8 +5023,8 @@ message ReqAccountResetNotifySettings {
 
 message ReqAccountUpdateProfile {
 	int32 Flags = 1;
-	string First_name = 2;
-	string Last_name = 3;
+	string FirstName = 2;
+	string LastName = 3;
 	string About = 4;
 }
 
@@ -5094,23 +5094,23 @@ message ReqMessagesGetMessages {
 
 message ReqMessagesGetDialogs {
 	int32 Flags = 1;
-// Exclude_pinned	bool // flags.0?true
-	int32 Offset_date = 3;
-	int32 Offset_id = 4;
+// ExcludePinned	bool // flags.0?true
+	int32 OffsetDate = 3;
+	int32 OffsetId = 4;
 // default: InputPeer
-	TypeInputPeer Offset_peer = 5;
+	TypeInputPeer OffsetPeer = 5;
 	int32 Limit = 6;
 }
 
 message ReqMessagesGetHistory {
 // default: InputPeer
 	TypeInputPeer Peer = 1;
-	int32 Offset_id = 2;
-	int32 Offset_date = 3;
-	int32 Add_offset = 4;
+	int32 OffsetId = 2;
+	int32 OffsetDate = 3;
+	int32 AddOffset = 4;
 	int32 Limit = 5;
-	int32 Max_id = 6;
-	int32 Min_id = 7;
+	int32 MaxId = 6;
+	int32 MinId = 7;
 }
 
 message ReqMessagesSearch {
@@ -5119,30 +5119,30 @@ message ReqMessagesSearch {
 	TypeInputPeer Peer = 2;
 	string Q = 3;
 // default: InputUser
-	TypeInputUser From_id = 4;// flags.0?InputUser
+	TypeInputUser FromId = 4;// flags.0?InputUser
 // default: MessagesFilter
 	TypeMessagesFilter Filter = 5;
-	int32 Min_date = 6;
-	int32 Max_date = 7;
-	int32 Offset_id = 8;
-	int32 Add_offset = 9;
+	int32 MinDate = 6;
+	int32 MaxDate = 7;
+	int32 OffsetId = 8;
+	int32 AddOffset = 9;
 	int32 Limit = 10;
-	int32 Max_id = 11;
-	int32 Min_id = 12;
+	int32 MaxId = 11;
+	int32 MinId = 12;
 }
 
 message ReqMessagesReadHistory {
 // default: InputPeer
 	TypeInputPeer Peer = 1;
-	int32 Max_id = 2;
+	int32 MaxId = 2;
 }
 
 message ReqMessagesDeleteHistory {
 	int32 Flags = 1;
-// Just_clear	bool // flags.0?true
+// JustClear	bool // flags.0?true
 // default: InputPeer
 	TypeInputPeer Peer = 3;
-	int32 Max_id = 4;
+	int32 MaxId = 4;
 }
 
 message ReqMessagesDeleteMessages {
@@ -5152,7 +5152,7 @@ message ReqMessagesDeleteMessages {
 }
 
 message ReqMessagesReceivedMessages {
-	int32 Max_id = 1;
+	int32 MaxId = 1;
 }
 
 message ReqMessagesSetTyping {
@@ -5164,17 +5164,17 @@ message ReqMessagesSetTyping {
 
 message ReqMessagesSendMessage {
 	int32 Flags = 1;
-// No_webpage	bool // flags.1?true
+// NoWebpage	bool // flags.1?true
 // Silent	bool // flags.5?true
 // Background	bool // flags.6?true
-// Clear_draft	bool // flags.7?true
+// ClearDraft	bool // flags.7?true
 // default: InputPeer
 	TypeInputPeer Peer = 6;
-	int32 Reply_to_msg_id = 7;
+	int32 ReplyToMsgId = 7;
 	string Message = 8;
-	int64 Random_id = 9;
+	int64 RandomId = 9;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 10;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 10;// flags.2?ReplyMarkup
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 11;// flags.3?Vector<MessageEntity>
 }
@@ -5183,28 +5183,28 @@ message ReqMessagesSendMedia {
 	int32 Flags = 1;
 // Silent	bool // flags.5?true
 // Background	bool // flags.6?true
-// Clear_draft	bool // flags.7?true
+// ClearDraft	bool // flags.7?true
 // default: InputPeer
 	TypeInputPeer Peer = 5;
-	int32 Reply_to_msg_id = 6;
+	int32 ReplyToMsgId = 6;
 // default: InputMedia
 	TypeInputMedia Media = 7;
-	int64 Random_id = 8;
+	int64 RandomId = 8;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 9;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 9;// flags.2?ReplyMarkup
 }
 
 message ReqMessagesForwardMessages {
 	int32 Flags = 1;
 // Silent	bool // flags.5?true
 // Background	bool // flags.6?true
-// With_my_score	bool // flags.8?true
+// WithMyScore	bool // flags.8?true
 // default: InputPeer
-	TypeInputPeer From_peer = 5;
+	TypeInputPeer FromPeer = 5;
 	repeated int32 Id = 6;
-	repeated int64 Random_id = 7;
+	repeated int64 RandomId = 7;
 // default: InputPeer
-	TypeInputPeer To_peer = 8;
+	TypeInputPeer ToPeer = 8;
 }
 
 message ReqMessagesGetChats {
@@ -5212,31 +5212,31 @@ message ReqMessagesGetChats {
 }
 
 message ReqMessagesGetFullChat {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message ReqMessagesEditChatTitle {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 	string Title = 2;
 }
 
 message ReqMessagesEditChatPhoto {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: InputChatPhoto
 	TypeInputChatPhoto Photo = 2;
 }
 
 message ReqMessagesAddChatUser {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
-	int32 Fwd_limit = 3;
+	TypeInputUser UserId = 2;
+	int32 FwdLimit = 3;
 }
 
 message ReqMessagesDeleteChatUser {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 }
 
 message ReqMessagesCreateChat {
@@ -5251,7 +5251,7 @@ message ReqUpdatesGetState {
 message ReqUpdatesGetDifference {
 	int32 Flags = 1;
 	int32 Pts = 2;
-	int32 Pts_total_limit = 3;
+	int32 PtsTotalLimit = 3;
 	int32 Date = 4;
 	int32 Qts = 5;
 }
@@ -5267,8 +5267,8 @@ message ReqPhotosUploadProfilePhoto {
 }
 
 message ReqUploadSaveFilePart {
-	int64 File_id = 1;
-	int32 File_part = 2;
+	int64 FileId = 1;
+	int32 FilePart = 2;
 	bytes Bytes = 3;
 }
 
@@ -5303,9 +5303,9 @@ message ReqPhotosDeletePhotos {
 
 message ReqPhotosGetUserPhotos {
 // default: InputUser
-	TypeInputUser User_id = 1;
+	TypeInputUser UserId = 1;
 	int32 Offset = 2;
-	int64 Max_id = 3;
+	int64 MaxId = 3;
 	int32 Limit = 4;
 }
 
@@ -5313,30 +5313,30 @@ message ReqMessagesForwardMessage {
 // default: InputPeer
 	TypeInputPeer Peer = 1;
 	int32 Id = 2;
-	int64 Random_id = 3;
+	int64 RandomId = 3;
 }
 
 message ReqMessagesGetDhConfig {
 	int32 Version = 1;
-	int32 Random_length = 2;
+	int32 RandomLength = 2;
 }
 
 message ReqMessagesRequestEncryption {
 // default: InputUser
-	TypeInputUser User_id = 1;
-	int32 Random_id = 2;
-	bytes G_a = 3;
+	TypeInputUser UserId = 1;
+	int32 RandomId = 2;
+	bytes GA = 3;
 }
 
 message ReqMessagesAcceptEncryption {
 // default: InputEncryptedChat
 	TypeInputEncryptedChat Peer = 1;
-	bytes G_b = 2;
-	int64 Key_fingerprint = 3;
+	bytes GB = 2;
+	int64 KeyFingerprint = 3;
 }
 
 message ReqMessagesDiscardEncryption {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message ReqMessagesSetEncryptedTyping {
@@ -5349,20 +5349,20 @@ message ReqMessagesSetEncryptedTyping {
 message ReqMessagesReadEncryptedHistory {
 // default: InputEncryptedChat
 	TypeInputEncryptedChat Peer = 1;
-	int32 Max_date = 2;
+	int32 MaxDate = 2;
 }
 
 message ReqMessagesSendEncrypted {
 // default: InputEncryptedChat
 	TypeInputEncryptedChat Peer = 1;
-	int64 Random_id = 2;
+	int64 RandomId = 2;
 	bytes Data = 3;
 }
 
 message ReqMessagesSendEncryptedFile {
 // default: InputEncryptedChat
 	TypeInputEncryptedChat Peer = 1;
-	int64 Random_id = 2;
+	int64 RandomId = 2;
 	bytes Data = 3;
 // default: InputEncryptedFile
 	TypeInputEncryptedFile File = 4;
@@ -5371,29 +5371,29 @@ message ReqMessagesSendEncryptedFile {
 message ReqMessagesSendEncryptedService {
 // default: InputEncryptedChat
 	TypeInputEncryptedChat Peer = 1;
-	int64 Random_id = 2;
+	int64 RandomId = 2;
 	bytes Data = 3;
 }
 
 message ReqMessagesReceivedQueue {
-	int32 Max_qts = 1;
+	int32 MaxQts = 1;
 }
 
 message ReqUploadSaveBigFilePart {
-	int64 File_id = 1;
-	int32 File_part = 2;
-	int32 File_total_parts = 3;
+	int64 FileId = 1;
+	int32 FilePart = 2;
+	int32 FileTotalParts = 3;
 	bytes Bytes = 4;
 }
 
 message ReqInitConnection {
-	int32 Api_id = 1;
-	string Device_model = 2;
-	string System_version = 3;
-	string App_version = 4;
-	string System_lang_code = 5;
-	string Lang_pack = 6;
-	string Lang_code = 7;
+	int32 ApiId = 1;
+	string DeviceModel = 2;
+	string SystemVersion = 3;
+	string AppVersion = 4;
+	string SystemLangCode = 5;
+	string LangPack = 6;
+	string LangCode = 7;
 	google.protobuf.Any Query = 8;
 }
 
@@ -5401,17 +5401,17 @@ message ReqHelpGetSupport {
 }
 
 message ReqAuthBindTempAuthKey {
-	int64 Perm_auth_key_id = 1;
+	int64 PermAuthKeyId = 1;
 	int64 Nonce = 2;
-	int32 Expires_at = 3;
-	bytes Encrypted_message = 4;
+	int32 ExpiresAt = 3;
+	bytes EncryptedMessage = 4;
 }
 
 message ReqContactsExportCard {
 }
 
 message ReqContactsImportCard {
-	repeated int32 Export_card = 1;
+	repeated int32 ExportCard = 1;
 }
 
 message ReqMessagesReadMessageContents {
@@ -5461,16 +5461,16 @@ message ReqContactsResolveUsername {
 
 message ReqAccountSendChangePhoneCode {
 	int32 Flags = 1;
-// Allow_flashcall	bool // flags.0?true
-	string Phone_number = 3;
+// AllowFlashcall	bool // flags.0?true
+	string PhoneNumber = 3;
 // default: Bool
-	TypeBool Current_number = 4;// flags.0?Bool
+	TypeBool CurrentNumber = 4;// flags.0?Bool
 }
 
 message ReqAccountChangePhone {
-	string Phone_number = 1;
-	string Phone_code_hash = 2;
-	string Phone_code = 3;
+	string PhoneNumber = 1;
+	string PhoneCodeHash = 2;
+	string PhoneCode = 3;
 }
 
 message ReqMessagesGetAllStickers {
@@ -5485,7 +5485,7 @@ message ReqAccountGetPassword {
 }
 
 message ReqAuthCheckPassword {
-	bytes Password_hash = 1;
+	bytes PasswordHash = 1;
 }
 
 message ReqMessagesGetWebPagePreview {
@@ -5500,13 +5500,13 @@ message ReqAccountResetAuthorization {
 }
 
 message ReqAccountGetPasswordSettings {
-	bytes Current_password_hash = 1;
+	bytes CurrentPasswordHash = 1;
 }
 
 message ReqAccountUpdatePasswordSettings {
-	bytes Current_password_hash = 1;
+	bytes CurrentPasswordHash = 1;
 // default: accountPasswordInputSettings
-	TypeAccountPasswordInputSettings New_settings = 2;
+	TypeAccountPasswordInputSettings NewSettings = 2;
 }
 
 message ReqAuthRequestPasswordRecovery {
@@ -5521,7 +5521,7 @@ message ReqInvokeWithoutUpdates {
 }
 
 message ReqMessagesExportChatInvite {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message ReqMessagesCheckChatInvite {
@@ -5551,9 +5551,9 @@ message ReqMessagesUninstallStickerSet {
 
 message ReqAuthImportBotAuthorization {
 	int32 Flags = 1;
-	int32 Api_id = 2;
-	string Api_hash = 3;
-	string Bot_auth_token = 4;
+	int32 ApiId = 2;
+	string ApiHash = 3;
+	string BotAuthToken = 4;
 }
 
 message ReqMessagesStartBot {
@@ -5561,12 +5561,12 @@ message ReqMessagesStartBot {
 	TypeInputUser Bot = 1;
 // default: InputPeer
 	TypeInputPeer Peer = 2;
-	int64 Random_id = 3;
-	string Start_param = 4;
+	int64 RandomId = 3;
+	string StartParam = 4;
 }
 
 message ReqHelpGetAppChangelog {
-	string Prev_app_version = 1;
+	string PrevAppVersion = 1;
 }
 
 message ReqMessagesReportSpam {
@@ -5596,7 +5596,7 @@ message ReqUpdatesGetChannelDifference {
 message ReqChannelsReadHistory {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
-	int32 Max_id = 2;
+	int32 MaxId = 2;
 }
 
 message ReqChannelsDeleteMessages {
@@ -5609,14 +5609,14 @@ message ReqChannelsDeleteUserHistory {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 }
 
 message ReqChannelsReportSpam {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 	repeated int32 Id = 3;
 }
 
@@ -5639,7 +5639,7 @@ message ReqChannelsGetParticipant {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 }
 
 message ReqChannelsGetChannels {
@@ -5670,9 +5670,9 @@ message ReqChannelsEditAdmin {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 // default: ChannelAdminRights
-	TypeChannelAdminRights Admin_rights = 3;
+	TypeChannelAdminRights AdminRights = 3;
 }
 
 message ReqChannelsEditTitle {
@@ -5728,29 +5728,29 @@ message ReqChannelsDeleteChannel {
 }
 
 message ReqMessagesToggleChatAdmins {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: Bool
 	TypeBool Enabled = 2;
 }
 
 message ReqMessagesEditChatAdmin {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 // default: Bool
-	TypeBool Is_admin = 3;
+	TypeBool IsAdmin = 3;
 }
 
 message ReqMessagesMigrateChat {
-	int32 Chat_id = 1;
+	int32 ChatId = 1;
 }
 
 message ReqMessagesSearchGlobal {
 	string Q = 1;
-	int32 Offset_date = 2;
+	int32 OffsetDate = 2;
 // default: InputPeer
-	TypeInputPeer Offset_peer = 3;
-	int32 Offset_id = 4;
+	TypeInputPeer OffsetPeer = 3;
+	int32 OffsetId = 4;
 	int32 Limit = 5;
 }
 
@@ -5773,7 +5773,7 @@ message ReqHelpGetTermsOfService {
 message ReqMessagesGetDocumentByHash {
 	bytes Sha256 = 1;
 	int32 Size = 2;
-	string Mime_type = 3;
+	string MimeType = 3;
 }
 
 message ReqMessagesSearchGifs {
@@ -5799,7 +5799,7 @@ message ReqMessagesGetInlineBotResults {
 // default: InputPeer
 	TypeInputPeer Peer = 3;
 // default: InputGeoPoint
-	TypeInputGeoPoint Geo_point = 4;// flags.0?InputGeoPoint
+	TypeInputGeoPoint GeoPoint = 4;// flags.0?InputGeoPoint
 	string Query = 5;
 	string Offset = 6;
 }
@@ -5808,25 +5808,25 @@ message ReqMessagesSetInlineBotResults {
 	int32 Flags = 1;
 // Gallery	bool // flags.0?true
 // Private	bool // flags.1?true
-	int64 Query_id = 4;
+	int64 QueryId = 4;
 // default: Vector<InputBotInlineResult>
 	repeated TypeInputBotInlineResult Results = 5;
-	int32 Cache_time = 6;
-	string Next_offset = 7;
+	int32 CacheTime = 6;
+	string NextOffset = 7;
 // default: InlineBotSwitchPM
-	TypeInlineBotSwitchPM Switch_pm = 8;// flags.3?InlineBotSwitchPM
+	TypeInlineBotSwitchPM SwitchPm = 8;// flags.3?InlineBotSwitchPM
 }
 
 message ReqMessagesSendInlineBotResult {
 	int32 Flags = 1;
 // Silent	bool // flags.5?true
 // Background	bool // flags.6?true
-// Clear_draft	bool // flags.7?true
+// ClearDraft	bool // flags.7?true
 // default: InputPeer
 	TypeInputPeer Peer = 5;
-	int32 Reply_to_msg_id = 6;
-	int64 Random_id = 7;
-	int64 Query_id = 8;
+	int32 ReplyToMsgId = 6;
+	int64 RandomId = 7;
+	int64 QueryId = 8;
 	string Id = 9;
 }
 
@@ -5869,13 +5869,13 @@ message ReqChannelsUpdatePinnedMessage {
 }
 
 message ReqAuthResendCode {
-	string Phone_number = 1;
-	string Phone_code_hash = 2;
+	string PhoneNumber = 1;
+	string PhoneCodeHash = 2;
 }
 
 message ReqAuthCancelCode {
-	string Phone_number = 1;
-	string Phone_code_hash = 2;
+	string PhoneNumber = 1;
+	string PhoneCodeHash = 2;
 }
 
 message ReqMessagesGetMessageEditData {
@@ -5886,25 +5886,25 @@ message ReqMessagesGetMessageEditData {
 
 message ReqMessagesEditMessage {
 	int32 Flags = 1;
-// No_webpage	bool // flags.1?true
+// NoWebpage	bool // flags.1?true
 // default: InputPeer
 	TypeInputPeer Peer = 3;
 	int32 Id = 4;
 	string Message = 5;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 6;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 6;// flags.2?ReplyMarkup
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 7;// flags.3?Vector<MessageEntity>
 }
 
 message ReqMessagesEditInlineBotMessage {
 	int32 Flags = 1;
-// No_webpage	bool // flags.1?true
+// NoWebpage	bool // flags.1?true
 // default: InputBotInlineMessageID
 	TypeInputBotInlineMessageID Id = 3;
 	string Message = 4;
 // default: ReplyMarkup
-	TypeReplyMarkup Reply_markup = 5;// flags.2?ReplyMarkup
+	TypeReplyMarkup ReplyMarkup = 5;// flags.2?ReplyMarkup
 // default: Vector<MessageEntity>
 	repeated TypeMessageEntity Entities = 6;// flags.3?Vector<MessageEntity>
 }
@@ -5914,25 +5914,25 @@ message ReqMessagesGetBotCallbackAnswer {
 // Game	bool // flags.1?true
 // default: InputPeer
 	TypeInputPeer Peer = 3;
-	int32 Msg_id = 4;
+	int32 MsgId = 4;
 	bytes Data = 5;
 }
 
 message ReqMessagesSetBotCallbackAnswer {
 	int32 Flags = 1;
 // Alert	bool // flags.1?true
-	int64 Query_id = 3;
+	int64 QueryId = 3;
 	string Message = 4;
 	string Url = 5;
-	int32 Cache_time = 6;
+	int32 CacheTime = 6;
 }
 
 message ReqContactsGetTopPeers {
 	int32 Flags = 1;
 // Correspondents	bool // flags.0?true
-// Bots_pm	bool // flags.1?true
-// Bots_inline	bool // flags.2?true
-// Phone_calls	bool // flags.3?true
+// BotsPm	bool // flags.1?true
+// BotsInline	bool // flags.2?true
+// PhoneCalls	bool // flags.3?true
 // Groups	bool // flags.10?true
 // Channels	bool // flags.15?true
 	int32 Offset = 8;
@@ -5954,8 +5954,8 @@ message ReqMessagesGetPeerDialogs {
 
 message ReqMessagesSaveDraft {
 	int32 Flags = 1;
-// No_webpage	bool // flags.1?true
-	int32 Reply_to_msg_id = 3;
+// NoWebpage	bool // flags.1?true
+	int32 ReplyToMsgId = 3;
 // default: InputPeer
 	TypeInputPeer Peer = 4;
 	string Message = 5;
@@ -5968,15 +5968,15 @@ message ReqMessagesGetAllDrafts {
 
 message ReqAccountSendConfirmPhoneCode {
 	int32 Flags = 1;
-// Allow_flashcall	bool // flags.0?true
+// AllowFlashcall	bool // flags.0?true
 	string Hash = 3;
 // default: Bool
-	TypeBool Current_number = 4;// flags.0?Bool
+	TypeBool CurrentNumber = 4;// flags.0?Bool
 }
 
 message ReqAccountConfirmPhone {
-	string Phone_code_hash = 1;
-	string Phone_code = 2;
+	string PhoneCodeHash = 1;
+	string PhoneCode = 2;
 }
 
 message ReqMessagesGetFeaturedStickers {
@@ -6010,7 +6010,7 @@ message ReqMessagesClearRecentStickers {
 message ReqMessagesGetArchivedStickers {
 	int32 Flags = 1;
 // Masks	bool // flags.0?true
-	int64 Offset_id = 3;
+	int64 OffsetId = 3;
 	int32 Limit = 4;
 }
 
@@ -6018,29 +6018,29 @@ message ReqChannelsGetAdminedPublicChannels {
 }
 
 message ReqAuthDropTempAuthKeys {
-	repeated int64 Except_auth_keys = 1;
+	repeated int64 ExceptAuthKeys = 1;
 }
 
 message ReqMessagesSetGameScore {
 	int32 Flags = 1;
-// Edit_message	bool // flags.0?true
+// EditMessage	bool // flags.0?true
 // Force	bool // flags.1?true
 // default: InputPeer
 	TypeInputPeer Peer = 4;
 	int32 Id = 5;
 // default: InputUser
-	TypeInputUser User_id = 6;
+	TypeInputUser UserId = 6;
 	int32 Score = 7;
 }
 
 message ReqMessagesSetInlineGameScore {
 	int32 Flags = 1;
-// Edit_message	bool // flags.0?true
+// EditMessage	bool // flags.0?true
 // Force	bool // flags.1?true
 // default: InputBotInlineMessageID
 	TypeInputBotInlineMessageID Id = 4;
 // default: InputUser
-	TypeInputUser User_id = 5;
+	TypeInputUser UserId = 5;
 	int32 Score = 6;
 }
 
@@ -6058,29 +6058,29 @@ message ReqMessagesGetGameHighScores {
 	TypeInputPeer Peer = 1;
 	int32 Id = 2;
 // default: InputUser
-	TypeInputUser User_id = 3;
+	TypeInputUser UserId = 3;
 }
 
 message ReqMessagesGetInlineGameHighScores {
 // default: InputBotInlineMessageID
 	TypeInputBotInlineMessageID Id = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 }
 
 message ReqMessagesGetCommonChats {
 // default: InputUser
-	TypeInputUser User_id = 1;
-	int32 Max_id = 2;
+	TypeInputUser UserId = 1;
+	int32 MaxId = 2;
 	int32 Limit = 3;
 }
 
 message ReqMessagesGetAllChats {
-	repeated int32 Except_ids = 1;
+	repeated int32 ExceptIds = 1;
 }
 
 message ReqHelpSetBotUpdatesStatus {
-	int32 Pending_updates_count = 1;
+	int32 PendingUpdatesCount = 1;
 	string Message = 2;
 }
 
@@ -6108,9 +6108,9 @@ message ReqMessagesGetPinnedDialogs {
 
 message ReqPhoneRequestCall {
 // default: InputUser
-	TypeInputUser User_id = 1;
-	int32 Random_id = 2;
-	bytes G_a_hash = 3;
+	TypeInputUser UserId = 1;
+	int32 RandomId = 2;
+	bytes GAHash = 3;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 4;
 }
@@ -6118,7 +6118,7 @@ message ReqPhoneRequestCall {
 message ReqPhoneAcceptCall {
 // default: InputPhoneCall
 	TypeInputPhoneCall Peer = 1;
-	bytes G_b = 2;
+	bytes GB = 2;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 3;
 }
@@ -6129,7 +6129,7 @@ message ReqPhoneDiscardCall {
 	int32 Duration = 2;
 // default: PhoneCallDiscardReason
 	TypePhoneCallDiscardReason Reason = 3;
-	int64 Connection_id = 4;
+	int64 ConnectionId = 4;
 }
 
 message ReqPhoneReceivedCall {
@@ -6143,35 +6143,35 @@ message ReqMessagesReportEncryptedSpam {
 }
 
 message ReqPaymentsGetPaymentForm {
-	int32 Msg_id = 1;
+	int32 MsgId = 1;
 }
 
 message ReqPaymentsSendPaymentForm {
 	int32 Flags = 1;
-	int32 Msg_id = 2;
-	string Requested_info_id = 3;
-	string Shipping_option_id = 4;
+	int32 MsgId = 2;
+	string RequestedInfoId = 3;
+	string ShippingOptionId = 4;
 // default: InputPaymentCredentials
 	TypeInputPaymentCredentials Credentials = 5;
 }
 
 message ReqAccountGetTmpPassword {
-	bytes Password_hash = 1;
+	bytes PasswordHash = 1;
 	int32 Period = 2;
 }
 
 message ReqMessagesSetBotShippingResults {
 	int32 Flags = 1;
-	int64 Query_id = 2;
+	int64 QueryId = 2;
 	string Error = 3;
 // default: Vector<ShippingOption>
-	repeated TypeShippingOption Shipping_options = 4;// flags.1?Vector<ShippingOption>
+	repeated TypeShippingOption ShippingOptions = 4;// flags.1?Vector<ShippingOption>
 }
 
 message ReqMessagesSetBotPrecheckoutResults {
 	int32 Flags = 1;
 // Success	bool // flags.1?true
-	int64 Query_id = 3;
+	int64 QueryId = 3;
 	string Error = 4;
 }
 
@@ -6183,25 +6183,25 @@ message ReqUploadGetWebFile {
 }
 
 message ReqBotsSendCustomRequest {
-	string Custom_method = 1;
+	string CustomMethod = 1;
 // default: DataJSON
 	TypeDataJSON Params = 2;
 }
 
 message ReqBotsAnswerWebhookJSONQuery {
-	int64 Query_id = 1;
+	int64 QueryId = 1;
 // default: DataJSON
 	TypeDataJSON Data = 2;
 }
 
 message ReqPaymentsGetPaymentReceipt {
-	int32 Msg_id = 1;
+	int32 MsgId = 1;
 }
 
 message ReqPaymentsValidateRequestedInfo {
 	int32 Flags = 1;
 // Save	bool // flags.0?true
-	int32 Msg_id = 3;
+	int32 MsgId = 3;
 // default: PaymentRequestedInfo
 	TypePaymentRequestedInfo Info = 4;
 }
@@ -6221,8 +6221,8 @@ message ReqPhoneGetCallConfig {
 message ReqPhoneConfirmCall {
 // default: InputPhoneCall
 	TypeInputPhoneCall Peer = 1;
-	bytes G_a = 2;
-	int64 Key_fingerprint = 3;
+	bytes GA = 2;
+	int64 KeyFingerprint = 3;
 // default: PhoneCallProtocol
 	TypePhoneCallProtocol Protocol = 4;
 }
@@ -6242,14 +6242,14 @@ message ReqPhoneSaveCallDebug {
 }
 
 message ReqUploadGetCdnFile {
-	bytes File_token = 1;
+	bytes FileToken = 1;
 	int32 Offset = 2;
 	int32 Limit = 3;
 }
 
 message ReqUploadReuploadCdnFile {
-	bytes File_token = 1;
-	bytes Request_token = 2;
+	bytes FileToken = 1;
+	bytes RequestToken = 2;
 }
 
 message ReqHelpGetCdnConfig {
@@ -6266,24 +6266,24 @@ message ReqStickersCreateStickerSet {
 	int32 Flags = 1;
 // Masks	bool // flags.0?true
 // default: InputUser
-	TypeInputUser User_id = 3;
+	TypeInputUser UserId = 3;
 	string Title = 4;
-	string Short_name = 5;
+	string ShortName = 5;
 // default: Vector<InputStickerSetItem>
 	repeated TypeInputStickerSetItem Stickers = 6;
 }
 
 message ReqLangpackGetLangPack {
-	string Lang_code = 1;
+	string LangCode = 1;
 }
 
 message ReqLangpackGetStrings {
-	string Lang_code = 1;
+	string LangCode = 1;
 	repeated string Keys = 2;
 }
 
 message ReqLangpackGetDifference {
-	int32 From_version = 1;
+	int32 FromVersion = 1;
 }
 
 message ReqLangpackGetLanguages {
@@ -6293,9 +6293,9 @@ message ReqChannelsEditBanned {
 // default: InputChannel
 	TypeInputChannel Channel = 1;
 // default: InputUser
-	TypeInputUser User_id = 2;
+	TypeInputUser UserId = 2;
 // default: ChannelBannedRights
-	TypeChannelBannedRights Banned_rights = 3;
+	TypeChannelBannedRights BannedRights = 3;
 }
 
 message ReqChannelsGetAdminLog {
@@ -6304,11 +6304,11 @@ message ReqChannelsGetAdminLog {
 	TypeInputChannel Channel = 2;
 	string Q = 3;
 // default: ChannelAdminLogEventsFilter
-	TypeChannelAdminLogEventsFilter Events_filter = 4;// flags.0?ChannelAdminLogEventsFilter
+	TypeChannelAdminLogEventsFilter EventsFilter = 4;// flags.0?ChannelAdminLogEventsFilter
 // default: Vector<InputUser>
 	repeated TypeInputUser Admins = 5;// flags.1?Vector<InputUser>
-	int64 Max_id = 6;
-	int64 Min_id = 7;
+	int64 MaxId = 6;
+	int64 MinId = 7;
 	int32 Limit = 8;
 }
 
@@ -6333,23 +6333,23 @@ message ReqStickersAddStickerToSet {
 message ReqMessagesSendScreenshotNotification {
 // default: InputPeer
 	TypeInputPeer Peer = 1;
-	int32 Reply_to_msg_id = 2;
-	int64 Random_id = 3;
+	int32 ReplyToMsgId = 2;
+	int64 RandomId = 3;
 }
 
 message ReqUploadGetCdnFileHashes {
-	bytes File_token = 1;
+	bytes FileToken = 1;
 	int32 Offset = 2;
 }
 
 message ReqMessagesGetUnreadMentions {
 // default: InputPeer
 	TypeInputPeer Peer = 1;
-	int32 Offset_id = 2;
-	int32 Add_offset = 3;
+	int32 OffsetId = 2;
+	int32 AddOffset = 3;
 	int32 Limit = 4;
-	int32 Max_id = 5;
-	int32 Min_id = 6;
+	int32 MaxId = 5;
+	int32 MinId = 6;
 }
 
 message ReqMessagesFaveSticker {
