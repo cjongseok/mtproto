@@ -2700,8 +2700,8 @@ func (e *PredInputMediaUploadedPhoto) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.File.encode())
 	x.String(e.Caption)
-	x.Vector(toTLslice(e.Stickers))
-	x.Int(e.TtlSeconds)
+	x.FlaggedVector(e.Flags, 0, toTLslice(e.Stickers))
+	x.FlaggedInt(e.Flags, 1, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredInputMediaPhoto) encode() []byte {
@@ -2710,7 +2710,7 @@ func (e *PredInputMediaPhoto) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Id.encode())
 	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedInt(e.Flags, 0, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredInputMediaGeoPoint) encode() []byte {
@@ -2911,7 +2911,7 @@ func (e *PredChat) encode() []byte {
 	x.Int(e.ParticipantsCount)
 	x.Int(e.Date)
 	x.Int(e.Version)
-	x.Bytes(e.MigratedTo.encode())
+	x.FlaggedObject(e.Flags, 6, e.MigratedTo)
 	return x.buf
 }
 func (e *PredChatForbidden) encode() []byte {
@@ -2945,7 +2945,7 @@ func (e *PredChatParticipantsForbidden) encode() []byte {
 	x.UInt(crc_chatParticipantsForbidden)
 	x.Int(e.Flags)
 	x.Int(e.ChatId)
-	x.Bytes(e.SelfParticipant.encode())
+	x.FlaggedObject(e.Flags, 0, e.SelfParticipant)
 	return x.buf
 }
 func (e *PredChatParticipants) encode() []byte {
@@ -2979,19 +2979,19 @@ func (e *PredMessage) encode() []byte {
 	x.UInt(crc_message)
 	x.Int(e.Flags)
 	x.Int(e.Id)
-	x.Int(e.FromId)
+	x.FlaggedInt(e.Flags, 8, e.FromId)
 	x.Bytes(e.ToId.encode())
-	x.Bytes(e.FwdFrom.encode())
-	x.Int(e.ViaBotId)
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedObject(e.Flags, 2, e.FwdFrom)
+	x.FlaggedInt(e.Flags, 11, e.ViaBotId)
+	x.FlaggedInt(e.Flags, 3, e.ReplyToMsgId)
 	x.Int(e.Date)
 	x.String(e.Message)
-	x.Bytes(e.Media.encode())
-	x.Bytes(e.ReplyMarkup.encode())
-	x.Vector(toTLslice(e.Entities))
-	x.Int(e.Views)
-	x.Int(e.EditDate)
-	x.String(e.PostAuthor)
+	x.FlaggedObject(e.Flags, 9, e.Media)
+	x.FlaggedObject(e.Flags, 6, e.ReplyMarkup)
+	x.FlaggedVector(e.Flags, 7, toTLslice(e.Entities))
+	x.FlaggedInt(e.Flags, 10, e.Views)
+	x.FlaggedInt(e.Flags, 15, e.EditDate)
+	x.FlaggedString(e.Flags, 16, e.PostAuthor)
 	return x.buf
 }
 func (e *PredMessageService) encode() []byte {
@@ -2999,9 +2999,9 @@ func (e *PredMessageService) encode() []byte {
 	x.UInt(crc_messageService)
 	x.Int(e.Flags)
 	x.Int(e.Id)
-	x.Int(e.FromId)
+	x.FlaggedInt(e.Flags, 8, e.FromId)
 	x.Bytes(e.ToId.encode())
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 3, e.ReplyToMsgId)
 	x.Int(e.Date)
 	x.Bytes(e.Action.encode())
 	return x.buf
@@ -3015,9 +3015,9 @@ func (e *PredMessageMediaPhoto) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_messageMediaPhoto)
 	x.Int(e.Flags)
-	x.Bytes(e.Photo.encode())
-	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedObject(e.Flags, 0, e.Photo)
+	x.FlaggedString(e.Flags, 1, e.Caption)
+	x.FlaggedInt(e.Flags, 2, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredMessageMediaGeo) encode() []byte {
@@ -3092,8 +3092,8 @@ func (e *PredDialog) encode() []byte {
 	x.Int(e.UnreadCount)
 	x.Int(e.UnreadMentionsCount)
 	x.Bytes(e.NotifySettings.encode())
-	x.Int(e.Pts)
-	x.Bytes(e.Draft.encode())
+	x.FlaggedInt(e.Flags, 0, e.Pts)
+	x.FlaggedObject(e.Flags, 1, e.Draft)
 	return x.buf
 }
 func (e *PredPhotoEmpty) encode() []byte {
@@ -3162,15 +3162,15 @@ func (e *PredAuthSentCode) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Type.encode())
 	x.String(e.PhoneCodeHash)
-	x.Bytes(e.NextType.encode())
-	x.Int(e.Timeout)
+	x.FlaggedObject(e.Flags, 1, e.NextType)
+	x.FlaggedInt(e.Flags, 2, e.Timeout)
 	return x.buf
 }
 func (e *PredAuthAuthorization) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_authAuthorization)
 	x.Int(e.Flags)
-	x.Int(e.TmpSessions)
+	x.FlaggedInt(e.Flags, 0, e.TmpSessions)
 	x.Bytes(e.User.encode())
 	return x.buf
 }
@@ -3247,11 +3247,11 @@ func (e *PredUserFull) encode() []byte {
 	x.UInt(crc_userFull)
 	x.Int(e.Flags)
 	x.Bytes(e.User.encode())
-	x.String(e.About)
+	x.FlaggedString(e.Flags, 1, e.About)
 	x.Bytes(e.Link.encode())
-	x.Bytes(e.ProfilePhoto.encode())
+	x.FlaggedObject(e.Flags, 2, e.ProfilePhoto)
 	x.Bytes(e.NotifySettings.encode())
-	x.Bytes(e.BotInfo.encode())
+	x.FlaggedObject(e.Flags, 3, e.BotInfo)
 	x.Int(e.CommonChatsCount)
 	return x.buf
 }
@@ -3552,10 +3552,10 @@ func (e *PredUpdateShortMessage) encode() []byte {
 	x.Int(e.Pts)
 	x.Int(e.PtsCount)
 	x.Int(e.Date)
-	x.Bytes(e.FwdFrom.encode())
-	x.Int(e.ViaBotId)
-	x.Int(e.ReplyToMsgId)
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 2, e.FwdFrom)
+	x.FlaggedInt(e.Flags, 11, e.ViaBotId)
+	x.FlaggedInt(e.Flags, 3, e.ReplyToMsgId)
+	x.FlaggedVector(e.Flags, 7, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *PredUpdateShortChatMessage) encode() []byte {
@@ -3569,10 +3569,10 @@ func (e *PredUpdateShortChatMessage) encode() []byte {
 	x.Int(e.Pts)
 	x.Int(e.PtsCount)
 	x.Int(e.Date)
-	x.Bytes(e.FwdFrom.encode())
-	x.Int(e.ViaBotId)
-	x.Int(e.ReplyToMsgId)
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 2, e.FwdFrom)
+	x.FlaggedInt(e.Flags, 11, e.ViaBotId)
+	x.FlaggedInt(e.Flags, 3, e.ReplyToMsgId)
+	x.FlaggedVector(e.Flags, 7, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *PredUpdateShort) encode() []byte {
@@ -3653,15 +3653,15 @@ func (e *PredConfig) encode() []byte {
 	x.Int(e.RatingEDecay)
 	x.Int(e.StickersRecentLimit)
 	x.Int(e.StickersFavedLimit)
-	x.Int(e.TmpSessions)
+	x.FlaggedInt(e.Flags, 0, e.TmpSessions)
 	x.Int(e.PinnedDialogsCountMax)
 	x.Int(e.CallReceiveTimeoutMs)
 	x.Int(e.CallRingTimeoutMs)
 	x.Int(e.CallConnectTimeoutMs)
 	x.Int(e.CallPacketTimeoutMs)
 	x.String(e.MeUrlPrefix)
-	x.String(e.SuggestedLangCode)
-	x.Int(e.LangPackVersion)
+	x.FlaggedString(e.Flags, 2, e.SuggestedLangCode)
+	x.FlaggedInt(e.Flags, 2, e.LangPackVersion)
 	x.Vector(toTLslice(e.DisabledFeatures))
 	return x.buf
 }
@@ -3957,12 +3957,12 @@ func (e *PredInputMediaUploadedDocument) encode() []byte {
 	x.UInt(crc_inputMediaUploadedDocument)
 	x.Int(e.Flags)
 	x.Bytes(e.File.encode())
-	x.Bytes(e.Thumb.encode())
+	x.FlaggedObject(e.Flags, 2, e.Thumb)
 	x.String(e.MimeType)
 	x.Vector(toTLslice(e.Attributes))
 	x.String(e.Caption)
-	x.Vector(toTLslice(e.Stickers))
-	x.Int(e.TtlSeconds)
+	x.FlaggedVector(e.Flags, 0, toTLslice(e.Stickers))
+	x.FlaggedInt(e.Flags, 1, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredInputMediaDocument) encode() []byte {
@@ -3971,16 +3971,16 @@ func (e *PredInputMediaDocument) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Id.encode())
 	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedInt(e.Flags, 0, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredMessageMediaDocument) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_messageMediaDocument)
 	x.Int(e.Flags)
-	x.Bytes(e.Document.encode())
-	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedObject(e.Flags, 0, e.Document)
+	x.FlaggedString(e.Flags, 1, e.Caption)
+	x.FlaggedInt(e.Flags, 2, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredInputDocumentEmpty) encode() []byte {
@@ -4123,7 +4123,7 @@ func (e *PredUpdateServiceNotification) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_updateServiceNotification)
 	x.Int(e.Flags)
-	x.Int(e.InboxDate)
+	x.FlaggedInt(e.Flags, 1, e.InboxDate)
 	x.String(e.Type)
 	x.String(e.Message)
 	x.Bytes(e.Media.encode())
@@ -4271,7 +4271,7 @@ func (e *PredDocumentAttributeSticker) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Alt)
 	x.Bytes(e.Stickerset.encode())
-	x.Bytes(e.MaskCoords.encode())
+	x.FlaggedObject(e.Flags, 0, e.MaskCoords)
 	return x.buf
 }
 func (e *PredDocumentAttributeVideo) encode() []byte {
@@ -4288,9 +4288,9 @@ func (e *PredDocumentAttributeAudio) encode() []byte {
 	x.UInt(crc_documentAttributeAudio)
 	x.Int(e.Flags)
 	x.Int(e.Duration)
-	x.String(e.Title)
-	x.String(e.Performer)
-	x.StringBytes(e.Waveform)
+	x.FlaggedString(e.Flags, 0, e.Title)
+	x.FlaggedString(e.Flags, 1, e.Performer)
+	x.FlaggedStringBytes(e.Flags, 2, e.Waveform)
 	return x.buf
 }
 func (e *PredDocumentAttributeFilename) encode() []byte {
@@ -4421,19 +4421,19 @@ func (e *PredWebPage) encode() []byte {
 	x.String(e.Url)
 	x.String(e.DisplayUrl)
 	x.Int(e.Hash)
-	x.String(e.Type)
-	x.String(e.SiteName)
-	x.String(e.Title)
-	x.String(e.Description)
-	x.Bytes(e.Photo.encode())
-	x.String(e.EmbedUrl)
-	x.String(e.EmbedType)
-	x.Int(e.EmbedWidth)
-	x.Int(e.EmbedHeight)
-	x.Int(e.Duration)
-	x.String(e.Author)
-	x.Bytes(e.Document.encode())
-	x.Bytes(e.CachedPage.encode())
+	x.FlaggedString(e.Flags, 0, e.Type)
+	x.FlaggedString(e.Flags, 1, e.SiteName)
+	x.FlaggedString(e.Flags, 2, e.Title)
+	x.FlaggedString(e.Flags, 3, e.Description)
+	x.FlaggedObject(e.Flags, 4, e.Photo)
+	x.FlaggedString(e.Flags, 5, e.EmbedUrl)
+	x.FlaggedString(e.Flags, 5, e.EmbedType)
+	x.FlaggedInt(e.Flags, 6, e.EmbedWidth)
+	x.FlaggedInt(e.Flags, 6, e.EmbedHeight)
+	x.FlaggedInt(e.Flags, 7, e.Duration)
+	x.FlaggedString(e.Flags, 8, e.Author)
+	x.FlaggedObject(e.Flags, 9, e.Document)
+	x.FlaggedObject(e.Flags, 10, e.CachedPage)
 	return x.buf
 }
 func (e *PredMessageMediaWebPage) encode() []byte {
@@ -4476,10 +4476,10 @@ func (e *PredAccountPasswordInputSettings) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_accountPasswordInputSettings)
 	x.Int(e.Flags)
-	x.StringBytes(e.NewSalt)
-	x.StringBytes(e.NewPasswordHash)
-	x.String(e.Hint)
-	x.String(e.Email)
+	x.FlaggedStringBytes(e.Flags, 0, e.NewSalt)
+	x.FlaggedStringBytes(e.Flags, 0, e.NewPasswordHash)
+	x.FlaggedString(e.Flags, 0, e.Hint)
+	x.FlaggedString(e.Flags, 1, e.Email)
 	return x.buf
 }
 func (e *PredAuthPasswordRecovery) encode() []byte {
@@ -4539,7 +4539,7 @@ func (e *PredChatInvite) encode() []byte {
 	x.String(e.Title)
 	x.Bytes(e.Photo.encode())
 	x.Int(e.ParticipantsCount)
-	x.Vector(toTLslice(e.Participants))
+	x.FlaggedVector(e.Flags, 4, toTLslice(e.Participants))
 	return x.buf
 }
 func (e *PredMessageActionChatJoinedByLink) encode() []byte {
@@ -4599,17 +4599,17 @@ func (e *PredUser) encode() []byte {
 	x.UInt(crc_user)
 	x.Int(e.Flags)
 	x.Int(e.Id)
-	x.Long(e.AccessHash)
-	x.String(e.FirstName)
-	x.String(e.LastName)
-	x.String(e.Username)
-	x.String(e.Phone)
-	x.Bytes(e.Photo.encode())
-	x.Bytes(e.Status.encode())
-	x.Int(e.BotInfoVersion)
-	x.String(e.RestrictionReason)
-	x.String(e.BotInlinePlaceholder)
-	x.String(e.LangCode)
+	x.FlaggedLong(e.Flags, 0, e.AccessHash)
+	x.FlaggedString(e.Flags, 1, e.FirstName)
+	x.FlaggedString(e.Flags, 2, e.LastName)
+	x.FlaggedString(e.Flags, 3, e.Username)
+	x.FlaggedString(e.Flags, 4, e.Phone)
+	x.FlaggedObject(e.Flags, 5, e.Photo)
+	x.FlaggedObject(e.Flags, 6, e.Status)
+	x.FlaggedInt(e.Flags, 14, e.BotInfoVersion)
+	x.FlaggedString(e.Flags, 18, e.RestrictionReason)
+	x.FlaggedString(e.Flags, 19, e.BotInlinePlaceholder)
+	x.FlaggedString(e.Flags, 22, e.LangCode)
 	return x.buf
 }
 func (e *PredBotCommand) encode() []byte {
@@ -4764,8 +4764,8 @@ func (e *PredUpdateShortSentMessage) encode() []byte {
 	x.Int(e.Pts)
 	x.Int(e.PtsCount)
 	x.Int(e.Date)
-	x.Bytes(e.Media.encode())
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 9, e.Media)
+	x.FlaggedVector(e.Flags, 7, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *PredInputPeerChannel) encode() []byte {
@@ -4786,15 +4786,15 @@ func (e *PredChannel) encode() []byte {
 	x.UInt(crc_channel)
 	x.Int(e.Flags)
 	x.Int(e.Id)
-	x.Long(e.AccessHash)
+	x.FlaggedLong(e.Flags, 13, e.AccessHash)
 	x.String(e.Title)
-	x.String(e.Username)
+	x.FlaggedString(e.Flags, 6, e.Username)
 	x.Bytes(e.Photo.encode())
 	x.Int(e.Date)
 	x.Int(e.Version)
-	x.String(e.RestrictionReason)
-	x.Bytes(e.AdminRights.encode())
-	x.Bytes(e.BannedRights.encode())
+	x.FlaggedString(e.Flags, 9, e.RestrictionReason)
+	x.FlaggedObject(e.Flags, 14, e.AdminRights)
+	x.FlaggedObject(e.Flags, 15, e.BannedRights)
 	return x.buf
 }
 func (e *PredChannelForbidden) encode() []byte {
@@ -4804,7 +4804,7 @@ func (e *PredChannelForbidden) encode() []byte {
 	x.Int(e.Id)
 	x.Long(e.AccessHash)
 	x.String(e.Title)
-	x.Int(e.UntilDate)
+	x.FlaggedInt(e.Flags, 16, e.UntilDate)
 	return x.buf
 }
 func (e *PredChannelFull) encode() []byte {
@@ -4813,10 +4813,10 @@ func (e *PredChannelFull) encode() []byte {
 	x.Int(e.Flags)
 	x.Int(e.Id)
 	x.String(e.About)
-	x.Int(e.ParticipantsCount)
-	x.Int(e.AdminsCount)
-	x.Int(e.KickedCount)
-	x.Int(e.BannedCount)
+	x.FlaggedInt(e.Flags, 0, e.ParticipantsCount)
+	x.FlaggedInt(e.Flags, 1, e.AdminsCount)
+	x.FlaggedInt(e.Flags, 2, e.KickedCount)
+	x.FlaggedInt(e.Flags, 2, e.BannedCount)
 	x.Int(e.ReadInboxMaxId)
 	x.Int(e.ReadOutboxMaxId)
 	x.Int(e.UnreadCount)
@@ -4824,10 +4824,10 @@ func (e *PredChannelFull) encode() []byte {
 	x.Bytes(e.NotifySettings.encode())
 	x.Bytes(e.ExportedInvite.encode())
 	x.Vector(toTLslice(e.BotInfos))
-	x.Int(e.MigratedFromChatId)
-	x.Int(e.MigratedFromMaxId)
-	x.Int(e.PinnedMsgId)
-	x.Bytes(e.Stickerset.encode())
+	x.FlaggedInt(e.Flags, 4, e.MigratedFromChatId)
+	x.FlaggedInt(e.Flags, 4, e.MigratedFromMaxId)
+	x.FlaggedInt(e.Flags, 5, e.PinnedMsgId)
+	x.FlaggedObject(e.Flags, 8, e.Stickerset)
 	return x.buf
 }
 func (e *PredMessageActionChannelCreate) encode() []byte {
@@ -4852,7 +4852,7 @@ func (e *PredUpdateChannelTooLong) encode() []byte {
 	x.UInt(crc_updateChannelTooLong)
 	x.Int(e.Flags)
 	x.Int(e.ChannelId)
-	x.Int(e.Pts)
+	x.FlaggedInt(e.Flags, 0, e.Pts)
 	return x.buf
 }
 func (e *PredUpdateChannel) encode() []byte {
@@ -4925,7 +4925,7 @@ func (e *PredUpdatesChannelDifferenceEmpty) encode() []byte {
 	x.UInt(crc_updatesChannelDifferenceEmpty)
 	x.Int(e.Flags)
 	x.Int(e.Pts)
-	x.Int(e.Timeout)
+	x.FlaggedInt(e.Flags, 1, e.Timeout)
 	return x.buf
 }
 func (e *PredUpdatesChannelDifferenceTooLong) encode() []byte {
@@ -4933,7 +4933,7 @@ func (e *PredUpdatesChannelDifferenceTooLong) encode() []byte {
 	x.UInt(crc_updatesChannelDifferenceTooLong)
 	x.Int(e.Flags)
 	x.Int(e.Pts)
-	x.Int(e.Timeout)
+	x.FlaggedInt(e.Flags, 1, e.Timeout)
 	x.Int(e.TopMessage)
 	x.Int(e.ReadInboxMaxId)
 	x.Int(e.ReadOutboxMaxId)
@@ -4949,7 +4949,7 @@ func (e *PredUpdatesChannelDifference) encode() []byte {
 	x.UInt(crc_updatesChannelDifference)
 	x.Int(e.Flags)
 	x.Int(e.Pts)
-	x.Int(e.Timeout)
+	x.FlaggedInt(e.Flags, 1, e.Timeout)
 	x.Vector(toTLslice(e.NewMessages))
 	x.Vector(toTLslice(e.OtherUpdates))
 	x.Vector(toTLslice(e.Chats))
@@ -5161,7 +5161,7 @@ func (e *PredUpdateBotInlineQuery) encode() []byte {
 	x.Long(e.QueryId)
 	x.Int(e.UserId)
 	x.String(e.Query)
-	x.Bytes(e.Geo.encode())
+	x.FlaggedObject(e.Flags, 0, e.Geo)
 	x.String(e.Offset)
 	return x.buf
 }
@@ -5190,7 +5190,7 @@ func (e *PredInputBotInlineMessageMediaAuto) encode() []byte {
 	x.UInt(crc_inputBotInlineMessageMediaAuto)
 	x.Int(e.Flags)
 	x.String(e.Caption)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineMessageText) encode() []byte {
@@ -5198,8 +5198,8 @@ func (e *PredInputBotInlineMessageText) encode() []byte {
 	x.UInt(crc_inputBotInlineMessageText)
 	x.Int(e.Flags)
 	x.String(e.Message)
-	x.Vector(toTLslice(e.Entities))
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedVector(e.Flags, 1, toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineResult) encode() []byte {
@@ -5208,15 +5208,15 @@ func (e *PredInputBotInlineResult) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Id)
 	x.String(e.Type)
-	x.String(e.Title)
-	x.String(e.Description)
-	x.String(e.Url)
-	x.String(e.ThumbUrl)
-	x.String(e.ContentUrl)
-	x.String(e.ContentType)
-	x.Int(e.W)
-	x.Int(e.H)
-	x.Int(e.Duration)
+	x.FlaggedString(e.Flags, 1, e.Title)
+	x.FlaggedString(e.Flags, 2, e.Description)
+	x.FlaggedString(e.Flags, 3, e.Url)
+	x.FlaggedString(e.Flags, 4, e.ThumbUrl)
+	x.FlaggedString(e.Flags, 5, e.ContentUrl)
+	x.FlaggedString(e.Flags, 5, e.ContentType)
+	x.FlaggedInt(e.Flags, 6, e.W)
+	x.FlaggedInt(e.Flags, 6, e.H)
+	x.FlaggedInt(e.Flags, 7, e.Duration)
 	x.Bytes(e.SendMessage.encode())
 	return x.buf
 }
@@ -5225,7 +5225,7 @@ func (e *PredBotInlineMessageMediaAuto) encode() []byte {
 	x.UInt(crc_botInlineMessageMediaAuto)
 	x.Int(e.Flags)
 	x.String(e.Caption)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredBotInlineMessageText) encode() []byte {
@@ -5233,8 +5233,8 @@ func (e *PredBotInlineMessageText) encode() []byte {
 	x.UInt(crc_botInlineMessageText)
 	x.Int(e.Flags)
 	x.String(e.Message)
-	x.Vector(toTLslice(e.Entities))
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedVector(e.Flags, 1, toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredBotInlineResult) encode() []byte {
@@ -5243,15 +5243,15 @@ func (e *PredBotInlineResult) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Id)
 	x.String(e.Type)
-	x.String(e.Title)
-	x.String(e.Description)
-	x.String(e.Url)
-	x.String(e.ThumbUrl)
-	x.String(e.ContentUrl)
-	x.String(e.ContentType)
-	x.Int(e.W)
-	x.Int(e.H)
-	x.Int(e.Duration)
+	x.FlaggedString(e.Flags, 1, e.Title)
+	x.FlaggedString(e.Flags, 2, e.Description)
+	x.FlaggedString(e.Flags, 3, e.Url)
+	x.FlaggedString(e.Flags, 4, e.ThumbUrl)
+	x.FlaggedString(e.Flags, 5, e.ContentUrl)
+	x.FlaggedString(e.Flags, 5, e.ContentType)
+	x.FlaggedInt(e.Flags, 6, e.W)
+	x.FlaggedInt(e.Flags, 6, e.H)
+	x.FlaggedInt(e.Flags, 7, e.Duration)
 	x.Bytes(e.SendMessage.encode())
 	return x.buf
 }
@@ -5260,8 +5260,8 @@ func (e *PredMessagesBotResults) encode() []byte {
 	x.UInt(crc_messagesBotResults)
 	x.Int(e.Flags)
 	x.Long(e.QueryId)
-	x.String(e.NextOffset)
-	x.Bytes(e.SwitchPm.encode())
+	x.FlaggedString(e.Flags, 1, e.NextOffset)
+	x.FlaggedObject(e.Flags, 2, e.SwitchPm)
 	x.Vector(toTLslice(e.Results))
 	x.Int(e.CacheTime)
 	return x.buf
@@ -5282,9 +5282,9 @@ func (e *PredUpdateBotInlineSend) encode() []byte {
 	x.Int(e.Flags)
 	x.Int(e.UserId)
 	x.String(e.Query)
-	x.Bytes(e.Geo.encode())
+	x.FlaggedObject(e.Flags, 0, e.Geo)
 	x.String(e.Id)
-	x.Bytes(e.MsgId.encode())
+	x.FlaggedObject(e.Flags, 1, e.MsgId)
 	return x.buf
 }
 func (e *PredInputPrivacyKeyChatInvite) encode() []byte {
@@ -5315,11 +5315,11 @@ func (e *PredMessageFwdHeader) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_messageFwdHeader)
 	x.Int(e.Flags)
-	x.Int(e.FromId)
+	x.FlaggedInt(e.Flags, 0, e.FromId)
 	x.Int(e.Date)
-	x.Int(e.ChannelId)
-	x.Int(e.ChannelPost)
-	x.String(e.PostAuthor)
+	x.FlaggedInt(e.Flags, 1, e.ChannelId)
+	x.FlaggedInt(e.Flags, 2, e.ChannelPost)
+	x.FlaggedString(e.Flags, 3, e.PostAuthor)
 	return x.buf
 }
 func (e *PredMessageActionPinMessage) encode() []byte {
@@ -5423,8 +5423,8 @@ func (e *PredMessagesBotCallbackAnswer) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_messagesBotCallbackAnswer)
 	x.Int(e.Flags)
-	x.String(e.Message)
-	x.String(e.Url)
+	x.FlaggedString(e.Flags, 0, e.Message)
+	x.FlaggedString(e.Flags, 2, e.Url)
 	x.Int(e.CacheTime)
 	return x.buf
 }
@@ -5437,8 +5437,8 @@ func (e *PredUpdateBotCallbackQuery) encode() []byte {
 	x.Bytes(e.Peer.encode())
 	x.Int(e.MsgId)
 	x.Long(e.ChatInstance)
-	x.StringBytes(e.Data)
-	x.String(e.GameShortName)
+	x.FlaggedStringBytes(e.Flags, 0, e.Data)
+	x.FlaggedString(e.Flags, 1, e.GameShortName)
 	return x.buf
 }
 func (e *PredMessagesMessageEditData) encode() []byte {
@@ -5460,7 +5460,7 @@ func (e *PredInputBotInlineMessageMediaGeo) encode() []byte {
 	x.UInt(crc_inputBotInlineMessageMediaGeo)
 	x.Int(e.Flags)
 	x.Bytes(e.GeoPoint.encode())
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineMessageMediaVenue) encode() []byte {
@@ -5472,7 +5472,7 @@ func (e *PredInputBotInlineMessageMediaVenue) encode() []byte {
 	x.String(e.Address)
 	x.String(e.Provider)
 	x.String(e.VenueId)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineMessageMediaContact) encode() []byte {
@@ -5482,7 +5482,7 @@ func (e *PredInputBotInlineMessageMediaContact) encode() []byte {
 	x.String(e.PhoneNumber)
 	x.String(e.FirstName)
 	x.String(e.LastName)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredBotInlineMessageMediaGeo) encode() []byte {
@@ -5490,7 +5490,7 @@ func (e *PredBotInlineMessageMediaGeo) encode() []byte {
 	x.UInt(crc_botInlineMessageMediaGeo)
 	x.Int(e.Flags)
 	x.Bytes(e.Geo.encode())
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredBotInlineMessageMediaVenue) encode() []byte {
@@ -5502,7 +5502,7 @@ func (e *PredBotInlineMessageMediaVenue) encode() []byte {
 	x.String(e.Address)
 	x.String(e.Provider)
 	x.String(e.VenueId)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredBotInlineMessageMediaContact) encode() []byte {
@@ -5512,7 +5512,7 @@ func (e *PredBotInlineMessageMediaContact) encode() []byte {
 	x.String(e.PhoneNumber)
 	x.String(e.FirstName)
 	x.String(e.LastName)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineResultPhoto) encode() []byte {
@@ -5530,8 +5530,8 @@ func (e *PredInputBotInlineResultDocument) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Id)
 	x.String(e.Type)
-	x.String(e.Title)
-	x.String(e.Description)
+	x.FlaggedString(e.Flags, 1, e.Title)
+	x.FlaggedString(e.Flags, 2, e.Description)
 	x.Bytes(e.Document.encode())
 	x.Bytes(e.SendMessage.encode())
 	return x.buf
@@ -5542,10 +5542,10 @@ func (e *PredBotInlineMediaResult) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Id)
 	x.String(e.Type)
-	x.Bytes(e.Photo.encode())
-	x.Bytes(e.Document.encode())
-	x.String(e.Title)
-	x.String(e.Description)
+	x.FlaggedObject(e.Flags, 0, e.Photo)
+	x.FlaggedObject(e.Flags, 1, e.Document)
+	x.FlaggedString(e.Flags, 2, e.Title)
+	x.FlaggedString(e.Flags, 3, e.Description)
 	x.Bytes(e.SendMessage.encode())
 	return x.buf
 }
@@ -5565,8 +5565,8 @@ func (e *PredUpdateInlineBotCallbackQuery) encode() []byte {
 	x.Int(e.UserId)
 	x.Bytes(e.MsgId.encode())
 	x.Long(e.ChatInstance)
-	x.StringBytes(e.Data)
-	x.String(e.GameShortName)
+	x.FlaggedStringBytes(e.Flags, 0, e.Data)
+	x.FlaggedString(e.Flags, 1, e.GameShortName)
 	return x.buf
 }
 func (e *PredInlineBotSwitchPM) encode() []byte {
@@ -5683,9 +5683,9 @@ func (e *PredDraftMessage) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_draftMessage)
 	x.Int(e.Flags)
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 0, e.ReplyToMsgId)
 	x.String(e.Message)
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedVector(e.Flags, 3, toTLslice(e.Entities))
 	x.Int(e.Date)
 	return x.buf
 }
@@ -5760,7 +5760,7 @@ func (e *PredInputMediaPhotoExternal) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Url)
 	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedInt(e.Flags, 0, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredInputMediaDocumentExternal) encode() []byte {
@@ -5769,7 +5769,7 @@ func (e *PredInputMediaDocumentExternal) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Url)
 	x.String(e.Caption)
-	x.Int(e.TtlSeconds)
+	x.FlaggedInt(e.Flags, 0, e.TtlSeconds)
 	return x.buf
 }
 func (e *PredUpdateConfig) encode() []byte {
@@ -5844,7 +5844,7 @@ func (e *PredInputBotInlineMessageGame) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_inputBotInlineMessageGame)
 	x.Int(e.Flags)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *PredInputBotInlineResultGame) encode() []byte {
@@ -5865,7 +5865,7 @@ func (e *PredGame) encode() []byte {
 	x.String(e.Title)
 	x.String(e.Description)
 	x.Bytes(e.Photo.encode())
-	x.Bytes(e.Document.encode())
+	x.FlaggedObject(e.Flags, 0, e.Document)
 	return x.buf
 }
 func (e *PredInputGameID) encode() []byte {
@@ -6092,9 +6092,9 @@ func (e *PredPageBlockEmbed) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_pageBlockEmbed)
 	x.Int(e.Flags)
-	x.String(e.Url)
-	x.String(e.Html)
-	x.Long(e.PosterPhotoId)
+	x.FlaggedString(e.Flags, 1, e.Url)
+	x.FlaggedString(e.Flags, 2, e.Html)
+	x.FlaggedLong(e.Flags, 4, e.PosterPhotoId)
 	x.Int(e.W)
 	x.Int(e.H)
 	x.Bytes(e.Caption.encode())
@@ -6152,7 +6152,7 @@ func (e *PredUpdatePinnedDialogs) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_updatePinnedDialogs)
 	x.Int(e.Flags)
-	x.Vector(toTLslice(e.Order))
+	x.FlaggedVector(e.Flags, 0, toTLslice(e.Order))
 	return x.buf
 }
 func (e *PredInputPrivacyKeyPhoneCall) encode() []byte {
@@ -6206,7 +6206,7 @@ func (e *PredPhoneCallWaiting) encode() []byte {
 	x.Int(e.AdminId)
 	x.Int(e.ParticipantId)
 	x.Bytes(e.Protocol.encode())
-	x.Int(e.ReceiveDate)
+	x.FlaggedInt(e.Flags, 0, e.ReceiveDate)
 	return x.buf
 }
 func (e *PredPhoneCallRequested) encode() []byte {
@@ -6242,8 +6242,8 @@ func (e *PredPhoneCallDiscarded) encode() []byte {
 	x.UInt(crc_phoneCallDiscarded)
 	x.Int(e.Flags)
 	x.Long(e.Id)
-	x.Bytes(e.Reason.encode())
-	x.Int(e.Duration)
+	x.FlaggedObject(e.Flags, 0, e.Reason)
+	x.FlaggedInt(e.Flags, 1, e.Duration)
 	return x.buf
 }
 func (e *PredPhoneConnection) encode() []byte {
@@ -6302,8 +6302,8 @@ func (e *PredMessageActionPhoneCall) encode() []byte {
 	x.UInt(crc_messageActionPhoneCall)
 	x.Int(e.Flags)
 	x.Long(e.CallId)
-	x.Bytes(e.Reason.encode())
-	x.Int(e.Duration)
+	x.FlaggedObject(e.Flags, 0, e.Reason)
+	x.FlaggedInt(e.Flags, 1, e.Duration)
 	return x.buf
 }
 func (e *PredInvoice) encode() []byte {
@@ -6320,7 +6320,7 @@ func (e *PredInputMediaInvoice) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Title)
 	x.String(e.Description)
-	x.Bytes(e.Photo.encode())
+	x.FlaggedObject(e.Flags, 0, e.Photo)
 	x.Bytes(e.Invoice.encode())
 	x.StringBytes(e.Payload)
 	x.String(e.Provider)
@@ -6334,8 +6334,8 @@ func (e *PredMessageActionPaymentSentMe) encode() []byte {
 	x.String(e.Currency)
 	x.Long(e.TotalAmount)
 	x.StringBytes(e.Payload)
-	x.Bytes(e.Info.encode())
-	x.String(e.ShippingOptionId)
+	x.FlaggedObject(e.Flags, 0, e.Info)
+	x.FlaggedString(e.Flags, 1, e.ShippingOptionId)
 	x.Bytes(e.Charge.encode())
 	return x.buf
 }
@@ -6345,8 +6345,8 @@ func (e *PredMessageMediaInvoice) encode() []byte {
 	x.Int(e.Flags)
 	x.String(e.Title)
 	x.String(e.Description)
-	x.Bytes(e.Photo.encode())
-	x.Int(e.ReceiptMsgId)
+	x.FlaggedObject(e.Flags, 0, e.Photo)
+	x.FlaggedInt(e.Flags, 2, e.ReceiptMsgId)
 	x.String(e.Currency)
 	x.Long(e.TotalAmount)
 	x.String(e.StartParam)
@@ -6373,10 +6373,10 @@ func (e *PredPaymentsPaymentForm) encode() []byte {
 	x.Bytes(e.Invoice.encode())
 	x.Int(e.ProviderId)
 	x.String(e.Url)
-	x.String(e.NativeProvider)
-	x.Bytes(e.NativeParams.encode())
-	x.Bytes(e.SavedInfo.encode())
-	x.Bytes(e.SavedCredentials.encode())
+	x.FlaggedString(e.Flags, 4, e.NativeProvider)
+	x.FlaggedObject(e.Flags, 4, e.NativeParams)
+	x.FlaggedObject(e.Flags, 0, e.SavedInfo)
+	x.FlaggedObject(e.Flags, 1, e.SavedCredentials)
 	x.Vector(toTLslice(e.Users))
 	return x.buf
 }
@@ -6395,10 +6395,10 @@ func (e *PredPaymentRequestedInfo) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_paymentRequestedInfo)
 	x.Int(e.Flags)
-	x.String(e.Name)
-	x.String(e.Phone)
-	x.String(e.Email)
-	x.Bytes(e.ShippingAddress.encode())
+	x.FlaggedString(e.Flags, 0, e.Name)
+	x.FlaggedString(e.Flags, 1, e.Phone)
+	x.FlaggedString(e.Flags, 2, e.Email)
+	x.FlaggedObject(e.Flags, 3, e.ShippingAddress)
 	return x.buf
 }
 func (e *PredUpdateBotWebhookJSON) encode() []byte {
@@ -6431,8 +6431,8 @@ func (e *PredUpdateBotPrecheckoutQuery) encode() []byte {
 	x.Long(e.QueryId)
 	x.Int(e.UserId)
 	x.StringBytes(e.Payload)
-	x.Bytes(e.Info.encode())
-	x.String(e.ShippingOptionId)
+	x.FlaggedObject(e.Flags, 0, e.Info)
+	x.FlaggedString(e.Flags, 1, e.ShippingOptionId)
 	x.String(e.Currency)
 	x.Long(e.TotalAmount)
 	return x.buf
@@ -6505,8 +6505,8 @@ func (e *PredPaymentsValidatedRequestedInfo) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_paymentsValidatedRequestedInfo)
 	x.Int(e.Flags)
-	x.String(e.Id)
-	x.Vector(toTLslice(e.ShippingOptions))
+	x.FlaggedString(e.Flags, 0, e.Id)
+	x.FlaggedVector(e.Flags, 1, toTLslice(e.ShippingOptions))
 	return x.buf
 }
 func (e *PredPaymentsPaymentResult) encode() []byte {
@@ -6529,8 +6529,8 @@ func (e *PredPaymentsPaymentReceipt) encode() []byte {
 	x.Int(e.BotId)
 	x.Bytes(e.Invoice.encode())
 	x.Int(e.ProviderId)
-	x.Bytes(e.Info.encode())
-	x.Bytes(e.Shipping.encode())
+	x.FlaggedObject(e.Flags, 0, e.Info)
+	x.FlaggedObject(e.Flags, 1, e.Shipping)
 	x.String(e.Currency)
 	x.Long(e.TotalAmount)
 	x.String(e.CredentialsTitle)
@@ -6541,7 +6541,7 @@ func (e *PredPaymentsSavedInfo) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_paymentsSavedInfo)
 	x.Int(e.Flags)
-	x.Bytes(e.SavedInfo.encode())
+	x.FlaggedObject(e.Flags, 0, e.SavedInfo)
 	return x.buf
 }
 func (e *PredInputPaymentCredentialsSaved) encode() []byte {
@@ -6664,7 +6664,7 @@ func (e *PredInputStickerSetItem) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Document.encode())
 	x.String(e.Emoji)
-	x.Bytes(e.MaskCoords.encode())
+	x.FlaggedObject(e.Flags, 0, e.MaskCoords)
 	return x.buf
 }
 func (e *PredLangPackString) encode() []byte {
@@ -6679,11 +6679,11 @@ func (e *PredLangPackStringPluralized) encode() []byte {
 	x.UInt(crc_langPackStringPluralized)
 	x.Int(e.Flags)
 	x.String(e.Key)
-	x.String(e.ZeroValue)
-	x.String(e.OneValue)
-	x.String(e.TwoValue)
-	x.String(e.FewValue)
-	x.String(e.ManyValue)
+	x.FlaggedString(e.Flags, 0, e.ZeroValue)
+	x.FlaggedString(e.Flags, 1, e.OneValue)
+	x.FlaggedString(e.Flags, 2, e.TwoValue)
+	x.FlaggedString(e.Flags, 3, e.FewValue)
+	x.FlaggedString(e.Flags, 4, e.ManyValue)
 	x.String(e.OtherValue)
 	return x.buf
 }
@@ -6980,7 +6980,7 @@ func (e *ReqAuthSendCode) encode() []byte {
 	x.UInt(crc_authSendCode)
 	x.Int(e.Flags)
 	x.String(e.PhoneNumber)
-	x.Bytes(e.CurrentNumber.encode())
+	x.FlaggedObject(e.Flags, 0, e.CurrentNumber)
 	x.Int(e.ApiId)
 	x.String(e.ApiHash)
 	return x.buf
@@ -7069,9 +7069,9 @@ func (e *ReqAccountUpdateProfile) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_accountUpdateProfile)
 	x.Int(e.Flags)
-	x.String(e.FirstName)
-	x.String(e.LastName)
-	x.String(e.About)
+	x.FlaggedString(e.Flags, 0, e.FirstName)
+	x.FlaggedString(e.Flags, 1, e.LastName)
+	x.FlaggedString(e.Flags, 2, e.About)
 	return x.buf
 }
 func (e *ReqAccountUpdateStatus) encode() []byte {
@@ -7186,7 +7186,7 @@ func (e *ReqMessagesSearch) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
 	x.String(e.Q)
-	x.Bytes(e.FromId.encode())
+	x.FlaggedObject(e.Flags, 0, e.FromId)
 	x.Bytes(e.Filter.encode())
 	x.Int(e.MinDate)
 	x.Int(e.MaxDate)
@@ -7237,11 +7237,11 @@ func (e *ReqMessagesSendMessage) encode() []byte {
 	x.UInt(crc_messagesSendMessage)
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 0, e.ReplyToMsgId)
 	x.String(e.Message)
 	x.Long(e.RandomId)
-	x.Bytes(e.ReplyMarkup.encode())
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
+	x.FlaggedVector(e.Flags, 3, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *ReqMessagesSendMedia) encode() []byte {
@@ -7249,10 +7249,10 @@ func (e *ReqMessagesSendMedia) encode() []byte {
 	x.UInt(crc_messagesSendMedia)
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 0, e.ReplyToMsgId)
 	x.Bytes(e.Media.encode())
 	x.Long(e.RandomId)
-	x.Bytes(e.ReplyMarkup.encode())
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
 	return x.buf
 }
 func (e *ReqMessagesForwardMessages) encode() []byte {
@@ -7323,7 +7323,7 @@ func (e *ReqUpdatesGetDifference) encode() []byte {
 	x.UInt(crc_updatesGetDifference)
 	x.Int(e.Flags)
 	x.Int(e.Pts)
-	x.Int(e.PtsTotalLimit)
+	x.FlaggedInt(e.Flags, 0, e.PtsTotalLimit)
 	x.Int(e.Date)
 	x.Int(e.Qts)
 	return x.buf
@@ -7598,7 +7598,7 @@ func (e *ReqAccountSendChangePhoneCode) encode() []byte {
 	x.UInt(crc_accountSendChangePhoneCode)
 	x.Int(e.Flags)
 	x.String(e.PhoneNumber)
-	x.Bytes(e.CurrentNumber.encode())
+	x.FlaggedObject(e.Flags, 0, e.CurrentNumber)
 	return x.buf
 }
 func (e *ReqAccountChangePhone) encode() []byte {
@@ -7997,7 +7997,7 @@ func (e *ReqMessagesGetInlineBotResults) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Bot.encode())
 	x.Bytes(e.Peer.encode())
-	x.Bytes(e.GeoPoint.encode())
+	x.FlaggedObject(e.Flags, 0, e.GeoPoint)
 	x.String(e.Query)
 	x.String(e.Offset)
 	return x.buf
@@ -8009,8 +8009,8 @@ func (e *ReqMessagesSetInlineBotResults) encode() []byte {
 	x.Long(e.QueryId)
 	x.Vector(toTLslice(e.Results))
 	x.Int(e.CacheTime)
-	x.String(e.NextOffset)
-	x.Bytes(e.SwitchPm.encode())
+	x.FlaggedString(e.Flags, 2, e.NextOffset)
+	x.FlaggedObject(e.Flags, 3, e.SwitchPm)
 	return x.buf
 }
 func (e *ReqMessagesSendInlineBotResult) encode() []byte {
@@ -8018,7 +8018,7 @@ func (e *ReqMessagesSendInlineBotResult) encode() []byte {
 	x.UInt(crc_messagesSendInlineBotResult)
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 0, e.ReplyToMsgId)
 	x.Long(e.RandomId)
 	x.Long(e.QueryId)
 	x.String(e.Id)
@@ -8092,9 +8092,9 @@ func (e *ReqMessagesEditMessage) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
 	x.Int(e.Id)
-	x.String(e.Message)
-	x.Bytes(e.ReplyMarkup.encode())
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedString(e.Flags, 11, e.Message)
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
+	x.FlaggedVector(e.Flags, 3, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *ReqMessagesEditInlineBotMessage) encode() []byte {
@@ -8102,9 +8102,9 @@ func (e *ReqMessagesEditInlineBotMessage) encode() []byte {
 	x.UInt(crc_messagesEditInlineBotMessage)
 	x.Int(e.Flags)
 	x.Bytes(e.Id.encode())
-	x.String(e.Message)
-	x.Bytes(e.ReplyMarkup.encode())
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedString(e.Flags, 11, e.Message)
+	x.FlaggedObject(e.Flags, 2, e.ReplyMarkup)
+	x.FlaggedVector(e.Flags, 3, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *ReqMessagesGetBotCallbackAnswer) encode() []byte {
@@ -8113,7 +8113,7 @@ func (e *ReqMessagesGetBotCallbackAnswer) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Peer.encode())
 	x.Int(e.MsgId)
-	x.StringBytes(e.Data)
+	x.FlaggedStringBytes(e.Flags, 0, e.Data)
 	return x.buf
 }
 func (e *ReqMessagesSetBotCallbackAnswer) encode() []byte {
@@ -8121,8 +8121,8 @@ func (e *ReqMessagesSetBotCallbackAnswer) encode() []byte {
 	x.UInt(crc_messagesSetBotCallbackAnswer)
 	x.Int(e.Flags)
 	x.Long(e.QueryId)
-	x.String(e.Message)
-	x.String(e.Url)
+	x.FlaggedString(e.Flags, 0, e.Message)
+	x.FlaggedString(e.Flags, 2, e.Url)
 	x.Int(e.CacheTime)
 	return x.buf
 }
@@ -8152,10 +8152,10 @@ func (e *ReqMessagesSaveDraft) encode() []byte {
 	x := NewEncodeBuf(512)
 	x.UInt(crc_messagesSaveDraft)
 	x.Int(e.Flags)
-	x.Int(e.ReplyToMsgId)
+	x.FlaggedInt(e.Flags, 0, e.ReplyToMsgId)
 	x.Bytes(e.Peer.encode())
 	x.String(e.Message)
-	x.Vector(toTLslice(e.Entities))
+	x.FlaggedVector(e.Flags, 3, toTLslice(e.Entities))
 	return x.buf
 }
 func (e *ReqMessagesGetAllDrafts) encode() []byte {
@@ -8168,7 +8168,7 @@ func (e *ReqAccountSendConfirmPhoneCode) encode() []byte {
 	x.UInt(crc_accountSendConfirmPhoneCode)
 	x.Int(e.Flags)
 	x.String(e.Hash)
-	x.Bytes(e.CurrentNumber.encode())
+	x.FlaggedObject(e.Flags, 0, e.CurrentNumber)
 	return x.buf
 }
 func (e *ReqAccountConfirmPhone) encode() []byte {
@@ -8372,8 +8372,8 @@ func (e *ReqPaymentsSendPaymentForm) encode() []byte {
 	x.UInt(crc_paymentsSendPaymentForm)
 	x.Int(e.Flags)
 	x.Int(e.MsgId)
-	x.String(e.RequestedInfoId)
-	x.String(e.ShippingOptionId)
+	x.FlaggedString(e.Flags, 0, e.RequestedInfoId)
+	x.FlaggedString(e.Flags, 1, e.ShippingOptionId)
 	x.Bytes(e.Credentials.encode())
 	return x.buf
 }
@@ -8389,8 +8389,8 @@ func (e *ReqMessagesSetBotShippingResults) encode() []byte {
 	x.UInt(crc_messagesSetBotShippingResults)
 	x.Int(e.Flags)
 	x.Long(e.QueryId)
-	x.String(e.Error)
-	x.Vector(toTLslice(e.ShippingOptions))
+	x.FlaggedString(e.Flags, 0, e.Error)
+	x.FlaggedVector(e.Flags, 1, toTLslice(e.ShippingOptions))
 	return x.buf
 }
 func (e *ReqMessagesSetBotPrecheckoutResults) encode() []byte {
@@ -8398,7 +8398,7 @@ func (e *ReqMessagesSetBotPrecheckoutResults) encode() []byte {
 	x.UInt(crc_messagesSetBotPrecheckoutResults)
 	x.Int(e.Flags)
 	x.Long(e.QueryId)
-	x.String(e.Error)
+	x.FlaggedString(e.Flags, 0, e.Error)
 	return x.buf
 }
 func (e *ReqUploadGetWebFile) encode() []byte {
@@ -8552,8 +8552,8 @@ func (e *ReqChannelsGetAdminLog) encode() []byte {
 	x.Int(e.Flags)
 	x.Bytes(e.Channel.encode())
 	x.String(e.Q)
-	x.Bytes(e.EventsFilter.encode())
-	x.Vector(toTLslice(e.Admins))
+	x.FlaggedObject(e.Flags, 0, e.EventsFilter)
+	x.FlaggedVector(e.Flags, 1, toTLslice(e.Admins))
 	x.Long(e.MaxId)
 	x.Long(e.MinId)
 	x.Int(e.Limit)

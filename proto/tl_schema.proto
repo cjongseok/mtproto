@@ -1201,23 +1201,17 @@ message TypeMessagesFavedStickers {
 		PredMessagesFavedStickersNotModified MessagesFavedStickersNotModified = 2;
 	}
 }
-message TypeVectorLangPackString {
-	repeated TypeLangPackString LangPackString = 1;
-}
 message TypeVectorWallPaper {
 	repeated TypeWallPaper WallPaper = 1;
+}
+message TypeVectorReceivedNotifyMessage {
+	repeated TypeReceivedNotifyMessage ReceivedNotifyMessage = 1;
 }
 message TypeVectorLong {
 	repeated int64 values = 1;
 }
 message TypeVectorStickerSetCovered {
 	repeated TypeStickerSetCovered StickerSetCovered = 1;
-}
-message TypeVectorInt {
-	repeated int32 values = 1;
-}
-message TypeVectorCdnFileHash {
-	repeated TypeCdnFileHash CdnFileHash = 1;
 }
 message TypeVectorLangPackLanguage {
 	repeated TypeLangPackLanguage LangPackLanguage = 1;
@@ -1228,8 +1222,14 @@ message TypeVectorUser {
 message TypeVectorContactStatus {
 	repeated TypeContactStatus ContactStatus = 1;
 }
-message TypeVectorReceivedNotifyMessage {
-	repeated TypeReceivedNotifyMessage ReceivedNotifyMessage = 1;
+message TypeVectorInt {
+	repeated int32 values = 1;
+}
+message TypeVectorCdnFileHash {
+	repeated TypeCdnFileHash CdnFileHash = 1;
+}
+message TypeVectorLangPackString {
+	repeated TypeLangPackString LangPackString = 1;
 }
 
 

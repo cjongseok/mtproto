@@ -423,27 +423,28 @@ import (
 		for _, t := range c.params {
 			t.name = strings.Title(t.name)
 			if strings.HasPrefix(t._type, "flags") {
+				flagBit, _ := strconv.Atoi(string(t._type[strings.Index(t._type, ".") + 1:strings.Index(t._type, "?")]))
 				subType := string(t._type[strings.Index(t._type, "?") + 1:])
 				switch subType {
 				case "true":
 				case "int":
-					fmt.Fprintf(toGo, "x.Int(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedInt(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "long":
-					fmt.Fprintf(toGo, "x.Long(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedLong(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "string":
-					fmt.Fprintf(toGo, "x.String(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedString(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "double":
-					fmt.Fprintf(toGo, "x.Double(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedDouble(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "bytes":
-					fmt.Fprintf(toGo, "x.StringBytes(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedStringBytes(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "Vector<int>":
-					fmt.Fprintf(toGo, "x.VectorInt(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedVectorInt(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "Vector<long>":
-					fmt.Fprintf(toGo, "x.VectorLong(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedVectorLong(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "Vector<string>":
-					fmt.Fprintf(toGo, "x.VectorString(e.%s)\n", strings.Title(t.name))
+					fmt.Fprintf(toGo, "x.FlaggedVectorString(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 				case "!X":
-					fmt.Fprintf(toGo, "unpacked%s := unpack(e.%s)\nif unpacked%s != nil {\nx.Bytes(unpacked%s.encode())\n}\n", strings.Title(t.name), strings.Title(t.name), strings.Title(t.name), strings.Title(t.name))
+					fmt.Fprintf(toGo, "unpacked%s := unpack(e.%s)\nif unpacked%s != nil {\nx.FlaggedObject(e.Flags, %d, unpacked%s)\n}\n", strings.Title(t.name), strings.Title(t.name), strings.Title(t.name), flagBit, strings.Title(t.name))
 					//fmt.Fprintf(toGo, "x.Bytes(unpack(e.%s).encode())\n", strings.Title(t.name))
 				case "Vector<double>":
 					panic(fmt.Sprintf("Unsupported %s", subType))
@@ -456,9 +457,9 @@ import (
 						if name == inner {
 							name = fmt.Sprintf("%ss", name)
 						}
-						fmt.Fprintf(toGo, "x.Vector(toTLslice(e.%s))\n", strings.Title(name))
+						fmt.Fprintf(toGo, "x.FlaggedVector(e.Flags, %d, toTLslice(e.%s))\n", flagBit, strings.Title(name))
 					} else {
-						fmt.Fprintf(toGo, "x.Bytes(e.%s.encode())\n", strings.Title(t.name))
+						fmt.Fprintf(toGo, "x.FlaggedObject(e.Flags, %d, e.%s)\n", flagBit, strings.Title(t.name))
 					}
 				}
 			} else {

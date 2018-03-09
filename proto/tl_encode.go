@@ -255,6 +255,77 @@ func (e TL_msgs_ack) encode() []byte {
 	return x.buf
 }
 
+func (e *EncodeBuf) FlaggedLong(flags, f int32, s int64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Long(s)
+}
+func (e *EncodeBuf) FlaggedDouble(flags, f int32, s float64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Double(s)
+}
+func (e *EncodeBuf) FlaggedInt(flags, f int32, s int32) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Int(s)
+}
+func (e *EncodeBuf) FlaggedString(flags, f int32, s string) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.String(s)
+}
+func (e *EncodeBuf) FlaggedVector(flags, f int32, v []TL) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Vector(v)
+}
+func (e *EncodeBuf) FlaggedObject(flags, f int32, o TL) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Bytes(o.encode())
+}
+func (e *EncodeBuf) FlaggedStringBytes(flags, f int32, s []byte) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.StringBytes(s)
+}
+func (e *EncodeBuf) FlaggedVectorInt(flags, f int32, v []int32) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorInt(v)
+}
+func (e *EncodeBuf) FlaggedVectorLong(flags, f int32, v []int64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorLong(v)
+}
+func (e *EncodeBuf) FlaggedVectorString(flags, f int32, v []string) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorString(v)
+}
+
 func toTLslice(slice interface{}) []TL {
 	if reflect.TypeOf(slice).Kind() != reflect.Slice {
 		return nil

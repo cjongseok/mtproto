@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	__debug = 0x18
+	__debug = 0
 )
 
 type MManager struct {
