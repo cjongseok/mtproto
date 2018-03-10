@@ -91,7 +91,8 @@ type packetToSend struct {
 }
 
 type response struct {
-	data TL
+	//data TL
+	data interface{}
 	err  error
 }
 
@@ -275,14 +276,14 @@ func (session *MSession) open(appConfig Configuration /*sendQueue chan packetToS
 	session.queueSend <- packetToSend{
 		msg: &ReqInvokeWithLayer{
 			Layer: int32(layer),
-			Query: pack(&ReqInitConnection{
+			Query: Pack(&ReqInitConnection{
 				ApiId:          session.appConfig.Id,
 				DeviceModel:    session.appConfig.DeviceModel,
 				SystemVersion:  session.appConfig.SystemVersion,
 				AppVersion:     session.appConfig.Version,
 				SystemLangCode: session.appConfig.Language,
 				LangCode:       session.appConfig.Language,
-				Query:          pack(&ReqHelpGetConfig{}),
+				Query:          Pack(&ReqHelpGetConfig{}),
 			}),
 		},
 		resp: resp,
@@ -475,7 +476,8 @@ func (session *MSession) process(msgId int64, seqNo int32, data interface{}) int
 						//resp.err = session.handleRPCError(rpcError)
 						resp.err = rpcError
 					}
-					resp.data = x.(TL)
+					//resp.data = x.(TL)
+					resp.data = x
 					v <- resp
 					close(v)
 				}()

@@ -1,0 +1,18 @@
+syntax = "proto3";
+package proxy;
+import "proto/tl_schema.proto";
+
+message Update {
+	oneof Value {
+//		mtp.TypeUpdates updates = 1;
+//		mtp.TypeUpdatesDifference updatesDifference = 2;
+		mtp.PredUpdateShortMessage updateShortMessage = 1;
+		mtp.PredUpdatesDifference updatesDifference = 2;
+	}
+}
+
+message ListenRequest {}
+
+service UpdateStreamer {
+	rpc ListenOnUpdates (ListenRequest) returns (stream Update) {}
+}

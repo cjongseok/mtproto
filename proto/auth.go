@@ -128,6 +128,8 @@ func (mconn *MConn) AuthLogOut() (bool, error) {
 		return result, x.err
 	}
 
-	result = toBool(x.data)
-	return result, nil
+	if tl, ok := x.data.(TL); ok {
+		return toBool(tl), nil
+	}
+	return false, fmt.Errorf("invalid rpc return: %T: %v", x.data, x.data)
 }

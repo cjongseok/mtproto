@@ -2,11 +2,11 @@ package mtp
 
 import "errors"
 
-func (mconn *MConn) ContactsGetContacts(hash int32) (TL, error) {
-	return mconn.InvokeBlocked(&ReqContactsGetContacts{
-		Hash: hash,
-	})
-}
+//func (mconn *MConn) ContactsGetContacts(hash int32) (TL, error) {
+//	return mconn.InvokeBlocked(&ReqContactsGetContacts{
+//		Hash: hash,
+//	})
+//}
 
 func (mconn *MConn) ContactsGetTopPeers(correspondents, botsPM, botsInline, groups, channels bool, offset, limit, hash int32) (*TypeContactsTopPeers, error) {
 	x := <-mconn.InvokeNonBlocked(&ReqContactsGetTopPeers{

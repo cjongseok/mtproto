@@ -72,11 +72,11 @@ func (mconn *MConn) bind(session *MSession) error {
 		seqDiff := session.updatesState.Seq - mconn.discardedUpdatesState.Seq
 		if ptsDiff > 0 || qtsDiff > 0 || seqDiff > 0 {
 			// missed updates exist. Propagate updates to callbacks
-			updatesDiff, err := mconn.UpdatesGetDifference(
-				mconn.discardedUpdatesState.Pts,
-				0,
-				mconn.discardedUpdatesState.Date,
-				mconn.discardedUpdatesState.Qts)
+			updatesDiff, err := mconn.InvokeBlocked(&ReqUpdatesGetDifference{
+				Pts:           mconn.discardedUpdatesState.Pts,
+				PtsTotalLimit: 0,
+				Date:          mconn.discardedUpdatesState.Date,
+				Qts:           mconn.discardedUpdatesState.Qts})
 			if err != nil {
 				return fmt.Errorf("failed to get update difference")
 			}
@@ -107,7 +107,7 @@ func (mconn *MConn) bind(session *MSession) error {
 	return nil
 }
 
-func (mconn *MConn) InvokeBlocked(msg TL) (TL, error) {
+func (mconn *MConn) InvokeBlocked(msg TL) (interface{}, error) {
 	// TODO: timeout the call
 	select {
 	case x := <-mconn.InvokeNonBlocked(msg):

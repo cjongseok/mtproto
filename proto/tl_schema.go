@@ -17625,13 +17625,13 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	case crc_invokeAfterMsg:
 		r = &ReqInvokeAfterMsg{
 			m.Long(),
-			pack(m.Object()),
+			Pack(m.Object()),
 		}
 
 	case crc_invokeAfterMsgs:
 		r = &ReqInvokeAfterMsgs{
 			m.VectorLong(),
-			pack(m.Object()),
+			Pack(m.Object()),
 		}
 
 	case crc_authCheckPhone:
@@ -18100,7 +18100,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 			m.String(),
 			m.String(),
 			m.String(),
-			pack(m.Object()),
+			Pack(m.Object()),
 		}
 
 	case crc_helpGetSupport:
@@ -18164,7 +18164,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	case crc_invokeWithLayer:
 		r = &ReqInvokeWithLayer{
 			m.Int(),
-			pack(m.Object()),
+			Pack(m.Object()),
 		}
 
 	case crc_contactsResolveUsername:
@@ -18240,7 +18240,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_invokeWithoutUpdates:
 		r = &ReqInvokeWithoutUpdates{
-			pack(m.Object()),
+			Pack(m.Object()),
 		}
 
 	case crc_messagesExportChatInvite:
@@ -19130,7 +19130,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 }
 
 // Packer from TypeXXX to gRPC Any
-func pack(tl TL) *any.Any {
+func Pack(tl TL) *any.Any {
 	var marshaled *any.Any
 	var err error
 	if tl == nil {
