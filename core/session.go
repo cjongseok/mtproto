@@ -1,4 +1,4 @@
-package mtp
+package core
 
 import (
 	"bytes"

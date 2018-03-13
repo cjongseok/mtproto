@@ -1,4 +1,4 @@
-package mtp
+package core
 
 type Update interface {
 	UpdateDate() int32

@@ -3,10 +3,10 @@ package proxy
 import (
 	"flag"
 	"fmt"
-	"github.com/cjongseok/mtproto/mtp"
 	"github.com/cjongseok/slog"
 	"golang.org/x/net/context"
 	"testing"
+	"github.com/cjongseok/mtproto/core"
 )
 
 const (
@@ -37,7 +37,7 @@ func beforeTest(t *testing.T) {
 	fmt.Printf("apiid: %v\napihash: %v\nphone: %s\naddr: %s\n", *apiId, *apiHash, *phone, *addr)
 
 	if proxy == nil {
-		configuration, err := mtp.NewConfiguration(int32(*apiId), *apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0, 0)
+		configuration, err := core.NewConfiguration(int32(*apiId), *apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0, 0)
 		handleError(t, err)
 		proxy = NewServer(port)
 		err = proxy.ConnectToTelegram(configuration, *phone, *addr)
@@ -59,8 +59,8 @@ func afterTest(t *testing.T) {
 func TestDialogs(t *testing.T) {
 	beforeTest(t)
 	defer afterTest(t)
-	emptyPeer := &mtp.TypeInputPeer{&mtp.TypeInputPeer_InputPeerEmpty{&mtp.PredInputPeerEmpty{}}}
-	dialogs, err := client.MessagesGetDialogs(context.Background(), &mtp.ReqMessagesGetDialogs{
+	emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}}
+	dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
 		OffsetDate: 0,
 		OffsetId:   0,
 		OffsetPeer: emptyPeer,
@@ -68,9 +68,9 @@ func TestDialogs(t *testing.T) {
 	})
 	handleError(t, err)
 	switch casted := dialogs.Value.(type) {
-	case *mtp.TypeMessagesDialogs_MessagesDialogs:
+	case *core.TypeMessagesDialogs_MessagesDialogs:
 		fmt.Println(slog.StringifyIndent(casted.MessagesDialogs, "  "))
-	case *mtp.TypeMessagesDialogs_MessagesDialogsSlice:
+	case *core.TypeMessagesDialogs_MessagesDialogsSlice:
 		fmt.Println(slog.StringifyIndent(casted.MessagesDialogsSlice, "  "))
 	default:
 		handleError(t, fmt.Errorf("unknown return: %T: %v", dialogs.Value, dialogs.Value))

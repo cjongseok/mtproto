@@ -1,4 +1,4 @@
-package mtp
+package core
 
 const (
 	SESSION EventType = "session"
