@@ -1,18 +1,18 @@
-package mtproto
+package mtp
 
 const (
-	SESSION MEventType = "session"
-	MCONN   MEventType = "mconn"
+	SESSION EventType = "session"
+	MCONN   EventType = "mconn"
 )
 
-type MEventType string
-type MEvent interface {
-	Type() MEventType
+type EventType string
+type Event interface {
+	Type() EventType
 }
 
 // Session Events
 type newsession struct {
-	// If connId is zero, MManager makes new connection and assigns it the new session.
+	// If connId is zero, Manager makes new connection and assigns it the new session.
 	// Otherwise, the new session is allocated to the connection of connId.
 	connId      int32
 	phonenumber string
@@ -22,7 +22,7 @@ type newsession struct {
 }
 
 type loadsession struct {
-	// If connId is zero, MManager makes new connection and assigns it the loaded session.
+	// If connId is zero, Manager makes new connection and assigns it the loaded session.
 	// Otherwise, the loaded session is allocated to the connection of connId.
 	connId        int32
 	phonenumber   string
@@ -32,17 +32,17 @@ type loadsession struct {
 
 type sessionResponse struct {
 	connId  int32
-	session *MSession
-	//mconn 	*MConn
+	session *Session
+	//mconn 	*Conn
 	err error
 }
 
 // Established = made + bound
 type SessionEstablished struct {
 	//connId		int32
-	session *MSession
+	session *Session
 	//sessionId 	int64
-	//mconn 	*MConn
+	//mconn 	*Conn
 }
 
 type discardSession struct {
@@ -56,7 +56,7 @@ type SessionDiscarded struct {
 	//sessionId 	int64
 	boundConnId                  int32
 	discardedSessionId           int64
-	discardedSessionUpdatesState TL_updates_state
+	discardedSessionUpdatesState *PredUpdatesState
 }
 
 // discardSession + newsession
@@ -79,13 +79,13 @@ type refreshSession struct {
 
 // Connection Events
 type ConnectionOpened struct {
-	mconn *MConn
+	mconn *Conn
 }
 type sessionBound struct {
-	mconn *MConn
+	mconn *Conn
 }
 type sessionUnbound struct {
-	mconn            *MConn
+	mconn            *Conn
 	unboundSessionId int64
 }
 type closeConnection struct {
@@ -98,22 +98,22 @@ type connectionClosed struct {
 
 // Update Event
 type updateReceived struct {
-	update MUpdate
+	update Update
 }
 
-func (e newsession) Type() MEventType         { return SESSION }
-func (e loadsession) Type() MEventType        { return SESSION }
-func (e SessionEstablished) Type() MEventType { return SESSION }
-func (e renewSession) Type() MEventType       { return SESSION }
-func (e refreshSession) Type() MEventType     { return SESSION }
-func (e discardSession) Type() MEventType     { return SESSION }
-func (e SessionDiscarded) Type() MEventType   { return SESSION }
-func (e ConnectionOpened) Type() MEventType   { return MCONN }
-func (e sessionBound) Type() MEventType       { return MCONN }
-func (e sessionUnbound) Type() MEventType     { return MCONN }
-func (e closeConnection) Type() MEventType    { return MCONN }
-func (e connectionClosed) Type() MEventType   { return MCONN }
-func (e updateReceived) Type() MEventType     { return SESSION }
+func (e newsession) Type() EventType         { return SESSION }
+func (e loadsession) Type() EventType        { return SESSION }
+func (e SessionEstablished) Type() EventType { return SESSION }
+func (e renewSession) Type() EventType       { return SESSION }
+func (e refreshSession) Type() EventType     { return SESSION }
+func (e discardSession) Type() EventType     { return SESSION }
+func (e SessionDiscarded) Type() EventType   { return SESSION }
+func (e ConnectionOpened) Type() EventType   { return MCONN }
+func (e sessionBound) Type() EventType       { return MCONN }
+func (e sessionUnbound) Type() EventType     { return MCONN }
+func (e closeConnection) Type() EventType    { return MCONN }
+func (e connectionClosed) Type() EventType   { return MCONN }
+func (e updateReceived) Type() EventType     { return SESSION }
 
 //func (e newsession) SessionId() (int64)          {return 0}
 //func (e loadsession) SessionId() (int64)         {return 0}

@@ -11,6 +11,12 @@ import (
 	"bufio"
 )
 
+const (
+	typesFileName = "types.tl.proto"
+	utilsFileName = "utils.tl.go"
+	procsFilename = "procs.tl.go"
+)
+
 type nametype struct {
 	name  string
 	_type string
@@ -62,30 +68,20 @@ func main() {
 	var err error
 	var parsed interface{}
 
-
-	// set outs
-	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, "no args")
-		os.Exit(128)
-	} else if len(os.Args) > 2 {
-		fmt.Fprintf(os.Stderr, "too many args")
-		os.Exit(128)
-	}
-	filename := os.Args[1]
 	//goFp, err := os.Create(fmt.Sprintf("%s.go", filename))
-	goFp, err := os.OpenFile(fmt.Sprintf("%s.go", filename), os.O_CREATE | os.O_WRONLY, 0666)
+	goFp, err := os.OpenFile(utilsFileName, os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Fprint(os.Stderr, "file open failure:", err)
 	}
 	defer goFp.Close()
 	//protoFp, err := os.Create(fmt.Sprintf("%s.proto", filename))
-	protoFp, err := os.OpenFile(fmt.Sprintf("%s.proto", filename), os.O_CREATE | os.O_WRONLY, 0666)
+	protoFp, err := os.OpenFile(typesFileName, os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Fprint(os.Stderr, "file open failure:", err)
 	}
 	defer protoFp.Close()
 
-	proxyFp, err := os.OpenFile("../proxy/procs.go", os.O_CREATE | os.O_WRONLY, 0666)
+	proxyFp, err := os.OpenFile(procsFilename, os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "file open failure:", err)
 	}
@@ -593,6 +589,21 @@ import (
 		fmt.Fprintf(toGo, "default:\n// invalid predicate\n}	\n}\nreturn converted\n}\n")
 	}
 
+	// predicate converters to Type
+	fmt.Fprintf(toGo, "\n\n// predicate converters to a Type\n")
+	for _, key := range _predOrder {
+		if key == "vector" {
+			continue
+		}
+		c := _preds[key]
+		//fmt.Fprintf(toGo, "func (p *Pred%s) ToType() *Type%s {\n", strings.Title(key), strings.Title(c._type))
+		fmt.Fprintf(toGo, "func (p *Pred%s) ToType() TL {\n", strings.Title(key))
+		if len(_predTypes[c._type]) == 1 {
+			fmt.Fprintf(toGo, "return &Type%s{p}\n}\n", strings.Title(c._type))
+		} else {
+			fmt.Fprintf(toGo, "return &Type%s{&Type%s_%s{p}}\n}\n", strings.Title(c._type), strings.Title(c._type), strings.Title(key))
+		}
+	}
 
 	//TODO: for now, it does NOT support decoding to TypeVector... structs
 	// decode funcs
@@ -742,27 +753,19 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	for _, key := range _methodOrder{
 		fmt.Fprintf(toGo, "case *Req%s:\nmarshaled, err = ptypes.MarshalAny(x)\n", strings.Title(key))
 	}
+	fmt.Fprintf(toGo, "\n// predicates\n")
+	for _, key := range _predOrder{
+		if key == "vector" {
+			continue
+		}
+		fmt.Fprintf(toGo, "case *Pred%s:\nmarshaled, err = ptypes.MarshalAny(x)\n", strings.Title(key))
+	}
 	fmt.Fprintln(toGo, `	}
 	if err != nil {
 		return nil
 	}
 	return marshaled
 }`)
-//	for _, key := range _predTypeOrder {
-//		// exclude Vector t
-//		if key == "Vector t" {
-//			continue
-//		}
-//		//fmt.Fprintf(toGo, "func (e *Type%s) pack() *any.Any {\n", strings.Title(key))
-//
-//		fmt.Fprintf(toGo, `x, err := ptypes.MarshalAny(e)
-//if err != nil {
-//	return nil
-//}
-//return x
-//}
-//`)
-//	}
 
 	// unpacker from gRPC Any to ReqXXX
 	fmt.Fprintln(toGo, "// Unpacker from gRPC Any to ReqXXX")
@@ -788,71 +791,76 @@ return u`)
 	fmt.Fprintf(toGo, "}\nreturn nil\n}\n")
 
 
-
-
-
-
-
 	// gRPC precedure implementations
-	fmt.Fprintln(toProxy, `package proxy
+	fmt.Fprintln(toProxy, `package mtp
 import (
 	"golang.org/x/net/context"
-	"github.com/cjongseok/mtproto/proto"
 	"github.com/golang/protobuf/ptypes/any"
 	"fmt"
 )`)
 	fmt.Fprintf(toProxy, "\n\n// Procedures\n")
-	//fmt.Fprintln(toProxy, `service Mtproto {`)
 	for _, key := range _methodOrder {
 		c, ok:= _methods[key]
 		if ok {
 			switch c._type {
 			case "X":
-				//InvokeAfterMsg(context.Context, *ReqInvokeAfterMsg) (*google_protobuf.Any, error)
-				fmt.Fprintf(toProxy, "func (p *MProxy) %s(ctx context.Context, req *mtp.Req%s) (*any.Any, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate))
-				fmt.Fprintf(toProxy, `resp, err := p.mconn.InvokeBlocked(req)
+				fmt.Fprintf(toProxy, "func (caller RPCaller) %s(ctx context.Context, req *Req%s) (*any.Any, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate))
+				fmt.Fprintf(toProxy, `resp, err := caller.RPC.InvokeBlocked(req)
 if err != nil {
 return nil, err
 }
+if pred, ok := resp.(Predicate); ok {
 `)
-				fmt.Fprintf(toProxy, "if resp, ok := resp.(mtp.TL); ok {\n")
-				fmt.Fprintln(toProxy, `packed := mtp.Pack(resp)
+				fmt.Fprintln(toProxy, `packed := Pack(pred.ToType())
 if packed != nil {
 return packed, nil
 }
 }
-return &any.Any{}, fmt.Errorf("unexpected return: %T: %v", resp, resp)
+return &any.Any{}, fmt.Errorf("unexpected return: %T", resp)
 }`)
 			default:
 				var inner string
 				n, _ := fmt.Sscanf(c._type, "Vector<%s", &inner)
 				if n == 1 {
 					inner = inner[:len(inner) - 1]
-					fmt.Fprintf(toProxy, "func (p *MProxy) %s(ctx context.Context, req *mtp.Req%s) (*mtp.TypeVector%s, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(inner))
-					fmt.Fprintln(toProxy, `resp, err := p.mconn.InvokeBlocked(req)
+					fmt.Fprintf(toProxy, "func (caller RPCaller) %s(ctx context.Context, req *Req%s) (*TypeVector%s, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(inner))
+					fmt.Fprintln(toProxy, `resp, err := caller.RPC.InvokeBlocked(req)
 if err != nil {
 return nil, err
 }`)
 					switch inner {
-					case "long":
-						fmt.Fprintf(toProxy, "if resp, ok := resp.([]int64); ok {\nreturn &mtp.TypeVectorLong{resp}, nil\n}\nreturn &mtp.TypeVectorLong{}, ")
 					case "int":
-						fmt.Fprintf(toProxy, "if resp, ok := resp.([]int32); ok {\nreturn &mtp.TypeVectorInt{resp}, nil\n}\nreturn &mtp.TypeVectorInt{}, ")
-						//fmt.Fprintf(toProxy, "if resp, ok := resp.([]mtp.TL); ok {\nv := &mtp.TypeVector%s{}\nv.%s = make([]*mtp.Type%s, len(resp))\nfor i, tl := range resp {\nv.%s[i] = tl.(*mtp.Type%s)\n}\nreturn v, nil\n}\nreturn &mtp.TypeVector%s{}, ", strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner))
+						fmt.Fprintf(toProxy, "if resp, ok := resp.([]int32); ok {\nreturn &TypeVectorInt{resp}, nil\n}\nreturn &TypeVectorInt{}, ")
+					case "long":
+						fmt.Fprintf(toProxy, "if resp, ok := resp.([]int64); ok {\nreturn &TypeVectorLong{resp}, nil\n}\nreturn &TypeVectorLong{}, ")
 					default:
-						fmt.Fprintf(toProxy, "if resp, ok := resp.([]mtp.TL); ok {\nv := &mtp.TypeVector%s{}\nv.%s = make([]*mtp.Type%s, len(resp))\nfor i, tl := range resp {\nv.%s[i] = tl.(*mtp.Type%s)\n}\nreturn v, nil\n}\nreturn &mtp.TypeVector%s{}, ", strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner), strings.Title(inner))
+						fmt.Fprintf(toProxy, "if resp, ok := resp.([]TL); ok {\nv := &TypeVector%s{}\nv.%s = make([]*Type%s, len(resp))\nfor i, tl := range resp {\nswitch x := tl.(type) {\n", strings.Title(inner), strings.Title(inner), strings.Title(inner))
+						for _, p := range _predTypes[inner] {
+							fmt.Fprintf(toProxy, "case *Pred%s:\nv.%s[i] = x.ToType().(*Type%s)\n", strings.Title(p), strings.Title(inner), strings.Title(inner))
+						}
+						fmt.Fprintf(toProxy, "default:\nreturn nil, fmt.Errorf(\"invalid %s vector element type:", strings.Title(inner))
+						fmt.Fprintln(toProxy, `%T", resp)
+}
+}
+return v, nil
+}
+`)
+						fmt.Fprintf(toProxy, "return &TypeVector%s{}, ", strings.Title(inner))
+
 					}
-					//fmt.Fprintf(toProto, "\trpc %s (Req%s) returns (TypeVector%s) {}\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(inner))
 				} else {
-					fmt.Fprintf(toProxy, "func (p *MProxy) %s(ctx context.Context, req *mtp.Req%s) (*mtp.Type%s, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(c._type))
-					fmt.Fprintln(toProxy, `resp, err := p.mconn.InvokeBlocked(req)
+					fmt.Fprintf(toProxy, "func (caller RPCaller) %s(ctx context.Context, req *Req%s) (*Type%s, error) {\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(c._type))
+					fmt.Fprintln(toProxy, `resp, err := caller.RPC.InvokeBlocked(req)
 if err != nil {
 return nil, err
-}`)
-					fmt.Fprintf(toProxy, "if resp, ok := resp.(*mtp.Type%s); ok {\nreturn resp, nil\n}\nreturn &mtp.Type%s{}, ", strings.Title(c._type), strings.Title(c._type))
-					//fmt.Fprintf(toProto, "\trpc %s (Req%s) returns (Type%s) {}\n", strings.Title(c.predicate), strings.Title(c.predicate), strings.Title(c._type))
+}
+switch x := resp.(type) {`)
+					for _, p := range _predTypes[c._type] {
+						fmt.Fprintf(toProxy, "case *Pred%s:\nreturn x.ToType().(*Type%s), nil\n", strings.Title(p), strings.Title(c._type))
+					}
+					fmt.Fprintf(toProxy, "}\nreturn &Type%s{}, ", strings.Title(c._type))
 				}
-				fmt.Fprintln(toProxy, `fmt.Errorf("return type is %T", resp)
+				fmt.Fprintln(toProxy, `fmt.Errorf("unexpected return: %T", resp)
 }`)
 			}
 
@@ -860,5 +868,4 @@ return nil, err
 			fmt.Fprintf(os.Stderr, "no methods:", key)
 		}
 	}
-	//fmt.Fprintln(toProto, "}")
 }

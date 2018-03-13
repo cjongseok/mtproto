@@ -3,6 +3,7 @@ package mtp
 import (
 	"bytes"
 	"compress/gzip"
+	"crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
@@ -10,7 +11,79 @@ import (
 	"github.com/cjongseok/slog"
 	"math"
 	"math/big"
+	"reflect"
+	"runtime"
+	"strings"
+	"time"
 )
+
+const (
+	layer = 71
+
+	// https://core.telegram.org/schema/mtproto
+	//crc_vector                     = 0x1cb5c415
+	crc_resPQ                      = 0x05162463
+	crc_p_q_inner_data             = 0x83c95aec
+	crc_server_DH_params_fail      = 0x79cb045d
+	crc_server_DH_params_ok        = 0xd0e8075c
+	crc_server_DH_inner_data       = 0xb5890dba
+	crc_client_DH_inner_data       = 0x6643b654
+	crc_dh_gen_ok                  = 0x3bcbf734
+	crc_dh_gen_retry               = 0x46dc1fb9
+	crc_dh_gen_fail                = 0xa69dae02
+	crc_rpc_result                 = 0xf35c6d01
+	crc_rpc_error                  = 0x2144ca19
+	crc_rpc_answer_unknown         = 0x5e2ad36e
+	crc_rpc_answer_dropped_running = 0xcd78e586
+	crc_rpc_answer_dropped         = 0xa43ad8b7
+	crc_future_salt                = 0x0949d9dc
+	crc_future_salts               = 0xae500895
+	crc_pong                       = 0x347773c5
+	crc_destroy_session_ok         = 0xe22045fc
+	crc_destroy_session_none       = 0x62d350c9
+	crc_new_session_created        = 0x9ec20908
+	crc_msg_container              = 0x73f1f8dc
+	crc_msg_copy                   = 0xe06046b2
+	crc_gzip_packed                = 0x3072cfa1
+	crc_msgs_ack                   = 0x62d6b459
+	crc_bad_msg_notification       = 0xa7eff811
+	crc_bad_server_salt            = 0xedab447b
+	crc_msg_resend_req             = 0x7d861a08
+	crc_msgs_state_req             = 0xda69fb52
+	crc_msgs_state_info            = 0x04deb57d
+	crc_msgs_all_info              = 0x8cc0d131
+	crc_msg_detailed_info          = 0x276d3ec6
+	crc_msg_new_detailed_info      = 0x809db6df
+	crc_req_pq                     = 0x60469778
+	crc_req_DH_params              = 0xd712e4be
+	crc_set_client_DH_params       = 0xf5045f1f
+	crc_rpc_drop_answer            = 0x58e4a740
+	crc_get_future_salts           = 0xb921bd04
+	crc_ping                       = 0x7abe77ec
+	crc_ping_delay_disconnect      = 0xf3427b8c
+	crc_destroy_session            = 0xe7512126
+	crc_http_wait                  = 0x9299359f
+)
+
+type TL interface {
+	encode() []byte
+}
+
+type RemoteProcedureCall interface {
+	InvokeBlocked(msg TL) (interface{}, error)
+}
+
+type Predicate interface {
+	ToType() TL
+}
+
+type RPCaller struct {
+	RPC RemoteProcedureCall
+}
+
+type EncodeBuf struct {
+	buf []byte
+}
 
 type DecodeBuf struct {
 	buf  []byte
@@ -19,6 +92,450 @@ type DecodeBuf struct {
 	err  error
 }
 
+type TL_msg_container struct {
+	Items []TL_MT_message
+}
+
+type TL_MT_message struct {
+	Msg_id int64
+	Seq_no int32
+	Size   int32
+	Data   interface{}
+}
+
+type TL_req_pq struct {
+	nonce []byte
+}
+
+type TL_p_q_inner_data struct {
+	pq           *big.Int
+	p            *big.Int
+	q            *big.Int
+	nonce        []byte
+	server_nonce []byte
+	new_nonce    []byte
+}
+type TL_req_DH_params struct {
+	nonce        []byte
+	server_nonce []byte
+	p            *big.Int
+	q            *big.Int
+	fp           uint64
+	encdata      []byte
+}
+type TL_client_DH_inner_data struct {
+	nonce        []byte
+	server_nonce []byte
+	retry        int64
+	g_b          *big.Int
+}
+type TL_set_client_DH_params struct {
+	nonce        []byte
+	server_nonce []byte
+	encdata      []byte
+}
+type TL_resPQ struct {
+	nonce        []byte
+	server_nonce []byte
+	pq           *big.Int
+	fingerprints []int64
+}
+
+type TL_server_DH_params_ok struct {
+	nonce            []byte
+	server_nonce     []byte
+	encrypted_answer []byte
+}
+
+type TL_server_DH_inner_data struct {
+	nonce        []byte
+	server_nonce []byte
+	g            int32
+	dh_prime     *big.Int
+	g_a          *big.Int
+	server_time  int32
+}
+
+type TL_new_session_created struct {
+	first_msg_id int64
+	unique_id    int64
+	server_salt  []byte
+}
+
+type TL_bad_server_salt struct {
+	bad_msg_id      int64
+	bad_msg_seqno   int32
+	error_code      int32
+	new_server_salt []byte
+}
+
+type TL_crc_bad_msg_notification struct {
+	bad_msg_id    int64
+	bad_msg_seqno int32
+	error_code    int32
+}
+
+type TL_msgs_ack struct {
+	msgIds []int64
+}
+
+type TL_rpc_result struct {
+	req_msg_id int64
+	Obj        interface{}
+}
+
+type TL_rpc_error struct {
+	error_code    int32
+	error_message string
+}
+
+type TL_dh_gen_ok struct {
+	nonce           []byte
+	server_nonce    []byte
+	new_nonce_hash1 []byte
+}
+
+type TL_ping struct {
+	ping_id int64
+}
+
+type TL_pong struct {
+	msg_id  int64
+	ping_id int64
+}
+
+// Encoders
+func GenerateNonce(size int) []byte {
+	b := make([]byte, size)
+	_, _ = rand.Read(b)
+	return b
+}
+
+func GenerateMessageId() int64 {
+	const nano = 1000 * 1000 * 1000
+	//FIXME: Windows system clock has time resolution issue. https://github.com/golang/go/issues/17696
+	//Remove the sleep when the issue is resolved.
+	if strings.Contains(runtime.GOOS, "windows") {
+		time.Sleep(2 * time.Millisecond)
+	}
+	unixnano := time.Now().UnixNano()
+
+	return ((unixnano / nano) << 32) | ((unixnano % nano) & -4)
+}
+
+func NewEncodeBuf(cap int) *EncodeBuf {
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::NewBuf::", "cap=", cap)
+	}
+	return &EncodeBuf{make([]byte, 0, cap)}
+}
+
+func (e *EncodeBuf) Int(s int32) {
+	e.buf = append(e.buf, 0, 0, 0, 0)
+	binary.LittleEndian.PutUint32(e.buf[len(e.buf)-4:], uint32(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Int::", s)
+	}
+}
+
+func (e *EncodeBuf) UInt(s uint32) {
+	e.buf = append(e.buf, 0, 0, 0, 0)
+	binary.LittleEndian.PutUint32(e.buf[len(e.buf)-4:], s)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logf("Encode::UInt::", "%d(0x%x)", s, s)
+	}
+}
+
+func (e *EncodeBuf) Long(s int64) {
+	e.buf = append(e.buf, 0, 0, 0, 0, 0, 0, 0, 0)
+	binary.LittleEndian.PutUint64(e.buf[len(e.buf)-8:], uint64(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Long::", s)
+	}
+}
+
+func (e *EncodeBuf) Double(s float64) {
+	e.buf = append(e.buf, 0, 0, 0, 0, 0, 0, 0, 0)
+	binary.LittleEndian.PutUint64(e.buf[len(e.buf)-8:], math.Float64bits(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Double::", s)
+	}
+}
+
+func (e *EncodeBuf) String(s string) {
+	e.StringBytes([]byte(s))
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::String::", s)
+	}
+}
+
+func (e *EncodeBuf) BigInt(s *big.Int) {
+	e.StringBytes(s.Bytes())
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::BigInt::", s)
+	}
+}
+
+func (e *EncodeBuf) StringBytes(s []byte) {
+	var res []byte
+	size := len(s)
+	if size < 254 {
+		nl := 1 + size + (4-(size+1)%4)&3
+		res = make([]byte, nl)
+		res[0] = byte(size)
+		copy(res[1:], s)
+
+	} else {
+		nl := 4 + size + (4-size%4)&3
+		res = make([]byte, nl)
+		binary.LittleEndian.PutUint32(res, uint32(size<<8|254))
+		copy(res[4:], s)
+
+	}
+	e.buf = append(e.buf, res...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::StringBytes::", s)
+	}
+}
+
+func (e *EncodeBuf) Bytes(s []byte) {
+	e.buf = append(e.buf, s...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Bytes::", s)
+	}
+}
+
+func (e *EncodeBuf) VectorInt(v []int32) {
+	x := make([]byte, 4+4+len(v)*4)
+	binary.LittleEndian.PutUint32(x, crc_vector)
+	binary.LittleEndian.PutUint32(x[4:], uint32(len(v)))
+	i := 8
+	for _, v := range v {
+		binary.LittleEndian.PutUint32(x[i:], uint32(v))
+		i += 4
+	}
+	e.buf = append(e.buf, x...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorInt::", v)
+	}
+}
+
+func (e *EncodeBuf) VectorLong(v []int64) {
+	x := make([]byte, 4+4+len(v)*8)
+	binary.LittleEndian.PutUint32(x, crc_vector)
+	binary.LittleEndian.PutUint32(x[4:], uint32(len(v)))
+	i := 8
+	for _, v := range v {
+		binary.LittleEndian.PutUint64(x[i:], uint64(v))
+		i += 8
+	}
+	e.buf = append(e.buf, x...)
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorLong::", v)
+	}
+}
+
+func (e *EncodeBuf) VectorString(v []string) {
+	x := make([]byte, 8)
+	binary.LittleEndian.PutUint32(x, crc_vector)
+	binary.LittleEndian.PutUint32(x[4:], uint32(len(v)))
+	e.buf = append(e.buf, x...)
+	for _, v := range v {
+		e.String(v)
+	}
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::VectorString::", v)
+	}
+}
+
+func (e *EncodeBuf) Vector(v []TL) {
+	x := make([]byte, 8)
+	binary.LittleEndian.PutUint32(x, crc_vector)
+	binary.LittleEndian.PutUint32(x[4:], uint32(len(v)))
+	e.buf = append(e.buf, x...)
+	for _, v := range v {
+		e.buf = append(e.buf, v.encode()...)
+	}
+	if __debug&DEBUG_LEVEL_ENCODE_DETAILS != 0 {
+		slog.Logln("Encode::Vector::", v)
+	}
+}
+
+func (e TL_msg_container) encode() []byte            { return nil }
+func (e TL_resPQ) encode() []byte                    { return nil }
+func (e TL_server_DH_params_ok) encode() []byte      { return nil }
+func (e TL_server_DH_inner_data) encode() []byte     { return nil }
+func (e TL_dh_gen_ok) encode() []byte                { return nil }
+func (e TL_rpc_result) encode() []byte               { return nil }
+func (e TL_rpc_error) encode() []byte                { return nil }
+func (e TL_new_session_created) encode() []byte      { return nil }
+func (e TL_bad_server_salt) encode() []byte          { return nil }
+func (e TL_crc_bad_msg_notification) encode() []byte { return nil }
+
+func (e TL_req_pq) encode() []byte {
+	x := NewEncodeBuf(20)
+	x.UInt(crc_req_pq)
+	x.Bytes(e.nonce)
+	return x.buf
+}
+
+func (e TL_p_q_inner_data) encode() []byte {
+	x := NewEncodeBuf(256)
+	x.UInt(crc_p_q_inner_data)
+	x.BigInt(e.pq)
+	x.BigInt(e.p)
+	x.BigInt(e.q)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.Bytes(e.new_nonce)
+	return x.buf
+}
+
+func (e TL_req_DH_params) encode() []byte {
+	x := NewEncodeBuf(512)
+	x.UInt(crc_req_DH_params)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.BigInt(e.p)
+	x.BigInt(e.q)
+	x.Long(int64(e.fp))
+	x.StringBytes(e.encdata)
+	return x.buf
+}
+
+func (e TL_client_DH_inner_data) encode() []byte {
+	x := NewEncodeBuf(512)
+	x.UInt(crc_client_DH_inner_data)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.Long(e.retry)
+	x.BigInt(e.g_b)
+	return x.buf
+}
+
+func (e TL_set_client_DH_params) encode() []byte {
+	x := NewEncodeBuf(256)
+	x.UInt(crc_set_client_DH_params)
+	x.Bytes(e.nonce)
+	x.Bytes(e.server_nonce)
+	x.StringBytes(e.encdata)
+	return x.buf
+}
+
+func (e TL_ping) encode() []byte {
+	x := NewEncodeBuf(32)
+	x.UInt(crc_ping)
+	x.Long(e.ping_id)
+	return x.buf
+}
+
+func (e TL_pong) encode() []byte {
+	x := NewEncodeBuf(32)
+	x.UInt(crc_pong)
+	x.Long(e.msg_id)
+	x.Long(e.ping_id)
+	return x.buf
+}
+
+func (e TL_msgs_ack) encode() []byte {
+	x := NewEncodeBuf(64)
+	x.UInt(crc_msgs_ack)
+	x.VectorLong(e.msgIds)
+	return x.buf
+}
+
+func (e *EncodeBuf) FlaggedLong(flags, f int32, s int64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Long(s)
+}
+func (e *EncodeBuf) FlaggedDouble(flags, f int32, s float64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Double(s)
+}
+func (e *EncodeBuf) FlaggedInt(flags, f int32, s int32) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Int(s)
+}
+func (e *EncodeBuf) FlaggedString(flags, f int32, s string) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.String(s)
+}
+func (e *EncodeBuf) FlaggedVector(flags, f int32, v []TL) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Vector(v)
+}
+func (e *EncodeBuf) FlaggedObject(flags, f int32, o TL) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.Bytes(o.encode())
+}
+func (e *EncodeBuf) FlaggedStringBytes(flags, f int32, s []byte) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.StringBytes(s)
+}
+func (e *EncodeBuf) FlaggedVectorInt(flags, f int32, v []int32) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorInt(v)
+}
+func (e *EncodeBuf) FlaggedVectorLong(flags, f int32, v []int64) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorLong(v)
+}
+func (e *EncodeBuf) FlaggedVectorString(flags, f int32, v []string) {
+	bit := int32(1 << uint(f))
+	if flags&bit == 0 {
+		return
+	}
+	e.VectorString(v)
+}
+
+func toTLslice(slice interface{}) []TL {
+	if reflect.TypeOf(slice).Kind() != reflect.Slice {
+		return nil
+	}
+	s := reflect.ValueOf(slice)
+	if s.Len() < 1 {
+		return nil
+	}
+	switch s.Index(0).Interface().(type) {
+	case TL:
+		tlslice := make([]TL, s.Len())
+		for i := 0; i < s.Len(); i++ {
+			tlslice[i] = s.Index(i).Interface().(TL)
+		}
+		return tlslice
+	default:
+		return nil
+	}
+}
+
+// Decoders
 func NewDecodeBuf(b []byte) *DecodeBuf {
 	if __debug&DEBUG_LEVEL_DECODE_DETAILS != 0 {
 		slog.Logln("Decode::NewBuf::", "bytes = ", b)

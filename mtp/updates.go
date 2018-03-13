@@ -1,11 +1,11 @@
 package mtp
 
-type MUpdate interface {
+type Update interface {
 	UpdateDate() int32
 }
 
-type MUpdateCallback interface {
-	OnUpdate(update MUpdate)
+type UpdateCallback interface {
+	OnUpdate(update Update)
 }
 
 func (u *PredUpdates) UpdateDate() int32                { return u.Date }

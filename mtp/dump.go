@@ -15,11 +15,11 @@ type dumpCallback struct {
 	out chan interface{}
 }
 
-func (cb dumpCallback) OnUpdate(u MUpdate) {
+func (cb dumpCallback) OnUpdate(u Update) {
 	cb.out <- u
 }
 
-type MDump struct {
+type Dump struct {
 	updatesState    *PredUpdatesState
 	updateCallback  dumpCallback
 	readWaitGroup   sync.WaitGroup
@@ -30,8 +30,8 @@ type MDump struct {
 	reader          io.Reader
 }
 
-func NewMdump(authFileName, dumpFilename string, out chan interface{}) (*MDump, error) {
-	mdump := new(MDump)
+func NewDump(authFileName, dumpFilename string, out chan interface{}) (*Dump, error) {
+	mdump := new(Dump)
 	authf, err := os.OpenFile(authFileName, os.O_RDONLY, 0666)
 	if err != nil {
 		return nil, err
@@ -54,16 +54,16 @@ func NewMdump(authFileName, dumpFilename string, out chan interface{}) (*MDump, 
 	return mdump, nil
 }
 
-func (md *MDump) Play() {
+func (md *Dump) Play() {
 	md.readWaitGroup.Add(1)
 	go md.readRoutine()
 }
 
-func (d *MDump) Wait() {
+func (d *Dump) Wait() {
 	d.readWaitGroup.Wait()
 }
 
-func (md *MDump) read() (interface{}, error) {
+func (md *Dump) read() (interface{}, error) {
 	var err error
 	var n int
 	var size int
@@ -105,8 +105,8 @@ func (md *MDump) read() (interface{}, error) {
 		return nil, fmt.Errorf("Server response error: %d", int32(binary.LittleEndian.Uint32(buf)))
 	}
 
-	// Deserialize incoming packet
-	data, _, _, err = Deserialize(buf, md.authKey)
+	// decrypt incoming packet
+	data, _, _, err = decryptMtproto(buf, md.authKey)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (md *MDump) read() (interface{}, error) {
 
 }
 
-func (md *MDump) process( /*msgId int64, seqNo int32, */ data interface{}) interface{} {
+func (md *Dump) process( /*msgId int64, seqNo int32, */ data interface{}) interface{} {
 	switch data := data.(type) {
 	case TL_msg_container:
 		//data := data.(TL_msg_container).Items
@@ -242,7 +242,7 @@ func (md *MDump) process( /*msgId int64, seqNo int32, */ data interface{}) inter
 	return nil
 }
 
-func (md *MDump) readRoutine() {
+func (md *Dump) readRoutine() {
 	//slog.Logln(md.readRoutine, "read: start")
 	defer md.readWaitGroup.Done()
 
@@ -298,7 +298,7 @@ func (md *MDump) readRoutine() {
 }
 
 // Implements interface error
-func (md *MDump) readSessionFile(f *os.File) error {
+func (md *Dump) readSessionFile(f *os.File) error {
 	// Decode session file
 	b := make([]byte, 1024*4)
 	n, err := f.ReadAt(b, 0)

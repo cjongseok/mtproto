@@ -17,28 +17,28 @@ const (
 	//DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
 )
 
-// MConn does not touch sessions.
-// binding/unbinding and registration/deregistration of sessions are all handled on MManager.
-type MConn struct {
+// Conn does not touch sessions.
+// binding/unbinding and registration/deregistration of sessions are all handled on Manager.
+type Conn struct {
 	connId                int32
-	session               *MSession
-	smonitor              chan MEvent
+	session               *Session
+	smonitor              chan Event
 	interrupter           chan struct{}
 	bindWaitGroup         sync.WaitGroup
-	listeners             []chan MEvent
-	updateCallbacks       []MUpdateCallback
+	listeners             []chan Event
+	updateCallbacks       []UpdateCallback
 	discardedUpdatesState *PredUpdatesState
 }
 
-// open, close, and bind should be done by MManager
-func newConnection(connListener chan MEvent) *MConn {
+// open, close, and bind should be done by Manager
+func newConnection(connListener chan Event) *Conn {
 	//if connListener == nil {
 	//	return nil, fmt.Errorf("nil listener")
 	//}
-	mconn := new(MConn)
+	mconn := new(Conn)
 	rand.Seed(time.Now().UnixNano())
 	mconn.connId = rand.Int31()
-	mconn.smonitor = make(chan MEvent)
+	mconn.smonitor = make(chan Event)
 	mconn.interrupter = make(chan struct{})
 	mconn.AddConnListener(connListener)
 	mconn.AddConnListener(mconn.smonitor)
@@ -52,7 +52,7 @@ func newConnection(connListener chan MEvent) *MConn {
 	return mconn
 }
 
-func (mconn *MConn) bind(session *MSession) error {
+func (mconn *Conn) bind(session *Session) error {
 	if session == nil {
 		return fmt.Errorf("nil ssession")
 	}
@@ -107,7 +107,7 @@ func (mconn *MConn) bind(session *MSession) error {
 	return nil
 }
 
-func (mconn *MConn) InvokeBlocked(msg TL) (interface{}, error) {
+func (mconn *Conn) InvokeBlocked(msg TL) (interface{}, error) {
 	// TODO: timeout the call
 	select {
 	case x := <-mconn.InvokeNonBlocked(msg):
@@ -121,7 +121,7 @@ func (mconn *MConn) InvokeBlocked(msg TL) (interface{}, error) {
 	}
 }
 
-func (mconn *MConn) InvokeNonBlocked(msg TL) chan response {
+func (mconn *Conn) InvokeNonBlocked(msg TL) chan response {
 	resp := make(chan response, 1)
 	session, err := mconn.Session()
 	if err != nil {
@@ -140,11 +140,13 @@ func (mconn *MConn) InvokeNonBlocked(msg TL) chan response {
 // the session is alive.
 //TODO: fast session failure is better than slow session failure?
 //TODO: Think of better way of handling timeout (rather than returning nil + err?)
-func (mconn *MConn) Session() (*MSession, error) {
+func (mconn *Conn) Session() (*Session, error) {
 	// Start race (waiting-for-binding vs. timeout)
 	c := make(chan struct{})
 	go func() {
 		defer close(c)
+		//slog.Logln(mconn, "mconn:", mconn)
+		//slog.Logln(mconn, "bindWaitGroup:", mconn.bindWaitGroup)
 		mconn.bindWaitGroup.Wait()
 		//TODO: ping to prolong session life? Because session can be aborted
 	}()
@@ -157,9 +159,9 @@ func (mconn *MConn) Session() (*MSession, error) {
 }
 
 // finish connection's internal resource but bound session.
-// closing/deregistering session occurs through closeConnection event on MManager
+// closing/deregistering session occurs through closeConnection event on Manager
 // which is the only caller of this method.
-func (mconn *MConn) close() {
+func (mconn *Conn) close() {
 	close(mconn.interrupter)
 	close(mconn.smonitor)
 	mconn.bindWaitGroup.Done()
@@ -168,16 +170,16 @@ func (mconn *MConn) close() {
 	mconn.notify(connectionClosed{mconn.connId})
 }
 
-func (mconn *MConn) AddConnListener(listener chan MEvent) {
+func (mconn *Conn) AddConnListener(listener chan Event) {
 	mconn.listeners = append(mconn.listeners, listener)
 }
 
-func (mconn *MConn) AddUpdateCallback(callback MUpdateCallback) {
+func (mconn *Conn) AddUpdateCallback(callback UpdateCallback) {
 	mconn.updateCallbacks = append(mconn.updateCallbacks, callback)
 
 }
 
-func (mconn *MConn) RemoveConnListener(toremove chan MEvent) error {
+func (mconn *Conn) RemoveConnListener(toremove chan Event) error {
 	for index, registered := range mconn.listeners {
 		if registered == toremove {
 			copy(mconn.listeners[index:], mconn.listeners[index+1:])
@@ -189,7 +191,7 @@ func (mconn *MConn) RemoveConnListener(toremove chan MEvent) error {
 	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
 }
 
-func (mconn *MConn) RemoveUpdateListener(toremove MUpdateCallback) error {
+func (mconn *Conn) RemoveUpdateListener(toremove UpdateCallback) error {
 	for index, registered := range mconn.updateCallbacks {
 		if registered == toremove {
 			copy(mconn.updateCallbacks[index:], mconn.updateCallbacks[index+1:])
@@ -198,10 +200,10 @@ func (mconn *MConn) RemoveUpdateListener(toremove MUpdateCallback) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("MUpdateCallback (%x) doesn't exist", toremove)
+	return fmt.Errorf("UpdateCallback (%x) doesn't exist", toremove)
 }
 
-func (mconn *MConn) notify(e MEvent) {
+func (mconn *Conn) notify(e Event) {
 	for _, listener := range mconn.listeners {
 		// TODO: it doesn't work. think of another solutino to handle a deadlock on channel
 		//go func(){listener <- e}()
@@ -209,13 +211,13 @@ func (mconn *MConn) notify(e MEvent) {
 	}
 }
 
-func (mconn *MConn) propagate(u MUpdate) {
+func (mconn *Conn) propagate(u Update) {
 	for _, callback := range mconn.updateCallbacks {
 		go func() { callback.OnUpdate(u) }()
 	}
 }
 
-func (mconn *MConn) monitorSession() {
+func (mconn *Conn) monitorSession() {
 	slog.Logln(mconn, "start")
 	for {
 		select {
@@ -281,5 +283,58 @@ func (mconn *MConn) monitorSession() {
 			}
 		}
 	}
+}
 
+func (mconn *Conn) SignIn(phoneNumber, phoneCode, phoneCodeHash string) (*TypeAuthAuthorization, error) {
+	if phoneNumber == "" || phoneCode == "" || phoneCodeHash == "" {
+		return nil, fmt.Errorf("empty sign-in argument")
+	}
+
+	x := <-mconn.InvokeNonBlocked(&ReqAuthSignIn{
+		PhoneNumber:   phoneNumber,
+		PhoneCodeHash: phoneCodeHash,
+		PhoneCode:     phoneCode,
+	})
+	if x.err != nil {
+		return nil, x.err
+	}
+
+	auth, ok := x.data.(*PredAuthAuthorization)
+	if !ok {
+		return nil, fmt.Errorf("RPC: %v", x)
+	}
+
+	session, err := mconn.Session()
+	if err != nil {
+		return &TypeAuthAuthorization{auth}, err
+	}
+
+	if auth.GetUser().GetUser() != nil {
+		session.user = auth.GetUser().GetUser()
+		slog.Logln(mconn, "Signed in as ", session.user)
+	} else if auth.GetUser().GetUserEmpty() != nil {
+		session.user = &PredUser{}
+		slog.Logln(mconn, "Signed in with empty user")
+	} else {
+		session.user = &PredUser{}
+		slog.Logln(mconn, "Signed in without user response: neither user nor user empty")
+	}
+	return &TypeAuthAuthorization{auth}, nil
+}
+
+func (mconn *Conn) SignOut() (bool, error) {
+	var result bool
+	x := <-mconn.InvokeNonBlocked(&ReqAuthLogOut{})
+	if x.err != nil {
+		return result, x.err
+	}
+
+	if tl, ok := x.data.(TL); ok {
+		return toBool(tl), nil
+	}
+	return false, fmt.Errorf("invalid rpc return: %T: %v", x.data, x.data)
+}
+
+func (x *Conn) LogPrefix() string {
+	return fmt.Sprintf("[mconn %d]", x.connId)
 }

@@ -13824,6 +13824,1763 @@ func toTypeMessagesFavedStickersSlice(tlslice []TL) (converted []*TypeMessagesFa
 	return converted
 }
 
+// predicate converters to a Type
+func (p *PredBoolFalse) ToType() TL {
+	return &TypeBool{&TypeBool_BoolFalse{p}}
+}
+func (p *PredBoolTrue) ToType() TL {
+	return &TypeBool{&TypeBool_BoolTrue{p}}
+}
+func (p *PredError) ToType() TL {
+	return &TypeError{p}
+}
+func (p *PredNull) ToType() TL {
+	return &TypeNull{p}
+}
+func (p *PredInputPeerEmpty) ToType() TL {
+	return &TypeInputPeer{&TypeInputPeer_InputPeerEmpty{p}}
+}
+func (p *PredInputPeerSelf) ToType() TL {
+	return &TypeInputPeer{&TypeInputPeer_InputPeerSelf{p}}
+}
+func (p *PredInputPeerChat) ToType() TL {
+	return &TypeInputPeer{&TypeInputPeer_InputPeerChat{p}}
+}
+func (p *PredInputUserEmpty) ToType() TL {
+	return &TypeInputUser{&TypeInputUser_InputUserEmpty{p}}
+}
+func (p *PredInputUserSelf) ToType() TL {
+	return &TypeInputUser{&TypeInputUser_InputUserSelf{p}}
+}
+func (p *PredInputPhoneContact) ToType() TL {
+	return &TypeInputContact{p}
+}
+func (p *PredInputFile) ToType() TL {
+	return &TypeInputFile{&TypeInputFile_InputFile{p}}
+}
+func (p *PredInputMediaEmpty) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaEmpty{p}}
+}
+func (p *PredInputMediaUploadedPhoto) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedPhoto{p}}
+}
+func (p *PredInputMediaPhoto) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaPhoto{p}}
+}
+func (p *PredInputMediaGeoPoint) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaGeoPoint{p}}
+}
+func (p *PredInputMediaContact) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaContact{p}}
+}
+func (p *PredInputChatPhotoEmpty) ToType() TL {
+	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhotoEmpty{p}}
+}
+func (p *PredInputChatUploadedPhoto) ToType() TL {
+	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatUploadedPhoto{p}}
+}
+func (p *PredInputChatPhoto) ToType() TL {
+	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhoto{p}}
+}
+func (p *PredInputGeoPointEmpty) ToType() TL {
+	return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPointEmpty{p}}
+}
+func (p *PredInputGeoPoint) ToType() TL {
+	return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPoint{p}}
+}
+func (p *PredInputPhotoEmpty) ToType() TL {
+	return &TypeInputPhoto{&TypeInputPhoto_InputPhotoEmpty{p}}
+}
+func (p *PredInputPhoto) ToType() TL {
+	return &TypeInputPhoto{&TypeInputPhoto_InputPhoto{p}}
+}
+func (p *PredInputFileLocation) ToType() TL {
+	return &TypeInputFileLocation{&TypeInputFileLocation_InputFileLocation{p}}
+}
+func (p *PredInputAppEvent) ToType() TL {
+	return &TypeInputAppEvent{p}
+}
+func (p *PredPeerUser) ToType() TL {
+	return &TypePeer{&TypePeer_PeerUser{p}}
+}
+func (p *PredPeerChat) ToType() TL {
+	return &TypePeer{&TypePeer_PeerChat{p}}
+}
+func (p *PredStorageFileUnknown) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileUnknown{p}}
+}
+func (p *PredStorageFileJpeg) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileJpeg{p}}
+}
+func (p *PredStorageFileGif) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileGif{p}}
+}
+func (p *PredStorageFilePng) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePng{p}}
+}
+func (p *PredStorageFileMp3) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp3{p}}
+}
+func (p *PredStorageFileMov) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMov{p}}
+}
+func (p *PredStorageFilePartial) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePartial{p}}
+}
+func (p *PredStorageFileMp4) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp4{p}}
+}
+func (p *PredStorageFileWebp) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFileWebp{p}}
+}
+func (p *PredFileLocationUnavailable) ToType() TL {
+	return &TypeFileLocation{&TypeFileLocation_FileLocationUnavailable{p}}
+}
+func (p *PredFileLocation) ToType() TL {
+	return &TypeFileLocation{&TypeFileLocation_FileLocation{p}}
+}
+func (p *PredUserEmpty) ToType() TL {
+	return &TypeUser{&TypeUser_UserEmpty{p}}
+}
+func (p *PredUserProfilePhotoEmpty) ToType() TL {
+	return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhotoEmpty{p}}
+}
+func (p *PredUserProfilePhoto) ToType() TL {
+	return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhoto{p}}
+}
+func (p *PredUserStatusEmpty) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusEmpty{p}}
+}
+func (p *PredUserStatusOnline) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusOnline{p}}
+}
+func (p *PredUserStatusOffline) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusOffline{p}}
+}
+func (p *PredChatEmpty) ToType() TL {
+	return &TypeChat{&TypeChat_ChatEmpty{p}}
+}
+func (p *PredChat) ToType() TL {
+	return &TypeChat{&TypeChat_Chat{p}}
+}
+func (p *PredChatForbidden) ToType() TL {
+	return &TypeChat{&TypeChat_ChatForbidden{p}}
+}
+func (p *PredChatFull) ToType() TL {
+	return &TypeChatFull{&TypeChatFull_ChatFull{p}}
+}
+func (p *PredChatParticipant) ToType() TL {
+	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipant{p}}
+}
+func (p *PredChatParticipantsForbidden) ToType() TL {
+	return &TypeChatParticipants{&TypeChatParticipants_ChatParticipantsForbidden{p}}
+}
+func (p *PredChatParticipants) ToType() TL {
+	return &TypeChatParticipants{&TypeChatParticipants_ChatParticipants{p}}
+}
+func (p *PredChatPhotoEmpty) ToType() TL {
+	return &TypeChatPhoto{&TypeChatPhoto_ChatPhotoEmpty{p}}
+}
+func (p *PredChatPhoto) ToType() TL {
+	return &TypeChatPhoto{&TypeChatPhoto_ChatPhoto{p}}
+}
+func (p *PredMessageEmpty) ToType() TL {
+	return &TypeMessage{&TypeMessage_MessageEmpty{p}}
+}
+func (p *PredMessage) ToType() TL {
+	return &TypeMessage{&TypeMessage_Message{p}}
+}
+func (p *PredMessageService) ToType() TL {
+	return &TypeMessage{&TypeMessage_MessageService{p}}
+}
+func (p *PredMessageMediaEmpty) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaEmpty{p}}
+}
+func (p *PredMessageMediaPhoto) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaPhoto{p}}
+}
+func (p *PredMessageMediaGeo) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGeo{p}}
+}
+func (p *PredMessageMediaContact) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaContact{p}}
+}
+func (p *PredMessageMediaUnsupported) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaUnsupported{p}}
+}
+func (p *PredMessageActionEmpty) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionEmpty{p}}
+}
+func (p *PredMessageActionChatCreate) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatCreate{p}}
+}
+func (p *PredMessageActionChatEditTitle) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditTitle{p}}
+}
+func (p *PredMessageActionChatEditPhoto) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditPhoto{p}}
+}
+func (p *PredMessageActionChatDeletePhoto) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeletePhoto{p}}
+}
+func (p *PredMessageActionChatAddUser) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatAddUser{p}}
+}
+func (p *PredMessageActionChatDeleteUser) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeleteUser{p}}
+}
+func (p *PredDialog) ToType() TL {
+	return &TypeDialog{p}
+}
+func (p *PredPhotoEmpty) ToType() TL {
+	return &TypePhoto{&TypePhoto_PhotoEmpty{p}}
+}
+func (p *PredPhoto) ToType() TL {
+	return &TypePhoto{&TypePhoto_Photo{p}}
+}
+func (p *PredPhotoSizeEmpty) ToType() TL {
+	return &TypePhotoSize{&TypePhotoSize_PhotoSizeEmpty{p}}
+}
+func (p *PredPhotoSize) ToType() TL {
+	return &TypePhotoSize{&TypePhotoSize_PhotoSize{p}}
+}
+func (p *PredPhotoCachedSize) ToType() TL {
+	return &TypePhotoSize{&TypePhotoSize_PhotoCachedSize{p}}
+}
+func (p *PredGeoPointEmpty) ToType() TL {
+	return &TypeGeoPoint{&TypeGeoPoint_GeoPointEmpty{p}}
+}
+func (p *PredGeoPoint) ToType() TL {
+	return &TypeGeoPoint{&TypeGeoPoint_GeoPoint{p}}
+}
+func (p *PredAuthCheckedPhone) ToType() TL {
+	return &TypeAuthCheckedPhone{p}
+}
+func (p *PredAuthSentCode) ToType() TL {
+	return &TypeAuthSentCode{p}
+}
+func (p *PredAuthAuthorization) ToType() TL {
+	return &TypeAuthAuthorization{p}
+}
+func (p *PredAuthExportedAuthorization) ToType() TL {
+	return &TypeAuthExportedAuthorization{p}
+}
+func (p *PredInputNotifyPeer) ToType() TL {
+	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyPeer{p}}
+}
+func (p *PredInputNotifyUsers) ToType() TL {
+	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyUsers{p}}
+}
+func (p *PredInputNotifyChats) ToType() TL {
+	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyChats{p}}
+}
+func (p *PredInputNotifyAll) ToType() TL {
+	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyAll{p}}
+}
+func (p *PredInputPeerNotifySettings) ToType() TL {
+	return &TypeInputPeerNotifySettings{p}
+}
+func (p *PredPeerNotifyEventsEmpty) ToType() TL {
+	return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsEmpty{p}}
+}
+func (p *PredPeerNotifyEventsAll) ToType() TL {
+	return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsAll{p}}
+}
+func (p *PredPeerNotifySettingsEmpty) ToType() TL {
+	return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettingsEmpty{p}}
+}
+func (p *PredPeerNotifySettings) ToType() TL {
+	return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettings{p}}
+}
+func (p *PredWallPaper) ToType() TL {
+	return &TypeWallPaper{&TypeWallPaper_WallPaper{p}}
+}
+func (p *PredUserFull) ToType() TL {
+	return &TypeUserFull{p}
+}
+func (p *PredContact) ToType() TL {
+	return &TypeContact{p}
+}
+func (p *PredImportedContact) ToType() TL {
+	return &TypeImportedContact{p}
+}
+func (p *PredContactBlocked) ToType() TL {
+	return &TypeContactBlocked{p}
+}
+func (p *PredContactStatus) ToType() TL {
+	return &TypeContactStatus{p}
+}
+func (p *PredContactsLink) ToType() TL {
+	return &TypeContactsLink{p}
+}
+func (p *PredContactsContacts) ToType() TL {
+	return &TypeContactsContacts{&TypeContactsContacts_ContactsContacts{p}}
+}
+func (p *PredContactsContactsNotModified) ToType() TL {
+	return &TypeContactsContacts{&TypeContactsContacts_ContactsContactsNotModified{p}}
+}
+func (p *PredContactsImportedContacts) ToType() TL {
+	return &TypeContactsImportedContacts{p}
+}
+func (p *PredContactsBlocked) ToType() TL {
+	return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlocked{p}}
+}
+func (p *PredContactsBlockedSlice) ToType() TL {
+	return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlockedSlice{p}}
+}
+func (p *PredContactsFound) ToType() TL {
+	return &TypeContactsFound{p}
+}
+func (p *PredMessagesDialogs) ToType() TL {
+	return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogs{p}}
+}
+func (p *PredMessagesDialogsSlice) ToType() TL {
+	return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogsSlice{p}}
+}
+func (p *PredMessagesMessages) ToType() TL {
+	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessages{p}}
+}
+func (p *PredMessagesMessagesSlice) ToType() TL {
+	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessagesSlice{p}}
+}
+func (p *PredMessagesChats) ToType() TL {
+	return &TypeMessagesChats{&TypeMessagesChats_MessagesChats{p}}
+}
+func (p *PredMessagesChatFull) ToType() TL {
+	return &TypeMessagesChatFull{p}
+}
+func (p *PredMessagesAffectedHistory) ToType() TL {
+	return &TypeMessagesAffectedHistory{p}
+}
+func (p *PredInputMessagesFilterEmpty) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterEmpty{p}}
+}
+func (p *PredInputMessagesFilterPhotos) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotos{p}}
+}
+func (p *PredInputMessagesFilterVideo) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVideo{p}}
+}
+func (p *PredInputMessagesFilterPhotoVideo) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideo{p}}
+}
+func (p *PredUpdateNewMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateNewMessage{p}}
+}
+func (p *PredUpdateMessageID) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateMessageID{p}}
+}
+func (p *PredUpdateDeleteMessages) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateDeleteMessages{p}}
+}
+func (p *PredUpdateUserTyping) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserTyping{p}}
+}
+func (p *PredUpdateChatUserTyping) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatUserTyping{p}}
+}
+func (p *PredUpdateChatParticipants) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatParticipants{p}}
+}
+func (p *PredUpdateUserStatus) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserStatus{p}}
+}
+func (p *PredUpdateUserName) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserName{p}}
+}
+func (p *PredUpdateUserPhoto) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserPhoto{p}}
+}
+func (p *PredUpdateContactRegistered) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateContactRegistered{p}}
+}
+func (p *PredUpdateContactLink) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateContactLink{p}}
+}
+func (p *PredUpdatesState) ToType() TL {
+	return &TypeUpdatesState{p}
+}
+func (p *PredUpdatesDifferenceEmpty) ToType() TL {
+	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceEmpty{p}}
+}
+func (p *PredUpdatesDifference) ToType() TL {
+	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifference{p}}
+}
+func (p *PredUpdatesDifferenceSlice) ToType() TL {
+	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceSlice{p}}
+}
+func (p *PredUpdatesTooLong) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdatesTooLong{p}}
+}
+func (p *PredUpdateShortMessage) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdateShortMessage{p}}
+}
+func (p *PredUpdateShortChatMessage) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdateShortChatMessage{p}}
+}
+func (p *PredUpdateShort) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdateShort{p}}
+}
+func (p *PredUpdatesCombined) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdatesCombined{p}}
+}
+func (p *PredUpdates) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_Updates{p}}
+}
+func (p *PredPhotosPhoto) ToType() TL {
+	return &TypePhotosPhoto{p}
+}
+func (p *PredUploadFile) ToType() TL {
+	return &TypeUploadFile{&TypeUploadFile_UploadFile{p}}
+}
+func (p *PredDcOption) ToType() TL {
+	return &TypeDcOption{p}
+}
+func (p *PredConfig) ToType() TL {
+	return &TypeConfig{p}
+}
+func (p *PredNearestDc) ToType() TL {
+	return &TypeNearestDc{p}
+}
+func (p *PredHelpAppUpdate) ToType() TL {
+	return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpAppUpdate{p}}
+}
+func (p *PredHelpNoAppUpdate) ToType() TL {
+	return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpNoAppUpdate{p}}
+}
+func (p *PredHelpInviteText) ToType() TL {
+	return &TypeHelpInviteText{p}
+}
+func (p *PredInputPeerNotifyEventsEmpty) ToType() TL {
+	return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{p}}
+}
+func (p *PredInputPeerNotifyEventsAll) ToType() TL {
+	return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{p}}
+}
+func (p *PredPhotosPhotos) ToType() TL {
+	return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotos{p}}
+}
+func (p *PredPhotosPhotosSlice) ToType() TL {
+	return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotosSlice{p}}
+}
+func (p *PredWallPaperSolid) ToType() TL {
+	return &TypeWallPaper{&TypeWallPaper_WallPaperSolid{p}}
+}
+func (p *PredUpdateNewEncryptedMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateNewEncryptedMessage{p}}
+}
+func (p *PredUpdateEncryptedChatTyping) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateEncryptedChatTyping{p}}
+}
+func (p *PredUpdateEncryption) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateEncryption{p}}
+}
+func (p *PredUpdateEncryptedMessagesRead) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateEncryptedMessagesRead{p}}
+}
+func (p *PredEncryptedChatEmpty) ToType() TL {
+	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatEmpty{p}}
+}
+func (p *PredEncryptedChatWaiting) ToType() TL {
+	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatWaiting{p}}
+}
+func (p *PredEncryptedChatRequested) ToType() TL {
+	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatRequested{p}}
+}
+func (p *PredEncryptedChat) ToType() TL {
+	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChat{p}}
+}
+func (p *PredEncryptedChatDiscarded) ToType() TL {
+	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatDiscarded{p}}
+}
+func (p *PredInputEncryptedChat) ToType() TL {
+	return &TypeInputEncryptedChat{p}
+}
+func (p *PredEncryptedFileEmpty) ToType() TL {
+	return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFileEmpty{p}}
+}
+func (p *PredEncryptedFile) ToType() TL {
+	return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFile{p}}
+}
+func (p *PredInputEncryptedFileEmpty) ToType() TL {
+	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileEmpty{p}}
+}
+func (p *PredInputEncryptedFileUploaded) ToType() TL {
+	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileUploaded{p}}
+}
+func (p *PredInputEncryptedFile) ToType() TL {
+	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFile{p}}
+}
+func (p *PredInputEncryptedFileLocation) ToType() TL {
+	return &TypeInputFileLocation{&TypeInputFileLocation_InputEncryptedFileLocation{p}}
+}
+func (p *PredEncryptedMessage) ToType() TL {
+	return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessage{p}}
+}
+func (p *PredEncryptedMessageService) ToType() TL {
+	return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessageService{p}}
+}
+func (p *PredMessagesDhConfigNotModified) ToType() TL {
+	return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfigNotModified{p}}
+}
+func (p *PredMessagesDhConfig) ToType() TL {
+	return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfig{p}}
+}
+func (p *PredMessagesSentEncryptedMessage) ToType() TL {
+	return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{p}}
+}
+func (p *PredMessagesSentEncryptedFile) ToType() TL {
+	return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{p}}
+}
+func (p *PredInputFileBig) ToType() TL {
+	return &TypeInputFile{&TypeInputFile_InputFileBig{p}}
+}
+func (p *PredInputEncryptedFileBigUploaded) ToType() TL {
+	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileBigUploaded{p}}
+}
+func (p *PredStorageFilePdf) ToType() TL {
+	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePdf{p}}
+}
+func (p *PredInputMessagesFilterDocument) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterDocument{p}}
+}
+func (p *PredInputMessagesFilterPhotoVideoDocuments) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{p}}
+}
+func (p *PredUpdateChatParticipantAdd) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdd{p}}
+}
+func (p *PredUpdateChatParticipantDelete) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantDelete{p}}
+}
+func (p *PredUpdateDcOptions) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateDcOptions{p}}
+}
+func (p *PredInputMediaUploadedDocument) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedDocument{p}}
+}
+func (p *PredInputMediaDocument) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaDocument{p}}
+}
+func (p *PredMessageMediaDocument) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaDocument{p}}
+}
+func (p *PredInputDocumentEmpty) ToType() TL {
+	return &TypeInputDocument{&TypeInputDocument_InputDocumentEmpty{p}}
+}
+func (p *PredInputDocument) ToType() TL {
+	return &TypeInputDocument{&TypeInputDocument_InputDocument{p}}
+}
+func (p *PredInputDocumentFileLocation) ToType() TL {
+	return &TypeInputFileLocation{&TypeInputFileLocation_InputDocumentFileLocation{p}}
+}
+func (p *PredDocumentEmpty) ToType() TL {
+	return &TypeDocument{&TypeDocument_DocumentEmpty{p}}
+}
+func (p *PredDocument) ToType() TL {
+	return &TypeDocument{&TypeDocument_Document{p}}
+}
+func (p *PredHelpSupport) ToType() TL {
+	return &TypeHelpSupport{p}
+}
+func (p *PredNotifyAll) ToType() TL {
+	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyAll{p}}
+}
+func (p *PredNotifyChats) ToType() TL {
+	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyChats{p}}
+}
+func (p *PredNotifyPeer) ToType() TL {
+	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyPeer{p}}
+}
+func (p *PredNotifyUsers) ToType() TL {
+	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyUsers{p}}
+}
+func (p *PredUpdateUserBlocked) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserBlocked{p}}
+}
+func (p *PredUpdateNotifySettings) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateNotifySettings{p}}
+}
+func (p *PredSendMessageTypingAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageTypingAction{p}}
+}
+func (p *PredSendMessageCancelAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageCancelAction{p}}
+}
+func (p *PredSendMessageRecordVideoAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordVideoAction{p}}
+}
+func (p *PredSendMessageUploadVideoAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadVideoAction{p}}
+}
+func (p *PredSendMessageRecordAudioAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordAudioAction{p}}
+}
+func (p *PredSendMessageUploadAudioAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadAudioAction{p}}
+}
+func (p *PredSendMessageUploadPhotoAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadPhotoAction{p}}
+}
+func (p *PredSendMessageUploadDocumentAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadDocumentAction{p}}
+}
+func (p *PredSendMessageGeoLocationAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGeoLocationAction{p}}
+}
+func (p *PredSendMessageChooseContactAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageChooseContactAction{p}}
+}
+func (p *PredUpdateServiceNotification) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateServiceNotification{p}}
+}
+func (p *PredUserStatusRecently) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusRecently{p}}
+}
+func (p *PredUserStatusLastWeek) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusLastWeek{p}}
+}
+func (p *PredUserStatusLastMonth) ToType() TL {
+	return &TypeUserStatus{&TypeUserStatus_UserStatusLastMonth{p}}
+}
+func (p *PredUpdatePrivacy) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdatePrivacy{p}}
+}
+func (p *PredInputPrivacyKeyStatusTimestamp) ToType() TL {
+	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{p}}
+}
+func (p *PredPrivacyKeyStatusTimestamp) ToType() TL {
+	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyStatusTimestamp{p}}
+}
+func (p *PredInputPrivacyValueAllowContacts) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowContacts{p}}
+}
+func (p *PredInputPrivacyValueAllowAll) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowAll{p}}
+}
+func (p *PredInputPrivacyValueAllowUsers) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowUsers{p}}
+}
+func (p *PredInputPrivacyValueDisallowContacts) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{p}}
+}
+func (p *PredInputPrivacyValueDisallowAll) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowAll{p}}
+}
+func (p *PredInputPrivacyValueDisallowUsers) ToType() TL {
+	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{p}}
+}
+func (p *PredPrivacyValueAllowContacts) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowContacts{p}}
+}
+func (p *PredPrivacyValueAllowAll) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowAll{p}}
+}
+func (p *PredPrivacyValueAllowUsers) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowUsers{p}}
+}
+func (p *PredPrivacyValueDisallowContacts) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowContacts{p}}
+}
+func (p *PredPrivacyValueDisallowAll) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowAll{p}}
+}
+func (p *PredPrivacyValueDisallowUsers) ToType() TL {
+	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowUsers{p}}
+}
+func (p *PredAccountPrivacyRules) ToType() TL {
+	return &TypeAccountPrivacyRules{p}
+}
+func (p *PredAccountDaysTTL) ToType() TL {
+	return &TypeAccountDaysTTL{p}
+}
+func (p *PredUpdateUserPhone) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateUserPhone{p}}
+}
+func (p *PredDisabledFeature) ToType() TL {
+	return &TypeDisabledFeature{p}
+}
+func (p *PredDocumentAttributeImageSize) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeImageSize{p}}
+}
+func (p *PredDocumentAttributeAnimated) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAnimated{p}}
+}
+func (p *PredDocumentAttributeSticker) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeSticker{p}}
+}
+func (p *PredDocumentAttributeVideo) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeVideo{p}}
+}
+func (p *PredDocumentAttributeAudio) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAudio{p}}
+}
+func (p *PredDocumentAttributeFilename) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeFilename{p}}
+}
+func (p *PredMessagesStickersNotModified) ToType() TL {
+	return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickersNotModified{p}}
+}
+func (p *PredMessagesStickers) ToType() TL {
+	return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickers{p}}
+}
+func (p *PredStickerPack) ToType() TL {
+	return &TypeStickerPack{p}
+}
+func (p *PredMessagesAllStickersNotModified) ToType() TL {
+	return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickersNotModified{p}}
+}
+func (p *PredMessagesAllStickers) ToType() TL {
+	return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickers{p}}
+}
+func (p *PredAccountNoPassword) ToType() TL {
+	return &TypeAccountPassword{&TypeAccountPassword_AccountNoPassword{p}}
+}
+func (p *PredAccountPassword) ToType() TL {
+	return &TypeAccountPassword{&TypeAccountPassword_AccountPassword{p}}
+}
+func (p *PredUpdateReadHistoryInbox) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadHistoryInbox{p}}
+}
+func (p *PredUpdateReadHistoryOutbox) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadHistoryOutbox{p}}
+}
+func (p *PredMessagesAffectedMessages) ToType() TL {
+	return &TypeMessagesAffectedMessages{p}
+}
+func (p *PredContactLinkUnknown) ToType() TL {
+	return &TypeContactLink{&TypeContactLink_ContactLinkUnknown{p}}
+}
+func (p *PredContactLinkNone) ToType() TL {
+	return &TypeContactLink{&TypeContactLink_ContactLinkNone{p}}
+}
+func (p *PredContactLinkHasPhone) ToType() TL {
+	return &TypeContactLink{&TypeContactLink_ContactLinkHasPhone{p}}
+}
+func (p *PredContactLinkContact) ToType() TL {
+	return &TypeContactLink{&TypeContactLink_ContactLinkContact{p}}
+}
+func (p *PredUpdateWebPage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateWebPage{p}}
+}
+func (p *PredWebPageEmpty) ToType() TL {
+	return &TypeWebPage{&TypeWebPage_WebPageEmpty{p}}
+}
+func (p *PredWebPagePending) ToType() TL {
+	return &TypeWebPage{&TypeWebPage_WebPagePending{p}}
+}
+func (p *PredWebPage) ToType() TL {
+	return &TypeWebPage{&TypeWebPage_WebPage{p}}
+}
+func (p *PredMessageMediaWebPage) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaWebPage{p}}
+}
+func (p *PredAuthorization) ToType() TL {
+	return &TypeAuthorization{p}
+}
+func (p *PredAccountAuthorizations) ToType() TL {
+	return &TypeAccountAuthorizations{p}
+}
+func (p *PredAccountPasswordSettings) ToType() TL {
+	return &TypeAccountPasswordSettings{p}
+}
+func (p *PredAccountPasswordInputSettings) ToType() TL {
+	return &TypeAccountPasswordInputSettings{p}
+}
+func (p *PredAuthPasswordRecovery) ToType() TL {
+	return &TypeAuthPasswordRecovery{p}
+}
+func (p *PredInputMediaVenue) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaVenue{p}}
+}
+func (p *PredMessageMediaVenue) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaVenue{p}}
+}
+func (p *PredReceivedNotifyMessage) ToType() TL {
+	return &TypeReceivedNotifyMessage{p}
+}
+func (p *PredChatInviteEmpty) ToType() TL {
+	return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteEmpty{p}}
+}
+func (p *PredChatInviteExported) ToType() TL {
+	return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteExported{p}}
+}
+func (p *PredChatInviteAlready) ToType() TL {
+	return &TypeChatInvite{&TypeChatInvite_ChatInviteAlready{p}}
+}
+func (p *PredChatInvite) ToType() TL {
+	return &TypeChatInvite{&TypeChatInvite_ChatInvite{p}}
+}
+func (p *PredMessageActionChatJoinedByLink) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatJoinedByLink{p}}
+}
+func (p *PredUpdateReadMessagesContents) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadMessagesContents{p}}
+}
+func (p *PredInputStickerSetEmpty) ToType() TL {
+	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetEmpty{p}}
+}
+func (p *PredInputStickerSetID) ToType() TL {
+	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetID{p}}
+}
+func (p *PredInputStickerSetShortName) ToType() TL {
+	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetShortName{p}}
+}
+func (p *PredStickerSet) ToType() TL {
+	return &TypeStickerSet{p}
+}
+func (p *PredMessagesStickerSet) ToType() TL {
+	return &TypeMessagesStickerSet{p}
+}
+func (p *PredUser) ToType() TL {
+	return &TypeUser{&TypeUser_User{p}}
+}
+func (p *PredBotCommand) ToType() TL {
+	return &TypeBotCommand{p}
+}
+func (p *PredBotInfo) ToType() TL {
+	return &TypeBotInfo{p}
+}
+func (p *PredKeyboardButton) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButton{p}}
+}
+func (p *PredKeyboardButtonRow) ToType() TL {
+	return &TypeKeyboardButtonRow{p}
+}
+func (p *PredReplyKeyboardHide) ToType() TL {
+	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardHide{p}}
+}
+func (p *PredReplyKeyboardForceReply) ToType() TL {
+	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardForceReply{p}}
+}
+func (p *PredReplyKeyboardMarkup) ToType() TL {
+	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardMarkup{p}}
+}
+func (p *PredInputMessagesFilterUrl) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterUrl{p}}
+}
+func (p *PredInputPeerUser) ToType() TL {
+	return &TypeInputPeer{&TypeInputPeer_InputPeerUser{p}}
+}
+func (p *PredInputUser) ToType() TL {
+	return &TypeInputUser{&TypeInputUser_InputUser{p}}
+}
+func (p *PredMessageEntityUnknown) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUnknown{p}}
+}
+func (p *PredMessageEntityMention) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMention{p}}
+}
+func (p *PredMessageEntityHashtag) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityHashtag{p}}
+}
+func (p *PredMessageEntityBotCommand) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBotCommand{p}}
+}
+func (p *PredMessageEntityUrl) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUrl{p}}
+}
+func (p *PredMessageEntityEmail) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityEmail{p}}
+}
+func (p *PredMessageEntityBold) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBold{p}}
+}
+func (p *PredMessageEntityItalic) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityItalic{p}}
+}
+func (p *PredMessageEntityCode) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityCode{p}}
+}
+func (p *PredMessageEntityPre) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityPre{p}}
+}
+func (p *PredMessageEntityTextUrl) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityTextUrl{p}}
+}
+func (p *PredUpdateShortSentMessage) ToType() TL {
+	return &TypeUpdates{&TypeUpdates_UpdateShortSentMessage{p}}
+}
+func (p *PredInputPeerChannel) ToType() TL {
+	return &TypeInputPeer{&TypeInputPeer_InputPeerChannel{p}}
+}
+func (p *PredPeerChannel) ToType() TL {
+	return &TypePeer{&TypePeer_PeerChannel{p}}
+}
+func (p *PredChannel) ToType() TL {
+	return &TypeChat{&TypeChat_Channel{p}}
+}
+func (p *PredChannelForbidden) ToType() TL {
+	return &TypeChat{&TypeChat_ChannelForbidden{p}}
+}
+func (p *PredChannelFull) ToType() TL {
+	return &TypeChatFull{&TypeChatFull_ChannelFull{p}}
+}
+func (p *PredMessageActionChannelCreate) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChannelCreate{p}}
+}
+func (p *PredMessagesChannelMessages) ToType() TL {
+	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesChannelMessages{p}}
+}
+func (p *PredUpdateChannelTooLong) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannelTooLong{p}}
+}
+func (p *PredUpdateChannel) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannel{p}}
+}
+func (p *PredUpdateNewChannelMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateNewChannelMessage{p}}
+}
+func (p *PredUpdateReadChannelInbox) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadChannelInbox{p}}
+}
+func (p *PredUpdateDeleteChannelMessages) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateDeleteChannelMessages{p}}
+}
+func (p *PredUpdateChannelMessageViews) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannelMessageViews{p}}
+}
+func (p *PredInputChannelEmpty) ToType() TL {
+	return &TypeInputChannel{&TypeInputChannel_InputChannelEmpty{p}}
+}
+func (p *PredInputChannel) ToType() TL {
+	return &TypeInputChannel{&TypeInputChannel_InputChannel{p}}
+}
+func (p *PredContactsResolvedPeer) ToType() TL {
+	return &TypeContactsResolvedPeer{p}
+}
+func (p *PredMessageRange) ToType() TL {
+	return &TypeMessageRange{p}
+}
+func (p *PredUpdatesChannelDifferenceEmpty) ToType() TL {
+	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{p}}
+}
+func (p *PredUpdatesChannelDifferenceTooLong) ToType() TL {
+	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{p}}
+}
+func (p *PredUpdatesChannelDifference) ToType() TL {
+	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifference{p}}
+}
+func (p *PredChannelMessagesFilterEmpty) ToType() TL {
+	return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{p}}
+}
+func (p *PredChannelMessagesFilter) ToType() TL {
+	return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilter{p}}
+}
+func (p *PredChannelParticipant) ToType() TL {
+	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipant{p}}
+}
+func (p *PredChannelParticipantSelf) ToType() TL {
+	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantSelf{p}}
+}
+func (p *PredChannelParticipantCreator) ToType() TL {
+	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantCreator{p}}
+}
+func (p *PredChannelParticipantsRecent) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsRecent{p}}
+}
+func (p *PredChannelParticipantsAdmins) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsAdmins{p}}
+}
+func (p *PredChannelParticipantsKicked) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsKicked{p}}
+}
+func (p *PredChannelsChannelParticipants) ToType() TL {
+	return &TypeChannelsChannelParticipants{p}
+}
+func (p *PredChannelsChannelParticipant) ToType() TL {
+	return &TypeChannelsChannelParticipant{p}
+}
+func (p *PredTrue) ToType() TL {
+	return &TypeTrue{p}
+}
+func (p *PredChatParticipantCreator) ToType() TL {
+	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantCreator{p}}
+}
+func (p *PredChatParticipantAdmin) ToType() TL {
+	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantAdmin{p}}
+}
+func (p *PredUpdateChatAdmins) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatAdmins{p}}
+}
+func (p *PredUpdateChatParticipantAdmin) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdmin{p}}
+}
+func (p *PredMessageActionChatMigrateTo) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChatMigrateTo{p}}
+}
+func (p *PredMessageActionChannelMigrateFrom) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionChannelMigrateFrom{p}}
+}
+func (p *PredChannelParticipantsBots) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBots{p}}
+}
+func (p *PredInputReportReasonSpam) ToType() TL {
+	return &TypeReportReason{&TypeReportReason_InputReportReasonSpam{p}}
+}
+func (p *PredInputReportReasonViolence) ToType() TL {
+	return &TypeReportReason{&TypeReportReason_InputReportReasonViolence{p}}
+}
+func (p *PredInputReportReasonPornography) ToType() TL {
+	return &TypeReportReason{&TypeReportReason_InputReportReasonPornography{p}}
+}
+func (p *PredInputReportReasonOther) ToType() TL {
+	return &TypeReportReason{&TypeReportReason_InputReportReasonOther{p}}
+}
+func (p *PredUpdateNewStickerSet) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateNewStickerSet{p}}
+}
+func (p *PredUpdateStickerSetsOrder) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateStickerSetsOrder{p}}
+}
+func (p *PredUpdateStickerSets) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateStickerSets{p}}
+}
+func (p *PredHelpTermsOfService) ToType() TL {
+	return &TypeHelpTermsOfService{p}
+}
+func (p *PredFoundGif) ToType() TL {
+	return &TypeFoundGif{&TypeFoundGif_FoundGif{p}}
+}
+func (p *PredInputMediaGifExternal) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaGifExternal{p}}
+}
+func (p *PredMessagesFoundGifs) ToType() TL {
+	return &TypeMessagesFoundGifs{p}
+}
+func (p *PredInputMessagesFilterGif) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterGif{p}}
+}
+func (p *PredUpdateSavedGifs) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateSavedGifs{p}}
+}
+func (p *PredUpdateBotInlineQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotInlineQuery{p}}
+}
+func (p *PredFoundGifCached) ToType() TL {
+	return &TypeFoundGif{&TypeFoundGif_FoundGifCached{p}}
+}
+func (p *PredMessagesSavedGifsNotModified) ToType() TL {
+	return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifsNotModified{p}}
+}
+func (p *PredMessagesSavedGifs) ToType() TL {
+	return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifs{p}}
+}
+func (p *PredInputBotInlineMessageMediaAuto) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{p}}
+}
+func (p *PredInputBotInlineMessageText) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageText{p}}
+}
+func (p *PredInputBotInlineResult) ToType() TL {
+	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResult{p}}
+}
+func (p *PredBotInlineMessageMediaAuto) ToType() TL {
+	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaAuto{p}}
+}
+func (p *PredBotInlineMessageText) ToType() TL {
+	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageText{p}}
+}
+func (p *PredBotInlineResult) ToType() TL {
+	return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineResult{p}}
+}
+func (p *PredMessagesBotResults) ToType() TL {
+	return &TypeMessagesBotResults{p}
+}
+func (p *PredInputMessagesFilterVoice) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVoice{p}}
+}
+func (p *PredInputMessagesFilterMusic) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMusic{p}}
+}
+func (p *PredUpdateBotInlineSend) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotInlineSend{p}}
+}
+func (p *PredInputPrivacyKeyChatInvite) ToType() TL {
+	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyChatInvite{p}}
+}
+func (p *PredPrivacyKeyChatInvite) ToType() TL {
+	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyChatInvite{p}}
+}
+func (p *PredUpdateEditChannelMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateEditChannelMessage{p}}
+}
+func (p *PredExportedMessageLink) ToType() TL {
+	return &TypeExportedMessageLink{p}
+}
+func (p *PredMessageFwdHeader) ToType() TL {
+	return &TypeMessageFwdHeader{p}
+}
+func (p *PredMessageActionPinMessage) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionPinMessage{p}}
+}
+func (p *PredPeerSettings) ToType() TL {
+	return &TypePeerSettings{p}
+}
+func (p *PredUpdateChannelPinnedMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannelPinnedMessage{p}}
+}
+func (p *PredKeyboardButtonUrl) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonUrl{p}}
+}
+func (p *PredKeyboardButtonCallback) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonCallback{p}}
+}
+func (p *PredKeyboardButtonRequestPhone) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestPhone{p}}
+}
+func (p *PredKeyboardButtonRequestGeoLocation) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestGeoLocation{p}}
+}
+func (p *PredAuthCodeTypeSms) ToType() TL {
+	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeSms{p}}
+}
+func (p *PredAuthCodeTypeCall) ToType() TL {
+	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeCall{p}}
+}
+func (p *PredAuthCodeTypeFlashCall) ToType() TL {
+	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeFlashCall{p}}
+}
+func (p *PredAuthSentCodeTypeApp) ToType() TL {
+	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeApp{p}}
+}
+func (p *PredAuthSentCodeTypeSms) ToType() TL {
+	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeSms{p}}
+}
+func (p *PredAuthSentCodeTypeCall) ToType() TL {
+	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeCall{p}}
+}
+func (p *PredAuthSentCodeTypeFlashCall) ToType() TL {
+	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{p}}
+}
+func (p *PredKeyboardButtonSwitchInline) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonSwitchInline{p}}
+}
+func (p *PredReplyInlineMarkup) ToType() TL {
+	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyInlineMarkup{p}}
+}
+func (p *PredMessagesBotCallbackAnswer) ToType() TL {
+	return &TypeMessagesBotCallbackAnswer{p}
+}
+func (p *PredUpdateBotCallbackQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotCallbackQuery{p}}
+}
+func (p *PredMessagesMessageEditData) ToType() TL {
+	return &TypeMessagesMessageEditData{p}
+}
+func (p *PredUpdateEditMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateEditMessage{p}}
+}
+func (p *PredInputBotInlineMessageMediaGeo) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{p}}
+}
+func (p *PredInputBotInlineMessageMediaVenue) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{p}}
+}
+func (p *PredInputBotInlineMessageMediaContact) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{p}}
+}
+func (p *PredBotInlineMessageMediaGeo) ToType() TL {
+	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaGeo{p}}
+}
+func (p *PredBotInlineMessageMediaVenue) ToType() TL {
+	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaVenue{p}}
+}
+func (p *PredBotInlineMessageMediaContact) ToType() TL {
+	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaContact{p}}
+}
+func (p *PredInputBotInlineResultPhoto) ToType() TL {
+	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultPhoto{p}}
+}
+func (p *PredInputBotInlineResultDocument) ToType() TL {
+	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultDocument{p}}
+}
+func (p *PredBotInlineMediaResult) ToType() TL {
+	return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineMediaResult{p}}
+}
+func (p *PredInputBotInlineMessageID) ToType() TL {
+	return &TypeInputBotInlineMessageID{p}
+}
+func (p *PredUpdateInlineBotCallbackQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateInlineBotCallbackQuery{p}}
+}
+func (p *PredInlineBotSwitchPM) ToType() TL {
+	return &TypeInlineBotSwitchPM{p}
+}
+func (p *PredMessageEntityMentionName) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMentionName{p}}
+}
+func (p *PredInputMessageEntityMentionName) ToType() TL {
+	return &TypeMessageEntity{&TypeMessageEntity_InputMessageEntityMentionName{p}}
+}
+func (p *PredMessagesPeerDialogs) ToType() TL {
+	return &TypeMessagesPeerDialogs{p}
+}
+func (p *PredTopPeer) ToType() TL {
+	return &TypeTopPeer{p}
+}
+func (p *PredTopPeerCategoryBotsPM) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsPM{p}}
+}
+func (p *PredTopPeerCategoryBotsInline) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsInline{p}}
+}
+func (p *PredTopPeerCategoryCorrespondents) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryCorrespondents{p}}
+}
+func (p *PredTopPeerCategoryGroups) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryGroups{p}}
+}
+func (p *PredTopPeerCategoryChannels) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryChannels{p}}
+}
+func (p *PredTopPeerCategoryPeers) ToType() TL {
+	return &TypeTopPeerCategoryPeers{p}
+}
+func (p *PredContactsTopPeersNotModified) ToType() TL {
+	return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeersNotModified{p}}
+}
+func (p *PredContactsTopPeers) ToType() TL {
+	return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeers{p}}
+}
+func (p *PredInputMessagesFilterChatPhotos) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterChatPhotos{p}}
+}
+func (p *PredUpdateReadChannelOutbox) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadChannelOutbox{p}}
+}
+func (p *PredUpdateDraftMessage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateDraftMessage{p}}
+}
+func (p *PredDraftMessageEmpty) ToType() TL {
+	return &TypeDraftMessage{&TypeDraftMessage_DraftMessageEmpty{p}}
+}
+func (p *PredDraftMessage) ToType() TL {
+	return &TypeDraftMessage{&TypeDraftMessage_DraftMessage{p}}
+}
+func (p *PredMessageActionHistoryClear) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionHistoryClear{p}}
+}
+func (p *PredUpdateReadFeaturedStickers) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateReadFeaturedStickers{p}}
+}
+func (p *PredUpdateRecentStickers) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateRecentStickers{p}}
+}
+func (p *PredMessagesFeaturedStickersNotModified) ToType() TL {
+	return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{p}}
+}
+func (p *PredMessagesFeaturedStickers) ToType() TL {
+	return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickers{p}}
+}
+func (p *PredMessagesRecentStickersNotModified) ToType() TL {
+	return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickersNotModified{p}}
+}
+func (p *PredMessagesRecentStickers) ToType() TL {
+	return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickers{p}}
+}
+func (p *PredMessagesArchivedStickers) ToType() TL {
+	return &TypeMessagesArchivedStickers{p}
+}
+func (p *PredMessagesStickerSetInstallResultSuccess) ToType() TL {
+	return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{p}}
+}
+func (p *PredMessagesStickerSetInstallResultArchive) ToType() TL {
+	return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{p}}
+}
+func (p *PredStickerSetCovered) ToType() TL {
+	return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetCovered{p}}
+}
+func (p *PredInputMediaPhotoExternal) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaPhotoExternal{p}}
+}
+func (p *PredInputMediaDocumentExternal) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaDocumentExternal{p}}
+}
+func (p *PredUpdateConfig) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateConfig{p}}
+}
+func (p *PredUpdatePtsChanged) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdatePtsChanged{p}}
+}
+func (p *PredMessageActionGameScore) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionGameScore{p}}
+}
+func (p *PredDocumentAttributeHasStickers) ToType() TL {
+	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeHasStickers{p}}
+}
+func (p *PredKeyboardButtonGame) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonGame{p}}
+}
+func (p *PredStickerSetMultiCovered) ToType() TL {
+	return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetMultiCovered{p}}
+}
+func (p *PredMaskCoords) ToType() TL {
+	return &TypeMaskCoords{p}
+}
+func (p *PredInputStickeredMediaPhoto) ToType() TL {
+	return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaPhoto{p}}
+}
+func (p *PredInputStickeredMediaDocument) ToType() TL {
+	return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaDocument{p}}
+}
+func (p *PredInputMediaGame) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaGame{p}}
+}
+func (p *PredMessageMediaGame) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGame{p}}
+}
+func (p *PredInputBotInlineMessageGame) ToType() TL {
+	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageGame{p}}
+}
+func (p *PredInputBotInlineResultGame) ToType() TL {
+	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultGame{p}}
+}
+func (p *PredGame) ToType() TL {
+	return &TypeGame{p}
+}
+func (p *PredInputGameID) ToType() TL {
+	return &TypeInputGame{&TypeInputGame_InputGameID{p}}
+}
+func (p *PredInputGameShortName) ToType() TL {
+	return &TypeInputGame{&TypeInputGame_InputGameShortName{p}}
+}
+func (p *PredHighScore) ToType() TL {
+	return &TypeHighScore{p}
+}
+func (p *PredMessagesHighScores) ToType() TL {
+	return &TypeMessagesHighScores{p}
+}
+func (p *PredMessagesChatsSlice) ToType() TL {
+	return &TypeMessagesChats{&TypeMessagesChats_MessagesChatsSlice{p}}
+}
+func (p *PredUpdateChannelWebPage) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannelWebPage{p}}
+}
+func (p *PredUpdatesDifferenceTooLong) ToType() TL {
+	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceTooLong{p}}
+}
+func (p *PredSendMessageGamePlayAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGamePlayAction{p}}
+}
+func (p *PredWebPageNotModified) ToType() TL {
+	return &TypeWebPage{&TypeWebPage_WebPageNotModified{p}}
+}
+func (p *PredTextEmpty) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextEmpty{p}}
+}
+func (p *PredTextPlain) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextPlain{p}}
+}
+func (p *PredTextBold) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextBold{p}}
+}
+func (p *PredTextItalic) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextItalic{p}}
+}
+func (p *PredTextUnderline) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextUnderline{p}}
+}
+func (p *PredTextStrike) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextStrike{p}}
+}
+func (p *PredTextFixed) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextFixed{p}}
+}
+func (p *PredTextUrl) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextUrl{p}}
+}
+func (p *PredTextEmail) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextEmail{p}}
+}
+func (p *PredTextConcat) ToType() TL {
+	return &TypeRichText{&TypeRichText_TextConcat{p}}
+}
+func (p *PredPageBlockTitle) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockTitle{p}}
+}
+func (p *PredPageBlockSubtitle) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockSubtitle{p}}
+}
+func (p *PredPageBlockAuthorDate) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockAuthorDate{p}}
+}
+func (p *PredPageBlockHeader) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockHeader{p}}
+}
+func (p *PredPageBlockSubheader) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockSubheader{p}}
+}
+func (p *PredPageBlockParagraph) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockParagraph{p}}
+}
+func (p *PredPageBlockPreformatted) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockPreformatted{p}}
+}
+func (p *PredPageBlockFooter) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockFooter{p}}
+}
+func (p *PredPageBlockDivider) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockDivider{p}}
+}
+func (p *PredPageBlockList) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockList{p}}
+}
+func (p *PredPageBlockBlockquote) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockBlockquote{p}}
+}
+func (p *PredPageBlockPullquote) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockPullquote{p}}
+}
+func (p *PredPageBlockPhoto) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockPhoto{p}}
+}
+func (p *PredPageBlockVideo) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockVideo{p}}
+}
+func (p *PredPageBlockCover) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockCover{p}}
+}
+func (p *PredPageBlockEmbed) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockEmbed{p}}
+}
+func (p *PredPageBlockEmbedPost) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockEmbedPost{p}}
+}
+func (p *PredPageBlockSlideshow) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockSlideshow{p}}
+}
+func (p *PredPagePart) ToType() TL {
+	return &TypePage{&TypePage_PagePart{p}}
+}
+func (p *PredPageFull) ToType() TL {
+	return &TypePage{&TypePage_PageFull{p}}
+}
+func (p *PredUpdatePhoneCall) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdatePhoneCall{p}}
+}
+func (p *PredUpdateDialogPinned) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateDialogPinned{p}}
+}
+func (p *PredUpdatePinnedDialogs) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdatePinnedDialogs{p}}
+}
+func (p *PredInputPrivacyKeyPhoneCall) ToType() TL {
+	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{p}}
+}
+func (p *PredPrivacyKeyPhoneCall) ToType() TL {
+	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyPhoneCall{p}}
+}
+func (p *PredPageBlockUnsupported) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockUnsupported{p}}
+}
+func (p *PredPageBlockAnchor) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockAnchor{p}}
+}
+func (p *PredPageBlockCollage) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockCollage{p}}
+}
+func (p *PredInputPhoneCall) ToType() TL {
+	return &TypeInputPhoneCall{p}
+}
+func (p *PredPhoneCallEmpty) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCallEmpty{p}}
+}
+func (p *PredPhoneCallWaiting) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCallWaiting{p}}
+}
+func (p *PredPhoneCallRequested) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCallRequested{p}}
+}
+func (p *PredPhoneCall) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCall{p}}
+}
+func (p *PredPhoneCallDiscarded) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCallDiscarded{p}}
+}
+func (p *PredPhoneConnection) ToType() TL {
+	return &TypePhoneConnection{p}
+}
+func (p *PredPhoneCallProtocol) ToType() TL {
+	return &TypePhoneCallProtocol{p}
+}
+func (p *PredPhonePhoneCall) ToType() TL {
+	return &TypePhonePhoneCall{p}
+}
+func (p *PredPhoneCallDiscardReasonMissed) ToType() TL {
+	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{p}}
+}
+func (p *PredPhoneCallDiscardReasonDisconnect) ToType() TL {
+	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{p}}
+}
+func (p *PredPhoneCallDiscardReasonHangup) ToType() TL {
+	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{p}}
+}
+func (p *PredPhoneCallDiscardReasonBusy) ToType() TL {
+	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{p}}
+}
+func (p *PredInputMessagesFilterPhoneCalls) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhoneCalls{p}}
+}
+func (p *PredMessageActionPhoneCall) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionPhoneCall{p}}
+}
+func (p *PredInvoice) ToType() TL {
+	return &TypeInvoice{p}
+}
+func (p *PredInputMediaInvoice) ToType() TL {
+	return &TypeInputMedia{&TypeInputMedia_InputMediaInvoice{p}}
+}
+func (p *PredMessageActionPaymentSentMe) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSentMe{p}}
+}
+func (p *PredMessageMediaInvoice) ToType() TL {
+	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaInvoice{p}}
+}
+func (p *PredKeyboardButtonBuy) ToType() TL {
+	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonBuy{p}}
+}
+func (p *PredMessageActionPaymentSent) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSent{p}}
+}
+func (p *PredPaymentsPaymentForm) ToType() TL {
+	return &TypePaymentsPaymentForm{p}
+}
+func (p *PredPostAddress) ToType() TL {
+	return &TypePostAddress{p}
+}
+func (p *PredPaymentRequestedInfo) ToType() TL {
+	return &TypePaymentRequestedInfo{p}
+}
+func (p *PredUpdateBotWebhookJSON) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSON{p}}
+}
+func (p *PredUpdateBotWebhookJSONQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSONQuery{p}}
+}
+func (p *PredUpdateBotShippingQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotShippingQuery{p}}
+}
+func (p *PredUpdateBotPrecheckoutQuery) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateBotPrecheckoutQuery{p}}
+}
+func (p *PredDataJSON) ToType() TL {
+	return &TypeDataJSON{p}
+}
+func (p *PredLabeledPrice) ToType() TL {
+	return &TypeLabeledPrice{p}
+}
+func (p *PredPaymentCharge) ToType() TL {
+	return &TypePaymentCharge{p}
+}
+func (p *PredPaymentSavedCredentialsCard) ToType() TL {
+	return &TypePaymentSavedCredentials{p}
+}
+func (p *PredWebDocument) ToType() TL {
+	return &TypeWebDocument{p}
+}
+func (p *PredInputWebDocument) ToType() TL {
+	return &TypeInputWebDocument{p}
+}
+func (p *PredInputWebFileLocation) ToType() TL {
+	return &TypeInputWebFileLocation{p}
+}
+func (p *PredUploadWebFile) ToType() TL {
+	return &TypeUploadWebFile{p}
+}
+func (p *PredPaymentsValidatedRequestedInfo) ToType() TL {
+	return &TypePaymentsValidatedRequestedInfo{p}
+}
+func (p *PredPaymentsPaymentResult) ToType() TL {
+	return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentResult{p}}
+}
+func (p *PredPaymentsPaymentVerficationNeeded) ToType() TL {
+	return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{p}}
+}
+func (p *PredPaymentsPaymentReceipt) ToType() TL {
+	return &TypePaymentsPaymentReceipt{p}
+}
+func (p *PredPaymentsSavedInfo) ToType() TL {
+	return &TypePaymentsSavedInfo{p}
+}
+func (p *PredInputPaymentCredentialsSaved) ToType() TL {
+	return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentialsSaved{p}}
+}
+func (p *PredInputPaymentCredentials) ToType() TL {
+	return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentials{p}}
+}
+func (p *PredAccountTmpPassword) ToType() TL {
+	return &TypeAccountTmpPassword{p}
+}
+func (p *PredShippingOption) ToType() TL {
+	return &TypeShippingOption{p}
+}
+func (p *PredPhoneCallAccepted) ToType() TL {
+	return &TypePhoneCall{&TypePhoneCall_PhoneCallAccepted{p}}
+}
+func (p *PredInputMessagesFilterRoundVoice) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVoice{p}}
+}
+func (p *PredInputMessagesFilterRoundVideo) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVideo{p}}
+}
+func (p *PredUploadFileCdnRedirect) ToType() TL {
+	return &TypeUploadFile{&TypeUploadFile_UploadFileCdnRedirect{p}}
+}
+func (p *PredSendMessageRecordRoundAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordRoundAction{p}}
+}
+func (p *PredSendMessageUploadRoundAction) ToType() TL {
+	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadRoundAction{p}}
+}
+func (p *PredUploadCdnFileReuploadNeeded) ToType() TL {
+	return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFileReuploadNeeded{p}}
+}
+func (p *PredUploadCdnFile) ToType() TL {
+	return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFile{p}}
+}
+func (p *PredCdnPublicKey) ToType() TL {
+	return &TypeCdnPublicKey{p}
+}
+func (p *PredCdnConfig) ToType() TL {
+	return &TypeCdnConfig{p}
+}
+func (p *PredUpdateLangPackTooLong) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateLangPackTooLong{p}}
+}
+func (p *PredUpdateLangPack) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateLangPack{p}}
+}
+func (p *PredPageBlockChannel) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockChannel{p}}
+}
+func (p *PredInputStickerSetItem) ToType() TL {
+	return &TypeInputStickerSetItem{p}
+}
+func (p *PredLangPackString) ToType() TL {
+	return &TypeLangPackString{&TypeLangPackString_LangPackString{p}}
+}
+func (p *PredLangPackStringPluralized) ToType() TL {
+	return &TypeLangPackString{&TypeLangPackString_LangPackStringPluralized{p}}
+}
+func (p *PredLangPackStringDeleted) ToType() TL {
+	return &TypeLangPackString{&TypeLangPackString_LangPackStringDeleted{p}}
+}
+func (p *PredLangPackDifference) ToType() TL {
+	return &TypeLangPackDifference{p}
+}
+func (p *PredLangPackLanguage) ToType() TL {
+	return &TypeLangPackLanguage{p}
+}
+func (p *PredChannelParticipantAdmin) ToType() TL {
+	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantAdmin{p}}
+}
+func (p *PredChannelParticipantBanned) ToType() TL {
+	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantBanned{p}}
+}
+func (p *PredChannelParticipantsBanned) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBanned{p}}
+}
+func (p *PredChannelParticipantsSearch) ToType() TL {
+	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsSearch{p}}
+}
+func (p *PredTopPeerCategoryPhoneCalls) ToType() TL {
+	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryPhoneCalls{p}}
+}
+func (p *PredPageBlockAudio) ToType() TL {
+	return &TypePageBlock{&TypePageBlock_PageBlockAudio{p}}
+}
+func (p *PredChannelAdminRights) ToType() TL {
+	return &TypeChannelAdminRights{p}
+}
+func (p *PredChannelBannedRights) ToType() TL {
+	return &TypeChannelBannedRights{p}
+}
+func (p *PredChannelAdminLogEventActionChangeTitle) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{p}}
+}
+func (p *PredChannelAdminLogEventActionChangeAbout) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{p}}
+}
+func (p *PredChannelAdminLogEventActionChangeUsername) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{p}}
+}
+func (p *PredChannelAdminLogEventActionChangePhoto) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{p}}
+}
+func (p *PredChannelAdminLogEventActionToggleInvites) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{p}}
+}
+func (p *PredChannelAdminLogEventActionToggleSignatures) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{p}}
+}
+func (p *PredChannelAdminLogEventActionUpdatePinned) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{p}}
+}
+func (p *PredChannelAdminLogEventActionEditMessage) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{p}}
+}
+func (p *PredChannelAdminLogEventActionDeleteMessage) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{p}}
+}
+func (p *PredChannelAdminLogEventActionParticipantJoin) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{p}}
+}
+func (p *PredChannelAdminLogEventActionParticipantLeave) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{p}}
+}
+func (p *PredChannelAdminLogEventActionParticipantInvite) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{p}}
+}
+func (p *PredChannelAdminLogEventActionParticipantToggleBan) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{p}}
+}
+func (p *PredChannelAdminLogEventActionParticipantToggleAdmin) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{p}}
+}
+func (p *PredChannelAdminLogEvent) ToType() TL {
+	return &TypeChannelAdminLogEvent{p}
+}
+func (p *PredChannelsAdminLogResults) ToType() TL {
+	return &TypeChannelsAdminLogResults{p}
+}
+func (p *PredChannelAdminLogEventsFilter) ToType() TL {
+	return &TypeChannelAdminLogEventsFilter{p}
+}
+func (p *PredMessageActionScreenshotTaken) ToType() TL {
+	return &TypeMessageAction{&TypeMessageAction_MessageActionScreenshotTaken{p}}
+}
+func (p *PredPopularContact) ToType() TL {
+	return &TypePopularContact{p}
+}
+func (p *PredCdnFileHash) ToType() TL {
+	return &TypeCdnFileHash{p}
+}
+func (p *PredInputMessagesFilterMyMentions) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentions{p}}
+}
+func (p *PredInputMessagesFilterMyMentionsUnread) ToType() TL {
+	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{p}}
+}
+func (p *PredUpdateContactsReset) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateContactsReset{p}}
+}
+func (p *PredChannelAdminLogEventActionChangeStickerSet) ToType() TL {
+	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{p}}
+}
+func (p *PredUpdateFavedStickers) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateFavedStickers{p}}
+}
+func (p *PredMessagesFavedStickers) ToType() TL {
+	return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickers{p}}
+}
+func (p *PredMessagesFavedStickersNotModified) ToType() TL {
+	return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickersNotModified{p}}
+}
+func (p *PredUpdateChannelReadMessagesContents) ToType() TL {
+	return &TypeUpdate{&TypeUpdate_UpdateChannelReadMessagesContents{p}}
+}
+
 func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 	switch constructor {
 	case crc_boolFalse:
@@ -20013,6 +21770,1178 @@ func Pack(tl TL) *any.Any {
 	case *ReqMessagesGetFavedStickers:
 		marshaled, err = ptypes.MarshalAny(x)
 	case *ReqChannelsReadMessageContents:
+		marshaled, err = ptypes.MarshalAny(x)
+
+	// predicates
+	case *PredBoolFalse:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBoolTrue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredError:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerSelf:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerChat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputUserEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputUserSelf:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPhoneContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaUploadedPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaGeoPoint:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputChatPhotoEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputChatUploadedPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputChatPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputGeoPointEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputGeoPoint:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPhotoEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputFileLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputAppEvent:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerChat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileUnknown:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileJpeg:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileGif:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFilePng:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileMp3:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileMov:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFilePartial:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileMp4:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFileWebp:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredFileLocationUnavailable:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredFileLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserProfilePhotoEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserProfilePhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusOnline:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusOffline:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatForbidden:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatFull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatParticipant:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatParticipantsForbidden:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatParticipants:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatPhotoEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageService:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaGeo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaUnsupported:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatCreate:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatEditTitle:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatEditPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatDeletePhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatAddUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatDeleteUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDialog:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotoEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotoSizeEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotoSize:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotoCachedSize:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredGeoPointEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredGeoPoint:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthCheckedPhone:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthSentCode:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthAuthorization:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthExportedAuthorization:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputNotifyPeer:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputNotifyUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputNotifyChats:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputNotifyAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerNotifySettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerNotifyEventsEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerNotifyEventsAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerNotifySettingsEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerNotifySettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWallPaper:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserFull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredImportedContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactBlocked:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactStatus:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsLink:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsContactsNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsImportedContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsBlocked:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsBlockedSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsFound:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesDialogs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesDialogsSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesMessages:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesMessagesSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesChats:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesChatFull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesAffectedHistory:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterPhotos:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterVideo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterPhotoVideo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateNewMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateMessageID:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateDeleteMessages:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserTyping:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatUserTyping:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatParticipants:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserStatus:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserName:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateContactRegistered:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateContactLink:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesState:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesDifferenceEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesDifference:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesDifferenceSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesTooLong:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateShortMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateShortChatMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateShort:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesCombined:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdates:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotosPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUploadFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDcOption:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredConfig:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNearestDc:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHelpAppUpdate:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHelpNoAppUpdate:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHelpInviteText:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerNotifyEventsEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerNotifyEventsAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotosPhotos:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhotosPhotosSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWallPaperSolid:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateNewEncryptedMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateEncryptedChatTyping:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateEncryption:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateEncryptedMessagesRead:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedChatEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedChatWaiting:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedChatRequested:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedChat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedChatDiscarded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedChat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedFileEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedFileEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedFileUploaded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedFileLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredEncryptedMessageService:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesDhConfigNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesDhConfig:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesSentEncryptedMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesSentEncryptedFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputFileBig:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputEncryptedFileBigUploaded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStorageFilePdf:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterPhotoVideoDocuments:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatParticipantAdd:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatParticipantDelete:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateDcOptions:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaUploadedDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputDocumentEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputDocumentFileLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHelpSupport:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNotifyAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNotifyChats:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNotifyPeer:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredNotifyUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserBlocked:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateNotifySettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageTypingAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageCancelAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageRecordVideoAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageUploadVideoAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageRecordAudioAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageUploadAudioAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageUploadPhotoAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageUploadDocumentAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageGeoLocationAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageChooseContactAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateServiceNotification:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusRecently:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusLastWeek:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUserStatusLastMonth:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatePrivacy:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyKeyStatusTimestamp:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyKeyStatusTimestamp:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueAllowContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueAllowAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueAllowUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueDisallowContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueDisallowAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyValueDisallowUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueAllowContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueAllowAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueAllowUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueDisallowContacts:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueDisallowAll:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyValueDisallowUsers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountPrivacyRules:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountDaysTTL:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateUserPhone:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDisabledFeature:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeImageSize:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeAnimated:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeSticker:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeVideo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeAudio:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeFilename:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesStickersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStickerPack:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesAllStickersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesAllStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountNoPassword:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountPassword:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadHistoryInbox:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadHistoryOutbox:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesAffectedMessages:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactLinkUnknown:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactLinkNone:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactLinkHasPhone:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactLinkContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateWebPage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWebPageEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWebPagePending:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWebPage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaWebPage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthorization:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountAuthorizations:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountPasswordSettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountPasswordInputSettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthPasswordRecovery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaVenue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaVenue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredReceivedNotifyMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatInviteEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatInviteExported:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatInviteAlready:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatInvite:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatJoinedByLink:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadMessagesContents:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickerSetEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickerSetID:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickerSetShortName:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStickerSet:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesStickerSet:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotCommand:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInfo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButton:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonRow:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredReplyKeyboardHide:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredReplyKeyboardForceReply:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredReplyKeyboardMarkup:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterUrl:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputUser:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityUnknown:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityMention:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityHashtag:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityBotCommand:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityUrl:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityEmail:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityBold:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityItalic:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityCode:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityPre:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityTextUrl:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateShortSentMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPeerChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelForbidden:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelFull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChannelCreate:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesChannelMessages:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannelTooLong:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateNewChannelMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadChannelInbox:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateDeleteChannelMessages:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannelMessageViews:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputChannelEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsResolvedPeer:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageRange:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesChannelDifferenceEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesChannelDifferenceTooLong:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesChannelDifference:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelMessagesFilterEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelMessagesFilter:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipant:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantSelf:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantCreator:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsRecent:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsAdmins:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsKicked:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelsChannelParticipants:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelsChannelParticipant:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTrue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatParticipantCreator:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChatParticipantAdmin:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatAdmins:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChatParticipantAdmin:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChatMigrateTo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionChannelMigrateFrom:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsBots:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputReportReasonSpam:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputReportReasonViolence:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputReportReasonPornography:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputReportReasonOther:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateNewStickerSet:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateStickerSetsOrder:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateStickerSets:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHelpTermsOfService:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredFoundGif:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaGifExternal:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesFoundGifs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterGif:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateSavedGifs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotInlineQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredFoundGifCached:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesSavedGifsNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesSavedGifs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageMediaAuto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageText:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineResult:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMessageMediaAuto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMessageText:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineResult:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesBotResults:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterVoice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterMusic:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotInlineSend:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyKeyChatInvite:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyKeyChatInvite:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateEditChannelMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredExportedMessageLink:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageFwdHeader:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionPinMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPeerSettings:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannelPinnedMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonUrl:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonCallback:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonRequestPhone:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonRequestGeoLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthCodeTypeSms:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthCodeTypeCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthCodeTypeFlashCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthSentCodeTypeApp:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthSentCodeTypeSms:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthSentCodeTypeCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAuthSentCodeTypeFlashCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonSwitchInline:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredReplyInlineMarkup:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesBotCallbackAnswer:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotCallbackQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesMessageEditData:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateEditMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageMediaGeo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageMediaVenue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageMediaContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMessageMediaGeo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMessageMediaVenue:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMessageMediaContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineResultPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineResultDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredBotInlineMediaResult:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageID:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateInlineBotCallbackQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInlineBotSwitchPM:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageEntityMentionName:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessageEntityMentionName:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesPeerDialogs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeer:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryBotsPM:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryBotsInline:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryCorrespondents:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryGroups:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryChannels:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryPeers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsTopPeersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredContactsTopPeers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterChatPhotos:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadChannelOutbox:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateDraftMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDraftMessageEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDraftMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionHistoryClear:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateReadFeaturedStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateRecentStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesFeaturedStickersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesFeaturedStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesRecentStickersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesRecentStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesArchivedStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesStickerSetInstallResultSuccess:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesStickerSetInstallResultArchive:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStickerSetCovered:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaPhotoExternal:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaDocumentExternal:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateConfig:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatePtsChanged:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionGameScore:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDocumentAttributeHasStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredStickerSetMultiCovered:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMaskCoords:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickeredMediaPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickeredMediaDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineMessageGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputBotInlineResultGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredGame:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputGameID:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputGameShortName:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredHighScore:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesHighScores:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesChatsSlice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannelWebPage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatesDifferenceTooLong:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageGamePlayAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWebPageNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextPlain:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextBold:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextItalic:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextUnderline:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextStrike:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextFixed:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextUrl:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextEmail:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTextConcat:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockTitle:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockSubtitle:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockAuthorDate:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockHeader:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockSubheader:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockParagraph:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockPreformatted:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockFooter:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockDivider:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockList:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockBlockquote:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockPullquote:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockPhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockVideo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockCover:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockEmbed:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockEmbedPost:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockSlideshow:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPagePart:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageFull:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatePhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateDialogPinned:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdatePinnedDialogs:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPrivacyKeyPhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPrivacyKeyPhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockUnsupported:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockAnchor:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockCollage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallEmpty:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallWaiting:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallRequested:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallDiscarded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneConnection:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallProtocol:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhonePhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallDiscardReasonMissed:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallDiscardReasonDisconnect:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallDiscardReasonHangup:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallDiscardReasonBusy:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterPhoneCalls:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionPhoneCall:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInvoice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMediaInvoice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionPaymentSentMe:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageMediaInvoice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredKeyboardButtonBuy:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionPaymentSent:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsPaymentForm:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPostAddress:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentRequestedInfo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotWebhookJSON:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotWebhookJSONQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotShippingQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateBotPrecheckoutQuery:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredDataJSON:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLabeledPrice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentCharge:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentSavedCredentialsCard:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredWebDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputWebDocument:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputWebFileLocation:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUploadWebFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsValidatedRequestedInfo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsPaymentResult:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsPaymentVerficationNeeded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsPaymentReceipt:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPaymentsSavedInfo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPaymentCredentialsSaved:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputPaymentCredentials:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredAccountTmpPassword:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredShippingOption:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPhoneCallAccepted:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterRoundVoice:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterRoundVideo:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUploadFileCdnRedirect:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageRecordRoundAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredSendMessageUploadRoundAction:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUploadCdnFileReuploadNeeded:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUploadCdnFile:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredCdnPublicKey:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredCdnConfig:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateLangPackTooLong:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateLangPack:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockChannel:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputStickerSetItem:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLangPackString:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLangPackStringPluralized:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLangPackStringDeleted:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLangPackDifference:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredLangPackLanguage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantAdmin:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantBanned:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsBanned:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelParticipantsSearch:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredTopPeerCategoryPhoneCalls:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPageBlockAudio:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminRights:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelBannedRights:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionChangeTitle:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionChangeAbout:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionChangeUsername:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionChangePhoto:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionToggleInvites:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionToggleSignatures:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionUpdatePinned:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionEditMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionDeleteMessage:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionParticipantJoin:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionParticipantLeave:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionParticipantInvite:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionParticipantToggleBan:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionParticipantToggleAdmin:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEvent:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelsAdminLogResults:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventsFilter:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessageActionScreenshotTaken:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredPopularContact:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredCdnFileHash:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterMyMentions:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredInputMessagesFilterMyMentionsUnread:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateContactsReset:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredChannelAdminLogEventActionChangeStickerSet:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateFavedStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesFavedStickers:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredMessagesFavedStickersNotModified:
+		marshaled, err = ptypes.MarshalAny(x)
+	case *PredUpdateChannelReadMessagesContents:
 		marshaled, err = ptypes.MarshalAny(x)
 	}
 	if err != nil {

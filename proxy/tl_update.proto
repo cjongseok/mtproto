@@ -1,12 +1,12 @@
 syntax = "proto3";
 package proxy;
-import "proto/tl_schema.proto";
+import "github.com/cjongseok/mtproto/mtp/types.tl.proto";
 
 message Update {
 	oneof Value {
-//		mtp.TypeUpdates updates = 1;
+		mtp.PredUpdates updates = 1;
 //		mtp.TypeUpdatesDifference updatesDifference = 2;
-		mtp.PredUpdateShortMessage updateShortMessage = 1;
+//		mtp.PredUpdateShortMessage updateShortMessage = 1;
 		mtp.PredUpdatesDifference updatesDifference = 2;
 	}
 }

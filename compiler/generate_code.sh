@@ -1,10 +1,12 @@
 #!/bin/sh
 
-rm ../proto/tl_schema.proto ../proto/tl_schema.go ../proxy/procs.go
-go run build_tl_scheme.go ../proto/tl_schema < tl-schema-71.json
-protoc -I ../proto -I ~/Programs/protoc-3.5.1/include tl_schema.proto --go_out=plugins=grpc:../proto
-protoc -I .. -I ../proxy tl_update.proto --go_out=plugins=grpc:../proxy
-go fmt ../proto
+#rm ../mtp/tl_schema.proto ../mtp/tl_schema.go ../proxy/procs.go
+rm ../mtp/types.tl.proto ../mtp/utils.tl.go ../mtp/procs.tl.go
+go run tl2go.go < tl-schema-71.json
+mv types.tl.proto utils.tl.go procs.tl.go ../mtp/
+protoc -I ../mtp -I ~/Programs/protoc-3.5.1/include types.tl.proto --go_out=plugins=grpc:../mtp
+protoc -I $GOPATH/src -I ../proxy tl_update.proto --go_out=plugins=grpc:../proxy
+go fmt ../mtp
 go fmt ../proxy
 
 #go run build_tl_scheme.go tl_schema < tl-schema-71.json  > ./tl_schema.proto

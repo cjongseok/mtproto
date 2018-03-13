@@ -1,4 +1,4 @@
-package mtproto
+package mtp
 
 import (
 	"encoding/json"
@@ -15,19 +15,20 @@ const (
 	DEBUG_LEVEL_NETWORK_DETAILS = 0x02
 	DEBUG_LEVEL_DECODE          = 0x04
 	DEBUG_LEVEL_DECODE_DETAILS  = 0x08
+	DEBUG_LEVEL_ENCODE_DETAILS  = 0x10
 )
 
 var (
 	__debug = 0
 )
 
-type MManager struct {
+type Manager struct {
 	managerId               int32
 	appConfig               Configuration
-	conns                   map[int32]*MConn
-	sessions                map[int64]*MSession
+	conns                   map[int32]*Conn
+	sessions                map[int64]*Session
 	stuckSessions           map[int64]int32
-	eventq                  chan MEvent
+	eventq                  chan Event
 	refreshSessionThrotttle map[int64]int
 	//queueSend chan packetToSend
 
@@ -35,7 +36,7 @@ type MManager struct {
 	manageWaitGroup   sync.WaitGroup
 }
 
-func NewManager(appConfig Configuration) (*MManager, error) {
+func NewManager(appConfig Configuration) (*Manager, error) {
 	var err error
 
 	err = appConfig.Check()
@@ -43,15 +44,15 @@ func NewManager(appConfig Configuration) (*MManager, error) {
 		return nil, err
 	}
 
-	mm := new(MManager)
+	mm := new(Manager)
 	rand.Seed(time.Now().UnixNano())
 	mm.managerId = rand.Int31()
 	mm.appConfig = appConfig
 	//TODO: set proper buf size to channels
-	mm.conns = make(map[int32]*MConn)
-	mm.sessions = make(map[int64]*MSession)
+	mm.conns = make(map[int32]*Conn)
+	mm.sessions = make(map[int64]*Session)
 	mm.stuckSessions = make(map[int64]int32)
-	mm.eventq = make(chan MEvent)
+	mm.eventq = make(chan Event)
 	mm.refreshSessionThrotttle = make(map[int64]int)
 	//mm.queueSend = make(chan packetToSend, 64)
 	mm.manageInterrupter = make(chan struct{})
@@ -62,7 +63,7 @@ func NewManager(appConfig Configuration) (*MManager, error) {
 	return mm, nil
 }
 
-func (mm *MManager) Finish() {
+func (mm *Manager) Finish() {
 	// close all connections
 	for id, _ := range mm.conns {
 		mm.eventq <- closeConnection{id, nil}
@@ -75,7 +76,7 @@ func (mm *MManager) Finish() {
 	mm.manageWaitGroup.Wait()
 }
 
-func (mm *MManager) IsAuthenticated(phonenumber string) bool {
+func (mm *Manager) IsAuthenticated(phonenumber string) bool {
 	sessionfile := sessionFilePath(mm.appConfig.SessionHome, phonenumber)
 	_, err := os.Stat(sessionfile)
 	if os.IsNotExist(err) {
@@ -84,7 +85,7 @@ func (mm *MManager) IsAuthenticated(phonenumber string) bool {
 	return true
 }
 
-func (mm *MManager) LoadAuthentication(phonenumber string, preferredAddr string) (*MConn, error) {
+func (mm *Manager) LoadAuthentication(phonenumber string, preferredAddr string) (*Conn, error) {
 	// req connect
 	respCh := make(chan sessionResponse)
 	mm.eventq <- loadsession{0, phonenumber, preferredAddr, respCh}
@@ -102,24 +103,39 @@ func (mm *MManager) LoadAuthentication(phonenumber string, preferredAddr string)
 	//	return nil, err
 	//}
 
-	userFull, err := mconn.UsersGetFullUsers(TL_inputUserSelf{})
-	if err != nil {
-		// Need to authenticate
-		return nil, err
+	// Request full user
+	inputUser := &TypeInputUser{&TypeInputUser_InputUserSelf{&PredInputUserSelf{}}}
+	var userFull *TypeUserFull
+	x := <-mconn.InvokeNonBlocked(&ReqUsersGetFullUser{inputUser})
+	if x.err != nil {
+		return nil, x.err
+	}
+
+	switch casted := x.data.(type) {
+	case *PredUserFull:
+		userFull = &TypeUserFull{casted}
+	default:
+		return nil, fmt.Errorf("no full user: %T: %v", x, x)
 	}
 
 	// Already authenticated
-	user := userFull.User.(TL_user)
+	typeUser := userFull.GetValue().GetUser()
 	session, err := mconn.Session()
 	if err != nil {
 		return mconn, err
 	}
-	session.user = &user
-	slog.Logln(mm, "Auth as ", user)
+	if typeUser.GetUser() != nil {
+		user := typeUser.GetUser()
+		session.user = user
+		slog.Logln(mm, "Auth as ", user)
+	} else if typeUser.GetUserEmpty() != nil {
+		session.user = &PredUser{}
+		slog.Logln(mm, "Authenticated, but failed to get user")
+	}
 	return mm.conns[resp.connId], nil
 }
 
-func (mm *MManager) NewAuthentication(phonenumber string, addr string, useIPv6 bool) (*MConn, *TL_auth_sentCode, error) {
+func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bool) (*Conn, *TypeAuthSentCode, error) {
 	// req connect
 	respCh := make(chan sessionResponse)
 	mm.eventq <- newsession{0, phonenumber, addr, useIPv6, respCh}
@@ -132,15 +148,76 @@ func (mm *MManager) NewAuthentication(phonenumber string, addr string, useIPv6 b
 
 	// sendAuthCode
 	mconn := mm.conns[resp.connId]
-	mconn, sentCode, err := mm.authSendCode(mconn, phonenumber)
-	if err != nil {
-		return nil, nil, err
-	}
+	for {
+		//sentCode, err := mconn.authSendCode(phonenumber)
+		var sentCode *TypeAuthSentCode
+		session, err := mconn.Session()
+		if err != nil {
+			return nil, nil, err
+		}
 
-	return mconn, sentCode, nil
+		// request to send code
+		data, err := mconn.InvokeBlocked(&ReqAuthSendCode{
+			//Allow_flashcall: false,
+			Flags:         0x00000001,
+			PhoneNumber:   phonenumber,
+			CurrentNumber: &TypeBool{&TypeBool_BoolTrue{&PredBoolTrue{}}},
+			ApiId:         session.appConfig.Id,
+			ApiHash:       session.appConfig.Hash,
+		})
+		switch x := data.(type) {
+		case *PredAuthSentCode:
+			sentCode = &TypeAuthSentCode{x}
+		default:
+			return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
+		}
+
+		// retry the send code request to another server
+		if err != nil {
+			rpcError, ok := err.(TL_rpc_error)
+			if !ok {
+				return nil, nil, err
+			}
+			if rpcError.error_code != errorSeeOther {
+				return nil, nil, err
+			}
+
+			var newdc int32
+			n, _ := fmt.Sscanf(rpcError.error_message, "PHONE_MIGRATE_%d", &newdc)
+			if n != 1 {
+				n, _ = fmt.Sscanf(rpcError.error_message, "NETWORK_MIGRATE_%d", &newdc)
+			}
+			if n != 1 {
+				return nil, nil, err
+			} else {
+				// Reconnect to the new datacenter
+				session, err := mconn.Session()
+				if err != nil {
+					return nil, nil, err
+				}
+				respch := make(chan sessionResponse)
+
+				//TODO: Check if renewSession event works with mconn.notify()
+				mconn.notify(renewSession{
+					session.sessionId,
+					phonenumber,
+					session.dclist[newdc],
+					session.useIPv6,
+					respch,
+				})
+
+				// Wait for binding with new session
+				resp := <-respch
+				if resp.err != nil {
+					return nil, nil, resp.err
+				}
+			}
+		}
+		return mconn, sentCode, nil
+	}
 }
 
-func (mm *MManager) manageRoutine() {
+func (mm *Manager) manageRoutine() {
 	slog.Logln(mm, "start")
 	mm.manageWaitGroup.Add(1)
 	defer mm.manageWaitGroup.Done()
@@ -165,7 +242,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(newsession)
 					slog.Logln(mm, "newsession to ", e.addr)
-					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig, /*mm.queueSend,*/ mm.eventq)
+					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure: ", err)
@@ -175,7 +252,7 @@ func (mm *MManager) manageRoutine() {
 					} else {
 						// Bind the session with mconn and mmanager
 						mm.sessions[session.sessionId] = session // Immediate registration
-						var mconn *MConn
+						var mconn *Conn
 						if e.connId != 0 {
 							mconn = mm.conns[e.connId]
 						} else {
@@ -202,7 +279,7 @@ func (mm *MManager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
 					slog.Logln(mm, "loadsession of ", e.phonenumber)
-					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig, /*mm.queueSend,*/ mm.eventq)
+					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure", err)
@@ -223,7 +300,7 @@ func (mm *MManager) manageRoutine() {
 					} else {
 						// Bind the session with mconn and mmanager
 						mm.sessions[session.sessionId] = session // Immediate registration
-						var mconn *MConn
+						var mconn *Conn
 						if e.connId != 0 {
 							mconn = mm.conns[e.connId]
 						} else {
@@ -272,7 +349,7 @@ func (mm *MManager) manageRoutine() {
 					}
 					if e.connId != 0 {
 						mconn := mm.conns[e.connId]
-						mconn.discardedUpdatesState = new(TL_updates_state)
+						mconn.discardedUpdatesState = &PredUpdatesState{}
 						*mconn.discardedUpdatesState = *session.updatesState
 					}
 					e.resp <- sessionResponse{e.connId, session, nil}
@@ -486,4 +563,8 @@ func (mm *MManager) manageRoutine() {
 		}
 	}
 	slog.Logln(mm, "done")
+}
+
+func (x *Manager) LogPrefix() string {
+	return fmt.Sprintf("[MM %d]", x.managerId)
 }
