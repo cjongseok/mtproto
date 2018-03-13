@@ -89,9 +89,8 @@ func handleError(err error) {
 }
 
 func help() {
-	fmt.Println("COMMANDS:")
-	fmt.Println("  dialogs\n  contacts\n  toppeers\n  user <ID> <HASH>\n  channel <ID> <HASH>")
-	fmt.Println("  allchats\n  help\n  exit")
+	fmt.Println("Commands:")
+	fmt.Printf("\tdialogs\n\tsend2c <CHAN_ID> <CHAN_HASH> <MSG>\n\thelp\n\texit\n")
 }
 
 func main() {
