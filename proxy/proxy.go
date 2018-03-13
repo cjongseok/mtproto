@@ -31,11 +31,19 @@ func (p *Server) InvokeBlocked(msg core.TL) (interface{}, error) {
 	return p.mconn.InvokeBlocked(msg)
 }
 
-func (p *Server) SignInToTelegram() {
-	// 1. key path as an argument
+func (p *Server) Start(config core.Configuration, phoneNumber, preferredAddr string) error {
+	err := p.connect(config, phoneNumber, preferredAddr)
+	if err != nil {
+		return err
+	}
+	err = p.serve()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (p *Server) ConnectToTelegram(config core.Configuration, phoneNumber, preferredAddr string) error { // open mrptoro
+func (p *Server) connect(config core.Configuration, phoneNumber, preferredAddr string) error { // open mrptoro
 	var err error
 	p.mmanager, err = core.NewManager(config)
 	if err != nil {
@@ -49,7 +57,7 @@ func (p *Server) ConnectToTelegram(config core.Configuration, phoneNumber, prefe
 	return nil
 }
 
-func (p *Server) ServeRPC() error {
+func (p *Server) serve() error {
 	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", p.port))
 	if err != nil {
 		return fmt.Errorf("socket open failure: %v", err)
@@ -67,7 +75,7 @@ func (p *Server) ServeRPC() error {
 			slog.Logln(p, "shut down the socket and restart the proxy...")
 			lis.Close()
 			go func() {
-				startErr := p.ServeRPC()
+				startErr := p.serve()
 				if startErr != nil {
 					slog.Logln(p, "restart failure:", startErr)
 				}
@@ -86,21 +94,7 @@ func (p *Server) LogPrefix() string {
 }
 
 func (p *Server) OnUpdate(mu core.Update) {
-	var pu *Update
-	slog.Logln(p, "on update:", mu)
-	switch casted := mu.(type) {
-	//case core.Update:
-	//	pu = casted.(core.Predicate).ToType()
-
-	//case *core.PredUpdateShortMessage:
-	//	pu = &Update{&Update_UpdateShortMessage{casted}}
-	case *core.PredUpdates:
-		pu = &Update{&Update_Updates{casted}}
-	case *core.PredUpdatesDifference:
-		pu = &Update{&Update_UpdatesDifference{casted}}
-	default:
-		slog.Logln(p, "unknown update:", mu)
-	}
+	pu := toProxyUpdate(mu)
 	if pu != nil {
 		for _, s := range p.streams {
 			go func() {
@@ -139,4 +133,46 @@ func NewClient(addr string) (*Client, error) {
 	corerotoClient := core.NewMtprotoClient(conn)
 	updateClient := NewUpdateStreamerClient(conn)
 	return &Client{corerotoClient, updateClient}, nil
+}
+
+func toProxyUpdate(u core.Update) *Update {
+	switch pu := u.(type) {
+	case *core.PredUpdatesState:
+		return &Update{&Update_UpdatesState{pu}}
+	case *core.PredUpdateShortMessage:
+		return &Update{&Update_UpdateShortMessage{pu}}
+	case *core.PredUpdateShortChatMessage:
+		return &Update{&Update_UpdateShortChatMessage{pu}}
+	case *core.PredUpdateShort:
+		return &Update{&Update_UpdateShort{pu}}
+	case *core.PredUpdates:
+		return &Update{&Update_Updates{pu}}
+	case *core.PredUpdateShortSentMessage:
+		return &Update{&Update_UpdateShortSentMessage{pu}}
+	case *core.PredUpdatesDifference:
+		return &Update{&Update_UpdatesDifference{pu}}
+	case *core.PredUpdatesDifferenceSlice:
+		return &Update{&Update_UpdatesDifferenceSlice{pu}}
+	case *core.PredUpdateNewMessage:
+		return &Update{&Update_UpdateNewMessage{pu}}
+	case *core.PredUpdateReadMessagesContents:
+		return &Update{&Update_UpdateReadMessagesContents{pu}}
+	case *core.PredUpdateDeleteMessages:
+		return &Update{&Update_UpdateDeleteMessages{pu}}
+	case *core.PredUpdateNewEncryptedMessage:
+		return &Update{&Update_UpdateNewEncryptedMessage{pu}}
+	case *core.PredUpdateChannel:
+		return &Update{&Update_UpdateChannel{pu}}
+	case *core.PredUpdateChannelMessageViews:
+		return &Update{&Update_UpdateChannelMessageViews{pu}}
+	case *core.PredUpdateChannelTooLong:
+		return &Update{&Update_UpdateChannelTooLong{pu}}
+	case *core.PredUpdateReadChannelInbox:
+		return &Update{&Update_UpdateReadChannelInbox{pu}}
+	case *core.PredUpdateReadChannelOutbox:
+		return &Update{&Update_UpdateReadChannelOutbox{pu}}
+	case *core.PredUpdateNewChannelMessage:
+		return &Update{&Update_UpdateNewChannelMessage{pu}}
+	}
+	return nil
 }

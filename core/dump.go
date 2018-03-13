@@ -128,43 +128,31 @@ func (md *Dump) process( /*msgId int64, seqNo int32, */ data interface{}) interf
 	case TL_pong:
 	case TL_msgs_ack:
 	case TL_rpc_result:
-		//data := data.(TL_rpc_result)
 		md.process(data.Obj)
 	case *PredUpdatesState:
-		//data := data.(*PredUpdatesState)
 		md.updatesState.Pts = data.Pts
 		md.updatesState.Qts = data.Qts
 		md.updatesState.Date = data.Date
 		md.updatesState.Seq = data.Seq
-		//marshaled, err := json.Marshal(data)
-		//if err == nil {
-		//slog.Logf(md.process, "updatesState: %s\n", marshaled)
-		//} else {
-		//slog.Logf(md.process, "updatesState: %v\n", data)
-		//}
 		return data
 
 		// Date updates
 	case *PredUpdates:
-		//data := data.(*PredUpdates)
 		md.updatesState.Date = data.Date
 		md.updatesState.Seq = data.Seq
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateShort:
-		//data := data.(*PredUpdateShort)
 		md.updatesState.Date = data.Date
 		md.updateCallback.OnUpdate(data)
 		return data
 
 		// Pts updates
 	case *PredUpdateNewMessage:
-		//data := data.(*PredUpdateNewMessage)
 		md.updatesState.Pts = data.Pts
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateReadMessagesContents:
-		//data := data.(TL_updateReadMessagesContents)
 		md.updatesState.Pts = data.Pts
 		md.updateCallback.OnUpdate(data)
 		return data
@@ -176,19 +164,16 @@ func (md *Dump) process( /*msgId int64, seqNo int32, */ data interface{}) interf
 
 		// Pts and Date updates
 	case *PredUpdateShortMessage:
-		//data := data.(TL_updateShortMessage)
 		md.updatesState.Pts = data.Pts
 		md.updatesState.Date = data.Date
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateShortChatMessage:
-		//data := data.(TL_updateShortChatMessage)
 		md.updatesState.Pts = data.Pts
 		md.updatesState.Date = data.Date
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateShortSentMessage:
-		//data := data.(TL_updateShortSentMessage)
 		md.updatesState.Pts = data.Pts
 		md.updatesState.Date = data.Date
 		md.updateCallback.OnUpdate(data)
@@ -196,46 +181,33 @@ func (md *Dump) process( /*msgId int64, seqNo int32, */ data interface{}) interf
 
 		// Qts updates
 	case *PredUpdateNewEncryptedMessage:
-		//data := data.(TL_updateNewEncryptedMessage)
 		md.updatesState.Qts = data.Qts
 		md.updateCallback.OnUpdate(data)
 		return data
 
 		// Channel updates
 	case *PredUpdateChannel:
-		//data := data.(TL_updateChannel)
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateChannelMessageViews:
-		//data := data.(TL_updateChannelMessageViews)
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateChannelTooLong:
-		//data := data.(TL_updateChannelTooLong)
 		md.updatesState.Pts = data.Pts
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateReadChannelInbox:
-		//data := data.(TL_updateReadChannelInbox)
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateReadChannelOutbox:
-		//data := data.(TL_updateReadChannelOutbox)
 		md.updateCallback.OnUpdate(data)
 		return data
 	case *PredUpdateNewChannelMessage:
-		//data := data.(TL_updateNewChannelMessage)
 		md.updatesState.Pts = data.Pts
 		md.updateCallback.OnUpdate(data)
 		return data
 
 	default:
-		//marshaled, err := json.Marshal(data)
-		//if err == nil {
-		//slog.Logf(md.process, "process: unknown data type %T {%s}\n", data, marshaled)
-		//} else {
-		//slog.Logf(md.process, "process: unknown data type %T {%v}\n", data, data)
-		//}
 		return data
 	}
 

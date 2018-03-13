@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/cjongseok/slog"
 	"math/rand"
-	"os"
 	"sync"
 	"time"
 )
@@ -29,7 +28,7 @@ type Manager struct {
 	sessions                map[int64]*Session
 	stuckSessions           map[int64]int32
 	eventq                  chan Event
-	refreshSessionThrotttle map[int64]int
+	refreshSessionThrottle map[int64]int
 	//queueSend chan packetToSend
 
 	manageInterrupter chan struct{}
@@ -53,7 +52,7 @@ func NewManager(appConfig Configuration) (*Manager, error) {
 	mm.sessions = make(map[int64]*Session)
 	mm.stuckSessions = make(map[int64]int32)
 	mm.eventq = make(chan Event)
-	mm.refreshSessionThrotttle = make(map[int64]int)
+	mm.refreshSessionThrottle = make(map[int64]int)
 	//mm.queueSend = make(chan packetToSend, 64)
 	mm.manageInterrupter = make(chan struct{})
 	mm.manageWaitGroup = sync.WaitGroup{}
@@ -76,14 +75,14 @@ func (mm *Manager) Finish() {
 	mm.manageWaitGroup.Wait()
 }
 
-func (mm *Manager) IsAuthenticated(phonenumber string) bool {
-	sessionfile := sessionFilePath(mm.appConfig.SessionHome, phonenumber)
-	_, err := os.Stat(sessionfile)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
+//func (mm *Manager) IsAuthenticated(phonenumber string) bool {
+//	sessionfile := sessionFilePath(mm.appConfig.SessionHome, phonenumber)
+//	_, err := os.Stat(sessionfile)
+//	if os.IsNotExist(err) {
+//		return false
+//	}
+//	return true
+//}
 
 func (mm *Manager) LoadAuthentication(phonenumber string, preferredAddr string) (*Conn, error) {
 	// req connect
@@ -150,7 +149,6 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 	mconn := mm.conns[resp.connId]
 	for {
 		//sentCode, err := mconn.authSendCode(phonenumber)
-		var sentCode *TypeAuthSentCode
 		session, err := mconn.Session()
 		if err != nil {
 			return nil, nil, err
@@ -167,9 +165,9 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 		})
 		switch x := data.(type) {
 		case *PredAuthSentCode:
-			sentCode = &TypeAuthSentCode{x}
-		default:
-			return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
+			return mconn, &TypeAuthSentCode{x}, nil
+		//default:
+		//	return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
 		}
 
 		// retry the send code request to another server
@@ -213,7 +211,6 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 				}
 			}
 		}
-		return mconn, sentCode, nil
 	}
 }
 
@@ -244,8 +241,6 @@ func (mm *Manager) manageRoutine() {
 					slog.Logln(mm, "newsession to ", e.addr)
 					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					if err != nil {
-						//log.Fatalln("ManageRoutine: Connect Failure", err)
-						//slog.Fatalln(mm, "connect failure: ", err)
 						slog.Logln(mm, "connect failure:", err)
 						//TODO: need to handle nil resp channel?
 						e.resp <- sessionResponse{0, nil, err}
@@ -409,10 +404,10 @@ func (mm *Manager) manageRoutine() {
 				// are generated and propagated.
 			case refreshSession:
 				// throttle the refreshSession
-				if mm.refreshSessionThrotttle[e.(refreshSession).sessionId] > 0 {
+				if mm.refreshSessionThrottle[e.(refreshSession).sessionId] > 0 {
 					continue
 				}
-				mm.refreshSessionThrotttle[e.(refreshSession).sessionId] = 1
+				mm.refreshSessionThrottle[e.(refreshSession).sessionId] = 1
 
 				go func() {
 					mm.manageWaitGroup.Add(1)
@@ -493,7 +488,7 @@ func (mm *Manager) manageRoutine() {
 					//}
 					//TODO: figure out missed updates
 					slog.Logln(mm, "refreshSession done. Release the throttle")
-					mm.refreshSessionThrotttle[e.sessionId] = 0
+					mm.refreshSessionThrottle[e.sessionId] = 0
 				}()
 
 				// Connection Event Handlers

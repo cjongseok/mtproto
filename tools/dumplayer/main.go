@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/cjongseok/mtproto"
+	"github.com/cjongseok/mtproto/core"
 	"github.com/cjongseok/slog"
 	"os"
 	"sync"
@@ -23,7 +23,7 @@ func handleError(err error) {
 
 type callback struct{}
 
-func (cb *callback) OnUpdate(u mtproto.MUpdate) {
+func (cb *callback) OnUpdate(u core.Update) {
 	fmt.Println("update:", slog.Stringify(u))
 }
 
@@ -51,7 +51,7 @@ func main() {
 			}
 		}
 	}()
-	dump, err := mtproto.NewMdump(authFileName, dumpFilename, out)
+	dump, err := core.NewDump(authFileName, dumpFilename, out)
 	handleError(err)
 	dump.Play()
 	dump.Wait()

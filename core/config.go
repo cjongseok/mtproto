@@ -2,8 +2,6 @@ package core
 
 import (
 	"fmt"
-	"os"
-	"os/user"
 	"runtime"
 	"time"
 )
@@ -21,12 +19,13 @@ type Configuration struct {
 	DeviceModel   string
 	SystemVersion string
 	Language      string
-	SessionHome   string
-	PingInterval  time.Duration
-	SendInterval  time.Duration
+	//SessionHome   string
+	PingInterval time.Duration
+	SendInterval time.Duration
+	KeyPath      string
 }
 
-func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, sessionFileHome string, pingInterval time.Duration, sendInterval time.Duration) (Configuration, error) {
+func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, pingInterval time.Duration, sendInterval time.Duration, keyPath string) (Configuration, error) {
 	//appConfig := new(Configuration)
 	appConfig := Configuration{}
 
@@ -52,16 +51,16 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 		appConfig.Language = "en"
 	}
 
-	appConfig.SessionHome = sessionFileHome
-	if sessionFileHome == "" {
-		//appConfig.SessionHome = os.Getenv("HOME")
-		usr, err := user.Current()
-		if err != nil {
-			appConfig.SessionHome = os.Getenv("HOME")
-		} else {
-			appConfig.SessionHome = usr.HomeDir
-		}
-	}
+	//appConfig.SessionHome = sessionFileHome
+	//if sessionFileHome == "" {
+	//	usr, err := user.Current()
+	//	if err != nil {
+	//		appConfig.SessionHome = os.Getenv("HOME")
+	//	} else {
+	//		appConfig.SessionHome = usr.HomeDir
+	//	}
+	//}
+	appConfig.KeyPath = keyPath
 
 	appConfig.PingInterval = pingInterval
 	if pingInterval == 0 {

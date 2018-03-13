@@ -119,16 +119,16 @@ func (session *Session) close() {
 	session.listeners = nil
 }
 
-func sessionFilePath(sessionFileHome string, phonenumber string) string {
-	return sessionFileHome + "/.telegram_" + phonenumber
-}
+//func sessionFilePath(sessionFileHome string, phonenumber string) string {
+//	return sessionFileHome + "/.telegram_" + phonenumber
+//}
 
 func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	var err error
 
 	session := new(Session)
 	session.phonenumber = phonenumber
-	session.f, err = os.OpenFile(sessionFilePath(appConfig.SessionHome, phonenumber), os.O_WRONLY|os.O_CREATE, 0600)
+	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
 	if err == nil {
 		session.addr = addr
 		session.useIPv6 = useIPv6
@@ -162,19 +162,19 @@ func byteArrayString2byteArray(str string) []byte {
 // since the session file does not have session id
 func loadSession(phonenumber string, preferredAddr string, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	// session file exists?
-	sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
-	_, err := os.Stat(sessionfile)
-	sessionExists := !os.IsNotExist(err)
-	err = nil
+	//sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
+	//_, err := os.Stat(sessionfile)
+	//sessionExists := !os.IsNotExist(err)
+	//err = nil
+
 
 	// load session info from either session file or env
 	// its precedence is; preferredAddr > sessionFile > env
 	session := new(Session)
 	session.phonenumber = phonenumber
-	if sessionExists {
-		session.f, err = os.OpenFile(sessionfile, os.O_RDONLY, 0600)
-		err = session.readSessionFile(session.f)
-	} else {
+	var err error
+	if appConfig.KeyPath == ""  {
+		// load key from env
 		session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
 		session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
 		session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
@@ -182,40 +182,41 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
 		session.encrypted = true
 		if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
-			err = fmt.Errorf("Invalid Environment Variable")
+			return nil, fmt.Errorf("cannot find mtproto key from neither session file nor env: open new session: %v", err)
 		} else {
-			session.f, err = os.OpenFile(sessionfile, os.O_WRONLY|os.O_CREATE, 0600)
+			session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
 		}
-	}
-
-	if err == nil {
-		if preferredAddr != "" {
-			tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
-			if err == nil {
-				if tcpAddr.IP.To4() != nil {
-					session.useIPv6 = false
-					session.addr = preferredAddr
-				} else if tcpAddr.IP.To16() != nil {
-					session.useIPv6 = true
-					session.addr = preferredAddr
-				} else {
-					// Invalid IP address. Ignore the preferred ip address
-				}
-			}
-		}
-	}
-	if err == nil {
-		err = session.open(appConfig /*sendQueue,*/, sessionListener, true)
-		if err == nil {
-			return session, nil
-		}
-		return session, handshakingFailure{fmt.Sprintf("Handshaking Failure: %v", err)}
 	} else {
-		return nil, fmt.Errorf("Cannot Load Session info from neither session file nor env: open new session:", err)
+		session.f, err = os.OpenFile(appConfig.KeyPath, os.O_RDONLY, 0600)
+		if err == nil {
+			err = session.readSessionFile(session.f)
+		}
+		if err != nil {
+			return nil, fmt.Errorf("read mtproto key failure: %v", err)
+		}
 	}
 
-	// no session file
-	return nil, fmt.Errorf("Load Session Failure: cannot get session info:", err)
+	if preferredAddr != "" {
+		tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
+		if err != nil {
+			return nil, fmt.Errorf("resolve the telegram server address failure: %v", err)
+		}
+		if tcpAddr.IP.To4() != nil {
+			session.useIPv6 = false
+			session.addr = preferredAddr
+		} else if tcpAddr.IP.To16() != nil {
+			session.useIPv6 = true
+			session.addr = preferredAddr
+		} else {
+			// Invalid IP address. Ignore the preferred ip address
+			slog.Logln(session, "invalid preferred preferred Telegram server address. ignore it.")
+		}
+	}
+	err = session.open(appConfig /*sendQueue,*/, sessionListener, true)
+	if err != nil {
+		return session, handshakingFailure{fmt.Sprintf("Handshaking Failure: %v", err)}
+	}
+	return session, nil
 }
 
 func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event, getUpdateStates bool) error {
@@ -465,7 +466,15 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 			}
 
 		case TL_rpc_result:
+			//slog.Logf(session, "rpc_result before casting: %v\n", data)
 			data := data.(TL_rpc_result)
+			//slog.Logln(session, "stringify(rpc_result.Obj):", slog.Stringify(data.Obj))
+			//slog.Logf(session, "rpc_result.Obj: %T: %v\n", data.Obj, data.Obj)
+			//if rpcerr, ok := data.Obj.(TL_rpc_error); ok {
+				//slog.Logln(session, "ok stringify(rpcerror):", rpcerr)
+				//slog.Logf(session, "ok rpcerror: %v\n", rpcerr)
+				//slog.Logf(session, "ok rpcerror.code: %d, rpcerror.msg: %s\n", rpcerr.error_code, rpcerr.error_message)
+			//}
 			x := session.process(msgId, seqNo, data.Obj)
 			session.mutex.Lock()
 			defer session.mutex.Unlock()
@@ -477,14 +486,21 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 					if ok {
 						//resp.err = session.handleRPCError(rpcError)
 						resp.err = rpcError
+					} else {
+						resp.data = x
 					}
 					//resp.data = x.(TL)
-					resp.data = x
+					//resp.data = x
 					v <- resp
 					close(v)
 				}()
 			}
 			delete(session.msgsIdToAck, data.req_msg_id)
+
+		case TL_rpc_error:
+			data := data.(TL_rpc_error)
+			return data
+
 
 			//TODO: Update classifier should be auto-generated from scheme.tl
 			//TODO: how to handle seq?
@@ -761,7 +777,13 @@ func (session *Session) readRoutine() {
 					// 1. on new authentication, 303 PHONE_MIGRATE can require to make a new connection with different
 					//   server by closing the connection. -> do nothing, because session will be renewed by MM
 					// 2. after authentication, there could be an accidental disconnection. -> need to refresh
-					refresh(session)
+					if session.user == nil {
+						// case 1
+						// do nothing
+					} else {
+						// case 2
+						refresh(session)
+					}
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
 					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
 					refresh(session)

@@ -13,7 +13,7 @@ import (
 
 const (
 	typesFileName = "types.tl.proto"
-	utilsFileName = "utils.tl.go"
+	utilsFileName = "convs.tl.go"
 	procsFilename = "procs.tl.go"
 )
 

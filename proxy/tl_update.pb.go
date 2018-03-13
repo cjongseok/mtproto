@@ -36,8 +36,24 @@ const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type Update struct {
 	// Types that are valid to be assigned to Value:
+	//	*Update_UpdatesState
+	//	*Update_UpdateShortMessage
+	//	*Update_UpdateShortChatMessage
+	//	*Update_UpdateShort
 	//	*Update_Updates
+	//	*Update_UpdateShortSentMessage
 	//	*Update_UpdatesDifference
+	//	*Update_UpdatesDifferenceSlice
+	//	*Update_UpdateNewMessage
+	//	*Update_UpdateReadMessagesContents
+	//	*Update_UpdateDeleteMessages
+	//	*Update_UpdateNewEncryptedMessage
+	//	*Update_UpdateChannel
+	//	*Update_UpdateChannelMessageViews
+	//	*Update_UpdateChannelTooLong
+	//	*Update_UpdateReadChannelInbox
+	//	*Update_UpdateReadChannelOutbox
+	//	*Update_UpdateNewChannelMessage
 	Value isUpdate_Value `protobuf_oneof:"Value"`
 }
 
@@ -50,19 +66,111 @@ type isUpdate_Value interface {
 	isUpdate_Value()
 }
 
+type Update_UpdatesState struct {
+	UpdatesState *core.PredUpdatesState `protobuf:"bytes,1,opt,name=UpdatesState,oneof"`
+}
+type Update_UpdateShortMessage struct {
+	UpdateShortMessage *core.PredUpdateShortMessage `protobuf:"bytes,2,opt,name=UpdateShortMessage,oneof"`
+}
+type Update_UpdateShortChatMessage struct {
+	UpdateShortChatMessage *core.PredUpdateShortChatMessage `protobuf:"bytes,3,opt,name=UpdateShortChatMessage,oneof"`
+}
+type Update_UpdateShort struct {
+	UpdateShort *core.PredUpdateShort `protobuf:"bytes,4,opt,name=UpdateShort,oneof"`
+}
 type Update_Updates struct {
-	Updates *core.PredUpdates `protobuf:"bytes,1,opt,name=updates,oneof"`
+	Updates *core.PredUpdates `protobuf:"bytes,5,opt,name=Updates,oneof"`
+}
+type Update_UpdateShortSentMessage struct {
+	UpdateShortSentMessage *core.PredUpdateShortSentMessage `protobuf:"bytes,6,opt,name=UpdateShortSentMessage,oneof"`
 }
 type Update_UpdatesDifference struct {
-	UpdatesDifference *core.PredUpdatesDifference `protobuf:"bytes,2,opt,name=updatesDifference,oneof"`
+	UpdatesDifference *core.PredUpdatesDifference `protobuf:"bytes,7,opt,name=UpdatesDifference,oneof"`
+}
+type Update_UpdatesDifferenceSlice struct {
+	UpdatesDifferenceSlice *core.PredUpdatesDifferenceSlice `protobuf:"bytes,8,opt,name=UpdatesDifferenceSlice,oneof"`
+}
+type Update_UpdateNewMessage struct {
+	UpdateNewMessage *core.PredUpdateNewMessage `protobuf:"bytes,9,opt,name=UpdateNewMessage,oneof"`
+}
+type Update_UpdateReadMessagesContents struct {
+	UpdateReadMessagesContents *core.PredUpdateReadMessagesContents `protobuf:"bytes,10,opt,name=UpdateReadMessagesContents,oneof"`
+}
+type Update_UpdateDeleteMessages struct {
+	UpdateDeleteMessages *core.PredUpdateDeleteMessages `protobuf:"bytes,11,opt,name=UpdateDeleteMessages,oneof"`
+}
+type Update_UpdateNewEncryptedMessage struct {
+	UpdateNewEncryptedMessage *core.PredUpdateNewEncryptedMessage `protobuf:"bytes,12,opt,name=UpdateNewEncryptedMessage,oneof"`
+}
+type Update_UpdateChannel struct {
+	UpdateChannel *core.PredUpdateChannel `protobuf:"bytes,13,opt,name=UpdateChannel,oneof"`
+}
+type Update_UpdateChannelMessageViews struct {
+	UpdateChannelMessageViews *core.PredUpdateChannelMessageViews `protobuf:"bytes,14,opt,name=UpdateChannelMessageViews,oneof"`
+}
+type Update_UpdateChannelTooLong struct {
+	UpdateChannelTooLong *core.PredUpdateChannelTooLong `protobuf:"bytes,15,opt,name=UpdateChannelTooLong,oneof"`
+}
+type Update_UpdateReadChannelInbox struct {
+	UpdateReadChannelInbox *core.PredUpdateReadChannelInbox `protobuf:"bytes,16,opt,name=UpdateReadChannelInbox,oneof"`
+}
+type Update_UpdateReadChannelOutbox struct {
+	UpdateReadChannelOutbox *core.PredUpdateReadChannelOutbox `protobuf:"bytes,17,opt,name=UpdateReadChannelOutbox,oneof"`
+}
+type Update_UpdateNewChannelMessage struct {
+	UpdateNewChannelMessage *core.PredUpdateNewChannelMessage `protobuf:"bytes,18,opt,name=UpdateNewChannelMessage,oneof"`
 }
 
-func (*Update_Updates) isUpdate_Value()           {}
-func (*Update_UpdatesDifference) isUpdate_Value() {}
+func (*Update_UpdatesState) isUpdate_Value()               {}
+func (*Update_UpdateShortMessage) isUpdate_Value()         {}
+func (*Update_UpdateShortChatMessage) isUpdate_Value()     {}
+func (*Update_UpdateShort) isUpdate_Value()                {}
+func (*Update_Updates) isUpdate_Value()                    {}
+func (*Update_UpdateShortSentMessage) isUpdate_Value()     {}
+func (*Update_UpdatesDifference) isUpdate_Value()          {}
+func (*Update_UpdatesDifferenceSlice) isUpdate_Value()     {}
+func (*Update_UpdateNewMessage) isUpdate_Value()           {}
+func (*Update_UpdateReadMessagesContents) isUpdate_Value() {}
+func (*Update_UpdateDeleteMessages) isUpdate_Value()       {}
+func (*Update_UpdateNewEncryptedMessage) isUpdate_Value()  {}
+func (*Update_UpdateChannel) isUpdate_Value()              {}
+func (*Update_UpdateChannelMessageViews) isUpdate_Value()  {}
+func (*Update_UpdateChannelTooLong) isUpdate_Value()       {}
+func (*Update_UpdateReadChannelInbox) isUpdate_Value()     {}
+func (*Update_UpdateReadChannelOutbox) isUpdate_Value()    {}
+func (*Update_UpdateNewChannelMessage) isUpdate_Value()    {}
 
 func (m *Update) GetValue() isUpdate_Value {
 	if m != nil {
 		return m.Value
+	}
+	return nil
+}
+
+func (m *Update) GetUpdatesState() *core.PredUpdatesState {
+	if x, ok := m.GetValue().(*Update_UpdatesState); ok {
+		return x.UpdatesState
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateShortMessage() *core.PredUpdateShortMessage {
+	if x, ok := m.GetValue().(*Update_UpdateShortMessage); ok {
+		return x.UpdateShortMessage
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateShortChatMessage() *core.PredUpdateShortChatMessage {
+	if x, ok := m.GetValue().(*Update_UpdateShortChatMessage); ok {
+		return x.UpdateShortChatMessage
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateShort() *core.PredUpdateShort {
+	if x, ok := m.GetValue().(*Update_UpdateShort); ok {
+		return x.UpdateShort
 	}
 	return nil
 }
@@ -74,6 +182,13 @@ func (m *Update) GetUpdates() *core.PredUpdates {
 	return nil
 }
 
+func (m *Update) GetUpdateShortSentMessage() *core.PredUpdateShortSentMessage {
+	if x, ok := m.GetValue().(*Update_UpdateShortSentMessage); ok {
+		return x.UpdateShortSentMessage
+	}
+	return nil
+}
+
 func (m *Update) GetUpdatesDifference() *core.PredUpdatesDifference {
 	if x, ok := m.GetValue().(*Update_UpdatesDifference); ok {
 		return x.UpdatesDifference
@@ -81,11 +196,104 @@ func (m *Update) GetUpdatesDifference() *core.PredUpdatesDifference {
 	return nil
 }
 
+func (m *Update) GetUpdatesDifferenceSlice() *core.PredUpdatesDifferenceSlice {
+	if x, ok := m.GetValue().(*Update_UpdatesDifferenceSlice); ok {
+		return x.UpdatesDifferenceSlice
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateNewMessage() *core.PredUpdateNewMessage {
+	if x, ok := m.GetValue().(*Update_UpdateNewMessage); ok {
+		return x.UpdateNewMessage
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateReadMessagesContents() *core.PredUpdateReadMessagesContents {
+	if x, ok := m.GetValue().(*Update_UpdateReadMessagesContents); ok {
+		return x.UpdateReadMessagesContents
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateDeleteMessages() *core.PredUpdateDeleteMessages {
+	if x, ok := m.GetValue().(*Update_UpdateDeleteMessages); ok {
+		return x.UpdateDeleteMessages
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateNewEncryptedMessage() *core.PredUpdateNewEncryptedMessage {
+	if x, ok := m.GetValue().(*Update_UpdateNewEncryptedMessage); ok {
+		return x.UpdateNewEncryptedMessage
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateChannel() *core.PredUpdateChannel {
+	if x, ok := m.GetValue().(*Update_UpdateChannel); ok {
+		return x.UpdateChannel
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateChannelMessageViews() *core.PredUpdateChannelMessageViews {
+	if x, ok := m.GetValue().(*Update_UpdateChannelMessageViews); ok {
+		return x.UpdateChannelMessageViews
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateChannelTooLong() *core.PredUpdateChannelTooLong {
+	if x, ok := m.GetValue().(*Update_UpdateChannelTooLong); ok {
+		return x.UpdateChannelTooLong
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateReadChannelInbox() *core.PredUpdateReadChannelInbox {
+	if x, ok := m.GetValue().(*Update_UpdateReadChannelInbox); ok {
+		return x.UpdateReadChannelInbox
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateReadChannelOutbox() *core.PredUpdateReadChannelOutbox {
+	if x, ok := m.GetValue().(*Update_UpdateReadChannelOutbox); ok {
+		return x.UpdateReadChannelOutbox
+	}
+	return nil
+}
+
+func (m *Update) GetUpdateNewChannelMessage() *core.PredUpdateNewChannelMessage {
+	if x, ok := m.GetValue().(*Update_UpdateNewChannelMessage); ok {
+		return x.UpdateNewChannelMessage
+	}
+	return nil
+}
+
 // XXX_OneofFuncs is for the internal use of the proto package.
 func (*Update) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
 	return _Update_OneofMarshaler, _Update_OneofUnmarshaler, _Update_OneofSizer, []interface{}{
+		(*Update_UpdatesState)(nil),
+		(*Update_UpdateShortMessage)(nil),
+		(*Update_UpdateShortChatMessage)(nil),
+		(*Update_UpdateShort)(nil),
 		(*Update_Updates)(nil),
+		(*Update_UpdateShortSentMessage)(nil),
 		(*Update_UpdatesDifference)(nil),
+		(*Update_UpdatesDifferenceSlice)(nil),
+		(*Update_UpdateNewMessage)(nil),
+		(*Update_UpdateReadMessagesContents)(nil),
+		(*Update_UpdateDeleteMessages)(nil),
+		(*Update_UpdateNewEncryptedMessage)(nil),
+		(*Update_UpdateChannel)(nil),
+		(*Update_UpdateChannelMessageViews)(nil),
+		(*Update_UpdateChannelTooLong)(nil),
+		(*Update_UpdateReadChannelInbox)(nil),
+		(*Update_UpdateReadChannelOutbox)(nil),
+		(*Update_UpdateNewChannelMessage)(nil),
 	}
 }
 
@@ -93,14 +301,94 @@ func _Update_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 	m := msg.(*Update)
 	// Value
 	switch x := m.Value.(type) {
-	case *Update_Updates:
+	case *Update_UpdatesState:
 		b.EncodeVarint(1<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdatesState); err != nil {
+			return err
+		}
+	case *Update_UpdateShortMessage:
+		b.EncodeVarint(2<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateShortMessage); err != nil {
+			return err
+		}
+	case *Update_UpdateShortChatMessage:
+		b.EncodeVarint(3<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateShortChatMessage); err != nil {
+			return err
+		}
+	case *Update_UpdateShort:
+		b.EncodeVarint(4<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateShort); err != nil {
+			return err
+		}
+	case *Update_Updates:
+		b.EncodeVarint(5<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.Updates); err != nil {
 			return err
 		}
+	case *Update_UpdateShortSentMessage:
+		b.EncodeVarint(6<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateShortSentMessage); err != nil {
+			return err
+		}
 	case *Update_UpdatesDifference:
-		b.EncodeVarint(2<<3 | proto.WireBytes)
+		b.EncodeVarint(7<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.UpdatesDifference); err != nil {
+			return err
+		}
+	case *Update_UpdatesDifferenceSlice:
+		b.EncodeVarint(8<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdatesDifferenceSlice); err != nil {
+			return err
+		}
+	case *Update_UpdateNewMessage:
+		b.EncodeVarint(9<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateNewMessage); err != nil {
+			return err
+		}
+	case *Update_UpdateReadMessagesContents:
+		b.EncodeVarint(10<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateReadMessagesContents); err != nil {
+			return err
+		}
+	case *Update_UpdateDeleteMessages:
+		b.EncodeVarint(11<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateDeleteMessages); err != nil {
+			return err
+		}
+	case *Update_UpdateNewEncryptedMessage:
+		b.EncodeVarint(12<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateNewEncryptedMessage); err != nil {
+			return err
+		}
+	case *Update_UpdateChannel:
+		b.EncodeVarint(13<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateChannel); err != nil {
+			return err
+		}
+	case *Update_UpdateChannelMessageViews:
+		b.EncodeVarint(14<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateChannelMessageViews); err != nil {
+			return err
+		}
+	case *Update_UpdateChannelTooLong:
+		b.EncodeVarint(15<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateChannelTooLong); err != nil {
+			return err
+		}
+	case *Update_UpdateReadChannelInbox:
+		b.EncodeVarint(16<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateReadChannelInbox); err != nil {
+			return err
+		}
+	case *Update_UpdateReadChannelOutbox:
+		b.EncodeVarint(17<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateReadChannelOutbox); err != nil {
+			return err
+		}
+	case *Update_UpdateNewChannelMessage:
+		b.EncodeVarint(18<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UpdateNewChannelMessage); err != nil {
 			return err
 		}
 	case nil:
@@ -113,7 +401,39 @@ func _Update_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 func _Update_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
 	m := msg.(*Update)
 	switch tag {
-	case 1: // Value.updates
+	case 1: // Value.UpdatesState
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdatesState)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdatesState{msg}
+		return true, err
+	case 2: // Value.UpdateShortMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateShortMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateShortMessage{msg}
+		return true, err
+	case 3: // Value.UpdateShortChatMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateShortChatMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateShortChatMessage{msg}
+		return true, err
+	case 4: // Value.UpdateShort
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateShort)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateShort{msg}
+		return true, err
+	case 5: // Value.Updates
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -121,13 +441,109 @@ func _Update_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Value = &Update_Updates{msg}
 		return true, err
-	case 2: // Value.updatesDifference
+	case 6: // Value.UpdateShortSentMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateShortSentMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateShortSentMessage{msg}
+		return true, err
+	case 7: // Value.UpdatesDifference
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
 		msg := new(core.PredUpdatesDifference)
 		err := b.DecodeMessage(msg)
 		m.Value = &Update_UpdatesDifference{msg}
+		return true, err
+	case 8: // Value.UpdatesDifferenceSlice
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdatesDifferenceSlice)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdatesDifferenceSlice{msg}
+		return true, err
+	case 9: // Value.UpdateNewMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateNewMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateNewMessage{msg}
+		return true, err
+	case 10: // Value.UpdateReadMessagesContents
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateReadMessagesContents)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateReadMessagesContents{msg}
+		return true, err
+	case 11: // Value.UpdateDeleteMessages
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateDeleteMessages)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateDeleteMessages{msg}
+		return true, err
+	case 12: // Value.UpdateNewEncryptedMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateNewEncryptedMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateNewEncryptedMessage{msg}
+		return true, err
+	case 13: // Value.UpdateChannel
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateChannel)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateChannel{msg}
+		return true, err
+	case 14: // Value.UpdateChannelMessageViews
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateChannelMessageViews)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateChannelMessageViews{msg}
+		return true, err
+	case 15: // Value.UpdateChannelTooLong
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateChannelTooLong)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateChannelTooLong{msg}
+		return true, err
+	case 16: // Value.UpdateReadChannelInbox
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateReadChannelInbox)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateReadChannelInbox{msg}
+		return true, err
+	case 17: // Value.UpdateReadChannelOutbox
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateReadChannelOutbox)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateReadChannelOutbox{msg}
+		return true, err
+	case 18: // Value.UpdateNewChannelMessage
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(core.PredUpdateNewChannelMessage)
+		err := b.DecodeMessage(msg)
+		m.Value = &Update_UpdateNewChannelMessage{msg}
 		return true, err
 	default:
 		return false, nil
@@ -138,14 +554,94 @@ func _Update_OneofSizer(msg proto.Message) (n int) {
 	m := msg.(*Update)
 	// Value
 	switch x := m.Value.(type) {
+	case *Update_UpdatesState:
+		s := proto.Size(x.UpdatesState)
+		n += proto.SizeVarint(1<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateShortMessage:
+		s := proto.Size(x.UpdateShortMessage)
+		n += proto.SizeVarint(2<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateShortChatMessage:
+		s := proto.Size(x.UpdateShortChatMessage)
+		n += proto.SizeVarint(3<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateShort:
+		s := proto.Size(x.UpdateShort)
+		n += proto.SizeVarint(4<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
 	case *Update_Updates:
 		s := proto.Size(x.Updates)
-		n += proto.SizeVarint(1<<3 | proto.WireBytes)
+		n += proto.SizeVarint(5<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateShortSentMessage:
+		s := proto.Size(x.UpdateShortSentMessage)
+		n += proto.SizeVarint(6<<3 | proto.WireBytes)
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case *Update_UpdatesDifference:
 		s := proto.Size(x.UpdatesDifference)
-		n += proto.SizeVarint(2<<3 | proto.WireBytes)
+		n += proto.SizeVarint(7<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdatesDifferenceSlice:
+		s := proto.Size(x.UpdatesDifferenceSlice)
+		n += proto.SizeVarint(8<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateNewMessage:
+		s := proto.Size(x.UpdateNewMessage)
+		n += proto.SizeVarint(9<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateReadMessagesContents:
+		s := proto.Size(x.UpdateReadMessagesContents)
+		n += proto.SizeVarint(10<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateDeleteMessages:
+		s := proto.Size(x.UpdateDeleteMessages)
+		n += proto.SizeVarint(11<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateNewEncryptedMessage:
+		s := proto.Size(x.UpdateNewEncryptedMessage)
+		n += proto.SizeVarint(12<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateChannel:
+		s := proto.Size(x.UpdateChannel)
+		n += proto.SizeVarint(13<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateChannelMessageViews:
+		s := proto.Size(x.UpdateChannelMessageViews)
+		n += proto.SizeVarint(14<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateChannelTooLong:
+		s := proto.Size(x.UpdateChannelTooLong)
+		n += proto.SizeVarint(15<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateReadChannelInbox:
+		s := proto.Size(x.UpdateReadChannelInbox)
+		n += proto.SizeVarint(16<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateReadChannelOutbox:
+		s := proto.Size(x.UpdateReadChannelOutbox)
+		n += proto.SizeVarint(17<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Update_UpdateNewChannelMessage:
+		s := proto.Size(x.UpdateNewChannelMessage)
+		n += proto.SizeVarint(18<<3 | proto.WireBytes)
 		n += proto.SizeVarint(uint64(s))
 		n += s
 	case nil:
@@ -270,20 +766,41 @@ var _UpdateStreamer_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("tl_update.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 232 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x8f, 0xc1, 0x4b, 0xc3, 0x30,
-	0x14, 0x87, 0x1b, 0x61, 0x1b, 0x3c, 0x99, 0x65, 0xc1, 0xc3, 0x98, 0x17, 0xe9, 0xc9, 0x8b, 0xc9,
-	0x98, 0x37, 0x8f, 0xe2, 0x61, 0xe0, 0x40, 0xa9, 0xe8, 0x55, 0xba, 0xec, 0x6d, 0x56, 0xdb, 0x24,
-	0x26, 0x2f, 0x60, 0xff, 0x08, 0xff, 0x67, 0x31, 0xa9, 0x88, 0xf4, 0xf6, 0x78, 0x7c, 0xdf, 0x07,
-	0x3f, 0xc8, 0xa9, 0x79, 0x09, 0x76, 0x57, 0x11, 0x0a, 0xeb, 0x0c, 0x19, 0x3e, 0xb2, 0xce, 0x7c,
-	0x76, 0x8b, 0xe5, 0xa1, 0xa6, 0xd7, 0xb0, 0x15, 0xca, 0xb4, 0x52, 0xbd, 0x19, 0x7d, 0xf0, 0x68,
-	0xde, 0x65, 0x4b, 0x11, 0x92, 0xca, 0x38, 0x94, 0xd4, 0x59, 0xf4, 0x82, 0x9a, 0x24, 0x16, 0x5f,
-	0x0c, 0xc6, 0x4f, 0xb1, 0xc4, 0x2f, 0x61, 0x92, 0x9a, 0x7e, 0xce, 0xce, 0xd9, 0xc5, 0xf1, 0x6a,
-	0x26, 0x7e, 0x0c, 0xf1, 0xe0, 0x70, 0x97, 0x10, 0xbf, 0xce, 0xca, 0x5f, 0x86, 0xdf, 0xc1, 0xac,
-	0x3f, 0x6f, 0xeb, 0xfd, 0x1e, 0x1d, 0x6a, 0x85, 0xf3, 0xa3, 0x28, 0x9e, 0x0d, 0xc4, 0x3f, 0x64,
-	0x9d, 0x95, 0x43, 0xef, 0x66, 0x02, 0xa3, 0xe7, 0xaa, 0x09, 0x58, 0xe4, 0x30, 0xdd, 0xd4, 0x9e,
-	0x50, 0x97, 0xf8, 0x11, 0xd0, 0xd3, 0x6a, 0x03, 0x27, 0xa9, 0xf1, 0x48, 0x0e, 0xab, 0x16, 0x1d,
-	0xbf, 0x86, 0x3c, 0x21, 0xf7, 0xba, 0xaf, 0xf3, 0x53, 0x11, 0xf7, 0x8b, 0x7f, 0xea, 0x62, 0xda,
-	0x7f, 0x13, 0x55, 0x64, 0x4b, 0xb6, 0x1d, 0xc7, 0xd5, 0x57, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff,
-	0x15, 0xd3, 0xea, 0xe3, 0x41, 0x01, 0x00, 0x00,
+	// 574 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x95, 0x5f, 0x6f, 0xd3, 0x3c,
+	0x14, 0x87, 0xbd, 0xf7, 0xa5, 0x2d, 0xb8, 0xeb, 0xba, 0x5a, 0x63, 0x33, 0x05, 0xa1, 0x51, 0xb8,
+	0xe0, 0x86, 0x74, 0x1a, 0x57, 0x20, 0x24, 0x24, 0x3a, 0x24, 0x23, 0x4a, 0x87, 0xdc, 0xb1, 0x0b,
+	0x24, 0x84, 0xd2, 0xf4, 0xf4, 0x0f, 0xa4, 0x76, 0x49, 0x5c, 0x75, 0xfd, 0xd0, 0x7c, 0x07, 0x54,
+	0x27, 0xad, 0x13, 0xc7, 0xed, 0xdd, 0x76, 0x7e, 0xcf, 0x79, 0x7c, 0x8e, 0x1b, 0x25, 0xb8, 0xae,
+	0xc2, 0x9f, 0x8b, 0xf9, 0xd0, 0x57, 0xe0, 0xcd, 0x23, 0xa9, 0x24, 0x29, 0xcd, 0x23, 0x79, 0xb7,
+	0x6a, 0x5e, 0x8c, 0xa7, 0x6a, 0xb2, 0x18, 0x78, 0x81, 0x9c, 0xb5, 0x83, 0x5f, 0x52, 0x8c, 0x63,
+	0x90, 0xbf, 0xdb, 0x33, 0xa5, 0xa1, 0x76, 0x20, 0x23, 0x68, 0xab, 0xd5, 0x1c, 0x62, 0x4f, 0x85,
+	0x49, 0x63, 0xeb, 0x6f, 0x15, 0x97, 0xbf, 0x69, 0x13, 0x79, 0x87, 0x0f, 0x93, 0xbf, 0xe2, 0xbe,
+	0xf2, 0x15, 0xd0, 0x83, 0xf3, 0x83, 0x97, 0xd5, 0xcb, 0x53, 0x6f, 0xdd, 0xe6, 0x7d, 0x8d, 0x60,
+	0x98, 0x4d, 0x19, 0xe2, 0x39, 0x9a, 0xf4, 0x30, 0x49, 0xfe, 0xef, 0x4f, 0x64, 0xa4, 0xbe, 0x40,
+	0x1c, 0xfb, 0x63, 0xa0, 0xff, 0x69, 0xc7, 0x13, 0xdb, 0x91, 0x65, 0x18, 0xe2, 0x8e, 0x4e, 0xf2,
+	0x1d, 0x9f, 0x66, 0xaa, 0x9d, 0x89, 0xbf, 0x75, 0xfe, 0xaf, 0x9d, 0xe7, 0x4e, 0x67, 0x86, 0x63,
+	0x88, 0xef, 0x30, 0x90, 0x37, 0xb8, 0x9a, 0x49, 0xe8, 0x3d, 0x2d, 0x7c, 0xe8, 0x14, 0x32, 0xc4,
+	0xb3, 0x2c, 0x79, 0x85, 0x2b, 0xe9, 0xda, 0xb4, 0xa4, 0xdb, 0x1a, 0x85, 0xfb, 0x61, 0x88, 0x6f,
+	0x18, 0x6b, 0x8b, 0x3e, 0x88, 0xed, 0x16, 0xe5, 0x3d, 0x5b, 0x64, 0x38, 0x6b, 0x8b, 0x4c, 0x42,
+	0x3e, 0xe3, 0x46, 0x7a, 0xcc, 0xd5, 0x74, 0x34, 0x82, 0x08, 0x44, 0x00, 0xb4, 0xa2, 0xb5, 0x8f,
+	0x0b, 0x43, 0x19, 0x84, 0x21, 0x5e, 0xec, 0x33, 0x83, 0x66, 0x8a, 0xfd, 0x70, 0x1a, 0x00, 0xbd,
+	0xef, 0x1e, 0xd4, 0xe6, 0xcc, 0xa0, 0x76, 0x42, 0x18, 0x3e, 0x4e, 0x92, 0x1e, 0x2c, 0x37, 0xeb,
+	0x3f, 0xd0, 0xd6, 0xa6, 0x6d, 0x35, 0x04, 0x43, 0xbc, 0xd0, 0x45, 0x46, 0xb8, 0x99, 0xd4, 0x38,
+	0xf8, 0xc3, 0xb4, 0x18, 0x77, 0xa4, 0x50, 0x20, 0x54, 0x4c, 0xb1, 0x76, 0xbe, 0xb0, 0x9d, 0x2e,
+	0x96, 0x21, 0xbe, 0xc7, 0x44, 0x6e, 0xf0, 0x49, 0x92, 0x5e, 0x41, 0x08, 0x0a, 0x36, 0x39, 0xad,
+	0xea, 0x13, 0x9e, 0xda, 0x27, 0xe4, 0x29, 0x86, 0xb8, 0xb3, 0x9b, 0x04, 0xf8, 0xd1, 0x76, 0xa3,
+	0x8f, 0x22, 0x88, 0x56, 0x73, 0x05, 0x9b, 0xb3, 0xe9, 0xa1, 0x56, 0x3f, 0x77, 0x5c, 0x88, 0x8d,
+	0x32, 0xc4, 0x77, 0x7b, 0xc8, 0x7b, 0x5c, 0x4b, 0xc2, 0xce, 0xc4, 0x17, 0x02, 0x42, 0x5a, 0xd3,
+	0xe2, 0x33, 0x5b, 0x9c, 0xc6, 0x0c, 0xf1, 0x3c, 0x6f, 0xa6, 0x4c, 0x0b, 0xa9, 0xf8, 0x76, 0x0a,
+	0xcb, 0x98, 0x1e, 0xb9, 0xa7, 0x74, 0xa0, 0x66, 0x4a, 0x47, 0x68, 0x2e, 0x38, 0x0d, 0x6f, 0xa4,
+	0xec, 0x4a, 0x31, 0xa6, 0x75, 0xf7, 0x05, 0xe7, 0x29, 0x73, 0xc1, 0xf9, 0xba, 0x79, 0x88, 0xd7,
+	0x3f, 0x6a, 0x9a, 0x7d, 0x12, 0x03, 0x79, 0x47, 0x8f, 0xdd, 0x0f, 0xb1, 0xcd, 0x99, 0x87, 0xd8,
+	0x4e, 0xc8, 0x0f, 0x7c, 0x56, 0x48, 0xae, 0x17, 0x6a, 0x2d, 0x6f, 0x68, 0xf9, 0xb3, 0x3d, 0xf2,
+	0x04, 0x64, 0x88, 0xef, 0x72, 0x18, 0x7d, 0x0f, 0x96, 0xf9, 0x0b, 0xa3, 0xc4, 0xad, 0x2f, 0x80,
+	0x46, 0x5f, 0x88, 0x3e, 0x54, 0x70, 0xe9, 0xd6, 0x0f, 0x17, 0xd0, 0xaa, 0xe3, 0x5a, 0x77, 0x1a,
+	0x2b, 0x10, 0x1c, 0xfe, 0x2c, 0x20, 0x56, 0x97, 0x5d, 0x7c, 0x94, 0xbe, 0x5f, 0x54, 0x04, 0xfe,
+	0x0c, 0x22, 0xf2, 0x16, 0xd7, 0x13, 0xe4, 0x5a, 0x6c, 0x5e, 0x63, 0x27, 0x9e, 0xfe, 0xbe, 0x78,
+	0xb9, 0xd6, 0x66, 0x2d, 0xad, 0x26, 0x54, 0x0b, 0x5d, 0x1c, 0x0c, 0xca, 0xfa, 0xab, 0xf2, 0xfa,
+	0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa7, 0x4d, 0xa4, 0x57, 0xa1, 0x06, 0x00, 0x00,
 }

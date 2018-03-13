@@ -3,10 +3,10 @@ package proxy
 import (
 	"flag"
 	"fmt"
+	"github.com/cjongseok/mtproto/core"
 	"github.com/cjongseok/slog"
 	"golang.org/x/net/context"
 	"testing"
-	"github.com/cjongseok/mtproto/core"
 )
 
 const (
@@ -24,6 +24,7 @@ var (
 	apiHash = flag.String("apihash", "", "Telegram API hash")
 	phone   = flag.String("phone", "", "Phone number including nation code")
 	addr    = flag.String("addr", "", "Preferred Telegram server address")
+	key     = flag.String("key", "", "MTProto key file")
 
 	proxy  *Server
 	client *Client
@@ -37,12 +38,10 @@ func beforeTest(t *testing.T) {
 	fmt.Printf("apiid: %v\napihash: %v\nphone: %s\naddr: %s\n", *apiId, *apiHash, *phone, *addr)
 
 	if proxy == nil {
-		configuration, err := core.NewConfiguration(int32(*apiId), *apiHash, appVersion, deviceModel, systemVersion, language, sessionFileHome, 0, 0)
+		configuration, err := core.NewConfiguration(int32(*apiId), *apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, *key)
 		handleError(t, err)
 		proxy = NewServer(port)
-		err = proxy.ConnectToTelegram(configuration, *phone, *addr)
-		handleError(t, err)
-		err = proxy.ServeRPC()
+		err = proxy.Start(configuration, *phone, *addr)
 		handleError(t, err)
 	}
 
@@ -77,18 +76,16 @@ func TestDialogs(t *testing.T) {
 	}
 }
 
-func TestUpdateStream(t *testing.T) {
+func TestListenOnUpdates(t *testing.T) {
 	beforeTest(t)
 	defer afterTest(t)
 	stream, err := client.ListenOnUpdates(context.Background(), &ListenRequest{})
 	handleError(t, err)
-	//handleError(t, fmt.Errorf("stream init failure: %v", err))
 	limit := 5
 	for updateCounter := 0; updateCounter < limit; {
 		u, err := stream.Recv()
 		handleError(t, err)
-		//handleError(t, fmt.Errorf("stream recv failure: %v", err))
-		fmt.Println("got an update:", u)
+		fmt.Println("[client]: got an update:", u)
 		updateCounter++
 	}
 }
