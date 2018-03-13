@@ -79,15 +79,15 @@ A standalone proxy daemon would be ready in the near future.
 ```go
 // New proxy server
 config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
-proxy = NewServer(port)
+server = proxy.NewServer(port)
 
 // Start the server
-proxy.Start(config, phone, telegramAddr)
+server.Start(config, phone, telegramAddr)
 ```
 #### Proxy client in Go
 ```go
 // New proxy client
-client, _ := NewClient(proxyAddr)
+client, _ := proxy.NewClient(proxyAddr)
 
 // Query dialogs. It is same with the previous 'Get dialogs' section but the RPC caller
 emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}
