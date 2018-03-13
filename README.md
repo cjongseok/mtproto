@@ -2,8 +2,10 @@
 
 MTProto
 ===
-Telegram MTProto and its proxy (over gRPC) in Go (golang).
+Telegram MTProto and proxy (over gRPC) in Go (golang).
 Telegram API layer: ***71***
+
+## Quick start
 
 ## Usage
 ### Without proxy
@@ -32,7 +34,9 @@ fmt.Scanf("%s", &code)
 // Sign-in and generate the new key
 _, err = mconn.SignIn(phoneNumber, code, sentCode.GetValue().PhoneCodeHash)
 ```
-#### Get dialogs
+#### Telegram RPC over mtproto
+You can do RPCs by function calls as below examples.
+##### Get dialogs
 ```go
 // New RPC caller
 caller := core.RPCaller{mconn}
@@ -40,7 +44,7 @@ caller := core.RPCaller{mconn}
 // New input peer
 emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}
 
-// Query
+// Query (it is declared as a method, "messages.getDialogs", in TL-schema Layer 71)
 dialogs, _ := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
     OffsetDate: 	0,
     OffsetId: 	0,
@@ -48,7 +52,7 @@ dialogs, _ := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesG
     Limit: 		1,
 })
 ```
-#### Send a message to a channel
+##### Send a message to a channel
 ```go
 // New RPC caller
 caller := core.RPCaller{mconn}
@@ -59,7 +63,7 @@ channelPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerChannel{
         yourChannelId, yourChannelHash,
     }}}
 
-// Query
+// Query (it is declared as a method, "messages.sendMessage", in TL-schema Layer 71)
 caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
     Peer:      peer,
     Message:   "Hello MTProto",
@@ -89,7 +93,7 @@ server.Start(config, phone, telegramAddr)
 // New proxy client
 client, _ := proxy.NewClient(proxyAddr)
 
-// Query dialogs. It is same with the previous 'Get dialogs' section but the RPC caller
+// Query dialogs. It is same with the 'Get dialogs' section but the RPC caller
 emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}
 dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
     OffsetDate: 0,
