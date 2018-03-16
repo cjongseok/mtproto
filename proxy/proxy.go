@@ -27,6 +27,10 @@ func NewServer(port int) *Server {
 	return p
 }
 
+func (p *Server) AddUpdateCallback(callback core.UpdateCallback) {
+	p.mconn.AddUpdateCallback(callback)
+}
+
 func (p *Server) InvokeBlocked(msg core.TL) (interface{}, error) {
 	return p.mconn.InvokeBlocked(msg)
 }
