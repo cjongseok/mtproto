@@ -132,7 +132,7 @@ dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessage
 })
 ```
 #### Proxy client in other languages
-By compiling [core/types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/core/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/core/proxy/tl_update.proto), 
+By compiling [core/types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/core/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
 you can create clients in your preferred language.<br>
 For this, you need [Google Protobuf](https://developers.google.com/protocol-buffers/).
 In case of Go, you can use the below commands
