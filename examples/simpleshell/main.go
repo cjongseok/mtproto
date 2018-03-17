@@ -27,12 +27,14 @@ const (
 
 func usage() {
 	fmt.Println(`USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> <ADDR> [KEY]
-APIID 		means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps
-APIHASH 	    means hashcode of <APIID>. It is published together with API id.
-PHONE 		means phone number in international format w/o hyphen. e.g., +15417543010
-ADDR		    means preffered Telegram server address in the form of <IP>:<PORT>.
-             You can find a vaild address in your https://my.telegram.org/apps page.
-KEY			means MTProto key for sign-in. If it is given, shell generates the key as ./key.mtproto.
+Params:
+  APIID     means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps
+  APIHASH   means hashcode of <APIID>. It is published together with API id.
+  PHONE     means phone number in international format w/o hyphen. e.g., +15417543010
+  ADDR      means preffered Telegram server address in the form of <IP>:<PORT>.
+            You can find a vaild address in your https://my.telegram.org/apps page.
+Options:
+  KEY       means MTProto key file. If it is not set, shell generates the key as "key.mtproto".
 `)
 }
 
