@@ -31,9 +31,8 @@ go run main.go <APIID> <APIHASH> <PHONE> <ADDR> key.mtproto
 ```
 
 ## Usage
-### Without proxy
 You can find the real code at [simpleshell](https://github.com/cjongseok/mtproto/blob/master/examples/simpleshell/main.go).
-#### Sign-in with key
+### Sign-in with key
 ```go
 // Mew MTProto manager
 config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
@@ -42,7 +41,7 @@ manager, _ := core.NewManager(config)
 // Sign-in by key
 mconn, _ := manager.LoadAuthentication(phoneNumber, preferredAddr)
 ```
-#### Sign-in without key
+### Sign-in without key
 ```go
 // New MTProto manager
 config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, "new-key.mtproto")
@@ -57,11 +56,11 @@ fmt.Scanf("%s", &code)
 // Sign-in and generate the new key
 _, err = mconn.SignIn(phoneNumber, code, sentCode.GetValue().PhoneCodeHash)
 ```
-#### Telegram RPC
+### Telegram RPC
 All the methods in TL-schema are implemented as stand-alone functions.
-So by calling them, you can communicate with Telegram server.<br>
+So by calling them, you can communicate with Telegram server. You can find available RPCs in the *'functions'* sections of [TL-schema](https://github.com/cjongseok/mtproto/blob/master/compiler/scheme-71.tl) by Telegram.<br>
 Let's have two examples, 'messages.getDialogs' and 'messages.sendMessage'.
-##### Get dialogs
+#### Get dialogs
 ```go
 // New RPC caller
 caller := core.RPCaller{mconn}
@@ -80,7 +79,7 @@ dialogs, _ := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesG
     Limit: 		1,
 })
 ```
-##### Send a message to a channel
+#### Send a message to a channel
 ```go
 // New RPC caller
 caller := core.RPCaller{mconn}
@@ -100,15 +99,18 @@ caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
 })
 ```
 
-### With proxy
+## Proxy
 You can use the proxy in two purposes:
 * MTProto session sharing: Many proxy clients can use the same MTProto session on the proxy server.
 * MTProto in other languages: The proxy enables various languages on its client side, since it uses gRPC.
 
 You can find the real code at [proxy_test.go](https://github.com/cjongseok/mtproto/blob/master/proxy/proxy_test.go)
-#### Proxy server
-For now you should write your own proxy in Go as below.<br>
-A standalone proxy daemon would be ready in the near future.
+### Server
+#### As a daemon
+You can run the proxy as a stand-alone daemon or a container.
+See [mtprotod](https://github.com/cjongseok/mtproto/tree/master/mtprotod).
+#### Inside Go app
+Use mtproto/proxy package.
 ```go
 // New proxy server
 config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
@@ -117,7 +119,7 @@ server = proxy.NewServer(port)
 // Start the server
 server.Start(config, phone, telegramAddr)
 ```
-#### Proxy client in Go
+### Client in Go
 ```go
 // New proxy client
 client, _ := proxy.NewClient(proxyAddr)
@@ -131,7 +133,7 @@ dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessage
     Limit:      1,
 })
 ```
-#### Proxy client in other languages
+### Client in other languages
 By compiling [core/types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/core/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
 you can create clients in your preferred language.<br>
 For this, you need [Google Protobuf](https://developers.google.com/protocol-buffers/).
