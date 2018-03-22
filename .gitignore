@@ -1,6 +1,7 @@
 # ignore all
 *
 # unignore all with extensions
+!Dockerfile
 !*.*
 # unignore all dirs
 !*/
