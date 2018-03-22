@@ -9,6 +9,7 @@ Usage
 mtprotod Docker image is at Docker hub, [cjongseok/mtprotod](https://hub.docker.com/r/cjongseok/mtprotod/).
 ```bash
 docker run \
+-p <Proxy_port>:<Proxy_port> \
 -v /your/mtproto/secrets/directory:/opt \
 cjongseok/mtprotod start  \
 --addr <Your_Telegram_server_address> \
