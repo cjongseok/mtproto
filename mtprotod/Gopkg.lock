@@ -2,13 +2,13 @@
 
 
 [[projects]]
+  branch = "master"
   name = "github.com/cjongseok/mtproto"
   packages = [
     "core",
     "proxy"
   ]
-  revision = "cfcf94aa2c708555e24e482df1c56ae96c2a23b0"
-  version = "v0.2.1"
+  revision = "7344d2cb55f4ce63a9f9bae57a0337d6636dcff6"
 
 [[projects]]
   name = "github.com/cjongseok/slog"
@@ -91,10 +91,10 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/spf13/cobra"
   packages = ["."]
-  revision = "7b2c5ac9fc04fc5efafb60700713d4fa609b777b"
-  version = "v0.0.1"
+  revision = "a1f051bc3eba734da4772d60e2d677f47cf93ef4"
 
 [[projects]]
   branch = "master"
@@ -200,6 +200,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "15d000c04a99714c12159a3c3accd17225fe87f30960c5af464efebed99d01e2"
+  inputs-digest = "7fb60fa6227c570cb8f95188f28c5de93e860efdfe0519dc68208c89455744cd"
   solver-name = "gps-cdcl"
   solver-version = 1

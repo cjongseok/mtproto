@@ -1,5 +1,6 @@
 #!/bin/bash
 # build a linux executable
+dep ensure
 CGO_ENABLED=0 GOOS=linux go build -ldflags '-s' -a -installsuffix cgo -o main
 
 # build & push a Docker image
