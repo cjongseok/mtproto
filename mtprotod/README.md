@@ -1,3 +1,5 @@
+***It is broken now. It is under repair.***
+
 mtprotod
 ===
 MTProto proxy daemon.
@@ -31,4 +33,14 @@ go run main.go start \
 --phone <Your_Telegram_phone_number> \
 --port <Proxy_port> \
 --secrets /opt/<Your_MTProto_secrets_file_name>
+```
+
+Quick test
+---
+You can test if the proxy running using [proxy_test.go](https://github.com/cjongseok/mtproto/blob/master/proxy/proxy_test.go).
+```bash
+# At mtproto/proxy,
+# let's get dialogs through over the proxy
+dep ensure
+go run main.go test --proxy <proxy_address>
 ```
