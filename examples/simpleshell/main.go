@@ -190,12 +190,13 @@ func main() {
 				&core.PredInputPeerChannel{
 					int32(chanId), int64(chanHash),
 				}}}
-			_, err = caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
+			resp, err := caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
 				Peer:      peer,
 				Message:   args[3],
 				RandomId: rand.Int63(),
 			})
 			handleError(err)
+			fmt.Println("send response:", slog.StringifyIndent(resp, "  "))
 		case "help":
 			help()
 		case "exit":

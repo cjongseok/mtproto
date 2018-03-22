@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"net"
 	"time"
+	"sync"
 )
 
 type Server struct {
@@ -15,6 +16,7 @@ type Server struct {
 	mconn      *core.Conn
 	port       int
 	streams    []chan *Update
+	wg         *sync.WaitGroup
 }
 
 func NewServer(port int) *Server {
@@ -24,6 +26,7 @@ func NewServer(port int) *Server {
 	RegisterUpdateStreamerServer(grpcServer, p)
 	p.grpcServer = grpcServer
 	p.port = port
+	p.wg = &sync.WaitGroup{}
 	return p
 }
 
@@ -66,7 +69,9 @@ func (p *Server) serve() error {
 	if err != nil {
 		return fmt.Errorf("socket open failure: %v", err)
 	}
+	p.wg.Add(1)
 	go func() {
+		defer p.wg.Done()
 		slog.Logln(p, "start serving gRPC")
 		err := p.grpcServer.Serve(lis)
 		switch err {
@@ -78,7 +83,9 @@ func (p *Server) serve() error {
 			<-time.After(time.Second)
 			slog.Logln(p, "shut down the socket and restart the proxy...")
 			lis.Close()
+			p.wg.Add(1)
 			go func() {
+				p.wg.Done()
 				startErr := p.serve()
 				if startErr != nil {
 					slog.Logln(p, "restart failure:", startErr)
@@ -87,6 +94,10 @@ func (p *Server) serve() error {
 		}
 	}()
 	return nil
+}
+
+func (p *Server) Wait() {
+	p.wg.Wait()
 }
 
 func (p *Server) Stop() {
