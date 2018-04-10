@@ -33,16 +33,12 @@ type loadsession struct {
 type sessionResponse struct {
 	connId  int32
 	session *Session
-	//mconn 	*Conn
 	err error
 }
 
 // Established = made + bound
 type SessionEstablished struct {
-	//connId		int32
 	session *Session
-	//sessionId 	int64
-	//mconn 	*Conn
 }
 
 type discardSession struct {
@@ -52,8 +48,6 @@ type discardSession struct {
 }
 
 type SessionDiscarded struct {
-	//connId		int32
-	//sessionId 	int64
 	boundConnId                  int32
 	discardedSessionId           int64
 	discardedSessionUpdatesState *PredUpdatesState
@@ -61,7 +55,6 @@ type SessionDiscarded struct {
 
 // discardSession + newsession
 type renewSession struct {
-	//connId		int32
 	sessionId   int64
 	phonenumber string
 	addr        string
@@ -71,7 +64,6 @@ type renewSession struct {
 
 // discardSession + loadsession
 type refreshSession struct {
-	//connId		int32
 	sessionId   int64
 	phonenumber string
 	resp        chan sessionResponse

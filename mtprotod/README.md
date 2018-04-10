@@ -5,7 +5,8 @@
 mtprotod
 ===
 MTProto proxy daemon.
-It contains Telegram MTProto implementation in Go, its clients can share one Telegram MTProto session. Or you can also make your own session scheduler in Go.
+It contains Telegram MTProto implementation in Go.
+Its clients can share one Telegram MTProto session, or you can make your own session scheduler.
 
 Usage
 ---
