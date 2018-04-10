@@ -8,6 +8,7 @@ import (
 	"os"
 	"fmt"
 	"strings"
+	"github.com/cjongseok/slog"
 )
 
 // MTProto config
@@ -89,6 +90,7 @@ func init() {
 }
 
 func startProxy(port int, apiid int32, apihash, phone, addr, secrets string) int {
+	slog.DisableLogging()
 	config, err := core.NewConfiguration(int32(apiid), apihash,
 		appVersion, deviceModel, systemVersion, language, 0, 0, secrets)
 	if err != nil {

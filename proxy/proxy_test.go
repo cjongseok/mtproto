@@ -76,6 +76,12 @@ func TestDialogs(t *testing.T) {
 	}
 }
 
+func TestUpdateMessage(t *testing.T) {
+	// send a message
+
+	// update the message
+}
+
 func TestListenOnUpdates(t *testing.T) {
 	beforeTest(t)
 	defer afterTest(t)
