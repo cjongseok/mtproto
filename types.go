@@ -1,4 +1,4 @@
-package core
+package mtproto
 
 const (
 	SESSION EventType = "session"
@@ -33,7 +33,7 @@ type loadsession struct {
 type sessionResponse struct {
 	connId  int32
 	session *Session
-	err error
+	err     error
 }
 
 // Established = made + bound
@@ -139,8 +139,6 @@ func (e updateReceived) Type() EventType     { return SESSION }
 //func (e closeConnection) ConnectionId() (int32)    {return e.connId}
 //func (e connectionClosed) ConnectionId() (int32)   {return e.closedConnId}
 
-
-
 type Update interface {
 	Predicate
 	UpdateDate() int32
@@ -160,7 +158,7 @@ type UpdateCallback interface {
 //PredUpdates Updates = 6;
 //PredUpdateShortSentMessage UpdateShortSentMessage = 7;
 
-func (u *PredUpdatesState) UpdateDate() int32           { return u.Date }
+func (u *PredUpdatesState) UpdateDate() int32 { return u.Date }
 
 func (u *PredUpdateShortMessage) UpdateDate() int32     { return u.Date }
 func (u *PredUpdateShortChatMessage) UpdateDate() int32 { return u.Date }

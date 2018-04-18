@@ -6,7 +6,7 @@ import (
 	"os"
 	"regexp"
 	"bufio"
-	"github.com/cjongseok/mtproto/core"
+	"github.com/cjongseok/mtproto"
 	"github.com/cjongseok/slog"
 	"strconv"
 	"strings"
@@ -39,10 +39,10 @@ Options:
 }
 
 type subscriber struct {
-	mconn *core.Conn
+	mconn *mtproto.Conn
 }
 
-func newSubscriber(mconn *core.Conn) *subscriber {
+func newSubscriber(mconn *mtproto.Conn) *subscriber {
 	s := new(subscriber)
 	s.mconn = mconn
 	return s
@@ -79,7 +79,7 @@ func parseArgs() (apiId int32, apiHash, phoneNumber, preferredAddr, key string, 
 	return
 }
 
-func (s *subscriber) OnUpdate(u core.Update) {
+func (s *subscriber) OnUpdate(u mtproto.Update) {
 	fmt.Printf("update(%s):\n%s\n", time.Now(), slog.StringifyIndent(u, "  "))
 }
 
@@ -111,19 +111,19 @@ func main() {
 		handleError(err)
 	}
 
-	config, err := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+	config, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
 	handleError(err)
 
 	// Connect by phone number
-	var manager *core.Manager
-	var mconn *core.Conn
+	var manager *mtproto.Manager
+	var mconn *mtproto.Conn
 	if config.KeyPath == "" {
 		config.KeyPath = defaultNewKeyFile
 		log.Println("MAIN: new authentication")
 
 		// request to send authentication code to the phone
-		var sentCode *core.TypeAuthSentCode
-		manager, err = core.NewManager(config)
+		var sentCode *mtproto.TypeAuthSentCode
+		manager, err = mtproto.NewManager(config)
 		handleError(err)
 		mconn, sentCode, err = manager.NewAuthentication(phoneNumber, telegramAddress, false)
 		handleError(err)
@@ -137,7 +137,7 @@ func main() {
 		handleError(err)
 	} else {
 		log.Println("MAIN: load authentication")
-		manager, err = core.NewManager(config)
+		manager, err = mtproto.NewManager(config)
 		handleError(err)
 		mconn, err = manager.LoadAuthentication(phoneNumber, preferredAddr)
 		handleError(err)
@@ -145,7 +145,7 @@ func main() {
 
 	mconn.AddUpdateCallback(newSubscriber(mconn))
 
-	caller := core.RPCaller{mconn}
+	caller := mtproto.RPCaller{mconn}
 	for {
 		// ready for the user command
 		var cmd string
@@ -166,15 +166,15 @@ func main() {
 				help()
 				break
 			}
-			emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}}
-			resp, err := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
+			emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
+			resp, err := caller.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
 				OffsetDate: 0, OffsetId: 0, OffsetPeer: emptyPeer, Limit: 1,
 			})
 			handleError(err)
 			switch dialogs := resp.GetValue().(type) {
-			case *core.TypeMessagesDialogs_MessagesDialogs:
+			case *mtproto.TypeMessagesDialogs_MessagesDialogs:
 				fmt.Println(slog.StringifyIndent(dialogs.MessagesDialogs, "  "))
-			case *core.TypeMessagesDialogs_MessagesDialogsSlice:
+			case *mtproto.TypeMessagesDialogs_MessagesDialogsSlice:
 				fmt.Println(slog.StringifyIndent(dialogs.MessagesDialogsSlice, "  "))
 			}
 		case "send2c": // send2c <CHAN_ID> <CHAN_HASH> <MSG>
@@ -186,11 +186,11 @@ func main() {
 			handleError(err)
 			chanHash, err := strconv.ParseInt(args[2], 0, 64)
 			handleError(err)
-			peer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerChannel{
-				&core.PredInputPeerChannel{
+			peer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerChannel{
+				&mtproto.PredInputPeerChannel{
 					int32(chanId), int64(chanHash),
 				}}}
-			resp, err := caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
+			resp, err := caller.MessagesSendMessage(context.Background(), &mtproto.ReqMessagesSendMessage{
 				Peer:      peer,
 				Message:   args[3],
 				RandomId: rand.Int63(),

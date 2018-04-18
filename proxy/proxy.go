@@ -2,18 +2,18 @@ package proxy
 
 import (
 	"fmt"
-	"github.com/cjongseok/mtproto/core"
+	"github.com/cjongseok/mtproto"
 	"github.com/cjongseok/slog"
 	"google.golang.org/grpc"
 	"net"
-	"time"
 	"sync"
+	"time"
 )
 
 type Server struct {
 	grpcServer *grpc.Server
-	mmanager   *core.Manager
-	mconn      *core.Conn
+	mmanager   *mtproto.Manager
+	mconn      *mtproto.Conn
 	port       int
 	streams    []chan *Update
 	wg         *sync.WaitGroup
@@ -22,7 +22,7 @@ type Server struct {
 func NewServer(port int) *Server {
 	p := &Server{}
 	grpcServer := grpc.NewServer([]grpc.ServerOption{}...)
-	core.RegisterMtprotoServer(grpcServer, &core.RPCaller{p})
+	mtproto.RegisterMtprotoServer(grpcServer, &mtproto.RPCaller{p})
 	RegisterUpdateStreamerServer(grpcServer, p)
 	p.grpcServer = grpcServer
 	p.port = port
@@ -30,15 +30,15 @@ func NewServer(port int) *Server {
 	return p
 }
 
-func (p *Server) AddUpdateCallback(callback core.UpdateCallback) {
+func (p *Server) AddUpdateCallback(callback mtproto.UpdateCallback) {
 	p.mconn.AddUpdateCallback(callback)
 }
 
-func (p *Server) InvokeBlocked(msg core.TL) (interface{}, error) {
+func (p *Server) InvokeBlocked(msg mtproto.TL) (interface{}, error) {
 	return p.mconn.InvokeBlocked(msg)
 }
 
-func (p *Server) Start(config core.Configuration, phoneNumber, preferredAddr string) error {
+func (p *Server) Start(config mtproto.Configuration, phoneNumber, preferredAddr string) error {
 	err := p.connect(config, phoneNumber, preferredAddr)
 	if err != nil {
 		return err
@@ -50,9 +50,9 @@ func (p *Server) Start(config core.Configuration, phoneNumber, preferredAddr str
 	return nil
 }
 
-func (p *Server) connect(config core.Configuration, phoneNumber, preferredAddr string) error { // open mrptoro
+func (p *Server) connect(config mtproto.Configuration, phoneNumber, preferredAddr string) error { // open mrptoro
 	var err error
-	p.mmanager, err = core.NewManager(config)
+	p.mmanager, err = mtproto.NewManager(config)
 	if err != nil {
 		return fmt.Errorf("invalid configuration: %s", err)
 	}
@@ -108,7 +108,7 @@ func (p *Server) LogPrefix() string {
 	return "[proxy]"
 }
 
-func (p *Server) OnUpdate(mu core.Update) {
+func (p *Server) OnUpdate(mu mtproto.Update) {
 	pu := toProxyUpdate(mu)
 	if pu != nil {
 		for _, s := range p.streams {
@@ -136,7 +136,7 @@ func (p *Server) ListenOnUpdates(req *ListenRequest, stream UpdateStreamer_Liste
 }
 
 type Client struct {
-	core.MtprotoClient
+	mtproto.MtprotoClient
 	UpdateStreamerClient
 }
 
@@ -145,48 +145,48 @@ func NewClient(addr string) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	corerotoClient := core.NewMtprotoClient(conn)
+	mtprotorotoClient := mtproto.NewMtprotoClient(conn)
 	updateClient := NewUpdateStreamerClient(conn)
-	return &Client{corerotoClient, updateClient}, nil
+	return &Client{mtprotorotoClient, updateClient}, nil
 }
 
-func toProxyUpdate(u core.Update) *Update {
+func toProxyUpdate(u mtproto.Update) *Update {
 	switch pu := u.(type) {
-	case *core.PredUpdatesState:
+	case *mtproto.PredUpdatesState:
 		return &Update{&Update_UpdatesState{pu}}
-	case *core.PredUpdateShortMessage:
+	case *mtproto.PredUpdateShortMessage:
 		return &Update{&Update_UpdateShortMessage{pu}}
-	case *core.PredUpdateShortChatMessage:
+	case *mtproto.PredUpdateShortChatMessage:
 		return &Update{&Update_UpdateShortChatMessage{pu}}
-	case *core.PredUpdateShort:
+	case *mtproto.PredUpdateShort:
 		return &Update{&Update_UpdateShort{pu}}
-	case *core.PredUpdates:
+	case *mtproto.PredUpdates:
 		return &Update{&Update_Updates{pu}}
-	case *core.PredUpdateShortSentMessage:
+	case *mtproto.PredUpdateShortSentMessage:
 		return &Update{&Update_UpdateShortSentMessage{pu}}
-	case *core.PredUpdatesDifference:
+	case *mtproto.PredUpdatesDifference:
 		return &Update{&Update_UpdatesDifference{pu}}
-	case *core.PredUpdatesDifferenceSlice:
+	case *mtproto.PredUpdatesDifferenceSlice:
 		return &Update{&Update_UpdatesDifferenceSlice{pu}}
-	case *core.PredUpdateNewMessage:
+	case *mtproto.PredUpdateNewMessage:
 		return &Update{&Update_UpdateNewMessage{pu}}
-	case *core.PredUpdateReadMessagesContents:
+	case *mtproto.PredUpdateReadMessagesContents:
 		return &Update{&Update_UpdateReadMessagesContents{pu}}
-	case *core.PredUpdateDeleteMessages:
+	case *mtproto.PredUpdateDeleteMessages:
 		return &Update{&Update_UpdateDeleteMessages{pu}}
-	case *core.PredUpdateNewEncryptedMessage:
+	case *mtproto.PredUpdateNewEncryptedMessage:
 		return &Update{&Update_UpdateNewEncryptedMessage{pu}}
-	case *core.PredUpdateChannel:
+	case *mtproto.PredUpdateChannel:
 		return &Update{&Update_UpdateChannel{pu}}
-	case *core.PredUpdateChannelMessageViews:
+	case *mtproto.PredUpdateChannelMessageViews:
 		return &Update{&Update_UpdateChannelMessageViews{pu}}
-	case *core.PredUpdateChannelTooLong:
+	case *mtproto.PredUpdateChannelTooLong:
 		return &Update{&Update_UpdateChannelTooLong{pu}}
-	case *core.PredUpdateReadChannelInbox:
+	case *mtproto.PredUpdateReadChannelInbox:
 		return &Update{&Update_UpdateReadChannelInbox{pu}}
-	case *core.PredUpdateReadChannelOutbox:
+	case *mtproto.PredUpdateReadChannelOutbox:
 		return &Update{&Update_UpdateReadChannelOutbox{pu}}
-	case *core.PredUpdateNewChannelMessage:
+	case *mtproto.PredUpdateNewChannelMessage:
 		return &Update{&Update_UpdateNewChannelMessage{pu}}
 	}
 	return nil

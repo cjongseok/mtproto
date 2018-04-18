@@ -1,27 +1,27 @@
 syntax = "proto3";
 package proxy;
-import "github.com/cjongseok/mtproto/core/types.tl.proto";
+import "github.com/cjongseok/mtproto/types.tl.proto";
 
 message Update {
 	oneof Value {
-		core.PredUpdatesState UpdatesState = 1;
-		core.PredUpdateShortMessage UpdateShortMessage = 2;
-		core.PredUpdateShortChatMessage UpdateShortChatMessage = 3;
-		core.PredUpdateShort UpdateShort = 4;
-		core.PredUpdates Updates = 5;
-		core.PredUpdateShortSentMessage UpdateShortSentMessage = 6;
-		core.PredUpdatesDifference UpdatesDifference = 7;
-		core.PredUpdatesDifferenceSlice UpdatesDifferenceSlice = 8;
-		core.PredUpdateNewMessage UpdateNewMessage = 9;
-		core.PredUpdateReadMessagesContents UpdateReadMessagesContents = 10;
-		core.PredUpdateDeleteMessages UpdateDeleteMessages = 11;
-		core.PredUpdateNewEncryptedMessage UpdateNewEncryptedMessage = 12;
-		core.PredUpdateChannel UpdateChannel = 13;
-		core.PredUpdateChannelMessageViews UpdateChannelMessageViews = 14;
-		core.PredUpdateChannelTooLong UpdateChannelTooLong = 15;
-		core.PredUpdateReadChannelInbox UpdateReadChannelInbox = 16;
-		core.PredUpdateReadChannelOutbox UpdateReadChannelOutbox = 17;
-		core.PredUpdateNewChannelMessage UpdateNewChannelMessage = 18;
+		mtproto.PredUpdatesState UpdatesState = 1;
+		mtproto.PredUpdateShortMessage UpdateShortMessage = 2;
+		mtproto.PredUpdateShortChatMessage UpdateShortChatMessage = 3;
+		mtproto.PredUpdateShort UpdateShort = 4;
+		mtproto.PredUpdates Updates = 5;
+		mtproto.PredUpdateShortSentMessage UpdateShortSentMessage = 6;
+		mtproto.PredUpdatesDifference UpdatesDifference = 7;
+		mtproto.PredUpdatesDifferenceSlice UpdatesDifferenceSlice = 8;
+		mtproto.PredUpdateNewMessage UpdateNewMessage = 9;
+		mtproto.PredUpdateReadMessagesContents UpdateReadMessagesContents = 10;
+		mtproto.PredUpdateDeleteMessages UpdateDeleteMessages = 11;
+		mtproto.PredUpdateNewEncryptedMessage UpdateNewEncryptedMessage = 12;
+		mtproto.PredUpdateChannel UpdateChannel = 13;
+		mtproto.PredUpdateChannelMessageViews UpdateChannelMessageViews = 14;
+		mtproto.PredUpdateChannelTooLong UpdateChannelTooLong = 15;
+		mtproto.PredUpdateReadChannelInbox UpdateReadChannelInbox = 16;
+		mtproto.PredUpdateReadChannelOutbox UpdateReadChannelOutbox = 17;
+		mtproto.PredUpdateNewChannelMessage UpdateNewChannelMessage = 18;
 	}
 }
 

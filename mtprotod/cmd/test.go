@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/cjongseok/mtproto/core"
+	"github.com/cjongseok/mtproto"
 	"github.com/cjongseok/mtproto/proxy"
 	"os"
 	"fmt"
@@ -68,8 +68,8 @@ func init() {
 
 func dialogs(addr string) int {
 	client, err := proxy.NewClient(fmt.Sprintf("localhost:%d", port))
-	emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}}
-	dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
+	emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
+	dialogs, err := client.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
 		OffsetDate: 0,
 		OffsetId:   0,
 		OffsetPeer: emptyPeer,
@@ -80,9 +80,9 @@ func dialogs(addr string) int {
 		return failure
 	}
 	switch casted := dialogs.Value.(type) {
-	case *core.TypeMessagesDialogs_MessagesDialogs:
+	case *mtproto.TypeMessagesDialogs_MessagesDialogs:
 		fmt.Println(slog.StringifyIndent(casted.MessagesDialogs, "  "))
-	case *core.TypeMessagesDialogs_MessagesDialogsSlice:
+	case *mtproto.TypeMessagesDialogs_MessagesDialogsSlice:
 		fmt.Println(slog.StringifyIndent(casted.MessagesDialogsSlice, "  "))
 	default:
 		fmt.Println("got unknown types of dialogs:")

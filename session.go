@@ -1,4 +1,4 @@
-package core
+package mtproto
 
 import (
 	"bytes"
@@ -167,13 +167,12 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 	//sessionExists := !os.IsNotExist(err)
 	//err = nil
 
-
 	// load session info from either session file or env
 	// its precedence is; preferredAddr > sessionFile > env
 	session := new(Session)
 	session.phonenumber = phonenumber
 	var err error
-	if appConfig.KeyPath == ""  {
+	if appConfig.KeyPath == "" {
 		// load key from env
 		session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
 		session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
@@ -471,9 +470,9 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 			//slog.Logln(session, "stringify(rpc_result.Obj):", slog.Stringify(data.Obj))
 			//slog.Logf(session, "rpc_result.Obj: %T: %v\n", data.Obj, data.Obj)
 			//if rpcerr, ok := data.Obj.(TL_rpc_error); ok {
-				//slog.Logln(session, "ok stringify(rpcerror):", rpcerr)
-				//slog.Logf(session, "ok rpcerror: %v\n", rpcerr)
-				//slog.Logf(session, "ok rpcerror.code: %d, rpcerror.msg: %s\n", rpcerr.error_code, rpcerr.error_message)
+			//slog.Logln(session, "ok stringify(rpcerror):", rpcerr)
+			//slog.Logf(session, "ok rpcerror: %v\n", rpcerr)
+			//slog.Logf(session, "ok rpcerror.code: %d, rpcerror.msg: %s\n", rpcerr.error_code, rpcerr.error_message)
 			//}
 			x := session.process(msgId, seqNo, data.Obj)
 			session.mutex.Lock()
@@ -500,7 +499,6 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 		case TL_rpc_error:
 			data := data.(TL_rpc_error)
 			return data
-
 
 			//TODO: Update classifier should be auto-generated from scheme.tl
 			//TODO: how to handle seq?

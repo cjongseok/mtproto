@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/cjongseok/mtproto/core"
+	"github.com/cjongseok/mtproto"
 	"os"
 	"strconv"
 	"github.com/cjongseok/slog"
@@ -42,7 +42,7 @@ func main() {
 	if key == "" {
 		key = defaultNewKeyFile
 	}
-	config, err := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+	config, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
 	handleError(err)
 
 	// check if the file exists
@@ -53,10 +53,10 @@ func main() {
 	}
 
 	// request to send authentication code to the phone
-	var manager *core.Manager
-	var mconn *core.Conn
-	var sentCode *core.TypeAuthSentCode
-	manager, err = core.NewManager(config)
+	var manager *mtproto.Manager
+	var mconn *mtproto.Conn
+	var sentCode *mtproto.TypeAuthSentCode
+	manager, err = mtproto.NewManager(config)
 	handleError(err)
 	mconn, sentCode, err = manager.NewAuthentication(phoneNumber, telegramAddress, false)
 	handleError(err)

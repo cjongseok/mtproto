@@ -1,4 +1,4 @@
-package core
+package mtproto
 
 import (
 	"encoding/json"
@@ -22,12 +22,12 @@ var (
 )
 
 type Manager struct {
-	managerId               int32
-	appConfig               Configuration
-	conns                   map[int32]*Conn
-	sessions                map[int64]*Session
-	stuckSessions           map[int64]int32
-	eventq                  chan Event
+	managerId     int32
+	appConfig     Configuration
+	conns         map[int32]*Conn
+	sessions      map[int64]*Session
+	stuckSessions map[int64]int32
+	eventq        chan Event
 	//refreshSessionThrottle map[int64]int
 	//queueSend chan packetToSend
 
@@ -166,8 +166,8 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 		switch x := data.(type) {
 		case *PredAuthSentCode:
 			return mconn, &TypeAuthSentCode{x}, nil
-		//default:
-		//	return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
+			//default:
+			//	return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
 		}
 
 		// retry the send code request to another server

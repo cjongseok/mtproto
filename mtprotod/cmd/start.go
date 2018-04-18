@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/cjongseok/mtproto/core"
+	"github.com/cjongseok/mtproto"
 	"github.com/cjongseok/mtproto/proxy"
 	"os"
 	"fmt"
@@ -91,7 +91,7 @@ func init() {
 
 func startProxy(port int, apiid int32, apihash, phone, addr, secrets string) int {
 	slog.DisableLogging()
-	config, err := core.NewConfiguration(int32(apiid), apihash,
+	config, err := mtproto.NewConfiguration(int32(apiid), apihash,
 		appVersion, deviceModel, systemVersion, language, 0, 0, secrets)
 	if err != nil {
 		return invalidArgs

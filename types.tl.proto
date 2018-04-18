@@ -1,5 +1,5 @@
 syntax = "proto3";
-package core;
+package mtproto;
 import "google/protobuf/any.proto";
 
 
@@ -1201,26 +1201,14 @@ message TypeMessagesFavedStickers {
 		PredMessagesFavedStickersNotModified MessagesFavedStickersNotModified = 2;
 	}
 }
-message TypeVectorWallPaper {
-	repeated TypeWallPaper WallPaper = 1;
-}
-message TypeVectorUser {
-	repeated TypeUser User = 1;
-}
-message TypeVectorContactStatus {
-	repeated TypeContactStatus ContactStatus = 1;
-}
-message TypeVectorLong {
-	repeated int64 values = 1;
-}
-message TypeVectorStickerSetCovered {
-	repeated TypeStickerSetCovered StickerSetCovered = 1;
-}
 message TypeVectorReceivedNotifyMessage {
 	repeated TypeReceivedNotifyMessage ReceivedNotifyMessage = 1;
 }
 message TypeVectorInt {
 	repeated int32 values = 1;
+}
+message TypeVectorStickerSetCovered {
+	repeated TypeStickerSetCovered StickerSetCovered = 1;
 }
 message TypeVectorCdnFileHash {
 	repeated TypeCdnFileHash CdnFileHash = 1;
@@ -1228,8 +1216,20 @@ message TypeVectorCdnFileHash {
 message TypeVectorLangPackString {
 	repeated TypeLangPackString LangPackString = 1;
 }
+message TypeVectorWallPaper {
+	repeated TypeWallPaper WallPaper = 1;
+}
+message TypeVectorContactStatus {
+	repeated TypeContactStatus ContactStatus = 1;
+}
 message TypeVectorLangPackLanguage {
 	repeated TypeLangPackLanguage LangPackLanguage = 1;
+}
+message TypeVectorUser {
+	repeated TypeUser User = 1;
+}
+message TypeVectorLong {
+	repeated int64 values = 1;
 }
 
 

@@ -182,7 +182,7 @@ func main() {
 
 	// proto meta
 	fmt.Fprintln(toProto, `syntax = "proto3";
-package core;
+package mtproto;
 import "google/protobuf/any.proto";`)
 
 
@@ -377,7 +377,7 @@ import "google/protobuf/any.proto";`)
 
 	// Generate Go file
 	// constants
-	fmt.Fprintln(toGo, `package core
+	fmt.Fprintln(toGo, `package mtproto
 import (
 "fmt"
 "strings"
@@ -792,7 +792,7 @@ return u`)
 
 
 	// gRPC precedure implementations
-	fmt.Fprintln(toProxy, `package core
+	fmt.Fprintln(toProxy, `package mtproto
 import (
 	"golang.org/x/net/context"
 	"github.com/golang/protobuf/ptypes/any"
