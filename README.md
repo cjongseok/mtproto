@@ -35,8 +35,8 @@ You can find the real code at [simpleshell](https://github.com/cjongseok/mtproto
 ### Sign-in with key
 ```go
 // Mew MTProto manager
-config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
-manager, _ := core.NewManager(config)
+config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+manager, _ := mtproto.NewManager(config)
 
 // Sign-in by key
 mconn, _ := manager.LoadAuthentication(phoneNumber, preferredAddr)
@@ -44,8 +44,8 @@ mconn, _ := manager.LoadAuthentication(phoneNumber, preferredAddr)
 ### Sign-in without key
 ```go
 // New MTProto manager
-config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, "new-key.mtproto")
-manager, _ := core.NewManager(config)
+config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, "new-key.mtproto")
+manager, _ := mtproto.NewManager(config)
 
 // Request to send an authentication code
 mconn, sentCode, err := manager.NewAuthentication(phoneNumber, telegramAddress, false)
@@ -57,22 +57,22 @@ fmt.Scanf("%s", &code)
 _, err = mconn.SignIn(phoneNumber, code, sentCode.GetValue().PhoneCodeHash)
 ```
 ### Telegram RPC
-All the methods in TL-schema are implemented as stand-alone functions.
-So by calling them, you can communicate with Telegram server. You can find available RPCs in the *'functions'* sections of [TL-schema](https://github.com/cjongseok/mtproto/blob/master/compiler/scheme-71.tl) by Telegram.<br>
+All the methods in [TL-schema](https://github.com/cjongseok/mtproto/blob/master/compiler/scheme-71.tl) are implemented in Go.
+The function list is at the *'functions'* section in [TL-schema](https://github.com/cjongseok/mtproto/blob/master/compiler/scheme-71.tl).<br>
 Let's have two examples, 'messages.getDialogs' and 'messages.sendMessage'.
 #### Get dialogs
 ```go
 // New RPC caller
-caller := core.RPCaller{mconn}
+caller := mtproto.RPCaller{mconn}
 
 // New input peer
 // In Telegram DSL, Predicates inherit a Type.
 // Here we create a Predicate, InputPeerEmpty, and wrap it with its parent Type, InputPeer.
 // Please refer to Types and Predicates section for more details on types in TL-schema.
-emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}
+emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}
 
 // Query to Telegram
-dialogs, _ := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
+dialogs, _ := caller.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
     OffsetDate: 0,
     OffsetId: 	0,
     OffsetPeer: emptyPeer,
@@ -82,17 +82,17 @@ dialogs, _ := caller.MessagesGetDialogs(context.Background(), &core.ReqMessagesG
 #### Send a message to a channel
 ```go
 // New RPC caller
-caller := core.RPCaller{mconn}
+caller := mtproto.RPCaller{mconn}
 
 // New input peer
 // Create a Predicate, InputPeerChannel, wraped by its parent Type, InputPeer.
-channelPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerChannel{
-    &core.PredInputPeerChannel{
+channelPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerChannel{
+    &mtproto.PredInputPeerChannel{
         yourChannelId, yourChannelHash,
     }}}
 
 // Send a request to Telegram
-caller.MessagesSendMessage(context.Background(), &core.ReqMessagesSendMessage{
+caller.MessagesSendMessage(context.Background(), &mtproto.ReqMessagesSendMessage{
     Peer:      peer,
     Message:   "Hello MTProto",
     RandomId:  rand.Int63(),
@@ -113,7 +113,7 @@ See [mtprotod](https://github.com/cjongseok/mtproto/tree/master/mtprotod).
 Use mtproto/proxy package.
 ```go
 // New proxy server
-config, _ := core.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
 server = proxy.NewServer(port)
 
 // Start the server
@@ -125,8 +125,8 @@ server.Start(config, phone, telegramAddr)
 client, _ := proxy.NewClient(proxyAddr)
 
 // Telegram RPC over proxy. It is same with the previous 'Get dialogs' but the RPC caller
-emptyPeer := &core.TypeInputPeer{&core.TypeInputPeer_InputPeerEmpty{&core.PredInputPeerEmpty{}}
-dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessagesGetDialogs{
+emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}
+dialogs, err := client.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
     OffsetDate: 0,
     OffsetId:   0,
     OffsetPeer: emptyPeer,
@@ -134,14 +134,14 @@ dialogs, err := client.MessagesGetDialogs(context.Background(), &core.ReqMessage
 })
 ```
 ### Client in other languages
-By compiling [core/types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/core/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
+By compiling [types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
 you can create clients in your preferred language.<br>
 For this, you need [Google Protobuf](https://developers.google.com/protocol-buffers/).
 In case of Go, you can use the below commands
 ```bash
 # At the mtproto home
-mkdir -p out/core out/proxy
-protoc -I core -I <PROTOC_HOME>/include core/types.tl.proto --go_out=plugins=grpc:./out/core
+mkdir -p out/proxy
+protoc -I ./ -I <PROTOC_HOME>/include types.tl.proto --go_out=plugins=grpc:./out
 protoc -I $GOPATH/src -I proxy tl_update.proto --go_out=plugins=grpc:./out/proxy
 ```
 For other languages, you can use different options. (I didn't try it, but I believe it would work as other gRPC projects. If you try it, please share the result.)<br>
