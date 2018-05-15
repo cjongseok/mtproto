@@ -27,7 +27,7 @@ $ exit
 ls -al key.mtproto
 
 # You can check if the scerets correct by sign-in with it.
-go run main.go <APIID> <APIHASH> <PHONE> <ADDR> key.mtproto
+go run main.go <APIID> <APIHASH> <PHONE> key.mtproto
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, s
 manager, _ := mtproto.NewManager(config)
 
 // Sign-in by key
-mconn, _ := manager.LoadAuthentication(phoneNumber, preferredAddr)
+mconn, _ := manager.LoadAuthentication(phoneNumber)
 ```
 ### Sign-in without key
 ```go
@@ -117,7 +117,7 @@ config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, s
 server = proxy.NewServer(port)
 
 // Start the server
-server.Start(config, phone, telegramAddr)
+server.Start(config, phone)
 ```
 ### Client in Go
 ```go
