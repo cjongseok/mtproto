@@ -160,13 +160,7 @@ func byteArrayString2byteArray(str string) []byte {
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
-func loadSession(phonenumber string, preferredAddr string, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
-	// session file exists?
-	//sessionfile := sessionFilePath(appConfig.SessionHome, phonenumber)
-	//_, err := os.Stat(sessionfile)
-	//sessionExists := !os.IsNotExist(err)
-	//err = nil
-
+func loadSession(phonenumber string, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	// load session info from either session file or env
 	// its precedence is; preferredAddr > sessionFile > env
 	session := new(Session)
@@ -195,22 +189,23 @@ func loadSession(phonenumber string, preferredAddr string, appConfig Configurati
 		}
 	}
 
-	if preferredAddr != "" {
-		tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
-		if err != nil {
-			return nil, fmt.Errorf("resolve the telegram server address failure: %v", err)
-		}
-		if tcpAddr.IP.To4() != nil {
-			session.useIPv6 = false
-			session.addr = preferredAddr
-		} else if tcpAddr.IP.To16() != nil {
-			session.useIPv6 = true
-			session.addr = preferredAddr
-		} else {
-			// Invalid IP address. Ignore the preferred ip address
-			slog.Logln(session, "invalid preferred preferred Telegram server address. ignore it.")
-		}
-	}
+	// Deprecate preferred server address
+	//if preferredAddr != "" {
+	//	tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
+	//	if err != nil {
+	//		return nil, fmt.Errorf("resolve the telegram server address failure: %v", err)
+	//	}
+	//	if tcpAddr.IP.To4() != nil {
+	//		session.useIPv6 = false
+	//		session.addr = preferredAddr
+	//	} else if tcpAddr.IP.To16() != nil {
+	//		session.useIPv6 = true
+	//		session.addr = preferredAddr
+	//	} else {
+	//		// Invalid IP address. Ignore the preferred ip address
+	//		slog.Logln(session, "invalid preferred preferred Telegram server address. ignore it.")
+	//	}
+	//}
 	err = session.open(appConfig /*sendQueue,*/, sessionListener, true)
 	if err != nil {
 		return session, handshakingFailure{fmt.Sprintf("Handshaking Failure: %v", err)}

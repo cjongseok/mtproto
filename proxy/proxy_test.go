@@ -23,7 +23,7 @@ var (
 	apiId   = flag.Int("apiid", 0, "Telegram API id")
 	apiHash = flag.String("apihash", "", "Telegram API hash")
 	phone   = flag.String("phone", "", "Phone number including nation code")
-	addr    = flag.String("addr", "", "Preferred Telegram server address")
+	//addr    = flag.String("addr", "", "Preferred Telegram server address")
 	key     = flag.String("key", "", "MTProto key file")
 
 	proxy  *Server
@@ -35,13 +35,13 @@ func beforeTest(t *testing.T) {
 	if apiId == nil || apiHash == nil || phone == nil {
 		t.SkipNow()
 	}
-	fmt.Printf("apiid: %v\napihash: %v\nphone: %s\naddr: %s\n", *apiId, *apiHash, *phone, *addr)
+	fmt.Printf("apiid: %v\napihash: %v\nphone: %s\n", *apiId, *apiHash, *phone)
 
 	if proxy == nil {
 		configuration, err := mtproto.NewConfiguration(int32(*apiId), *apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, *key)
 		handleError(t, err)
 		proxy = NewServer(port)
-		err = proxy.Start(configuration, *phone, *addr)
+		err = proxy.Start(configuration, *phone)
 		handleError(t, err)
 	}
 

@@ -38,8 +38,8 @@ func (p *Server) InvokeBlocked(msg mtproto.TL) (interface{}, error) {
 	return p.mconn.InvokeBlocked(msg)
 }
 
-func (p *Server) Start(config mtproto.Configuration, phoneNumber, preferredAddr string) error {
-	err := p.connect(config, phoneNumber, preferredAddr)
+func (p *Server) Start(config mtproto.Configuration, phoneNumber string) error {
+	err := p.connect(config, phoneNumber)
 	if err != nil {
 		return err
 	}
@@ -50,13 +50,13 @@ func (p *Server) Start(config mtproto.Configuration, phoneNumber, preferredAddr 
 	return nil
 }
 
-func (p *Server) connect(config mtproto.Configuration, phoneNumber, preferredAddr string) error { // open mrptoro
+func (p *Server) connect(config mtproto.Configuration, phoneNumber string) error { // open mrptoro
 	var err error
 	p.mmanager, err = mtproto.NewManager(config)
 	if err != nil {
 		return fmt.Errorf("invalid configuration: %s", err)
 	}
-	p.mconn, err = p.mmanager.LoadAuthentication(phoneNumber, preferredAddr)
+	p.mconn, err = p.mmanager.LoadAuthentication(phoneNumber)
 	if err != nil {
 		return fmt.Errorf("load auth failure: %v", err)
 	}

@@ -65,7 +65,7 @@ var startCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		os.Exit(startProxy(port, int32(apiid), apihash, phone, addr, secrets))
+		os.Exit(startProxy(port, int32(apiid), apihash, phone, secrets))
 	},
 }
 
@@ -89,7 +89,7 @@ func init() {
 	viper.BindPFlag("secrets", flags.Lookup("secrets"))
 }
 
-func startProxy(port int, apiid int32, apihash, phone, addr, secrets string) int {
+func startProxy(port int, apiid int32, apihash, phone, secrets string) int {
 	slog.DisableLogging()
 	config, err := mtproto.NewConfiguration(int32(apiid), apihash,
 		appVersion, deviceModel, systemVersion, language, 0, 0, secrets)
@@ -97,7 +97,7 @@ func startProxy(port int, apiid int32, apihash, phone, addr, secrets string) int
 		return invalidArgs
 	}
 	server := proxy.NewServer(port)
-	err = server.Start(config, phone, addr)
+	err = server.Start(config, phone)
 	if err != nil {
 		return failure
 	}

@@ -13,6 +13,7 @@ import (
 	"time"
 	"math/rand"
 	"golang.org/x/net/context"
+	"net"
 )
 
 const (
@@ -26,15 +27,17 @@ const (
 )
 
 func usage() {
-	fmt.Println(`USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> <ADDR> [KEY]
+	fmt.Println(`USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> <ADDR|KEY>
 Params:
   APIID     means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps
   APIHASH   means hashcode of <APIID>. It is published together with API id.
   PHONE     means phone number in international format w/o hyphen. e.g., +15417543010
   ADDR      means preffered Telegram server address in the form of <IP>:<PORT>.
-            You can find a vaild address in your https://my.telegram.org/apps page.
-Options:
-  KEY       means MTProto key file. If it is not set, shell generates the key as "key.mtproto".
+            You can find a vaild address in your https://my.telegram.org/apps page. Sign-in
+            without key would require the user to input a verification code sent to the user's
+            Telegram account, and generate the key file, 'key.mtproto'.
+  KEY       means MTProto key file. It sign-in to the stored Telegram server endpoint with the
+            phone number using its credentials.
 `)
 }
 
@@ -48,11 +51,18 @@ func newSubscriber(mconn *mtproto.Conn) *subscriber {
 	return s
 }
 
+func isServerEndpoint(addr string) (err error) {
+	var tcpAddr *net.TCPAddr
+	tcpAddr, err = net.ResolveTCPAddr("tcp", addr)
+	if err == nil && tcpAddr.IP.To4() == nil && tcpAddr.IP.To16() == nil {
+		err = fmt.Errorf("invalid ip address")
+	}
+	return
+}
+
 func parseArgs() (apiId int32, apiHash, phoneNumber, preferredAddr, key string, err error){
 	switch len(os.Args) {
 	case 5:
-	case 6:
-		key = os.Args[5]
 	default:
 		err = fmt.Errorf("invalid number of arguments")
 		return
@@ -66,16 +76,18 @@ func parseArgs() (apiId int32, apiHash, phoneNumber, preferredAddr, key string, 
 	apiId = int32(apiId64)
 	apiHash = os.Args[2]
 	phoneNumber = os.Args[3]
-	preferredAddr = os.Args[4]
 
 	var matched bool
-	matched, err = regexp.MatchString("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$", preferredAddr)
-	if err != nil {
+	matched, err = regexp.MatchString("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$", os.Args[4])
+	if matched && err == nil {
+		preferredAddr = os.Args[4]
 		return
 	}
-	if !matched {
-		err = fmt.Errorf("invalid address")
+	if _, err = os.Stat(os.Args[4]); err == nil {
+		key = os.Args[4]
+		return
 	}
+	err = fmt.Errorf("invalid address or non-existent file")
 	return
 }
 
@@ -105,8 +117,9 @@ func main() {
 	slog.SetLogOutput(logf)
 
 	// parse args
-	apiId, apiHash, phoneNumber, preferredAddr, key, err := parseArgs()
+	apiId, apiHash, phoneNumber, addr, key, err := parseArgs()
 	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		usage()
 		handleError(err)
 	}
@@ -125,7 +138,7 @@ func main() {
 		var sentCode *mtproto.TypeAuthSentCode
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
-		mconn, sentCode, err = manager.NewAuthentication(phoneNumber, telegramAddress, false)
+		mconn, sentCode, err = manager.NewAuthentication(phoneNumber, addr, false)
 		handleError(err)
 
 		// sign-in with the code from the user input
@@ -139,7 +152,7 @@ func main() {
 		log.Println("MAIN: load authentication")
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
-		mconn, err = manager.LoadAuthentication(phoneNumber, preferredAddr)
+		mconn, err = manager.LoadAuthentication(phoneNumber)
 		handleError(err)
 	}
 

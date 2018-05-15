@@ -84,10 +84,10 @@ func (mm *Manager) Finish() {
 //	return true
 //}
 
-func (mm *Manager) LoadAuthentication(phonenumber string, preferredAddr string) (*Conn, error) {
+func (mm *Manager) LoadAuthentication(phonenumber string) (*Conn, error) {
 	// req connect
 	respCh := make(chan sessionResponse, 1)
-	mm.eventq <- loadsession{0, phonenumber, preferredAddr, respCh}
+	mm.eventq <- loadsession{0, phonenumber, respCh}
 
 	// Wait for connection built
 	resp := <-respCh
@@ -283,7 +283,7 @@ func (mm *Manager) manageRoutine() {
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
 					slog.Logln(mm, "loadsession of ", e.phonenumber)
-					session, err := loadSession(e.phonenumber, e.preferredAddr, mm.appConfig /*mm.queueSend,*/, mm.eventq)
+					session, err := loadSession(e.phonenumber, mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					var resp sessionResponse
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
@@ -488,7 +488,7 @@ func (mm *Manager) manageRoutine() {
 					var connectResp sessionResponse
 					//for {
 					slog.Logln(mm, "req loadsession")
-					mm.eventq <- loadsession{connId, e.phonenumber, "", connectRespCh}
+					mm.eventq <- loadsession{connId, "", connectRespCh}
 					connectResp = <-connectRespCh
 					var sessionResp sessionResponse
 					if connectResp.err != nil {

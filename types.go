@@ -26,7 +26,7 @@ type loadsession struct {
 	// Otherwise, the loaded session is allocated to the connection of connId.
 	connId        int32
 	phonenumber   string
-	preferredAddr string
+	//preferredAddr string
 	resp          chan sessionResponse
 }
 
