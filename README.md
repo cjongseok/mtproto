@@ -156,6 +156,7 @@ It seems protoc-3.5.1 supports below languages.
 * --python_out=OUT_DIR        Generate Python source file.
 * --ruby_out=OUT_DIR          Generate Ruby source file.
 
+<!--
 ### Types and Predicates
 ### X and !X
 
@@ -164,6 +165,7 @@ It seems protoc-3.5.1 supports below languages.
 ### Dumplayer
 
 ## Compiler
+-->
 
 
 ## Acknowledgement
