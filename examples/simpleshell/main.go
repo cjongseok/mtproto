@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	defaultNewKeyFile = "key.mtproto"
+	defaultNewKeyFile = "credentials.json"
 
 	appVersion      = "0.0.1"
 	deviceModel     = ""
@@ -27,7 +27,10 @@ const (
 )
 
 func usage() {
-	fmt.Println(`USAGE: ./simpleshell <APIID> <APIHASH> <PHONE> <ADDR|KEY>
+	fmt.Println(`
+Usage: simpleshell <APIID> <APIHASH> <PHONE> <IP> <PORT>
+       simpleshell <KEY>
+
 Params:
   APIID     means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps
   APIHASH   means hashcode of <APIID>. It is published together with API id.
@@ -35,7 +38,7 @@ Params:
   ADDR      means preffered Telegram server address in the form of <IP>:<PORT>.
             You can find a vaild address in your https://my.telegram.org/apps page. Sign-in
             without key would require the user to input a verification code sent to the user's
-            Telegram account, and generate the key file, 'key.mtproto'.
+            Telegram account, and generate the key file, 'credentials.json'.
   KEY       means MTProto key file. It sign-in to the stored Telegram server endpoint with the
             phone number using its credentials.
 `)
@@ -60,9 +63,14 @@ func isServerEndpoint(addr string) (err error) {
 	return
 }
 
-func parseArgs() (apiId int32, apiHash, phoneNumber, preferredAddr, key string, err error){
+func parseArgs() (apiId int32, apiHash, phoneNumber, ip string, port int, credentials string, err error){
 	switch len(os.Args) {
-	case 5:
+	case 1:
+		if _, err = os.Stat(os.Args[1]); err == nil {
+			credentials = os.Args[1]
+		}
+		return
+	case 6:
 	default:
 		err = fmt.Errorf("invalid number of arguments")
 		return
@@ -78,16 +86,31 @@ func parseArgs() (apiId int32, apiHash, phoneNumber, preferredAddr, key string, 
 	phoneNumber = os.Args[3]
 
 	var matched bool
-	matched, err = regexp.MatchString("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$", os.Args[4])
-	if matched && err == nil {
-		preferredAddr = os.Args[4]
+	//matched, err = regexp.MatchString("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d{1,5}$", os.Args[4])
+	matched, err = regexp.MatchString("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$", os.Args[4])
+	if err != nil {
+		err = fmt.Errorf("invalid ip address; %v", err)
 		return
 	}
-	if _, err = os.Stat(os.Args[4]); err == nil {
-		key = os.Args[4]
+	if !matched {
+		err = fmt.Errorf("invalid ip address")
 		return
 	}
-	err = fmt.Errorf("invalid address or non-existent file")
+	ip = os.Args[4]
+
+	matched, err = regexp.MatchString("^\\d{1,5}$", os.Args[5])
+	if err != nil {
+		err = fmt.Errorf("invalid port; %v", err)
+		return
+	}
+	if !matched {
+		err = fmt.Errorf("invalid port")
+		return
+	}
+	port, err = strconv.Atoi(os.Args[5])
+	if err != nil {
+		err = fmt.Errorf("invalid port; %v", err)
+	}
 	return
 }
 
@@ -117,14 +140,14 @@ func main() {
 	slog.SetLogOutput(logf)
 
 	// parse args
-	apiId, apiHash, phoneNumber, addr, key, err := parseArgs()
+	apiID, apiHash, phone, ip, port, credentials, err := parseArgs()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		usage()
 		handleError(err)
 	}
 
-	config, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+	config, err := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, credentials)
 	handleError(err)
 
 	// Connect by phone number
@@ -138,7 +161,7 @@ func main() {
 		var sentCode *mtproto.TypeAuthSentCode
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
-		mconn, sentCode, err = manager.NewAuthentication(phoneNumber, addr, false)
+		mconn, sentCode, err = manager.NewAuthentication(phone, apiID, apiHash, ip, port)
 		handleError(err)
 
 		// sign-in with the code from the user input
@@ -146,13 +169,13 @@ func main() {
 		fmt.Printf("Enter Code: ")
 		fmt.Scanf("%s", &code)
 		log.Println("entered code = ", code)
-		_, err = mconn.SignIn(phoneNumber, code, sentCode.GetValue().PhoneCodeHash)
+		_, err = mconn.SignIn(phone, code, sentCode.GetValue().PhoneCodeHash)
 		handleError(err)
 	} else {
 		log.Println("MAIN: load authentication")
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
-		mconn, err = manager.LoadAuthentication(phoneNumber)
+		mconn, err = manager.LoadAuthentication(phone)
 		handleError(err)
 	}
 
@@ -190,6 +213,20 @@ func main() {
 			case *mtproto.TypeMessagesDialogs_MessagesDialogsSlice:
 				fmt.Println(slog.StringifyIndent(dialogs.MessagesDialogsSlice, "  "))
 			}
+		case "chans":
+			if len(args) != 1 {
+				help()
+				break
+			}
+			resp, err := caller.MessagesGetAllChats(context.Background(), &mtproto.ReqMessagesGetAllChats{})
+			handleError(err)
+			switch chats := resp.Value.(type) {
+			case *mtproto.TypeMessagesChats_MessagesChats :
+				fmt.Println(slog.StringifyIndent(chats.MessagesChats, "  "))
+			case *mtproto.TypeMessagesChats_MessagesChatsSlice:
+				fmt.Println(slog.StringifyIndent(chats.MessagesChatsSlice, "  "))
+			}
+
 		case "send2c": // send2c <CHAN_ID> <CHAN_HASH> <MSG>
 			if len(args) != 4 {
 				help()

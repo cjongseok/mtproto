@@ -2,7 +2,6 @@ package mtproto
 
 import (
 	"encoding/binary"
-	"errors"
 	"fmt"
 	"github.com/cjongseok/slog"
 	"io"
@@ -24,9 +23,10 @@ type Dump struct {
 	updateCallback  dumpCallback
 	readWaitGroup   sync.WaitGroup
 	readInterrupter chan interface{}
-	authKey         []byte
-	authKeyHash     []byte
-	serverSalt      []byte
+	c *Credentials
+	//authKey         []byte
+	//authKeyHash     []byte
+	//serverSalt      []byte
 	reader          io.Reader
 }
 
@@ -45,7 +45,11 @@ func NewDump(authFileName, dumpFilename string, out chan interface{}) (*Dump, er
 	mdump.readWaitGroup = sync.WaitGroup{}
 	mdump.readInterrupter = make(chan interface{})
 
-	mdump.readSessionFile(authf)
+	//mdump.readSessionFile(authf)
+	mdump.c, err = NewCredentialsFromFile(authf)
+	if err != nil {
+		return nil, err
+	}
 	reader, err := slog.DumpReader(dumpf)
 	if err != nil {
 		return nil, err
@@ -106,7 +110,7 @@ func (md *Dump) read() (interface{}, error) {
 	}
 
 	// decrypt incoming packet
-	data, _, _, err = decryptMtproto(buf, md.authKey)
+	data, _, _, err = decryptMtproto(buf, md.c.AuthKey)
 	if err != nil {
 		return nil, err
 	}
@@ -270,17 +274,17 @@ func (md *Dump) readRoutine() {
 }
 
 // Implements interface error
-func (md *Dump) readSessionFile(f *os.File) error {
-	// Decode session file
-	b := make([]byte, 1024*4)
-	n, err := f.ReadAt(b, 0)
-	if n <= 0 || (err != nil && err.Error() != "EOF") {
-		return errors.New("New session")
-	}
-
-	d := NewDecodeBuf(b)
-	md.authKey = d.StringBytes()
-	md.authKeyHash = d.StringBytes()
-	md.serverSalt = d.StringBytes()
-	return nil
-}
+//func (md *Dump) readSessionFile(f *os.File) error {
+//	// Decode session file
+//	b := make([]byte, 1024*4)
+//	n, err := f.ReadAt(b, 0)
+//	if n <= 0 || (err != nil && err.Error() != "EOF") {
+//		return errors.New("New session")
+//	}
+//
+//	d := NewDecodeBuf(b)
+//	md.authKey = d.StringBytes()
+//	md.authKeyHash = d.StringBytes()
+//	md.serverSalt = d.StringBytes()
+//	return nil
+//}

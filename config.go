@@ -13,8 +13,8 @@ const (
 )
 
 type Configuration struct {
-	Id            int32
-	Hash          string
+	//Id            int32
+	//Hash          string
 	Version       string
 	DeviceModel   string
 	SystemVersion string
@@ -25,15 +25,13 @@ type Configuration struct {
 	KeyPath      string
 }
 
-func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, language string, pingInterval time.Duration, sendInterval time.Duration, keyPath string) (Configuration, error) {
+func NewConfiguration(version, deviceModel, systemVersion, language string, pingInterval time.Duration, sendInterval time.Duration, keyPath string) (Configuration, error) {
 	//appConfig := new(Configuration)
 	appConfig := Configuration{}
 
-	if id == 0 || hash == "" || version == "" {
-		return Configuration{}, fmt.Errorf(appConfigError, "Fields Id, Hash or Version are empty")
+	if version == "" {
+		return Configuration{}, fmt.Errorf(appConfigError, "version is empty")
 	}
-	appConfig.Id = id
-	appConfig.Hash = hash
 	appConfig.Version = version
 
 	appConfig.DeviceModel = deviceModel
@@ -76,8 +74,8 @@ func NewConfiguration(id int32, hash, version, deviceModel, systemVersion, langu
 }
 
 func (appConfig Configuration) Check() error {
-	if appConfig.Id == 0 || appConfig.Hash == "" || appConfig.Version == "" {
-		return fmt.Errorf(appConfigError, "Configuration.Id, Configuration.Hash or Configuration.Version are empty")
+	if appConfig.Version == "" {
+		return fmt.Errorf(appConfigError, "Configuration.Version is empty")
 	}
 
 	if appConfig.DeviceModel == "" {
