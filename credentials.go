@@ -19,13 +19,13 @@ type Credentials struct {
 }
 
 type credentialsJSON struct {
-	Phone       string
-	ApiID       int32
-	ApiHash     string
-	IP          string
-	Port        int
-	Salt        string
-	AuthKeyData string
+	Phone   string `json:"phone"`
+	ApiID   int32  `json:"api_id"`
+	ApiHash string `json:"api_hash"`
+	IP      string `json:"ip"`
+	Port    int    `json:"port"`
+	Salt    string `json:"salt"`
+	AuthKey string `json:"auth_key"`
 }
 
 // SaveToFile stores the Credentials as a JSON file in the format of credentialsJson.
@@ -39,7 +39,8 @@ func (c *Credentials) JSON() ([]byte, error){
 		c.ApiHash,
 		c.IP,
 		c.Port,
-		string(c.Salt),
+		//string(c.Salt),
+		base64.StdEncoding.EncodeToString(c.Salt),
 		base64.StdEncoding.EncodeToString(c.AuthKey),
 	})
 }
@@ -49,19 +50,24 @@ func NewCredentials(jsonInBytes []byte) (c *Credentials, err error) {
 	if err != nil {
 		return
 	}
-	var authKey []byte
-	authKey, err = base64.StdEncoding.DecodeString(unmarshaled.AuthKeyData)
+	var salt, authKey, authKeyHash []byte
+	salt, err = base64.StdEncoding.DecodeString(unmarshaled.Salt)
 	if err != nil {
 		return
 	}
-	authKeyHash := sha1(authKey)[12:20]
+	authKey, err = base64.StdEncoding.DecodeString(unmarshaled.AuthKey)
+	if err != nil {
+		return
+	}
+	authKeyHash = sha1(authKey)[12:20]
 	c = &Credentials{
 		unmarshaled.Phone,
 		unmarshaled.ApiID,
 		unmarshaled.ApiHash,
 		unmarshaled.IP,
 		unmarshaled.Port,
-		[]byte(unmarshaled.Salt),
+		//[]byte(unmarshaled.Salt),
+		salt,
 		authKey,
 		authKeyHash,
 	}
@@ -111,7 +117,7 @@ func NewCredentialsFromFile(f *os.File) (*Credentials, error) {
 	if n <= 0 || (err != nil && err.Error() != "EOF") {
 		return nil, errors.New("nothing in the file")
 	}
-	return NewCredentials(b)
+	return NewCredentials(b[:n])
 
 	//d := NewDecodeBuf(b)
 	//session.authKey = d.StringBytes()

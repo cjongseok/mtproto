@@ -342,6 +342,8 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	switch x.data.(type) {
 	case *PredConfig:
 		session.dcOptions = make(map[string]map[int32]PredDcOption)
+		session.dcOptions[ipv4] = make(map[int32]PredDcOption)
+		session.dcOptions[ipv6] = make(map[int32]PredDcOption)
 		//session.dclist = make(map[int32]string, 5)
 		for _, v := range x.data.(*PredConfig).DcOptions {
 			isIPv6 := true

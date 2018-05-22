@@ -23,24 +23,26 @@ const (
 	deviceModel     = ""
 	systemVersion   = ""
 	language        = ""
-	telegramAddress = "149.154.167.50:443"
+	//telegramAddress = "149.154.167.50:443"
 )
 
 func usage() {
 	fmt.Println(`
 Usage: simpleshell <APIID> <APIHASH> <PHONE> <IP> <PORT>
-       simpleshell <KEY>
+       simpleshell <JSON_FILE>
 
 Params:
   APIID     means Telegram API id. If you do not have it yet, go https://my.telegram.org/apps
   APIHASH   means hashcode of <APIID>. It is published together with API id.
   PHONE     means phone number in international format w/o hyphen. e.g., +15417543010
-  ADDR      means preffered Telegram server address in the form of <IP>:<PORT>.
-            You can find a vaild address in your https://my.telegram.org/apps page. Sign-in
-            without key would require the user to input a verification code sent to the user's
-            Telegram account, and generate the key file, 'credentials.json'.
-  KEY       means MTProto key file. It sign-in to the stored Telegram server endpoint with the
-            phone number using its credentials.
+  IP        means Telegram server IP address in IPv4 or IPv6. You can find a vaild address in
+            your https://my.telegram.org/apps page.
+  PORT      means Telegram server port number. You can find a vaild address in your
+            https://my.telegram.org/apps page.
+  JSON_FILE means MTProto credentials file whose format is JSON. Once you sign-in with full
+            params such as API ID, API hash, phone number, IP, and port, SimpleShell generates
+            'credentials.json' file. With this file, you can simply sign-in to Telegram without
+            'Enter Code' process.
 `)
 }
 
@@ -65,7 +67,7 @@ func isServerEndpoint(addr string) (err error) {
 
 func parseArgs() (apiId int32, apiHash, phoneNumber, ip string, port int, credentials string, err error){
 	switch len(os.Args) {
-	case 1:
+	case 2:
 		if _, err = os.Stat(os.Args[1]); err == nil {
 			credentials = os.Args[1]
 		}
@@ -175,7 +177,7 @@ func main() {
 		log.Println("MAIN: load authentication")
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
-		mconn, err = manager.LoadAuthentication(phone)
+		mconn, err = manager.LoadAuthentication()
 		handleError(err)
 	}
 

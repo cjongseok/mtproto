@@ -29,8 +29,8 @@ type newsession struct {
 type loadsession struct {
 	// If connId is zero, Manager makes new connection and assigns it the loaded session.
 	// Otherwise, the loaded session is allocated to the connection of connId.
-	connId        int32
-	phonenumber   string
+	connId int32
+	//phone  string
 	//preferredAddr string
 	resp          chan sessionResponse
 }
@@ -71,9 +71,9 @@ type renewSession struct {
 
 // discardSession + loadsession
 type refreshSession struct {
-	sessionId   int64
-	phonenumber string
-	resp        chan sessionResponse
+	sessionId int64
+	phone     string
+	resp      chan sessionResponse
 }
 
 // Connection Events
