@@ -744,12 +744,19 @@ func (session *Session) readRoutine() {
 		// Run async wait for data from server
 		ch := make(chan interface{}, 1)
 		go func(ch chan<- interface{}) {
-			refresh := func(session *Session) {
-				session.notify(refreshSession{
-					session.sessionId,
-					session.phonenumber,
-					nil,
-				})
+			refreshUntilSuccess := func(session *Session) {
+				respChan := make(chan sessionResponse)
+				for {
+					session.notify(refreshSession{
+						session.sessionId,
+						session.phonenumber,
+						respChan,
+					})
+					resp := <-respChan
+					if resp.err == nil {
+						break
+					}
+				}
 			}
 			innerRoutineWG.Add(1)
 			defer innerRoutineWG.Done()
@@ -762,30 +769,30 @@ func (session *Session) readRoutine() {
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
 				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
-				refresh(session)
+				refreshUntilSuccess(session)
 			} else if err != nil {
 				if strings.Contains(err.Error(), "use of closed network connection") {
 					slog.Logf(session, "read: TCP connection closed (%s)\n", err)
 					// Two cases
 					// 1. on new authentication, 303 PHONE_MIGRATE can require to make a new connection with different
 					//   server by closing the connection. -> do nothing, because session will be renewed by MM
-					// 2. after authentication, there could be an accidental disconnection. -> need to refresh
+					// 2. after authentication, there could be an accidental disconnection. -> need to refreshUntilSuccess
 					if session.user == nil {
 						// case 1
 						// do nothing
 					} else {
 						// case 2
-						refresh(session)
+						refreshUntilSuccess(session)
 					}
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
 					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
-					refresh(session)
+					refreshUntilSuccess(session)
 				} else if strings.Contains(err.Error(), "i/o timeout") {
 					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
-					refresh(session)
+					refreshUntilSuccess(session)
 				} else {
 					slog.Logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
-					refresh(session)
+					refreshUntilSuccess(session)
 				}
 			} else {
 				ch <- data
