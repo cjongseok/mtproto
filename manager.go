@@ -513,6 +513,10 @@ func (mm *Manager) manageRoutine() {
 					if e.resp != nil {
 						e.resp <- sessionResp
 					}
+					if sessionResp.err != nil && e.policy == untilSucces {
+						slog.Logln(mm, "retry refreshSession")
+						mm.eventq <- e
+					}
 					//mm.refreshSessionThrottle[e.sessionId] = 0
 				}()
 

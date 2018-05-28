@@ -66,8 +66,12 @@ type renewSession struct {
 type refreshSession struct {
 	sessionId   int64
 	phonenumber string
+	policy retryPolicy
 	resp        chan sessionResponse
 }
+type retryPolicy string
+const noRetry retryPolicy = "noRetry"
+const untilSucces retryPolicy = "untilSuccess"
 
 // Connection Events
 type ConnectionOpened struct {
