@@ -301,7 +301,7 @@ func (mm *Manager) manageRoutine() {
 						}
 						//TODO: separate the handshaking error into two cases and trigger refreshSession on tcp dialing
 						// failure
-						resp = sessionResponse{0, nil, err}
+						resp = sessionResponse{0, session, err}
 					} else {
 						// Bind the session with mconn and mmanager
 						mm.sessions[session.sessionId] = session // Immediate registration
@@ -449,14 +449,20 @@ func (mm *Manager) manageRoutine() {
 						// sleep timer
 						case <-time.After(1 * time.Second):
 							if mm.sessions[e.sessionId] != nil {
+								// session is registered
 								if mm.sessions[e.sessionId].connId != 0 {
+									// session is bound to a connection
 									spinLock = false
 									connId = mm.sessions[e.sessionId].connId
 									slog.Logln(mm, "spinlocked. session(%d) is bound. Release the lock now.", e.sessionId)
 								} else {
+									// session is not bound to a connection yet
 									slog.Logf(mm, "spinlocked. wait for the session(%d) binding.\n", e.sessionId)
 								}
 							} else if stuckSessionConnId, ok := mm.stuckSessions[e.sessionId]; ok {
+								// session is not registered yet,
+								// even the session would not be registered forever,
+								// because either invokeWithLayer or updatesGetState does not respond.
 								spinLock = false
 								skipDiscardSession = true
 								connId = stuckSessionConnId
@@ -464,6 +470,7 @@ func (mm *Manager) manageRoutine() {
 								slog.Logf(mm, "spinlocked. Session(%d) is stuck on either invokeWithLayer or "+
 									"updatesGetState. Release the lock now and skip discardSession.\n", e.sessionId)
 							} else {
+								// session is not registered yet. wait for the registration.
 								slog.Logf(mm, "spinlocked. Session(%d) is waiting for a response from either "+
 									"invokeWithLayer or updatesGetState.\n", e.sessionId)
 							}
@@ -486,38 +493,32 @@ func (mm *Manager) manageRoutine() {
 					// Req loadsession
 					connectRespCh := make(chan sessionResponse, 1)
 					var connectResp sessionResponse
-					//for {
 					slog.Logln(mm, "req loadsession")
 					mm.eventq <- loadsession{connId, "", connectRespCh}
 					connectResp = <-connectRespCh
 					var sessionResp sessionResponse
 					if connectResp.err != nil {
-						//switch connectResp.err.(type) {
-						//case handshakingFailure:
-						//  slog.Logf(mm, "retry loadsession after %f seconds: %s", DELAY_RETRY_OPEN_SESSION.Seconds(), connectResp.err)
-						//  time.Sleep(DELAY_RETRY_OPEN_SESSION)
-						//  continue
-						//default:
 						slog.Logln(mm, "loadsession failure on refreshSession: ", connectResp.err)
-						//slog.Logln(mm ,"retry loadsession")
 						sessionResp = sessionResponse{0, nil, connectResp.err}
-						//}
 					} else {
 						//TODO: need to handle nil resp channel?
 						sessionResp = sessionResponse{connectResp.connId, connectResp.session, nil}
 					}
-					//break
-					//}
-					//TODO: figure out missed updates
-					slog.Logln(mm, "refreshSession done. Release the throttle")
+					if sessionResp.err != nil && e.policy == untilSuccess {
+						slog.Logln(mm, "retry refreshSession")
+						mm.eventq <- refreshSession{
+							sessionResp.session.sessionId,
+							e.phonenumber,
+							untilSuccess,
+							make(chan sessionResponse),
+						}
+					} else {
+						slog.Logln(mm, "refreshSession is done.")
+						//mm.refreshSessionThrottle[e.sessionId] = 0
+					}
 					if e.resp != nil {
 						e.resp <- sessionResp
 					}
-					if sessionResp.err != nil && e.policy == untilSucces {
-						slog.Logln(mm, "retry refreshSession")
-						mm.eventq <- e
-					}
-					//mm.refreshSessionThrottle[e.sessionId] = 0
 				}()
 
 				// Connection Event Handlers

@@ -750,7 +750,7 @@ func (session *Session) readRoutine() {
 					session.notify(refreshSession{
 						session.sessionId,
 						session.phonenumber,
-						untilSucces,
+						untilSuccess,
 						nil,
 					})
 					//resp := <-respChan

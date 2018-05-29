@@ -71,7 +71,7 @@ type refreshSession struct {
 }
 type retryPolicy string
 const noRetry retryPolicy = "noRetry"
-const untilSucces retryPolicy = "untilSuccess"
+const untilSuccess retryPolicy = "untilSuccess"
 
 // Connection Events
 type ConnectionOpened struct {
