@@ -747,16 +747,16 @@ func (session *Session) readRoutine() {
 			refreshUntilSuccess := func(session *Session) {
 				//respChan := make(chan sessionResponse)
 				//for {
-					session.notify(refreshSession{
-						session.sessionId,
-						session.phonenumber,
-						untilSuccess,
-						nil,
-					})
-					//resp := <-respChan
-					//if resp.err == nil {
-					//	break
-					//}
+				session.notify(refreshSession{
+					session.sessionId,
+					session.phonenumber,
+					untilSuccess,
+					nil,
+				})
+				//resp := <-respChan
+				//if resp.err == nil {
+				//	break
+				//}
 				//}
 			}
 			innerRoutineWG.Add(1)

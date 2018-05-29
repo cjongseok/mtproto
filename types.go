@@ -24,10 +24,10 @@ type newsession struct {
 type loadsession struct {
 	// If connId is zero, Manager makes new connection and assigns it the loaded session.
 	// Otherwise, the loaded session is allocated to the connection of connId.
-	connId        int32
-	phonenumber   string
+	connId      int32
+	phonenumber string
 	//preferredAddr string
-	resp          chan sessionResponse
+	resp chan sessionResponse
 }
 
 type sessionResponse struct {
@@ -66,10 +66,11 @@ type renewSession struct {
 type refreshSession struct {
 	sessionId   int64
 	phonenumber string
-	policy retryPolicy
+	policy      retryPolicy
 	resp        chan sessionResponse
 }
 type retryPolicy string
+
 const noRetry retryPolicy = "noRetry"
 const untilSuccess retryPolicy = "untilSuccess"
 
