@@ -133,28 +133,17 @@ dialogs, err := client.MessagesGetDialogs(context.Background(), &mtproto.ReqMess
     Limit:      1,
 })
 ```
+### Client in Python
+See [py](https://github.com/cjongseok/mtproto/tree/master/py).
 ### Client in other languages
 By compiling [types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
 you can create clients in your preferred language.<br>
-For this, you need [Google Protobuf](https://developers.google.com/protocol-buffers/).
-In case of Go, you can use the below commands
-```bash
-# At the mtproto home
-mkdir -p out/proxy
-protoc -I ./ -I <PROTOC_HOME>/include types.tl.proto --go_out=plugins=grpc:./out
-protoc -I $GOPATH/src -I proxy tl_update.proto --go_out=plugins=grpc:./out/proxy
-```
-For other languages, you can use different options. (I didn't try it, but I believe it would work as other gRPC projects. If you try it, please share the result.)<br>
-It seems protoc-3.5.1 supports below languages.
-* --cpp_out=OUT_DIR           Generate C++ header and source.
-* --csharp_out=OUT_DIR        Generate C# source file.
-* --java_out=OUT_DIR          Generate Java source file.
-* --javanano_out=OUT_DIR      Generate Java Nano source file.
-* --js_out=OUT_DIR            Generate JavaScript source.
-* --objc_out=OUT_DIR          Generate Objective C header and source.
-* --php_out=OUT_DIR           Generate PHP source file.
-* --python_out=OUT_DIR        Generate Python source file.
-* --ruby_out=OUT_DIR          Generate Ruby source file.
+For this, you need to install [Google Protobuf](https://developers.google.com/protocol-buffers/) together with gRPC library of the target language.
+Then you can compile protobuf files with these command lines:
+* [Go](https://github.com/cjongseok/mtproto/blob/master/compiler/build.sh)
+* [Python](https://github.com/cjongseok/mtproto/blob/master/compiler/build_py.sh)
+
+For other languages, refer to [gRPC tutorial](https://grpc.io/docs/).
 
 <!--
 ### Types and Predicates
