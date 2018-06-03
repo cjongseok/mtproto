@@ -5,21 +5,30 @@ It is a mtproto proxy Python client.
 Quick Start
 ---
 ```bash
-# install python grpc library
+# If you don't have a mtproto key, generate it first.
+# At mtproto home directory,
+go run tools/keygen/main.go <APIID> <APIHASH> <PHONE>
+
+# Move the key inside secrets directory
+cd py
+mkdir secrets
+mv ../key.mtproto ./secrets
+
+# Install python grpc library
 pip install grpcio-tools
 
-# start proxy server
+# Spawn a proxy server at port 11011
 docker run \
 -p 11011:11011 \
--v /your/mtproto/secrets/directory:/opt \
-cjongseok/mtprotod start  \
+-v ${PWD}/secrets:/opt \
+cjongseok/mtprotod start \
 --port 11011 \
 --addr <Your_Telegram_server_address> \
 --apiid <Your_Telegram_api_id> \
 --apihash <Your_Telegram_api_hash> \
 --phone <Your_Telegram_phone_number> \
 --port <Proxy_port> \
---secrets /opt/<Your_MTProto_secrets_file_name>
+--secrets /opt/key.mtproto
 
 # GetDialogs() over Python client
 python3 main.py
