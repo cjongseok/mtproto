@@ -210,6 +210,14 @@ func main() {
 			})
 			handleError(err)
 			fmt.Println("send response:", slog.StringifyIndent(resp, "  "))
+		case "contacts": // $ contacts
+			if len(args) != 1 {
+				help()
+				return
+			}
+			resp, err := caller.ContactsGetContacts(context.Background(), &mtproto.ReqContactsGetContacts{})
+			handleError(err)
+			fmt.Println("contacts response:", slog.StringifyIndent(resp, "  " ))
 		case "help":
 			help()
 		case "exit":
