@@ -46,9 +46,9 @@ func (h handshakingFailure) Error() string {
 type Session struct {
 	connId      int32
 	sessionId   int64
-	phonenumber string
-	addr        string
-	useIPv6     bool
+	//phonenumber string
+	//addr        string
+	//useIPv6     bool
 	listeners   []chan Event
 	tcpconn     *net.TCPConn
 	f           *os.File
@@ -66,10 +66,11 @@ type Session struct {
 	sendWaitGroup sync.WaitGroup
 	pingWaitGroup sync.WaitGroup
 
-	authKey     []byte
-	authKeyHash []byte
-	serverSalt  []byte
-	encrypted   bool
+	c *Credentials
+	//authKey     []byte
+	//authKeyHash []byte
+	//serverSalt  []byte
+	//encrypted   bool
 
 	mutex        *sync.Mutex
 	lastSeqNo    int32
@@ -84,8 +85,17 @@ type Session struct {
 	user         *PredUser
 	updatesState *PredUpdatesState
 
-	dclist map[int32]string
+	// dcOptions contains Telegram server list. Its 1st key is a IP version, such as 'ipv4' and 'ipv6',
+	// and 2nd key is server's id.
+	dcOptions map[string]map[int32]PredDcOption
 }
+
+// IP versions for dcOptions 1st key
+const (
+	ipv4 = "ipv4"
+	ipv6 = "ipv6"
+)
+
 
 type packetToSend struct {
 	msg  TL
@@ -123,23 +133,48 @@ func (session *Session) close() {
 //	return sessionFileHome + "/.telegram_" + phonenumber
 //}
 
-func newSession(phonenumber string, addr string, useIPv6 bool, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
+func isIPv6(addr string) bool  {
+	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
+	if err != nil {
+		return false
+	}
+	if tcpAddr.IP.To4() != nil {
+		return false
+	} else if tcpAddr.IP.To16() != nil {
+		return true
+	}
+	return false
+}
+
+func newSession(phone string, apiID int32, apiHash, ip string, port int, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	var err error
 
 	session := new(Session)
-	session.phonenumber = phonenumber
+	// create empty key file
 	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
-	if err == nil {
-		session.addr = addr
-		session.useIPv6 = useIPv6
-		session.encrypted = false
-		err = session.open(appConfig /*sendQueue,*/, sessionListener, false)
+	if err != nil {
+		return nil, err
+	}
+	// open session
+	credentials := Credentials{
+		Phone: phone,
+		ApiID: apiID,
+		ApiHash: apiHash,
+		IP: ip,
+		Port: port,
+	}
+	//if err == nil {
+	//	session.addr = addr
+	//	session.useIPv6 = useIPv6
+	//	session.encrypted = false
+	useIPv6 := isIPv6(credentials.IP)
+		err = session.open(useIPv6, credentials, appConfig /*sendQueue,*/, sessionListener, false)
 		if err != nil {
 			return nil, err
 		}
 		return session, nil
-	}
-	return nil, err
+	//}
+	//return nil, err
 }
 
 // byte array string is bracketed space separated numbers in a string
@@ -160,33 +195,36 @@ func byteArrayString2byteArray(str string) []byte {
 // Build a connection from the session file
 // returned session contains the same session with the file but session id,
 // since the session file does not have session id
-func loadSession(phonenumber string, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
+func loadSession(appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	// load session info from either session file or env
 	// its precedence is; preferredAddr > sessionFile > env
 	session := new(Session)
-	session.phonenumber = phonenumber
+	//var credentials Credentials
+	//session.phonenumber = phonenumber
 	var err error
 	if appConfig.KeyPath == "" {
+		return nil, fmt.Errorf("no credentials file")
 		// load key from env
-		session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
-		session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
-		session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
-		session.addr = os.Getenv(ENV_ADDR)
-		session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
-		session.encrypted = true
-		if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
-			return nil, fmt.Errorf("cannot find mtproto key from neither session file nor env: open new session: %v", err)
-		} else {
-			session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
-		}
-	} else {
-		session.f, err = os.OpenFile(appConfig.KeyPath, os.O_RDONLY, 0600)
-		if err == nil {
-			err = session.readSessionFile(session.f)
-		}
-		if err != nil {
-			return nil, fmt.Errorf("read mtproto key failure: %v", err)
-		}
+		//session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
+		//session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
+		//session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
+		//session.addr = os.Getenv(ENV_ADDR)
+		//session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
+		//session.encrypted = true
+		//if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
+		//	return nil, fmt.Errorf("cannot find mtproto key from neither session file nor env: open new session: %v", err)
+		//} else {
+		//	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
+		//}
+	}
+	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_RDONLY, 0600)
+	if err != nil {
+		//err = session.readSessionFile(session.f)
+		return nil, fmt.Errorf("no credentials file; %v", err)
+	}
+	credentials, err := NewCredentialsFromFile(session.f)
+	if err != nil {
+		return nil, fmt.Errorf("new credentials from file failure; %v", err)
 	}
 
 	// Deprecate preferred server address
@@ -206,29 +244,32 @@ func loadSession(phonenumber string, appConfig Configuration /*sendQueue chan pa
 	//		slog.Logln(session, "invalid preferred preferred Telegram server address. ignore it.")
 	//	}
 	//}
-	err = session.open(appConfig /*sendQueue,*/, sessionListener, true)
+	useIPv6 := isIPv6(credentials.IP)
+	err = session.open(useIPv6, *credentials, appConfig /*sendQueue,*/, sessionListener, true)
 	if err != nil {
 		return session, handshakingFailure{fmt.Sprintf("Handshaking Failure: %v", err)}
 	}
 	return session, nil
 }
 
-func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event, getUpdateStates bool) error {
+func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event, getUpdateStates bool) error {
 	var err error
 	var tcpAddr *net.TCPAddr
 
 	// set up rest of session
+	session.c = &c
 	session.appConfig = appConfig
 	rand.Seed(time.Now().UnixNano())
 	session.sessionId = rand.Int63()
 	session.AddSessionListener(sessionListener)
 
 	// connect
-	tcpAddr, err = net.ResolveTCPAddr("tcp", session.addr)
+	serverAddr := fmt.Sprintf("%s:%d", c.IP, c.Port)
+	tcpAddr, err = net.ResolveTCPAddr("tcp", serverAddr)
 	if err != nil {
 		return err
 	}
-	slog.Logf(session, "dial TCP to %s\n", session.addr)
+	slog.Logf(session, "dial TCP to %s\n", serverAddr)
 	session.tcpconn, err = net.DialTCP("tcp", nil, tcpAddr)
 	if err != nil {
 		return err
@@ -239,11 +280,14 @@ func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSe
 		return err
 	}
 	// get new authKey if need
-	if !session.encrypted {
-		err = session.makeAuthKey()
+	if c.AuthKey == nil {
+		authKey, authKeyHash, salt, err := session.makeAuthKey()
 		if err != nil {
 			return err
 		}
+		c.AuthKey = authKey
+		c.AuthKeyHash = authKeyHash
+		c.Salt = salt
 	}
 
 	// start goroutines
@@ -274,7 +318,7 @@ func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSe
 		msg: &ReqInvokeWithLayer{
 			Layer: int32(layer),
 			Query: Pack(&ReqInitConnection{
-				ApiId:          session.appConfig.Id,
+				ApiId:          session.c.ApiID,
 				DeviceModel:    session.appConfig.DeviceModel,
 				SystemVersion:  session.appConfig.SystemVersion,
 				AppVersion:     session.appConfig.Version,
@@ -297,7 +341,10 @@ func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSe
 
 	switch x.data.(type) {
 	case *PredConfig:
-		session.dclist = make(map[int32]string, 5)
+		session.dcOptions = make(map[string]map[int32]PredDcOption)
+		session.dcOptions[ipv4] = make(map[int32]PredDcOption)
+		session.dcOptions[ipv6] = make(map[int32]PredDcOption)
+		//session.dclist = make(map[int32]string, 5)
 		for _, v := range x.data.(*PredConfig).DcOptions {
 			isIPv6 := true
 			dcOption := v.GetValue()
@@ -307,15 +354,19 @@ func (session *Session) open(appConfig Configuration /*sendQueue chan packetToSe
 				if ip != nil {
 					isIPv6 = false
 				}
-				if session.useIPv6 {
+				//if useIPv6 {
 					if isIPv6 {
-						session.dclist[dcOption.GetId()] = fmt.Sprintf("[%s]:%d", dcOption.GetIpAddress(), dcOption.GetPort())
+						session.dcOptions[ipv6][dcOption.Id] = *dcOption
+					} else {
+						session.dcOptions[ipv4][dcOption.Id] = *dcOption
 					}
-				} else {
-					if !isIPv6 {
-						session.dclist[dcOption.GetId()] = fmt.Sprintf("%s:%d", dcOption.GetIpAddress(), dcOption.GetPort())
-					}
-				}
+					//	session.dclist[dcOption.GetId()] = fmt.Sprintf("[%s]:%d", dcOption.GetIpAddress(), dcOption.GetPort())
+					//}
+				//} else {
+					//if !isIPv6 {
+					//	session.dclist[dcOption.GetId()] = fmt.Sprintf("%s:%d", dcOption.GetIpAddress(), dcOption.GetPort())
+					//}
+				//}
 			}
 		}
 		marshaled, err := json.Marshal(x.data)
@@ -381,32 +432,6 @@ func (session *Session) RemoveSessionListener(toremove chan Event) error {
 	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
 }
 
-func (session *Session) readSessionFile(f *os.File) error {
-	// Decode session file
-	b := make([]byte, 1024*4)
-	n, err := f.ReadAt(b, 0)
-	if n <= 0 || (err != nil && err.Error() != "EOF") {
-		return errors.New("New session")
-	}
-
-	d := NewDecodeBuf(b)
-	session.authKey = d.StringBytes()
-	session.authKeyHash = d.StringBytes()
-	session.serverSalt = d.StringBytes()
-	session.addr = d.String()
-	session.useIPv6 = false
-	if d.UInt() == 1 {
-		session.useIPv6 = true
-	}
-
-	if d.err != nil {
-		// Failed to load session
-		return d.err
-	}
-
-	session.encrypted = true
-	return nil
-}
 
 func (session *Session) notify(e Event) {
 	slog.Logf(session, "notify Event, %s, to %v\n", slog.Stringify(e), session.listeners)
@@ -428,9 +453,9 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 
 		case TL_bad_server_salt:
 			data := data.(TL_bad_server_salt)
-			session.serverSalt = data.new_server_salt
+			session.c.Salt = data.new_server_salt
 			// save the session on sign in
-			_ = session.saveSession()
+			_ = session.c.Save(session.f)
 			session.mutex.Lock()
 			defer session.mutex.Unlock()
 			for k, v := range session.msgsIdToAck {
@@ -440,9 +465,9 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 
 		case TL_new_session_created:
 			data := data.(TL_new_session_created)
-			session.serverSalt = data.server_salt
+			session.c.Salt = data.server_salt
 			// save the session on sign in
-			_ = session.saveSession()
+			_ = session.c.Save(session.f)
 
 		case TL_ping:
 			data := data.(TL_ping)
@@ -622,34 +647,6 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 	return nil
 }
 
-// Save session
-//TODO: save channel and datacenter information
-func (session *Session) saveSession() (err error) {
-	session.encrypted = true
-
-	b := NewEncodeBuf(1024)
-	b.StringBytes(session.authKey)
-	b.StringBytes(session.authKeyHash)
-	b.StringBytes(session.serverSalt)
-	b.String(session.addr)
-	var useIPv6UInt uint32
-	if session.useIPv6 {
-		useIPv6UInt = 1
-	}
-	b.UInt(useIPv6UInt)
-
-	err = session.f.Truncate(0)
-	if err != nil {
-		return err
-	}
-
-	_, err = session.f.WriteAt(b.buf, 0)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
 
 func (session *Session) stopRead() {
 	if session.isReading {
@@ -720,7 +717,7 @@ func (session *Session) sendRoutine(interval time.Duration) {
 			if x.msg != nil {
 				//TODO: alternate interval based scheduler with frequency scheduler
 				wg.Wait()
-				err := session.sendPacket(x.msg, x.resp)
+				err := session.send(x.msg, x.resp)
 				wg.Add(1)
 				t.Reset(interval)
 				if err != nil {
@@ -749,7 +746,7 @@ func (session *Session) readRoutine() {
 				//for {
 				session.notify(refreshSession{
 					session.sessionId,
-					session.phonenumber,
+					session.c.Phone,
 					untilSuccess,
 					nil,
 				})
@@ -767,9 +764,10 @@ func (session *Session) readRoutine() {
 				slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			}
 			//slog.Logf(session, "read: %s\n", slog.Stringify(data))
+			serverAddr := fmt.Sprintf("%s:%d", session.c.IP, session.c.Port)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
-				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", session.addr)
+				slog.Logf(session, "read: lost connection (captured EOF). reconnect to %s\n", serverAddr)
 				refreshUntilSuccess(session)
 			} else if err != nil {
 				if strings.Contains(err.Error(), "use of closed network connection") {
@@ -786,13 +784,13 @@ func (session *Session) readRoutine() {
 						refreshUntilSuccess(session)
 					}
 				} else if strings.Contains(err.Error(), "connection reset by peer") {
-					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, serverAddr)
 					refreshUntilSuccess(session)
 				} else if strings.Contains(err.Error(), "i/o timeout") {
-					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, session.addr)
+					slog.Logf(session, "read: lost connection (%s). reconnect to %s\n", err, serverAddr)
 					refreshUntilSuccess(session)
 				} else {
-					slog.Logf(session, "read: unknown error, %s. reconnect to %s\n", err, session.addr)
+					slog.Logf(session, "read: unknown error, %s. reconnect to %s\n", err, serverAddr)
 					refreshUntilSuccess(session)
 				}
 			} else {
@@ -815,7 +813,7 @@ func (session *Session) readRoutine() {
 		}
 	}
 }
-func (session *Session) sendPacket(msg TL, resp chan response) error {
+func (session *Session) send(msg TL, resp chan response) error {
 	obj := msg.encode()
 
 	x := NewEncodeBuf(256)
@@ -823,7 +821,13 @@ func (session *Session) sendPacket(msg TL, resp chan response) error {
 	// padding for tcpsize
 	x.Int(0)
 
-	if session.encrypted {
+	if session.c.AuthKey == nil {
+		// send un-encrypted packet, e.g., InvokeWithLayer
+		x.Long(0)
+		x.Long(GenerateMessageId())
+		x.Int(int32(len(obj)))
+		x.Bytes(obj)
+	} else {
 		needAck := true
 		switch msg.(type) {
 		case TL_ping, TL_msgs_ack:
@@ -831,7 +835,7 @@ func (session *Session) sendPacket(msg TL, resp chan response) error {
 		}
 		z := NewEncodeBuf(256)
 		newMsgId := GenerateMessageId()
-		z.Bytes(session.serverSalt)
+		z.Bytes(session.c.Salt)
 		z.Long(session.sessionId)
 		z.Long(newMsgId)
 		if needAck {
@@ -843,7 +847,7 @@ func (session *Session) sendPacket(msg TL, resp chan response) error {
 		z.Bytes(obj)
 
 		msgKey := sha1(z.buf)[4:20]
-		aesKey, aesIV := generateAES(msgKey, session.authKey, false)
+		aesKey, aesIV := generateAES(msgKey, session.c.AuthKey, false)
 
 		y := make([]byte, len(z.buf)+((16-(len(obj)%16))&15))
 		copy(y, z.buf)
@@ -859,7 +863,7 @@ func (session *Session) sendPacket(msg TL, resp chan response) error {
 			session.mutex.Unlock()
 		}
 
-		x.Bytes(session.authKeyHash)
+		x.Bytes(session.c.AuthKeyHash)
 		x.Bytes(msgKey)
 		x.Bytes(encryptedData)
 
@@ -868,12 +872,6 @@ func (session *Session) sendPacket(msg TL, resp chan response) error {
 			session.msgsIdToResp[newMsgId] = resp
 			session.mutex.Unlock()
 		}
-
-	} else {
-		x.Long(0)
-		x.Long(GenerateMessageId())
-		x.Int(int32(len(obj)))
-		x.Bytes(obj)
 
 	}
 
@@ -943,7 +941,7 @@ func (session *Session) read() (interface{}, error) {
 	}
 
 	// decrypt incoming packet
-	data, session.msgId, session.seqNo, err = decryptMtproto(buf, session.authKey)
+	data, session.msgId, session.seqNo, err = decryptMtproto(buf, session.c.AuthKey)
 	if err != nil {
 		return nil, err
 	}
@@ -951,29 +949,29 @@ func (session *Session) read() (interface{}, error) {
 
 }
 
-func (session *Session) makeAuthKey() error {
+func (session *Session) makeAuthKey() ([]byte, []byte, []byte, error) {
 	var x []byte
 	var err error
 	var data interface{}
 
 	// (send) req_pq
 	nonceFirst := GenerateNonce(16)
-	err = session.sendPacket(TL_req_pq{nonceFirst}, nil)
+	err = session.send(TL_req_pq{nonceFirst}, nil)
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 
 	// (parse) resPQ
 	data, err = session.read()
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 	res, ok := data.(TL_resPQ)
 	if !ok {
-		return errors.New("Handshake: Need resPQ")
+		return nil, nil, nil, errors.New("Handshake: Need resPQ")
 	}
 	if !bytes.Equal(nonceFirst, res.nonce) {
-		return errors.New("Handshake: Wrong Nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Nonce")
 	}
 	found := false
 	for _, b := range res.fingerprints {
@@ -983,7 +981,7 @@ func (session *Session) makeAuthKey() error {
 		}
 	}
 	if !found {
-		return errors.New("Handshake: No fingerprint")
+		return nil, nil, nil, errors.New("Handshake: No fingerprint")
 	}
 
 	// (encoding) p_q_inner_data
@@ -997,25 +995,25 @@ func (session *Session) makeAuthKey() error {
 	copy(x[20:], innerData1)
 	encryptedData1 := doRSAencrypt(x)
 	// (send) req_DH_params
-	err = session.sendPacket(TL_req_DH_params{nonceFirst, nonceServer, p, q, telegramPublicKey_FP, encryptedData1}, nil)
+	err = session.send(TL_req_DH_params{nonceFirst, nonceServer, p, q, telegramPublicKey_FP, encryptedData1}, nil)
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 
 	// (parse) server_DH_params_{ok, fail}
 	data, err = session.read()
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 	dh, ok := data.(TL_server_DH_params_ok)
 	if !ok {
-		return errors.New("Handshake: Need server_DH_params_ok")
+		return nil, nil, nil, errors.New("Handshake: Need server_DH_params_ok")
 	}
 	if !bytes.Equal(nonceFirst, dh.nonce) {
-		return errors.New("Handshake: Wrong Nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Nonce")
 	}
 	if !bytes.Equal(nonceServer, dh.server_nonce) {
-		return errors.New("Handshake: Wrong Server_nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Server_nonce")
 	}
 	t1 := make([]byte, 48)
 	copy(t1[0:], nonceSecond)
@@ -1045,38 +1043,38 @@ func (session *Session) makeAuthKey() error {
 	// (parse-thru) server_DH_inner_data
 	decodedData, err := doAES256IGEdecrypt(dh.encrypted_answer, tmpAESKey, tmpAESIV)
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 	innerbuf := NewDecodeBuf(decodedData[20:])
 	data = innerbuf.Object()
 	if innerbuf.err != nil {
-		return innerbuf.err
+		return nil, nil, nil, innerbuf.err
 	}
 	dhi, ok := data.(TL_server_DH_inner_data)
 	if !ok {
-		return errors.New("Handshake: Need server_DH_inner_data")
+		return nil, nil, nil, errors.New("Handshake: Need server_DH_inner_data")
 	}
 	if !bytes.Equal(nonceFirst, dhi.nonce) {
-		return errors.New("Handshake: Wrong Nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Nonce")
 	}
 	if !bytes.Equal(nonceServer, dhi.server_nonce) {
-		return errors.New("Handshake: Wrong Server_nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Server_nonce")
 	}
 
 	_, g_b, g_ab := makeGAB(dhi.g, dhi.g_a, dhi.dh_prime)
-	session.authKey = g_ab.Bytes()
-	if session.authKey[0] == 0 {
-		session.authKey = session.authKey[1:]
+	authKey := g_ab.Bytes()
+	if authKey[0] == 0 {
+		authKey = authKey[1:]
 	}
-	session.authKeyHash = sha1(session.authKey)[12:20]
+	authKeyHash := sha1(authKey)[12:20]
 	t4 := make([]byte, 32+1+8)
 	copy(t4[0:], nonceSecond)
 	t4[32] = 1
-	copy(t4[33:], sha1(session.authKey)[0:8])
+	copy(t4[33:], sha1(authKey)[0:8])
 	nonceHash1 := sha1(t4)[4:20]
-	session.serverSalt = make([]byte, 8)
-	copy(session.serverSalt, nonceSecond[:8])
-	xor(session.serverSalt, nonceServer[:8])
+	salt := make([]byte, 8)
+	copy(salt, nonceSecond[:8])
+	xor(salt, nonceServer[:8])
 
 	// (encoding) client_DH_inner_data
 	innerData2 := (TL_client_DH_inner_data{nonceFirst, nonceServer, 0, g_b}).encode()
@@ -1086,37 +1084,37 @@ func (session *Session) makeAuthKey() error {
 	encryptedData2, err := doAES256IGEencrypt(x, tmpAESKey, tmpAESIV)
 
 	// (send) set_client_DH_params
-	err = session.sendPacket(TL_set_client_DH_params{nonceFirst, nonceServer, encryptedData2}, nil)
+	err = session.send(TL_set_client_DH_params{nonceFirst, nonceServer, encryptedData2}, nil)
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 
 	// (parse) dh_gen_{ok, Retry, fail}
 	data, err = session.read()
 	if err != nil {
-		return err
+		return nil, nil, nil, err
 	}
 	dhg, ok := data.(TL_dh_gen_ok)
 	if !ok {
-		return errors.New("Handshake: Need dh_gen_ok")
+		return nil, nil, nil, errors.New("Handshake: Need dh_gen_ok")
 	}
 	if !bytes.Equal(nonceFirst, dhg.nonce) {
-		return errors.New("Handshake: Wrong Nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Nonce")
 	}
 	if !bytes.Equal(nonceServer, dhg.server_nonce) {
-		return errors.New("Handshake: Wrong Server_nonce")
+		return nil, nil, nil, errors.New("Handshake: Wrong Server_nonce")
 	}
 	if !bytes.Equal(nonceHash1, dhg.new_nonce_hash1) {
-		return errors.New("Handshake: Wrong New_nonce_hash1")
+		return nil, nil, nil, errors.New("Handshake: Wrong New_nonce_hash1")
 	}
 
 	// (all ok)
-	err = session.saveSession()
-	if err != nil {
-		return err
-	}
+	//err = session.saveSession()
+	//if err != nil {
+	//	return nil, err
+	//}
 
-	return nil
+	return authKey, authKeyHash, salt, nil
 }
 
 func (x *Session) LogPrefix() string {

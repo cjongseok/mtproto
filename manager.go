@@ -84,10 +84,10 @@ func (mm *Manager) Finish() {
 //	return true
 //}
 
-func (mm *Manager) LoadAuthentication(phonenumber string) (*Conn, error) {
+func (mm *Manager) LoadAuthentication() (*Conn, error) {
 	// req connect
 	respCh := make(chan sessionResponse, 1)
-	mm.eventq <- loadsession{0, phonenumber, respCh}
+	mm.eventq <- loadsession{0,  respCh}
 
 	// Wait for connection built
 	resp := <-respCh
@@ -134,10 +134,10 @@ func (mm *Manager) LoadAuthentication(phonenumber string) (*Conn, error) {
 	return mm.conns[resp.connId], nil
 }
 
-func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bool) (*Conn, *TypeAuthSentCode, error) {
+func (mm *Manager) NewAuthentication(phone string, apiID int32, apiHash, ip string, port int) (*Conn, *TypeAuthSentCode, error) {
 	// req connect
 	respCh := make(chan sessionResponse, 1)
-	mm.eventq <- newsession{0, phonenumber, addr, useIPv6, respCh}
+	mm.eventq <- newsession{0, phone, apiID, apiHash, ip, port, respCh}
 
 	// Wait for connection
 	resp := <-respCh
@@ -158,10 +158,10 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 		data, err := mconn.InvokeBlocked(&ReqAuthSendCode{
 			//Allow_flashcall: false,
 			Flags:         0x00000001,
-			PhoneNumber:   phonenumber,
+			PhoneNumber:   phone,
 			CurrentNumber: &TypeBool{&TypeBool_BoolTrue{&PredBoolTrue{}}},
-			ApiId:         session.appConfig.Id,
-			ApiHash:       session.appConfig.Hash,
+			ApiId:         session.c.ApiID,
+			ApiHash:       session.c.ApiHash,
 		})
 		switch x := data.(type) {
 		case *PredAuthSentCode:
@@ -194,13 +194,20 @@ func (mm *Manager) NewAuthentication(phonenumber string, addr string, useIPv6 bo
 					return nil, nil, err
 				}
 				respch := make(chan sessionResponse, 1)
+				ipVersion := ipv4
+				if isIPv6(session.c.IP) {
+					ipVersion = ipv6
+				}
 
 				//TODO: Check if renewSession event works with mconn.notify()
 				mconn.notify(renewSession{
 					session.sessionId,
-					phonenumber,
-					session.dclist[newdc],
-					session.useIPv6,
+					session.c.Phone,
+					session.c.ApiID,
+					session.c.ApiHash,
+					//session.dclist[newdc],
+					session.dcOptions[ipVersion][newdc].IpAddress,
+					int(session.dcOptions[ipVersion][newdc].Port),
 					respch,
 				})
 
@@ -238,8 +245,9 @@ func (mm *Manager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(newsession)
-					slog.Logln(mm, "newsession to ", e.addr)
-					session, err := newSession(e.phonenumber, e.addr, e.useIPv6, mm.appConfig /*mm.queueSend,*/, mm.eventq)
+					slog.Logln(mm, "newsession to ", fmt.Sprintf("%s:%d", e.ip, e.port))
+					session, err := newSession(e.phone, e.apiid, e.apihash, e.ip, e.port,
+						mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					var resp sessionResponse
 					if err != nil {
 						slog.Logln(mm, "connect failure:", err)
@@ -282,8 +290,8 @@ func (mm *Manager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(loadsession)
-					slog.Logln(mm, "loadsession of ", e.phonenumber)
-					session, err := loadSession(e.phonenumber, mm.appConfig /*mm.queueSend,*/, mm.eventq)
+					slog.Logln(mm, "loadsession of conn ", e.connId)
+					session, err := loadSession(mm.appConfig /*mm.queueSend,*/, mm.eventq)
 					var resp sessionResponse
 					if err != nil {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
@@ -382,7 +390,7 @@ func (mm *Manager) manageRoutine() {
 					mm.manageWaitGroup.Add(1)
 					defer mm.manageWaitGroup.Done()
 					e := e.(renewSession)
-					slog.Logln(mm, "renewSession to ", e.addr)
+					slog.Logln(mm, "renewSession to ", fmt.Sprintf("%s:%d", e.ip, e.port))
 					connId := mm.sessions[e.sessionId].connId
 
 					// Req discardSession
@@ -403,12 +411,12 @@ func (mm *Manager) manageRoutine() {
 					// Req newsession
 					slog.Logln(mm, "renewRoutine: req newsession")
 					connectRespCh := make(chan sessionResponse, 1)
-					mm.eventq <- newsession{connId, e.phonenumber, e.addr, e.useIPv6, connectRespCh}
+					mm.eventq <- newsession{connId, e.phone, e.apiID, e.apiHash, e.ip, e.port, connectRespCh}
 					connectResp := <-connectRespCh
 					if connectResp.err != nil {
-						slog.Logf(mm, "renewSession failure: cannot connect to %s. %v\n", e.addr, connectResp.err)
+						slog.Logf(mm, "renewSession failure: cannot connect to %s:%d. %v\n", e.ip, e.port, connectResp.err)
 						if e.resp != nil {
-							e.resp <- sessionResponse{0, nil, fmt.Errorf("cannot connect to %s. %v", e.addr, connectResp.err)}
+							e.resp <- sessionResponse{0, nil, fmt.Errorf("cannot connect to %s:%d. %v", e.ip, e.port, connectResp.err)}
 						}
 						return
 					}
@@ -494,7 +502,7 @@ func (mm *Manager) manageRoutine() {
 					connectRespCh := make(chan sessionResponse, 1)
 					var connectResp sessionResponse
 					slog.Logln(mm, "req loadsession")
-					mm.eventq <- loadsession{connId, "", connectRespCh}
+					mm.eventq <- loadsession{connId, connectRespCh}
 					connectResp = <-connectRespCh
 					var sessionResp sessionResponse
 					if connectResp.err != nil {
@@ -508,7 +516,7 @@ func (mm *Manager) manageRoutine() {
 						slog.Logln(mm, "retry refreshSession")
 						mm.eventq <- refreshSession{
 							sessionResp.session.sessionId,
-							e.phonenumber,
+							e.phone,
 							untilSuccess,
 							make(chan sessionResponse),
 						}

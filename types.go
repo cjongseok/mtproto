@@ -15,17 +15,22 @@ type newsession struct {
 	// If connId is zero, Manager makes new connection and assigns it the new session.
 	// Otherwise, the new session is allocated to the connection of connId.
 	connId      int32
-	phonenumber string
-	addr        string
-	useIPv6     bool
+	//phonenumber string
+	//addr        string
+	//useIPv6     bool
+	phone string
+	apiid int32
+	apihash string
+	ip string
+	port int
 	resp        chan sessionResponse
 }
 
 type loadsession struct {
 	// If connId is zero, Manager makes new connection and assigns it the loaded session.
 	// Otherwise, the loaded session is allocated to the connection of connId.
-	connId      int32
-	phonenumber string
+	connId int32
+	//phone  string
 	//preferredAddr string
 	resp chan sessionResponse
 }
@@ -56,18 +61,20 @@ type SessionDiscarded struct {
 // discardSession + newsession
 type renewSession struct {
 	sessionId   int64
-	phonenumber string
-	addr        string
-	useIPv6     bool
+	phone	string
+	apiID int32
+	apiHash string
+	ip string
+	port int
 	resp        chan sessionResponse
 }
 
 // discardSession + loadsession
 type refreshSession struct {
-	sessionId   int64
-	phonenumber string
+	sessionId int64
+	phone     string
 	policy      retryPolicy
-	resp        chan sessionResponse
+	resp      chan sessionResponse
 }
 type retryPolicy string
 

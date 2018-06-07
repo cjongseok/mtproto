@@ -17,24 +17,25 @@ Params:
   PHONE    means phone number in international format w/o hyphen. e.g., "+15417543010".
 
 Options:
-  KEY_NAME means key file name to be generated. Default is "key.mtproto".
+  KEY_NAME means key file name to be generated. Default is "credentials.json".
 `)
 }
 
 const (
-	defaultNewKeyFile = "key.mtproto"
+	defaultNewKeyFile = "credentials.json"
 	appVersion      = "0.0.1"
 	deviceModel     = ""
 	systemVersion   = ""
 	language        = ""
-	telegramAddress = "149.154.167.50:443"
+	ip = "149.154.167.50"
+	port = 443
 )
 
 func main() {
 	slog.DisableLogging()
 
 	// parse arguments
-	apiId, apiHash, phoneNumber, key, err := parseArgs()
+	apiID, apiHash, phone, key, err := parseArgs()
 	if err != nil {
 		usage()
 		handleError(err)
@@ -42,7 +43,7 @@ func main() {
 	if key == "" {
 		key = defaultNewKeyFile
 	}
-	config, err := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+	config, err := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, key)
 	handleError(err)
 
 	// check if the file exists
@@ -58,14 +59,14 @@ func main() {
 	var sentCode *mtproto.TypeAuthSentCode
 	manager, err = mtproto.NewManager(config)
 	handleError(err)
-	mconn, sentCode, err = manager.NewAuthentication(phoneNumber, telegramAddress, false)
+	mconn, sentCode, err = manager.NewAuthentication(phone, apiID, apiHash, ip, port)
 	handleError(err)
 
 	// sign-in with the code from the user input
 	var code string
 	fmt.Printf("Enter Code: ")
 	fmt.Scanf("%s", &code)
-	auth, err := mconn.SignIn(phoneNumber, code, sentCode.GetValue().PhoneCodeHash)
+	auth, err := mconn.SignIn(phone, code, sentCode.GetValue().PhoneCodeHash)
 	handleError(err)
 	if auth.Value.GetUser().GetUser() != nil {
 		user := auth.Value.GetUser().GetUser()

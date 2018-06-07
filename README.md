@@ -9,7 +9,7 @@ Telegram API layer: ***71***
 ```sh
 # Run simple shell with your Telegram API id, hash, and, server address with your phone number.
 # If you don't have Telegram API stuffs, get them from 'https://my.telegram.org/apps'.
-go run examples/simpleshell/main.go <APIID> <APIHASH> <PHONE> <ADDR>
+go run examples/simpleshell/main.go <APIID> <APIHASH> <PHONE> <IP> <PORT>
 
 # Then you can see 'Enter code:' message
 # Telegram sends you an authentication code. Check it on your mobile or desktop app and put it.
@@ -23,11 +23,11 @@ $ dialogs
 # Quit the shell.
 $ exit
 
-# You can find 'key.mtproto' file which keeps your MTProto secerets.
-ls -al key.mtproto
+# You can find 'credentials.json' file which keeps your MTProto secerets.
+ls -al credentials.json
 
 # You can check if the scerets correct by sign-in with it.
-go run main.go <APIID> <APIHASH> <PHONE> key.mtproto
+go run main.go credentials.json
 ```
 
 ## Usage
@@ -35,20 +35,21 @@ You can find the real code at [simpleshell](https://github.com/cjongseok/mtproto
 ### Sign-in with key
 ```go
 // Mew MTProto manager
-config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, key)
+config, _ := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, key)
 manager, _ := mtproto.NewManager(config)
 
 // Sign-in by key
-mconn, _ := manager.LoadAuthentication(phoneNumber)
+mconn, _ := manager.LoadAuthentication()
 ```
 ### Sign-in without key
 ```go
 // New MTProto manager
-config, _ := mtproto.NewConfiguration(apiId, apiHash, appVersion, deviceModel, systemVersion, language, 0, 0, "new-key.mtproto")
+config, _ := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, "new-credentials.json")
 manager, _ := mtproto.NewManager(config)
 
 // Request to send an authentication code
-mconn, sentCode, err := manager.NewAuthentication(phoneNumber, telegramAddress, false)
+// It needs your phone number and Telegram API stuffs you can check in https://my.telegram.org/apps 
+mconn, sentCode, err := manager.NewAuthentication(phoneNumber, apiID, apiHash, ip, port)
 
 // Get the code from user input
 fmt.Scanf("%s", &code)
