@@ -128,7 +128,6 @@ You can use the proxy in two purposes:
 * MTProto session sharing: Many proxy clients can use the same MTProto session on the proxy server.
 * MTProto in other languages: The proxy enables various languages on its client side, since it uses gRPC.
 
-You can find the real code at [proxy_test.go](https://github.com/cjongseok/mtproto/blob/master/proxy/proxy_test.go)
 ## Server
 ### As a stand-alone daemon
 [mtprotod](https://github.com/cjongseok/mtproto/tree/master/mtprotod) is a stand-alone proxy daemon containing Telegram MTProto implementation in Go.
@@ -194,12 +193,12 @@ See [py](https://github.com/cjongseok/mtproto/tree/master/py).
 ## Client in other languages
 By compiling [types.tl.proto](https://github.com/cjongseok/mtproto/tree/master/types.tl.proto) and [proxy/tl_update.proto](https://github.com/cjongseok/mtproto/tree/master/proxy/tl_update.proto), 
 you can create clients in your preferred language.<br>
-For this, you need to install [Google Protobuf](https://developers.google.com/protocol-buffers/) together with gRPC library of the target language.
-Then you can compile protobuf files with these command lines:
+For this, you need to install [Protocol Buffer](https://developers.google.com/protocol-buffers/) together with gRPC library of the target language.
+Then you can compile Protocol Buffer files with this kind of command lines:
 * [Go](https://github.com/cjongseok/mtproto/blob/master/compiler/build.sh)
 * [Python](https://github.com/cjongseok/mtproto/blob/master/compiler/build_py.sh)
 
-You can find these kind of command lines in [gRPC tutorial](https://grpc.io/docs/) for other languages.
+You can find these command lines for other languages in [gRPC tutorial](https://grpc.io/docs/).
 
 <!--
 ### Types and Predicates
