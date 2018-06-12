@@ -15,7 +15,7 @@ import (
 // Proxy client parameters
 var (
 	proxyAddr string
-	clientCfgFile string
+	//clientCfgFile string
 )
 
 // Cobra command

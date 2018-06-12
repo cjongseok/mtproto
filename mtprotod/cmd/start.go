@@ -20,9 +20,8 @@ const (
 
 // Proxy parameters
 var (
-	port, apiid int
-	apihash, phone, addr, secrets string
-	cfgFile string
+	port int
+	secrets string
 )
 
 // Cobra command
@@ -33,7 +32,7 @@ var startCmd = &cobra.Command{
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 
 		// check required flags
-		required := []string{"port", "apiid", "apihash", "phone", "addr", "secrets"}
+		required := []string{"port", "secrets"}
 		var notset string
 		for _, flagStr := range required {
 			f := viper.Get(flagStr)
@@ -56,47 +55,34 @@ var startCmd = &cobra.Command{
 
 		// get flags
 		port = viper.GetInt("port")
-		apiid = viper.GetInt("apiid")
-		apihash = viper.GetString("apihash")
-		phone = viper.GetString("phone")
-		addr = viper.GetString("addr")
 		secrets = viper.GetString("secrets")
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		os.Exit(startProxy(port, int32(apiid), apihash, phone, secrets))
+		os.Exit(startProxy(port, secrets))
 	},
 }
 
 func init() {
 	viper.BindEnv("port")
 	flags := startCmd.PersistentFlags()
-	flags.StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
+	//flags.StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 
 	flags.Int("port", 0, "port number the proxy runs at")
-	flags.Int("apiid", 0, "Telegram API ID")
-	flags.String("apihash", "", "Telegram API hash")
-	flags.String("phone", "", "phone number registered to Telegram")
-	flags.String("addr", "", "Telegram server address the proxy connects to")
 	flags.String("secrets", "", "MTProto secrets")
 
 	viper.BindPFlag("port", flags.Lookup("port"))
-	viper.BindPFlag("apiid", flags.Lookup("apiid"))
-	viper.BindPFlag("apihash", flags.Lookup("apihash"))
-	viper.BindPFlag("phone", flags.Lookup("phone"))
-	viper.BindPFlag("addr", flags.Lookup("addr"))
 	viper.BindPFlag("secrets", flags.Lookup("secrets"))
 }
 
-func startProxy(port int, apiid int32, apihash, phone, secrets string) int {
+func startProxy(port int, secrets string) int {
 	//slog.DisableLogging()
-	config, err := mtproto.NewConfiguration(int32(apiid), apihash,
-		appVersion, deviceModel, systemVersion, language, 0, 0, secrets)
+	config, err := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, secrets)
 	if err != nil {
 		return invalidArgs
 	}
 	server := proxy.NewServer(port)
-	err = server.Start(config, phone)
+	err = server.Start(config)
 	if err != nil {
 		return failure
 	}
