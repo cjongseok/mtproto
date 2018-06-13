@@ -3,6 +3,7 @@ package mtproto
 import (
 	"os"
 	"encoding/json"
+	"io/ioutil"
 )
 
 type AccessManager struct {
@@ -67,13 +68,16 @@ func (am *AccessManager) ImportFromFile(credentialsFile string) error {
 	if err != nil {
 		return err
 	}
-	b := make([]byte, 1024*4)
-	n, err := f.ReadAt(b, 0)
-	if n <= 0 || (err != nil && err.Error() != "EOF") {
+	//b := make([]byte, 1024*4)
+	//n, err := f.ReadAt(b, 0)
+	//if n <= 0 || (err != nil && err.Error() != "EOF") {
+	//}
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return err
 	}
-
 	unmarshaled := &TypeMessagesChats{}
-	err = json.Unmarshal(b[:n], unmarshaled)
+	err = json.Unmarshal(b, unmarshaled)
 	if err != nil {
 		return err
 	}
