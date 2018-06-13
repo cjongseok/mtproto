@@ -25,7 +25,8 @@ type Configuration struct {
 	KeyPath      string
 }
 
-func NewConfiguration(version, deviceModel, systemVersion, language string, pingInterval time.Duration, sendInterval time.Duration, keyPath string) (Configuration, error) {
+func NewConfiguration(version, deviceModel, systemVersion, language string,
+	pingInterval time.Duration, sendInterval time.Duration, keyPath string) (Configuration, error) {
 	//appConfig := new(Configuration)
 	appConfig := Configuration{}
 
