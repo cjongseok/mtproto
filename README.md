@@ -7,6 +7,9 @@ Telegram API layer: ***71***
 
 ## Quick start
 ```sh
+# It is vendored in 'dep'. Refer to https://github.com/golang/dep for 'dep' installation.
+dep ensure
+
 # Run simple shell with your Telegram API id, hash, and, server address with your phone number.
 # If you don't have Telegram API stuffs, get them from 'https://my.telegram.org/apps'.
 go run examples/simpleshell/main.go <APIID> <APIHASH> <PHONE> <IP> <PORT>

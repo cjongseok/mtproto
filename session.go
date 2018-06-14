@@ -44,15 +44,15 @@ func (h handshakingFailure) Error() string {
 }
 
 type Session struct {
-	connId      int32
-	sessionId   int64
+	connId    int32
+	sessionId int64
 	//phonenumber string
 	//addr        string
 	//useIPv6     bool
-	listeners   []chan Event
-	tcpconn     *net.TCPConn
-	f           *os.File
-	queueSend   chan packetToSend
+	listeners []chan Event
+	tcpconn   *net.TCPConn
+	f         *os.File
+	queueSend chan packetToSend
 
 	readInterrupter chan struct{}
 	sendInterrupter chan struct{}
@@ -96,7 +96,6 @@ const (
 	ipv6 = "ipv6"
 )
 
-
 type packetToSend struct {
 	msg  TL
 	resp chan response
@@ -133,7 +132,7 @@ func (session *Session) close() {
 //	return sessionFileHome + "/.telegram_" + phonenumber
 //}
 
-func isIPv6(addr string) bool  {
+func isIPv6(addr string) bool {
 	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
 	if err != nil {
 		return false
@@ -157,22 +156,22 @@ func newSession(phone string, apiID int32, apiHash, ip string, port int, appConf
 	}
 	// open session
 	credentials := Credentials{
-		Phone: phone,
-		ApiID: apiID,
+		Phone:   phone,
+		ApiID:   apiID,
 		ApiHash: apiHash,
-		IP: ip,
-		Port: port,
+		IP:      ip,
+		Port:    port,
 	}
 	//if err == nil {
 	//	session.addr = addr
 	//	session.useIPv6 = useIPv6
 	//	session.encrypted = false
 	useIPv6 := isIPv6(credentials.IP)
-		err = session.open(useIPv6, credentials, appConfig /*sendQueue,*/, sessionListener, false)
-		if err != nil {
-			return nil, err
-		}
-		return session, nil
+	err = session.open(useIPv6, credentials, appConfig /*sendQueue,*/, sessionListener, false)
+	if err != nil {
+		return nil, err
+	}
+	return session, nil
 	//}
 	//return nil, err
 }
@@ -355,17 +354,17 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 					isIPv6 = false
 				}
 				//if useIPv6 {
-					if isIPv6 {
-						session.dcOptions[ipv6][dcOption.Id] = *dcOption
-					} else {
-						session.dcOptions[ipv4][dcOption.Id] = *dcOption
-					}
-					//	session.dclist[dcOption.GetId()] = fmt.Sprintf("[%s]:%d", dcOption.GetIpAddress(), dcOption.GetPort())
-					//}
+				if isIPv6 {
+					session.dcOptions[ipv6][dcOption.Id] = *dcOption
+				} else {
+					session.dcOptions[ipv4][dcOption.Id] = *dcOption
+				}
+				//	session.dclist[dcOption.GetId()] = fmt.Sprintf("[%s]:%d", dcOption.GetIpAddress(), dcOption.GetPort())
+				//}
 				//} else {
-					//if !isIPv6 {
-					//	session.dclist[dcOption.GetId()] = fmt.Sprintf("%s:%d", dcOption.GetIpAddress(), dcOption.GetPort())
-					//}
+				//if !isIPv6 {
+				//	session.dclist[dcOption.GetId()] = fmt.Sprintf("%s:%d", dcOption.GetIpAddress(), dcOption.GetPort())
+				//}
 				//}
 			}
 		}
@@ -431,7 +430,6 @@ func (session *Session) RemoveSessionListener(toremove chan Event) error {
 	}
 	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
 }
-
 
 func (session *Session) notify(e Event) {
 	slog.Logf(session, "notify Event, %s, to %v\n", slog.Stringify(e), session.listeners)
@@ -646,7 +644,6 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 
 	return nil
 }
-
 
 func (session *Session) stopRead() {
 	if session.isReading {

@@ -8642,2185 +8642,2185 @@ func (e *ReqChannelsReadMessageContents) encode() []byte {
 func toTypeBool(tl TL) *TypeBool {
 	switch x := tl.(type) {
 	case *PredBoolFalse:
-		return &TypeBool{&TypeBool_BoolFalse{x}}
+		return &TypeBool{Value: &TypeBool_BoolFalse{x}}
 	case *PredBoolTrue:
-		return &TypeBool{&TypeBool_BoolTrue{x}}
+		return &TypeBool{Value: &TypeBool_BoolTrue{x}}
 	}
 	return nil
 }
 func toTypeError(tl TL) *TypeError {
 	switch x := tl.(type) {
 	case *PredError:
-		return &TypeError{x}
+		return &TypeError{Value: x}
 	}
 	return nil
 }
 func toTypeNull(tl TL) *TypeNull {
 	switch x := tl.(type) {
 	case *PredNull:
-		return &TypeNull{x}
+		return &TypeNull{Value: x}
 	}
 	return nil
 }
 func toTypeInputPeer(tl TL) *TypeInputPeer {
 	switch x := tl.(type) {
 	case *PredInputPeerEmpty:
-		return &TypeInputPeer{&TypeInputPeer_InputPeerEmpty{x}}
+		return &TypeInputPeer{Value: &TypeInputPeer_InputPeerEmpty{x}}
 	case *PredInputPeerSelf:
-		return &TypeInputPeer{&TypeInputPeer_InputPeerSelf{x}}
+		return &TypeInputPeer{Value: &TypeInputPeer_InputPeerSelf{x}}
 	case *PredInputPeerChat:
-		return &TypeInputPeer{&TypeInputPeer_InputPeerChat{x}}
+		return &TypeInputPeer{Value: &TypeInputPeer_InputPeerChat{x}}
 	case *PredInputPeerUser:
-		return &TypeInputPeer{&TypeInputPeer_InputPeerUser{x}}
+		return &TypeInputPeer{Value: &TypeInputPeer_InputPeerUser{x}}
 	case *PredInputPeerChannel:
-		return &TypeInputPeer{&TypeInputPeer_InputPeerChannel{x}}
+		return &TypeInputPeer{Value: &TypeInputPeer_InputPeerChannel{x}}
 	}
 	return nil
 }
 func toTypeInputUser(tl TL) *TypeInputUser {
 	switch x := tl.(type) {
 	case *PredInputUserEmpty:
-		return &TypeInputUser{&TypeInputUser_InputUserEmpty{x}}
+		return &TypeInputUser{Value: &TypeInputUser_InputUserEmpty{x}}
 	case *PredInputUserSelf:
-		return &TypeInputUser{&TypeInputUser_InputUserSelf{x}}
+		return &TypeInputUser{Value: &TypeInputUser_InputUserSelf{x}}
 	case *PredInputUser:
-		return &TypeInputUser{&TypeInputUser_InputUser{x}}
+		return &TypeInputUser{Value: &TypeInputUser_InputUser{x}}
 	}
 	return nil
 }
 func toTypeInputContact(tl TL) *TypeInputContact {
 	switch x := tl.(type) {
 	case *PredInputPhoneContact:
-		return &TypeInputContact{x}
+		return &TypeInputContact{Value: x}
 	}
 	return nil
 }
 func toTypeInputFile(tl TL) *TypeInputFile {
 	switch x := tl.(type) {
 	case *PredInputFile:
-		return &TypeInputFile{&TypeInputFile_InputFile{x}}
+		return &TypeInputFile{Value: &TypeInputFile_InputFile{x}}
 	case *PredInputFileBig:
-		return &TypeInputFile{&TypeInputFile_InputFileBig{x}}
+		return &TypeInputFile{Value: &TypeInputFile_InputFileBig{x}}
 	}
 	return nil
 }
 func toTypeInputMedia(tl TL) *TypeInputMedia {
 	switch x := tl.(type) {
 	case *PredInputMediaEmpty:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaEmpty{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaEmpty{x}}
 	case *PredInputMediaUploadedPhoto:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedPhoto{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedPhoto{x}}
 	case *PredInputMediaPhoto:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaPhoto{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhoto{x}}
 	case *PredInputMediaGeoPoint:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaGeoPoint{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGeoPoint{x}}
 	case *PredInputMediaContact:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaContact{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaContact{x}}
 	case *PredInputMediaUploadedDocument:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedDocument{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedDocument{x}}
 	case *PredInputMediaDocument:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaDocument{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocument{x}}
 	case *PredInputMediaVenue:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaVenue{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaVenue{x}}
 	case *PredInputMediaGifExternal:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaGifExternal{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGifExternal{x}}
 	case *PredInputMediaPhotoExternal:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaPhotoExternal{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhotoExternal{x}}
 	case *PredInputMediaDocumentExternal:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaDocumentExternal{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocumentExternal{x}}
 	case *PredInputMediaGame:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaGame{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGame{x}}
 	case *PredInputMediaInvoice:
-		return &TypeInputMedia{&TypeInputMedia_InputMediaInvoice{x}}
+		return &TypeInputMedia{Value: &TypeInputMedia_InputMediaInvoice{x}}
 	}
 	return nil
 }
 func toTypeInputChatPhoto(tl TL) *TypeInputChatPhoto {
 	switch x := tl.(type) {
 	case *PredInputChatPhotoEmpty:
-		return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhotoEmpty{x}}
+		return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhotoEmpty{x}}
 	case *PredInputChatUploadedPhoto:
-		return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatUploadedPhoto{x}}
+		return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatUploadedPhoto{x}}
 	case *PredInputChatPhoto:
-		return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhoto{x}}
+		return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhoto{x}}
 	}
 	return nil
 }
 func toTypeInputGeoPoint(tl TL) *TypeInputGeoPoint {
 	switch x := tl.(type) {
 	case *PredInputGeoPointEmpty:
-		return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPointEmpty{x}}
+		return &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPointEmpty{x}}
 	case *PredInputGeoPoint:
-		return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPoint{x}}
+		return &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPoint{x}}
 	}
 	return nil
 }
 func toTypeInputPhoto(tl TL) *TypeInputPhoto {
 	switch x := tl.(type) {
 	case *PredInputPhotoEmpty:
-		return &TypeInputPhoto{&TypeInputPhoto_InputPhotoEmpty{x}}
+		return &TypeInputPhoto{Value: &TypeInputPhoto_InputPhotoEmpty{x}}
 	case *PredInputPhoto:
-		return &TypeInputPhoto{&TypeInputPhoto_InputPhoto{x}}
+		return &TypeInputPhoto{Value: &TypeInputPhoto_InputPhoto{x}}
 	}
 	return nil
 }
 func toTypeInputFileLocation(tl TL) *TypeInputFileLocation {
 	switch x := tl.(type) {
 	case *PredInputFileLocation:
-		return &TypeInputFileLocation{&TypeInputFileLocation_InputFileLocation{x}}
+		return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputFileLocation{x}}
 	case *PredInputEncryptedFileLocation:
-		return &TypeInputFileLocation{&TypeInputFileLocation_InputEncryptedFileLocation{x}}
+		return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputEncryptedFileLocation{x}}
 	case *PredInputDocumentFileLocation:
-		return &TypeInputFileLocation{&TypeInputFileLocation_InputDocumentFileLocation{x}}
+		return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputDocumentFileLocation{x}}
 	}
 	return nil
 }
 func toTypeInputAppEvent(tl TL) *TypeInputAppEvent {
 	switch x := tl.(type) {
 	case *PredInputAppEvent:
-		return &TypeInputAppEvent{x}
+		return &TypeInputAppEvent{Value: x}
 	}
 	return nil
 }
 func toTypePeer(tl TL) *TypePeer {
 	switch x := tl.(type) {
 	case *PredPeerUser:
-		return &TypePeer{&TypePeer_PeerUser{x}}
+		return &TypePeer{Value: &TypePeer_PeerUser{x}}
 	case *PredPeerChat:
-		return &TypePeer{&TypePeer_PeerChat{x}}
+		return &TypePeer{Value: &TypePeer_PeerChat{x}}
 	case *PredPeerChannel:
-		return &TypePeer{&TypePeer_PeerChannel{x}}
+		return &TypePeer{Value: &TypePeer_PeerChannel{x}}
 	}
 	return nil
 }
 func toTypeStorageFileType(tl TL) *TypeStorageFileType {
 	switch x := tl.(type) {
 	case *PredStorageFileUnknown:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileUnknown{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileUnknown{x}}
 	case *PredStorageFileJpeg:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileJpeg{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileJpeg{x}}
 	case *PredStorageFileGif:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileGif{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileGif{x}}
 	case *PredStorageFilePng:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFilePng{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePng{x}}
 	case *PredStorageFileMp3:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp3{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp3{x}}
 	case *PredStorageFileMov:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileMov{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMov{x}}
 	case *PredStorageFilePartial:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFilePartial{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePartial{x}}
 	case *PredStorageFileMp4:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp4{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp4{x}}
 	case *PredStorageFileWebp:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFileWebp{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileWebp{x}}
 	case *PredStorageFilePdf:
-		return &TypeStorageFileType{&TypeStorageFileType_StorageFilePdf{x}}
+		return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePdf{x}}
 	}
 	return nil
 }
 func toTypeFileLocation(tl TL) *TypeFileLocation {
 	switch x := tl.(type) {
 	case *PredFileLocationUnavailable:
-		return &TypeFileLocation{&TypeFileLocation_FileLocationUnavailable{x}}
+		return &TypeFileLocation{Value: &TypeFileLocation_FileLocationUnavailable{x}}
 	case *PredFileLocation:
-		return &TypeFileLocation{&TypeFileLocation_FileLocation{x}}
+		return &TypeFileLocation{Value: &TypeFileLocation_FileLocation{x}}
 	}
 	return nil
 }
 func toTypeUser(tl TL) *TypeUser {
 	switch x := tl.(type) {
 	case *PredUserEmpty:
-		return &TypeUser{&TypeUser_UserEmpty{x}}
+		return &TypeUser{Value: &TypeUser_UserEmpty{x}}
 	case *PredUser:
-		return &TypeUser{&TypeUser_User{x}}
+		return &TypeUser{Value: &TypeUser_User{x}}
 	}
 	return nil
 }
 func toTypeUserProfilePhoto(tl TL) *TypeUserProfilePhoto {
 	switch x := tl.(type) {
 	case *PredUserProfilePhotoEmpty:
-		return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhotoEmpty{x}}
+		return &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhotoEmpty{x}}
 	case *PredUserProfilePhoto:
-		return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhoto{x}}
+		return &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhoto{x}}
 	}
 	return nil
 }
 func toTypeUserStatus(tl TL) *TypeUserStatus {
 	switch x := tl.(type) {
 	case *PredUserStatusEmpty:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusEmpty{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusEmpty{x}}
 	case *PredUserStatusOnline:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusOnline{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusOnline{x}}
 	case *PredUserStatusOffline:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusOffline{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusOffline{x}}
 	case *PredUserStatusRecently:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusRecently{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusRecently{x}}
 	case *PredUserStatusLastWeek:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusLastWeek{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastWeek{x}}
 	case *PredUserStatusLastMonth:
-		return &TypeUserStatus{&TypeUserStatus_UserStatusLastMonth{x}}
+		return &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastMonth{x}}
 	}
 	return nil
 }
 func toTypeChat(tl TL) *TypeChat {
 	switch x := tl.(type) {
 	case *PredChatEmpty:
-		return &TypeChat{&TypeChat_ChatEmpty{x}}
+		return &TypeChat{Value: &TypeChat_ChatEmpty{x}}
 	case *PredChat:
-		return &TypeChat{&TypeChat_Chat{x}}
+		return &TypeChat{Value: &TypeChat_Chat{x}}
 	case *PredChatForbidden:
-		return &TypeChat{&TypeChat_ChatForbidden{x}}
+		return &TypeChat{Value: &TypeChat_ChatForbidden{x}}
 	case *PredChannel:
-		return &TypeChat{&TypeChat_Channel{x}}
+		return &TypeChat{Value: &TypeChat_Channel{x}}
 	case *PredChannelForbidden:
-		return &TypeChat{&TypeChat_ChannelForbidden{x}}
+		return &TypeChat{Value: &TypeChat_ChannelForbidden{x}}
 	}
 	return nil
 }
 func toTypeChatFull(tl TL) *TypeChatFull {
 	switch x := tl.(type) {
 	case *PredChatFull:
-		return &TypeChatFull{&TypeChatFull_ChatFull{x}}
+		return &TypeChatFull{Value: &TypeChatFull_ChatFull{x}}
 	case *PredChannelFull:
-		return &TypeChatFull{&TypeChatFull_ChannelFull{x}}
+		return &TypeChatFull{Value: &TypeChatFull_ChannelFull{x}}
 	}
 	return nil
 }
 func toTypeChatParticipant(tl TL) *TypeChatParticipant {
 	switch x := tl.(type) {
 	case *PredChatParticipant:
-		return &TypeChatParticipant{&TypeChatParticipant_ChatParticipant{x}}
+		return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipant{x}}
 	case *PredChatParticipantCreator:
-		return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantCreator{x}}
+		return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantCreator{x}}
 	case *PredChatParticipantAdmin:
-		return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantAdmin{x}}
+		return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantAdmin{x}}
 	}
 	return nil
 }
 func toTypeChatParticipants(tl TL) *TypeChatParticipants {
 	switch x := tl.(type) {
 	case *PredChatParticipantsForbidden:
-		return &TypeChatParticipants{&TypeChatParticipants_ChatParticipantsForbidden{x}}
+		return &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipantsForbidden{x}}
 	case *PredChatParticipants:
-		return &TypeChatParticipants{&TypeChatParticipants_ChatParticipants{x}}
+		return &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipants{x}}
 	}
 	return nil
 }
 func toTypeChatPhoto(tl TL) *TypeChatPhoto {
 	switch x := tl.(type) {
 	case *PredChatPhotoEmpty:
-		return &TypeChatPhoto{&TypeChatPhoto_ChatPhotoEmpty{x}}
+		return &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhotoEmpty{x}}
 	case *PredChatPhoto:
-		return &TypeChatPhoto{&TypeChatPhoto_ChatPhoto{x}}
+		return &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhoto{x}}
 	}
 	return nil
 }
 func toTypeMessage(tl TL) *TypeMessage {
 	switch x := tl.(type) {
 	case *PredMessageEmpty:
-		return &TypeMessage{&TypeMessage_MessageEmpty{x}}
+		return &TypeMessage{Value: &TypeMessage_MessageEmpty{x}}
 	case *PredMessage:
-		return &TypeMessage{&TypeMessage_Message{x}}
+		return &TypeMessage{Value: &TypeMessage_Message{x}}
 	case *PredMessageService:
-		return &TypeMessage{&TypeMessage_MessageService{x}}
+		return &TypeMessage{Value: &TypeMessage_MessageService{x}}
 	}
 	return nil
 }
 func toTypeMessageMedia(tl TL) *TypeMessageMedia {
 	switch x := tl.(type) {
 	case *PredMessageMediaEmpty:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaEmpty{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaEmpty{x}}
 	case *PredMessageMediaPhoto:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaPhoto{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaPhoto{x}}
 	case *PredMessageMediaGeo:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGeo{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGeo{x}}
 	case *PredMessageMediaContact:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaContact{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaContact{x}}
 	case *PredMessageMediaUnsupported:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaUnsupported{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaUnsupported{x}}
 	case *PredMessageMediaDocument:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaDocument{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaDocument{x}}
 	case *PredMessageMediaWebPage:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaWebPage{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaWebPage{x}}
 	case *PredMessageMediaVenue:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaVenue{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaVenue{x}}
 	case *PredMessageMediaGame:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGame{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGame{x}}
 	case *PredMessageMediaInvoice:
-		return &TypeMessageMedia{&TypeMessageMedia_MessageMediaInvoice{x}}
+		return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaInvoice{x}}
 	}
 	return nil
 }
 func toTypeMessageAction(tl TL) *TypeMessageAction {
 	switch x := tl.(type) {
 	case *PredMessageActionEmpty:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionEmpty{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionEmpty{x}}
 	case *PredMessageActionChatCreate:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatCreate{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatCreate{x}}
 	case *PredMessageActionChatEditTitle:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditTitle{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditTitle{x}}
 	case *PredMessageActionChatEditPhoto:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditPhoto{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditPhoto{x}}
 	case *PredMessageActionChatDeletePhoto:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeletePhoto{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeletePhoto{x}}
 	case *PredMessageActionChatAddUser:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatAddUser{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatAddUser{x}}
 	case *PredMessageActionChatDeleteUser:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeleteUser{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeleteUser{x}}
 	case *PredMessageActionChatJoinedByLink:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatJoinedByLink{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatJoinedByLink{x}}
 	case *PredMessageActionChannelCreate:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChannelCreate{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelCreate{x}}
 	case *PredMessageActionChatMigrateTo:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChatMigrateTo{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatMigrateTo{x}}
 	case *PredMessageActionChannelMigrateFrom:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionChannelMigrateFrom{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelMigrateFrom{x}}
 	case *PredMessageActionPinMessage:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionPinMessage{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPinMessage{x}}
 	case *PredMessageActionHistoryClear:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionHistoryClear{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionHistoryClear{x}}
 	case *PredMessageActionGameScore:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionGameScore{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionGameScore{x}}
 	case *PredMessageActionPhoneCall:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionPhoneCall{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPhoneCall{x}}
 	case *PredMessageActionPaymentSentMe:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSentMe{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSentMe{x}}
 	case *PredMessageActionPaymentSent:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSent{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSent{x}}
 	case *PredMessageActionScreenshotTaken:
-		return &TypeMessageAction{&TypeMessageAction_MessageActionScreenshotTaken{x}}
+		return &TypeMessageAction{Value: &TypeMessageAction_MessageActionScreenshotTaken{x}}
 	}
 	return nil
 }
 func toTypeDialog(tl TL) *TypeDialog {
 	switch x := tl.(type) {
 	case *PredDialog:
-		return &TypeDialog{x}
+		return &TypeDialog{Value: x}
 	}
 	return nil
 }
 func toTypePhoto(tl TL) *TypePhoto {
 	switch x := tl.(type) {
 	case *PredPhotoEmpty:
-		return &TypePhoto{&TypePhoto_PhotoEmpty{x}}
+		return &TypePhoto{Value: &TypePhoto_PhotoEmpty{x}}
 	case *PredPhoto:
-		return &TypePhoto{&TypePhoto_Photo{x}}
+		return &TypePhoto{Value: &TypePhoto_Photo{x}}
 	}
 	return nil
 }
 func toTypePhotoSize(tl TL) *TypePhotoSize {
 	switch x := tl.(type) {
 	case *PredPhotoSizeEmpty:
-		return &TypePhotoSize{&TypePhotoSize_PhotoSizeEmpty{x}}
+		return &TypePhotoSize{Value: &TypePhotoSize_PhotoSizeEmpty{x}}
 	case *PredPhotoSize:
-		return &TypePhotoSize{&TypePhotoSize_PhotoSize{x}}
+		return &TypePhotoSize{Value: &TypePhotoSize_PhotoSize{x}}
 	case *PredPhotoCachedSize:
-		return &TypePhotoSize{&TypePhotoSize_PhotoCachedSize{x}}
+		return &TypePhotoSize{Value: &TypePhotoSize_PhotoCachedSize{x}}
 	}
 	return nil
 }
 func toTypeGeoPoint(tl TL) *TypeGeoPoint {
 	switch x := tl.(type) {
 	case *PredGeoPointEmpty:
-		return &TypeGeoPoint{&TypeGeoPoint_GeoPointEmpty{x}}
+		return &TypeGeoPoint{Value: &TypeGeoPoint_GeoPointEmpty{x}}
 	case *PredGeoPoint:
-		return &TypeGeoPoint{&TypeGeoPoint_GeoPoint{x}}
+		return &TypeGeoPoint{Value: &TypeGeoPoint_GeoPoint{x}}
 	}
 	return nil
 }
 func toTypeAuthCheckedPhone(tl TL) *TypeAuthCheckedPhone {
 	switch x := tl.(type) {
 	case *PredAuthCheckedPhone:
-		return &TypeAuthCheckedPhone{x}
+		return &TypeAuthCheckedPhone{Value: x}
 	}
 	return nil
 }
 func toTypeAuthSentCode(tl TL) *TypeAuthSentCode {
 	switch x := tl.(type) {
 	case *PredAuthSentCode:
-		return &TypeAuthSentCode{x}
+		return &TypeAuthSentCode{Value: x}
 	}
 	return nil
 }
 func toTypeAuthAuthorization(tl TL) *TypeAuthAuthorization {
 	switch x := tl.(type) {
 	case *PredAuthAuthorization:
-		return &TypeAuthAuthorization{x}
+		return &TypeAuthAuthorization{Value: x}
 	}
 	return nil
 }
 func toTypeAuthExportedAuthorization(tl TL) *TypeAuthExportedAuthorization {
 	switch x := tl.(type) {
 	case *PredAuthExportedAuthorization:
-		return &TypeAuthExportedAuthorization{x}
+		return &TypeAuthExportedAuthorization{Value: x}
 	}
 	return nil
 }
 func toTypeInputNotifyPeer(tl TL) *TypeInputNotifyPeer {
 	switch x := tl.(type) {
 	case *PredInputNotifyPeer:
-		return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyPeer{x}}
+		return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyPeer{x}}
 	case *PredInputNotifyUsers:
-		return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyUsers{x}}
+		return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyUsers{x}}
 	case *PredInputNotifyChats:
-		return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyChats{x}}
+		return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyChats{x}}
 	case *PredInputNotifyAll:
-		return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyAll{x}}
+		return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyAll{x}}
 	}
 	return nil
 }
 func toTypeInputPeerNotifySettings(tl TL) *TypeInputPeerNotifySettings {
 	switch x := tl.(type) {
 	case *PredInputPeerNotifySettings:
-		return &TypeInputPeerNotifySettings{x}
+		return &TypeInputPeerNotifySettings{Value: x}
 	}
 	return nil
 }
 func toTypePeerNotifyEvents(tl TL) *TypePeerNotifyEvents {
 	switch x := tl.(type) {
 	case *PredPeerNotifyEventsEmpty:
-		return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsEmpty{x}}
+		return &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsEmpty{x}}
 	case *PredPeerNotifyEventsAll:
-		return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsAll{x}}
+		return &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsAll{x}}
 	}
 	return nil
 }
 func toTypePeerNotifySettings(tl TL) *TypePeerNotifySettings {
 	switch x := tl.(type) {
 	case *PredPeerNotifySettingsEmpty:
-		return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettingsEmpty{x}}
+		return &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettingsEmpty{x}}
 	case *PredPeerNotifySettings:
-		return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettings{x}}
+		return &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettings{x}}
 	}
 	return nil
 }
 func toTypeWallPaper(tl TL) *TypeWallPaper {
 	switch x := tl.(type) {
 	case *PredWallPaper:
-		return &TypeWallPaper{&TypeWallPaper_WallPaper{x}}
+		return &TypeWallPaper{Value: &TypeWallPaper_WallPaper{x}}
 	case *PredWallPaperSolid:
-		return &TypeWallPaper{&TypeWallPaper_WallPaperSolid{x}}
+		return &TypeWallPaper{Value: &TypeWallPaper_WallPaperSolid{x}}
 	}
 	return nil
 }
 func toTypeUserFull(tl TL) *TypeUserFull {
 	switch x := tl.(type) {
 	case *PredUserFull:
-		return &TypeUserFull{x}
+		return &TypeUserFull{Value: x}
 	}
 	return nil
 }
 func toTypeContact(tl TL) *TypeContact {
 	switch x := tl.(type) {
 	case *PredContact:
-		return &TypeContact{x}
+		return &TypeContact{Value: x}
 	}
 	return nil
 }
 func toTypeImportedContact(tl TL) *TypeImportedContact {
 	switch x := tl.(type) {
 	case *PredImportedContact:
-		return &TypeImportedContact{x}
+		return &TypeImportedContact{Value: x}
 	}
 	return nil
 }
 func toTypeContactBlocked(tl TL) *TypeContactBlocked {
 	switch x := tl.(type) {
 	case *PredContactBlocked:
-		return &TypeContactBlocked{x}
+		return &TypeContactBlocked{Value: x}
 	}
 	return nil
 }
 func toTypeContactStatus(tl TL) *TypeContactStatus {
 	switch x := tl.(type) {
 	case *PredContactStatus:
-		return &TypeContactStatus{x}
+		return &TypeContactStatus{Value: x}
 	}
 	return nil
 }
 func toTypeContactsLink(tl TL) *TypeContactsLink {
 	switch x := tl.(type) {
 	case *PredContactsLink:
-		return &TypeContactsLink{x}
+		return &TypeContactsLink{Value: x}
 	}
 	return nil
 }
 func toTypeContactsContacts(tl TL) *TypeContactsContacts {
 	switch x := tl.(type) {
 	case *PredContactsContacts:
-		return &TypeContactsContacts{&TypeContactsContacts_ContactsContacts{x}}
+		return &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContacts{x}}
 	case *PredContactsContactsNotModified:
-		return &TypeContactsContacts{&TypeContactsContacts_ContactsContactsNotModified{x}}
+		return &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContactsNotModified{x}}
 	}
 	return nil
 }
 func toTypeContactsImportedContacts(tl TL) *TypeContactsImportedContacts {
 	switch x := tl.(type) {
 	case *PredContactsImportedContacts:
-		return &TypeContactsImportedContacts{x}
+		return &TypeContactsImportedContacts{Value: x}
 	}
 	return nil
 }
 func toTypeContactsBlocked(tl TL) *TypeContactsBlocked {
 	switch x := tl.(type) {
 	case *PredContactsBlocked:
-		return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlocked{x}}
+		return &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlocked{x}}
 	case *PredContactsBlockedSlice:
-		return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlockedSlice{x}}
+		return &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlockedSlice{x}}
 	}
 	return nil
 }
 func toTypeContactsFound(tl TL) *TypeContactsFound {
 	switch x := tl.(type) {
 	case *PredContactsFound:
-		return &TypeContactsFound{x}
+		return &TypeContactsFound{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesDialogs(tl TL) *TypeMessagesDialogs {
 	switch x := tl.(type) {
 	case *PredMessagesDialogs:
-		return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogs{x}}
+		return &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogs{x}}
 	case *PredMessagesDialogsSlice:
-		return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogsSlice{x}}
+		return &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogsSlice{x}}
 	}
 	return nil
 }
 func toTypeMessagesMessages(tl TL) *TypeMessagesMessages {
 	switch x := tl.(type) {
 	case *PredMessagesMessages:
-		return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessages{x}}
+		return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessages{x}}
 	case *PredMessagesMessagesSlice:
-		return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessagesSlice{x}}
+		return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessagesSlice{x}}
 	case *PredMessagesChannelMessages:
-		return &TypeMessagesMessages{&TypeMessagesMessages_MessagesChannelMessages{x}}
+		return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesChannelMessages{x}}
 	}
 	return nil
 }
 func toTypeMessagesChats(tl TL) *TypeMessagesChats {
 	switch x := tl.(type) {
 	case *PredMessagesChats:
-		return &TypeMessagesChats{&TypeMessagesChats_MessagesChats{x}}
+		return &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChats{x}}
 	case *PredMessagesChatsSlice:
-		return &TypeMessagesChats{&TypeMessagesChats_MessagesChatsSlice{x}}
+		return &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChatsSlice{x}}
 	}
 	return nil
 }
 func toTypeMessagesChatFull(tl TL) *TypeMessagesChatFull {
 	switch x := tl.(type) {
 	case *PredMessagesChatFull:
-		return &TypeMessagesChatFull{x}
+		return &TypeMessagesChatFull{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesAffectedHistory(tl TL) *TypeMessagesAffectedHistory {
 	switch x := tl.(type) {
 	case *PredMessagesAffectedHistory:
-		return &TypeMessagesAffectedHistory{x}
+		return &TypeMessagesAffectedHistory{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesFilter(tl TL) *TypeMessagesFilter {
 	switch x := tl.(type) {
 	case *PredInputMessagesFilterEmpty:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterEmpty{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterEmpty{x}}
 	case *PredInputMessagesFilterPhotos:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotos{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotos{x}}
 	case *PredInputMessagesFilterVideo:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVideo{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVideo{x}}
 	case *PredInputMessagesFilterPhotoVideo:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideo{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideo{x}}
 	case *PredInputMessagesFilterDocument:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterDocument{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterDocument{x}}
 	case *PredInputMessagesFilterPhotoVideoDocuments:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{x}}
 	case *PredInputMessagesFilterUrl:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterUrl{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterUrl{x}}
 	case *PredInputMessagesFilterGif:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterGif{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterGif{x}}
 	case *PredInputMessagesFilterVoice:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVoice{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVoice{x}}
 	case *PredInputMessagesFilterMusic:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMusic{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMusic{x}}
 	case *PredInputMessagesFilterChatPhotos:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterChatPhotos{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterChatPhotos{x}}
 	case *PredInputMessagesFilterPhoneCalls:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhoneCalls{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhoneCalls{x}}
 	case *PredInputMessagesFilterRoundVoice:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVoice{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVoice{x}}
 	case *PredInputMessagesFilterRoundVideo:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVideo{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVideo{x}}
 	case *PredInputMessagesFilterMyMentions:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentions{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentions{x}}
 	case *PredInputMessagesFilterMyMentionsUnread:
-		return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{x}}
+		return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{x}}
 	}
 	return nil
 }
 func toTypeUpdate(tl TL) *TypeUpdate {
 	switch x := tl.(type) {
 	case *PredUpdateNewMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateNewMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateNewMessage{x}}
 	case *PredUpdateMessageID:
-		return &TypeUpdate{&TypeUpdate_UpdateMessageID{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateMessageID{x}}
 	case *PredUpdateDeleteMessages:
-		return &TypeUpdate{&TypeUpdate_UpdateDeleteMessages{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateDeleteMessages{x}}
 	case *PredUpdateUserTyping:
-		return &TypeUpdate{&TypeUpdate_UpdateUserTyping{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserTyping{x}}
 	case *PredUpdateChatUserTyping:
-		return &TypeUpdate{&TypeUpdate_UpdateChatUserTyping{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatUserTyping{x}}
 	case *PredUpdateChatParticipants:
-		return &TypeUpdate{&TypeUpdate_UpdateChatParticipants{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipants{x}}
 	case *PredUpdateUserStatus:
-		return &TypeUpdate{&TypeUpdate_UpdateUserStatus{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserStatus{x}}
 	case *PredUpdateUserName:
-		return &TypeUpdate{&TypeUpdate_UpdateUserName{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserName{x}}
 	case *PredUpdateUserPhoto:
-		return &TypeUpdate{&TypeUpdate_UpdateUserPhoto{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserPhoto{x}}
 	case *PredUpdateContactRegistered:
-		return &TypeUpdate{&TypeUpdate_UpdateContactRegistered{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateContactRegistered{x}}
 	case *PredUpdateContactLink:
-		return &TypeUpdate{&TypeUpdate_UpdateContactLink{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateContactLink{x}}
 	case *PredUpdateNewEncryptedMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateNewEncryptedMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateNewEncryptedMessage{x}}
 	case *PredUpdateEncryptedChatTyping:
-		return &TypeUpdate{&TypeUpdate_UpdateEncryptedChatTyping{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedChatTyping{x}}
 	case *PredUpdateEncryption:
-		return &TypeUpdate{&TypeUpdate_UpdateEncryption{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateEncryption{x}}
 	case *PredUpdateEncryptedMessagesRead:
-		return &TypeUpdate{&TypeUpdate_UpdateEncryptedMessagesRead{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedMessagesRead{x}}
 	case *PredUpdateChatParticipantAdd:
-		return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdd{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdd{x}}
 	case *PredUpdateChatParticipantDelete:
-		return &TypeUpdate{&TypeUpdate_UpdateChatParticipantDelete{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantDelete{x}}
 	case *PredUpdateDcOptions:
-		return &TypeUpdate{&TypeUpdate_UpdateDcOptions{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateDcOptions{x}}
 	case *PredUpdateUserBlocked:
-		return &TypeUpdate{&TypeUpdate_UpdateUserBlocked{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserBlocked{x}}
 	case *PredUpdateNotifySettings:
-		return &TypeUpdate{&TypeUpdate_UpdateNotifySettings{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateNotifySettings{x}}
 	case *PredUpdateServiceNotification:
-		return &TypeUpdate{&TypeUpdate_UpdateServiceNotification{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateServiceNotification{x}}
 	case *PredUpdatePrivacy:
-		return &TypeUpdate{&TypeUpdate_UpdatePrivacy{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdatePrivacy{x}}
 	case *PredUpdateUserPhone:
-		return &TypeUpdate{&TypeUpdate_UpdateUserPhone{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateUserPhone{x}}
 	case *PredUpdateReadHistoryInbox:
-		return &TypeUpdate{&TypeUpdate_UpdateReadHistoryInbox{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryInbox{x}}
 	case *PredUpdateReadHistoryOutbox:
-		return &TypeUpdate{&TypeUpdate_UpdateReadHistoryOutbox{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryOutbox{x}}
 	case *PredUpdateWebPage:
-		return &TypeUpdate{&TypeUpdate_UpdateWebPage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateWebPage{x}}
 	case *PredUpdateReadMessagesContents:
-		return &TypeUpdate{&TypeUpdate_UpdateReadMessagesContents{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadMessagesContents{x}}
 	case *PredUpdateChannelTooLong:
-		return &TypeUpdate{&TypeUpdate_UpdateChannelTooLong{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannelTooLong{x}}
 	case *PredUpdateChannel:
-		return &TypeUpdate{&TypeUpdate_UpdateChannel{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannel{x}}
 	case *PredUpdateNewChannelMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateNewChannelMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateNewChannelMessage{x}}
 	case *PredUpdateReadChannelInbox:
-		return &TypeUpdate{&TypeUpdate_UpdateReadChannelInbox{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelInbox{x}}
 	case *PredUpdateDeleteChannelMessages:
-		return &TypeUpdate{&TypeUpdate_UpdateDeleteChannelMessages{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateDeleteChannelMessages{x}}
 	case *PredUpdateChannelMessageViews:
-		return &TypeUpdate{&TypeUpdate_UpdateChannelMessageViews{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannelMessageViews{x}}
 	case *PredUpdateChatAdmins:
-		return &TypeUpdate{&TypeUpdate_UpdateChatAdmins{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatAdmins{x}}
 	case *PredUpdateChatParticipantAdmin:
-		return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdmin{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdmin{x}}
 	case *PredUpdateNewStickerSet:
-		return &TypeUpdate{&TypeUpdate_UpdateNewStickerSet{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateNewStickerSet{x}}
 	case *PredUpdateStickerSetsOrder:
-		return &TypeUpdate{&TypeUpdate_UpdateStickerSetsOrder{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateStickerSetsOrder{x}}
 	case *PredUpdateStickerSets:
-		return &TypeUpdate{&TypeUpdate_UpdateStickerSets{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateStickerSets{x}}
 	case *PredUpdateSavedGifs:
-		return &TypeUpdate{&TypeUpdate_UpdateSavedGifs{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateSavedGifs{x}}
 	case *PredUpdateBotInlineQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateBotInlineQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineQuery{x}}
 	case *PredUpdateBotInlineSend:
-		return &TypeUpdate{&TypeUpdate_UpdateBotInlineSend{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineSend{x}}
 	case *PredUpdateEditChannelMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateEditChannelMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateEditChannelMessage{x}}
 	case *PredUpdateChannelPinnedMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateChannelPinnedMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannelPinnedMessage{x}}
 	case *PredUpdateBotCallbackQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateBotCallbackQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotCallbackQuery{x}}
 	case *PredUpdateEditMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateEditMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateEditMessage{x}}
 	case *PredUpdateInlineBotCallbackQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateInlineBotCallbackQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateInlineBotCallbackQuery{x}}
 	case *PredUpdateReadChannelOutbox:
-		return &TypeUpdate{&TypeUpdate_UpdateReadChannelOutbox{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelOutbox{x}}
 	case *PredUpdateDraftMessage:
-		return &TypeUpdate{&TypeUpdate_UpdateDraftMessage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateDraftMessage{x}}
 	case *PredUpdateReadFeaturedStickers:
-		return &TypeUpdate{&TypeUpdate_UpdateReadFeaturedStickers{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateReadFeaturedStickers{x}}
 	case *PredUpdateRecentStickers:
-		return &TypeUpdate{&TypeUpdate_UpdateRecentStickers{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateRecentStickers{x}}
 	case *PredUpdateConfig:
-		return &TypeUpdate{&TypeUpdate_UpdateConfig{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateConfig{x}}
 	case *PredUpdatePtsChanged:
-		return &TypeUpdate{&TypeUpdate_UpdatePtsChanged{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdatePtsChanged{x}}
 	case *PredUpdateChannelWebPage:
-		return &TypeUpdate{&TypeUpdate_UpdateChannelWebPage{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannelWebPage{x}}
 	case *PredUpdatePhoneCall:
-		return &TypeUpdate{&TypeUpdate_UpdatePhoneCall{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdatePhoneCall{x}}
 	case *PredUpdateDialogPinned:
-		return &TypeUpdate{&TypeUpdate_UpdateDialogPinned{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateDialogPinned{x}}
 	case *PredUpdatePinnedDialogs:
-		return &TypeUpdate{&TypeUpdate_UpdatePinnedDialogs{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdatePinnedDialogs{x}}
 	case *PredUpdateBotWebhookJSON:
-		return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSON{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSON{x}}
 	case *PredUpdateBotWebhookJSONQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSONQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSONQuery{x}}
 	case *PredUpdateBotShippingQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateBotShippingQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotShippingQuery{x}}
 	case *PredUpdateBotPrecheckoutQuery:
-		return &TypeUpdate{&TypeUpdate_UpdateBotPrecheckoutQuery{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateBotPrecheckoutQuery{x}}
 	case *PredUpdateLangPackTooLong:
-		return &TypeUpdate{&TypeUpdate_UpdateLangPackTooLong{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateLangPackTooLong{x}}
 	case *PredUpdateLangPack:
-		return &TypeUpdate{&TypeUpdate_UpdateLangPack{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateLangPack{x}}
 	case *PredUpdateContactsReset:
-		return &TypeUpdate{&TypeUpdate_UpdateContactsReset{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateContactsReset{x}}
 	case *PredUpdateFavedStickers:
-		return &TypeUpdate{&TypeUpdate_UpdateFavedStickers{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateFavedStickers{x}}
 	case *PredUpdateChannelReadMessagesContents:
-		return &TypeUpdate{&TypeUpdate_UpdateChannelReadMessagesContents{x}}
+		return &TypeUpdate{Value: &TypeUpdate_UpdateChannelReadMessagesContents{x}}
 	}
 	return nil
 }
 func toTypeUpdatesState(tl TL) *TypeUpdatesState {
 	switch x := tl.(type) {
 	case *PredUpdatesState:
-		return &TypeUpdatesState{x}
+		return &TypeUpdatesState{Value: x}
 	}
 	return nil
 }
 func toTypeUpdatesDifference(tl TL) *TypeUpdatesDifference {
 	switch x := tl.(type) {
 	case *PredUpdatesDifferenceEmpty:
-		return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceEmpty{x}}
+		return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceEmpty{x}}
 	case *PredUpdatesDifference:
-		return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifference{x}}
+		return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifference{x}}
 	case *PredUpdatesDifferenceSlice:
-		return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceSlice{x}}
+		return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceSlice{x}}
 	case *PredUpdatesDifferenceTooLong:
-		return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceTooLong{x}}
+		return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceTooLong{x}}
 	}
 	return nil
 }
 func toTypeUpdates(tl TL) *TypeUpdates {
 	switch x := tl.(type) {
 	case *PredUpdatesTooLong:
-		return &TypeUpdates{&TypeUpdates_UpdatesTooLong{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdatesTooLong{x}}
 	case *PredUpdateShortMessage:
-		return &TypeUpdates{&TypeUpdates_UpdateShortMessage{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdateShortMessage{x}}
 	case *PredUpdateShortChatMessage:
-		return &TypeUpdates{&TypeUpdates_UpdateShortChatMessage{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdateShortChatMessage{x}}
 	case *PredUpdateShort:
-		return &TypeUpdates{&TypeUpdates_UpdateShort{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdateShort{x}}
 	case *PredUpdatesCombined:
-		return &TypeUpdates{&TypeUpdates_UpdatesCombined{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdatesCombined{x}}
 	case *PredUpdates:
-		return &TypeUpdates{&TypeUpdates_Updates{x}}
+		return &TypeUpdates{Value: &TypeUpdates_Updates{x}}
 	case *PredUpdateShortSentMessage:
-		return &TypeUpdates{&TypeUpdates_UpdateShortSentMessage{x}}
+		return &TypeUpdates{Value: &TypeUpdates_UpdateShortSentMessage{x}}
 	}
 	return nil
 }
 func toTypePhotosPhoto(tl TL) *TypePhotosPhoto {
 	switch x := tl.(type) {
 	case *PredPhotosPhoto:
-		return &TypePhotosPhoto{x}
+		return &TypePhotosPhoto{Value: x}
 	}
 	return nil
 }
 func toTypeUploadFile(tl TL) *TypeUploadFile {
 	switch x := tl.(type) {
 	case *PredUploadFile:
-		return &TypeUploadFile{&TypeUploadFile_UploadFile{x}}
+		return &TypeUploadFile{Value: &TypeUploadFile_UploadFile{x}}
 	case *PredUploadFileCdnRedirect:
-		return &TypeUploadFile{&TypeUploadFile_UploadFileCdnRedirect{x}}
+		return &TypeUploadFile{Value: &TypeUploadFile_UploadFileCdnRedirect{x}}
 	}
 	return nil
 }
 func toTypeDcOption(tl TL) *TypeDcOption {
 	switch x := tl.(type) {
 	case *PredDcOption:
-		return &TypeDcOption{x}
+		return &TypeDcOption{Value: x}
 	}
 	return nil
 }
 func toTypeConfig(tl TL) *TypeConfig {
 	switch x := tl.(type) {
 	case *PredConfig:
-		return &TypeConfig{x}
+		return &TypeConfig{Value: x}
 	}
 	return nil
 }
 func toTypeNearestDc(tl TL) *TypeNearestDc {
 	switch x := tl.(type) {
 	case *PredNearestDc:
-		return &TypeNearestDc{x}
+		return &TypeNearestDc{Value: x}
 	}
 	return nil
 }
 func toTypeHelpAppUpdate(tl TL) *TypeHelpAppUpdate {
 	switch x := tl.(type) {
 	case *PredHelpAppUpdate:
-		return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpAppUpdate{x}}
+		return &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpAppUpdate{x}}
 	case *PredHelpNoAppUpdate:
-		return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpNoAppUpdate{x}}
+		return &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpNoAppUpdate{x}}
 	}
 	return nil
 }
 func toTypeHelpInviteText(tl TL) *TypeHelpInviteText {
 	switch x := tl.(type) {
 	case *PredHelpInviteText:
-		return &TypeHelpInviteText{x}
+		return &TypeHelpInviteText{Value: x}
 	}
 	return nil
 }
 func toTypeInputPeerNotifyEvents(tl TL) *TypeInputPeerNotifyEvents {
 	switch x := tl.(type) {
 	case *PredInputPeerNotifyEventsEmpty:
-		return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{x}}
+		return &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{x}}
 	case *PredInputPeerNotifyEventsAll:
-		return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{x}}
+		return &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{x}}
 	}
 	return nil
 }
 func toTypePhotosPhotos(tl TL) *TypePhotosPhotos {
 	switch x := tl.(type) {
 	case *PredPhotosPhotos:
-		return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotos{x}}
+		return &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotos{x}}
 	case *PredPhotosPhotosSlice:
-		return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotosSlice{x}}
+		return &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotosSlice{x}}
 	}
 	return nil
 }
 func toTypeEncryptedChat(tl TL) *TypeEncryptedChat {
 	switch x := tl.(type) {
 	case *PredEncryptedChatEmpty:
-		return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatEmpty{x}}
+		return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatEmpty{x}}
 	case *PredEncryptedChatWaiting:
-		return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatWaiting{x}}
+		return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatWaiting{x}}
 	case *PredEncryptedChatRequested:
-		return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatRequested{x}}
+		return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatRequested{x}}
 	case *PredEncryptedChat:
-		return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChat{x}}
+		return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChat{x}}
 	case *PredEncryptedChatDiscarded:
-		return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatDiscarded{x}}
+		return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatDiscarded{x}}
 	}
 	return nil
 }
 func toTypeInputEncryptedChat(tl TL) *TypeInputEncryptedChat {
 	switch x := tl.(type) {
 	case *PredInputEncryptedChat:
-		return &TypeInputEncryptedChat{x}
+		return &TypeInputEncryptedChat{Value: x}
 	}
 	return nil
 }
 func toTypeEncryptedFile(tl TL) *TypeEncryptedFile {
 	switch x := tl.(type) {
 	case *PredEncryptedFileEmpty:
-		return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFileEmpty{x}}
+		return &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFileEmpty{x}}
 	case *PredEncryptedFile:
-		return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFile{x}}
+		return &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFile{x}}
 	}
 	return nil
 }
 func toTypeInputEncryptedFile(tl TL) *TypeInputEncryptedFile {
 	switch x := tl.(type) {
 	case *PredInputEncryptedFileEmpty:
-		return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileEmpty{x}}
+		return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileEmpty{x}}
 	case *PredInputEncryptedFileUploaded:
-		return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileUploaded{x}}
+		return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileUploaded{x}}
 	case *PredInputEncryptedFile:
-		return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFile{x}}
+		return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFile{x}}
 	case *PredInputEncryptedFileBigUploaded:
-		return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileBigUploaded{x}}
+		return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileBigUploaded{x}}
 	}
 	return nil
 }
 func toTypeEncryptedMessage(tl TL) *TypeEncryptedMessage {
 	switch x := tl.(type) {
 	case *PredEncryptedMessage:
-		return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessage{x}}
+		return &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessage{x}}
 	case *PredEncryptedMessageService:
-		return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessageService{x}}
+		return &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessageService{x}}
 	}
 	return nil
 }
 func toTypeMessagesDhConfig(tl TL) *TypeMessagesDhConfig {
 	switch x := tl.(type) {
 	case *PredMessagesDhConfigNotModified:
-		return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfigNotModified{x}}
+		return &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfigNotModified{x}}
 	case *PredMessagesDhConfig:
-		return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfig{x}}
+		return &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfig{x}}
 	}
 	return nil
 }
 func toTypeMessagesSentEncryptedMessage(tl TL) *TypeMessagesSentEncryptedMessage {
 	switch x := tl.(type) {
 	case *PredMessagesSentEncryptedMessage:
-		return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{x}}
+		return &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{x}}
 	case *PredMessagesSentEncryptedFile:
-		return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{x}}
+		return &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{x}}
 	}
 	return nil
 }
 func toTypeInputDocument(tl TL) *TypeInputDocument {
 	switch x := tl.(type) {
 	case *PredInputDocumentEmpty:
-		return &TypeInputDocument{&TypeInputDocument_InputDocumentEmpty{x}}
+		return &TypeInputDocument{Value: &TypeInputDocument_InputDocumentEmpty{x}}
 	case *PredInputDocument:
-		return &TypeInputDocument{&TypeInputDocument_InputDocument{x}}
+		return &TypeInputDocument{Value: &TypeInputDocument_InputDocument{x}}
 	}
 	return nil
 }
 func toTypeDocument(tl TL) *TypeDocument {
 	switch x := tl.(type) {
 	case *PredDocumentEmpty:
-		return &TypeDocument{&TypeDocument_DocumentEmpty{x}}
+		return &TypeDocument{Value: &TypeDocument_DocumentEmpty{x}}
 	case *PredDocument:
-		return &TypeDocument{&TypeDocument_Document{x}}
+		return &TypeDocument{Value: &TypeDocument_Document{x}}
 	}
 	return nil
 }
 func toTypeHelpSupport(tl TL) *TypeHelpSupport {
 	switch x := tl.(type) {
 	case *PredHelpSupport:
-		return &TypeHelpSupport{x}
+		return &TypeHelpSupport{Value: x}
 	}
 	return nil
 }
 func toTypeNotifyPeer(tl TL) *TypeNotifyPeer {
 	switch x := tl.(type) {
 	case *PredNotifyAll:
-		return &TypeNotifyPeer{&TypeNotifyPeer_NotifyAll{x}}
+		return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyAll{x}}
 	case *PredNotifyChats:
-		return &TypeNotifyPeer{&TypeNotifyPeer_NotifyChats{x}}
+		return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyChats{x}}
 	case *PredNotifyPeer:
-		return &TypeNotifyPeer{&TypeNotifyPeer_NotifyPeer{x}}
+		return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyPeer{x}}
 	case *PredNotifyUsers:
-		return &TypeNotifyPeer{&TypeNotifyPeer_NotifyUsers{x}}
+		return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyUsers{x}}
 	}
 	return nil
 }
 func toTypeSendMessageAction(tl TL) *TypeSendMessageAction {
 	switch x := tl.(type) {
 	case *PredSendMessageTypingAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageTypingAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageTypingAction{x}}
 	case *PredSendMessageCancelAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageCancelAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageCancelAction{x}}
 	case *PredSendMessageRecordVideoAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordVideoAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordVideoAction{x}}
 	case *PredSendMessageUploadVideoAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadVideoAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadVideoAction{x}}
 	case *PredSendMessageRecordAudioAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordAudioAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordAudioAction{x}}
 	case *PredSendMessageUploadAudioAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadAudioAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadAudioAction{x}}
 	case *PredSendMessageUploadPhotoAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadPhotoAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadPhotoAction{x}}
 	case *PredSendMessageUploadDocumentAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadDocumentAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadDocumentAction{x}}
 	case *PredSendMessageGeoLocationAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGeoLocationAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGeoLocationAction{x}}
 	case *PredSendMessageChooseContactAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageChooseContactAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageChooseContactAction{x}}
 	case *PredSendMessageGamePlayAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGamePlayAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGamePlayAction{x}}
 	case *PredSendMessageRecordRoundAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordRoundAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordRoundAction{x}}
 	case *PredSendMessageUploadRoundAction:
-		return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadRoundAction{x}}
+		return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadRoundAction{x}}
 	}
 	return nil
 }
 func toTypeInputPrivacyKey(tl TL) *TypeInputPrivacyKey {
 	switch x := tl.(type) {
 	case *PredInputPrivacyKeyStatusTimestamp:
-		return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{x}}
+		return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{x}}
 	case *PredInputPrivacyKeyChatInvite:
-		return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyChatInvite{x}}
+		return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyChatInvite{x}}
 	case *PredInputPrivacyKeyPhoneCall:
-		return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{x}}
+		return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{x}}
 	}
 	return nil
 }
 func toTypePrivacyKey(tl TL) *TypePrivacyKey {
 	switch x := tl.(type) {
 	case *PredPrivacyKeyStatusTimestamp:
-		return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyStatusTimestamp{x}}
+		return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyStatusTimestamp{x}}
 	case *PredPrivacyKeyChatInvite:
-		return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyChatInvite{x}}
+		return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyChatInvite{x}}
 	case *PredPrivacyKeyPhoneCall:
-		return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyPhoneCall{x}}
+		return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyPhoneCall{x}}
 	}
 	return nil
 }
 func toTypeInputPrivacyRule(tl TL) *TypeInputPrivacyRule {
 	switch x := tl.(type) {
 	case *PredInputPrivacyValueAllowContacts:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowContacts{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowContacts{x}}
 	case *PredInputPrivacyValueAllowAll:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowAll{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowAll{x}}
 	case *PredInputPrivacyValueAllowUsers:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowUsers{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowUsers{x}}
 	case *PredInputPrivacyValueDisallowContacts:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{x}}
 	case *PredInputPrivacyValueDisallowAll:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowAll{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowAll{x}}
 	case *PredInputPrivacyValueDisallowUsers:
-		return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{x}}
+		return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{x}}
 	}
 	return nil
 }
 func toTypePrivacyRule(tl TL) *TypePrivacyRule {
 	switch x := tl.(type) {
 	case *PredPrivacyValueAllowContacts:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowContacts{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowContacts{x}}
 	case *PredPrivacyValueAllowAll:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowAll{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowAll{x}}
 	case *PredPrivacyValueAllowUsers:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowUsers{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowUsers{x}}
 	case *PredPrivacyValueDisallowContacts:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowContacts{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowContacts{x}}
 	case *PredPrivacyValueDisallowAll:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowAll{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowAll{x}}
 	case *PredPrivacyValueDisallowUsers:
-		return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowUsers{x}}
+		return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowUsers{x}}
 	}
 	return nil
 }
 func toTypeAccountPrivacyRules(tl TL) *TypeAccountPrivacyRules {
 	switch x := tl.(type) {
 	case *PredAccountPrivacyRules:
-		return &TypeAccountPrivacyRules{x}
+		return &TypeAccountPrivacyRules{Value: x}
 	}
 	return nil
 }
 func toTypeAccountDaysTTL(tl TL) *TypeAccountDaysTTL {
 	switch x := tl.(type) {
 	case *PredAccountDaysTTL:
-		return &TypeAccountDaysTTL{x}
+		return &TypeAccountDaysTTL{Value: x}
 	}
 	return nil
 }
 func toTypeDisabledFeature(tl TL) *TypeDisabledFeature {
 	switch x := tl.(type) {
 	case *PredDisabledFeature:
-		return &TypeDisabledFeature{x}
+		return &TypeDisabledFeature{Value: x}
 	}
 	return nil
 }
 func toTypeDocumentAttribute(tl TL) *TypeDocumentAttribute {
 	switch x := tl.(type) {
 	case *PredDocumentAttributeImageSize:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeImageSize{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeImageSize{x}}
 	case *PredDocumentAttributeAnimated:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAnimated{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAnimated{x}}
 	case *PredDocumentAttributeSticker:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeSticker{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeSticker{x}}
 	case *PredDocumentAttributeVideo:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeVideo{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeVideo{x}}
 	case *PredDocumentAttributeAudio:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAudio{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAudio{x}}
 	case *PredDocumentAttributeFilename:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeFilename{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeFilename{x}}
 	case *PredDocumentAttributeHasStickers:
-		return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeHasStickers{x}}
+		return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeHasStickers{x}}
 	}
 	return nil
 }
 func toTypeMessagesStickers(tl TL) *TypeMessagesStickers {
 	switch x := tl.(type) {
 	case *PredMessagesStickersNotModified:
-		return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickersNotModified{x}}
+		return &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickersNotModified{x}}
 	case *PredMessagesStickers:
-		return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickers{x}}
+		return &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickers{x}}
 	}
 	return nil
 }
 func toTypeStickerPack(tl TL) *TypeStickerPack {
 	switch x := tl.(type) {
 	case *PredStickerPack:
-		return &TypeStickerPack{x}
+		return &TypeStickerPack{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesAllStickers(tl TL) *TypeMessagesAllStickers {
 	switch x := tl.(type) {
 	case *PredMessagesAllStickersNotModified:
-		return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickersNotModified{x}}
+		return &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickersNotModified{x}}
 	case *PredMessagesAllStickers:
-		return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickers{x}}
+		return &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickers{x}}
 	}
 	return nil
 }
 func toTypeAccountPassword(tl TL) *TypeAccountPassword {
 	switch x := tl.(type) {
 	case *PredAccountNoPassword:
-		return &TypeAccountPassword{&TypeAccountPassword_AccountNoPassword{x}}
+		return &TypeAccountPassword{Value: &TypeAccountPassword_AccountNoPassword{x}}
 	case *PredAccountPassword:
-		return &TypeAccountPassword{&TypeAccountPassword_AccountPassword{x}}
+		return &TypeAccountPassword{Value: &TypeAccountPassword_AccountPassword{x}}
 	}
 	return nil
 }
 func toTypeMessagesAffectedMessages(tl TL) *TypeMessagesAffectedMessages {
 	switch x := tl.(type) {
 	case *PredMessagesAffectedMessages:
-		return &TypeMessagesAffectedMessages{x}
+		return &TypeMessagesAffectedMessages{Value: x}
 	}
 	return nil
 }
 func toTypeContactLink(tl TL) *TypeContactLink {
 	switch x := tl.(type) {
 	case *PredContactLinkUnknown:
-		return &TypeContactLink{&TypeContactLink_ContactLinkUnknown{x}}
+		return &TypeContactLink{Value: &TypeContactLink_ContactLinkUnknown{x}}
 	case *PredContactLinkNone:
-		return &TypeContactLink{&TypeContactLink_ContactLinkNone{x}}
+		return &TypeContactLink{Value: &TypeContactLink_ContactLinkNone{x}}
 	case *PredContactLinkHasPhone:
-		return &TypeContactLink{&TypeContactLink_ContactLinkHasPhone{x}}
+		return &TypeContactLink{Value: &TypeContactLink_ContactLinkHasPhone{x}}
 	case *PredContactLinkContact:
-		return &TypeContactLink{&TypeContactLink_ContactLinkContact{x}}
+		return &TypeContactLink{Value: &TypeContactLink_ContactLinkContact{x}}
 	}
 	return nil
 }
 func toTypeWebPage(tl TL) *TypeWebPage {
 	switch x := tl.(type) {
 	case *PredWebPageEmpty:
-		return &TypeWebPage{&TypeWebPage_WebPageEmpty{x}}
+		return &TypeWebPage{Value: &TypeWebPage_WebPageEmpty{x}}
 	case *PredWebPagePending:
-		return &TypeWebPage{&TypeWebPage_WebPagePending{x}}
+		return &TypeWebPage{Value: &TypeWebPage_WebPagePending{x}}
 	case *PredWebPage:
-		return &TypeWebPage{&TypeWebPage_WebPage{x}}
+		return &TypeWebPage{Value: &TypeWebPage_WebPage{x}}
 	case *PredWebPageNotModified:
-		return &TypeWebPage{&TypeWebPage_WebPageNotModified{x}}
+		return &TypeWebPage{Value: &TypeWebPage_WebPageNotModified{x}}
 	}
 	return nil
 }
 func toTypeAuthorization(tl TL) *TypeAuthorization {
 	switch x := tl.(type) {
 	case *PredAuthorization:
-		return &TypeAuthorization{x}
+		return &TypeAuthorization{Value: x}
 	}
 	return nil
 }
 func toTypeAccountAuthorizations(tl TL) *TypeAccountAuthorizations {
 	switch x := tl.(type) {
 	case *PredAccountAuthorizations:
-		return &TypeAccountAuthorizations{x}
+		return &TypeAccountAuthorizations{Value: x}
 	}
 	return nil
 }
 func toTypeAccountPasswordSettings(tl TL) *TypeAccountPasswordSettings {
 	switch x := tl.(type) {
 	case *PredAccountPasswordSettings:
-		return &TypeAccountPasswordSettings{x}
+		return &TypeAccountPasswordSettings{Value: x}
 	}
 	return nil
 }
 func toTypeAccountPasswordInputSettings(tl TL) *TypeAccountPasswordInputSettings {
 	switch x := tl.(type) {
 	case *PredAccountPasswordInputSettings:
-		return &TypeAccountPasswordInputSettings{x}
+		return &TypeAccountPasswordInputSettings{Value: x}
 	}
 	return nil
 }
 func toTypeAuthPasswordRecovery(tl TL) *TypeAuthPasswordRecovery {
 	switch x := tl.(type) {
 	case *PredAuthPasswordRecovery:
-		return &TypeAuthPasswordRecovery{x}
+		return &TypeAuthPasswordRecovery{Value: x}
 	}
 	return nil
 }
 func toTypeReceivedNotifyMessage(tl TL) *TypeReceivedNotifyMessage {
 	switch x := tl.(type) {
 	case *PredReceivedNotifyMessage:
-		return &TypeReceivedNotifyMessage{x}
+		return &TypeReceivedNotifyMessage{Value: x}
 	}
 	return nil
 }
 func toTypeExportedChatInvite(tl TL) *TypeExportedChatInvite {
 	switch x := tl.(type) {
 	case *PredChatInviteEmpty:
-		return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteEmpty{x}}
+		return &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteEmpty{x}}
 	case *PredChatInviteExported:
-		return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteExported{x}}
+		return &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteExported{x}}
 	}
 	return nil
 }
 func toTypeChatInvite(tl TL) *TypeChatInvite {
 	switch x := tl.(type) {
 	case *PredChatInviteAlready:
-		return &TypeChatInvite{&TypeChatInvite_ChatInviteAlready{x}}
+		return &TypeChatInvite{Value: &TypeChatInvite_ChatInviteAlready{x}}
 	case *PredChatInvite:
-		return &TypeChatInvite{&TypeChatInvite_ChatInvite{x}}
+		return &TypeChatInvite{Value: &TypeChatInvite_ChatInvite{x}}
 	}
 	return nil
 }
 func toTypeInputStickerSet(tl TL) *TypeInputStickerSet {
 	switch x := tl.(type) {
 	case *PredInputStickerSetEmpty:
-		return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetEmpty{x}}
+		return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetEmpty{x}}
 	case *PredInputStickerSetID:
-		return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetID{x}}
+		return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetID{x}}
 	case *PredInputStickerSetShortName:
-		return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetShortName{x}}
+		return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetShortName{x}}
 	}
 	return nil
 }
 func toTypeStickerSet(tl TL) *TypeStickerSet {
 	switch x := tl.(type) {
 	case *PredStickerSet:
-		return &TypeStickerSet{x}
+		return &TypeStickerSet{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesStickerSet(tl TL) *TypeMessagesStickerSet {
 	switch x := tl.(type) {
 	case *PredMessagesStickerSet:
-		return &TypeMessagesStickerSet{x}
+		return &TypeMessagesStickerSet{Value: x}
 	}
 	return nil
 }
 func toTypeBotCommand(tl TL) *TypeBotCommand {
 	switch x := tl.(type) {
 	case *PredBotCommand:
-		return &TypeBotCommand{x}
+		return &TypeBotCommand{Value: x}
 	}
 	return nil
 }
 func toTypeBotInfo(tl TL) *TypeBotInfo {
 	switch x := tl.(type) {
 	case *PredBotInfo:
-		return &TypeBotInfo{x}
+		return &TypeBotInfo{Value: x}
 	}
 	return nil
 }
 func toTypeKeyboardButton(tl TL) *TypeKeyboardButton {
 	switch x := tl.(type) {
 	case *PredKeyboardButton:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButton{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButton{x}}
 	case *PredKeyboardButtonUrl:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonUrl{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonUrl{x}}
 	case *PredKeyboardButtonCallback:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonCallback{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonCallback{x}}
 	case *PredKeyboardButtonRequestPhone:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestPhone{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestPhone{x}}
 	case *PredKeyboardButtonRequestGeoLocation:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestGeoLocation{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestGeoLocation{x}}
 	case *PredKeyboardButtonSwitchInline:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonSwitchInline{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonSwitchInline{x}}
 	case *PredKeyboardButtonGame:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonGame{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonGame{x}}
 	case *PredKeyboardButtonBuy:
-		return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonBuy{x}}
+		return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonBuy{x}}
 	}
 	return nil
 }
 func toTypeKeyboardButtonRow(tl TL) *TypeKeyboardButtonRow {
 	switch x := tl.(type) {
 	case *PredKeyboardButtonRow:
-		return &TypeKeyboardButtonRow{x}
+		return &TypeKeyboardButtonRow{Value: x}
 	}
 	return nil
 }
 func toTypeReplyMarkup(tl TL) *TypeReplyMarkup {
 	switch x := tl.(type) {
 	case *PredReplyKeyboardHide:
-		return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardHide{x}}
+		return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardHide{x}}
 	case *PredReplyKeyboardForceReply:
-		return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardForceReply{x}}
+		return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardForceReply{x}}
 	case *PredReplyKeyboardMarkup:
-		return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardMarkup{x}}
+		return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardMarkup{x}}
 	case *PredReplyInlineMarkup:
-		return &TypeReplyMarkup{&TypeReplyMarkup_ReplyInlineMarkup{x}}
+		return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyInlineMarkup{x}}
 	}
 	return nil
 }
 func toTypeMessageEntity(tl TL) *TypeMessageEntity {
 	switch x := tl.(type) {
 	case *PredMessageEntityUnknown:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUnknown{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUnknown{x}}
 	case *PredMessageEntityMention:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMention{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMention{x}}
 	case *PredMessageEntityHashtag:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityHashtag{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityHashtag{x}}
 	case *PredMessageEntityBotCommand:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBotCommand{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBotCommand{x}}
 	case *PredMessageEntityUrl:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUrl{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUrl{x}}
 	case *PredMessageEntityEmail:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityEmail{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityEmail{x}}
 	case *PredMessageEntityBold:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBold{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBold{x}}
 	case *PredMessageEntityItalic:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityItalic{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityItalic{x}}
 	case *PredMessageEntityCode:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityCode{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityCode{x}}
 	case *PredMessageEntityPre:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityPre{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityPre{x}}
 	case *PredMessageEntityTextUrl:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityTextUrl{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityTextUrl{x}}
 	case *PredMessageEntityMentionName:
-		return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMentionName{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMentionName{x}}
 	case *PredInputMessageEntityMentionName:
-		return &TypeMessageEntity{&TypeMessageEntity_InputMessageEntityMentionName{x}}
+		return &TypeMessageEntity{Value: &TypeMessageEntity_InputMessageEntityMentionName{x}}
 	}
 	return nil
 }
 func toTypeInputChannel(tl TL) *TypeInputChannel {
 	switch x := tl.(type) {
 	case *PredInputChannelEmpty:
-		return &TypeInputChannel{&TypeInputChannel_InputChannelEmpty{x}}
+		return &TypeInputChannel{Value: &TypeInputChannel_InputChannelEmpty{x}}
 	case *PredInputChannel:
-		return &TypeInputChannel{&TypeInputChannel_InputChannel{x}}
+		return &TypeInputChannel{Value: &TypeInputChannel_InputChannel{x}}
 	}
 	return nil
 }
 func toTypeContactsResolvedPeer(tl TL) *TypeContactsResolvedPeer {
 	switch x := tl.(type) {
 	case *PredContactsResolvedPeer:
-		return &TypeContactsResolvedPeer{x}
+		return &TypeContactsResolvedPeer{Value: x}
 	}
 	return nil
 }
 func toTypeMessageRange(tl TL) *TypeMessageRange {
 	switch x := tl.(type) {
 	case *PredMessageRange:
-		return &TypeMessageRange{x}
+		return &TypeMessageRange{Value: x}
 	}
 	return nil
 }
 func toTypeUpdatesChannelDifference(tl TL) *TypeUpdatesChannelDifference {
 	switch x := tl.(type) {
 	case *PredUpdatesChannelDifferenceEmpty:
-		return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{x}}
+		return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{x}}
 	case *PredUpdatesChannelDifferenceTooLong:
-		return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{x}}
+		return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{x}}
 	case *PredUpdatesChannelDifference:
-		return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifference{x}}
+		return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifference{x}}
 	}
 	return nil
 }
 func toTypeChannelMessagesFilter(tl TL) *TypeChannelMessagesFilter {
 	switch x := tl.(type) {
 	case *PredChannelMessagesFilterEmpty:
-		return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{x}}
+		return &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{x}}
 	case *PredChannelMessagesFilter:
-		return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilter{x}}
+		return &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilter{x}}
 	}
 	return nil
 }
 func toTypeChannelParticipant(tl TL) *TypeChannelParticipant {
 	switch x := tl.(type) {
 	case *PredChannelParticipant:
-		return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipant{x}}
+		return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipant{x}}
 	case *PredChannelParticipantSelf:
-		return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantSelf{x}}
+		return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantSelf{x}}
 	case *PredChannelParticipantCreator:
-		return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantCreator{x}}
+		return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantCreator{x}}
 	case *PredChannelParticipantAdmin:
-		return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantAdmin{x}}
+		return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantAdmin{x}}
 	case *PredChannelParticipantBanned:
-		return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantBanned{x}}
+		return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantBanned{x}}
 	}
 	return nil
 }
 func toTypeChannelParticipantsFilter(tl TL) *TypeChannelParticipantsFilter {
 	switch x := tl.(type) {
 	case *PredChannelParticipantsRecent:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsRecent{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsRecent{x}}
 	case *PredChannelParticipantsAdmins:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsAdmins{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsAdmins{x}}
 	case *PredChannelParticipantsKicked:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsKicked{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsKicked{x}}
 	case *PredChannelParticipantsBots:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBots{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBots{x}}
 	case *PredChannelParticipantsBanned:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBanned{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBanned{x}}
 	case *PredChannelParticipantsSearch:
-		return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsSearch{x}}
+		return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsSearch{x}}
 	}
 	return nil
 }
 func toTypeChannelsChannelParticipants(tl TL) *TypeChannelsChannelParticipants {
 	switch x := tl.(type) {
 	case *PredChannelsChannelParticipants:
-		return &TypeChannelsChannelParticipants{x}
+		return &TypeChannelsChannelParticipants{Value: x}
 	}
 	return nil
 }
 func toTypeChannelsChannelParticipant(tl TL) *TypeChannelsChannelParticipant {
 	switch x := tl.(type) {
 	case *PredChannelsChannelParticipant:
-		return &TypeChannelsChannelParticipant{x}
+		return &TypeChannelsChannelParticipant{Value: x}
 	}
 	return nil
 }
 func toTypeTrue(tl TL) *TypeTrue {
 	switch x := tl.(type) {
 	case *PredTrue:
-		return &TypeTrue{x}
+		return &TypeTrue{Value: x}
 	}
 	return nil
 }
 func toTypeReportReason(tl TL) *TypeReportReason {
 	switch x := tl.(type) {
 	case *PredInputReportReasonSpam:
-		return &TypeReportReason{&TypeReportReason_InputReportReasonSpam{x}}
+		return &TypeReportReason{Value: &TypeReportReason_InputReportReasonSpam{x}}
 	case *PredInputReportReasonViolence:
-		return &TypeReportReason{&TypeReportReason_InputReportReasonViolence{x}}
+		return &TypeReportReason{Value: &TypeReportReason_InputReportReasonViolence{x}}
 	case *PredInputReportReasonPornography:
-		return &TypeReportReason{&TypeReportReason_InputReportReasonPornography{x}}
+		return &TypeReportReason{Value: &TypeReportReason_InputReportReasonPornography{x}}
 	case *PredInputReportReasonOther:
-		return &TypeReportReason{&TypeReportReason_InputReportReasonOther{x}}
+		return &TypeReportReason{Value: &TypeReportReason_InputReportReasonOther{x}}
 	}
 	return nil
 }
 func toTypeHelpTermsOfService(tl TL) *TypeHelpTermsOfService {
 	switch x := tl.(type) {
 	case *PredHelpTermsOfService:
-		return &TypeHelpTermsOfService{x}
+		return &TypeHelpTermsOfService{Value: x}
 	}
 	return nil
 }
 func toTypeFoundGif(tl TL) *TypeFoundGif {
 	switch x := tl.(type) {
 	case *PredFoundGif:
-		return &TypeFoundGif{&TypeFoundGif_FoundGif{x}}
+		return &TypeFoundGif{Value: &TypeFoundGif_FoundGif{x}}
 	case *PredFoundGifCached:
-		return &TypeFoundGif{&TypeFoundGif_FoundGifCached{x}}
+		return &TypeFoundGif{Value: &TypeFoundGif_FoundGifCached{x}}
 	}
 	return nil
 }
 func toTypeMessagesFoundGifs(tl TL) *TypeMessagesFoundGifs {
 	switch x := tl.(type) {
 	case *PredMessagesFoundGifs:
-		return &TypeMessagesFoundGifs{x}
+		return &TypeMessagesFoundGifs{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesSavedGifs(tl TL) *TypeMessagesSavedGifs {
 	switch x := tl.(type) {
 	case *PredMessagesSavedGifsNotModified:
-		return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifsNotModified{x}}
+		return &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifsNotModified{x}}
 	case *PredMessagesSavedGifs:
-		return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifs{x}}
+		return &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifs{x}}
 	}
 	return nil
 }
 func toTypeInputBotInlineMessage(tl TL) *TypeInputBotInlineMessage {
 	switch x := tl.(type) {
 	case *PredInputBotInlineMessageMediaAuto:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{x}}
 	case *PredInputBotInlineMessageText:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageText{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageText{x}}
 	case *PredInputBotInlineMessageMediaGeo:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{x}}
 	case *PredInputBotInlineMessageMediaVenue:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{x}}
 	case *PredInputBotInlineMessageMediaContact:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{x}}
 	case *PredInputBotInlineMessageGame:
-		return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageGame{x}}
+		return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageGame{x}}
 	}
 	return nil
 }
 func toTypeInputBotInlineResult(tl TL) *TypeInputBotInlineResult {
 	switch x := tl.(type) {
 	case *PredInputBotInlineResult:
-		return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResult{x}}
+		return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResult{x}}
 	case *PredInputBotInlineResultPhoto:
-		return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultPhoto{x}}
+		return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultPhoto{x}}
 	case *PredInputBotInlineResultDocument:
-		return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultDocument{x}}
+		return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultDocument{x}}
 	case *PredInputBotInlineResultGame:
-		return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultGame{x}}
+		return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultGame{x}}
 	}
 	return nil
 }
 func toTypeBotInlineMessage(tl TL) *TypeBotInlineMessage {
 	switch x := tl.(type) {
 	case *PredBotInlineMessageMediaAuto:
-		return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaAuto{x}}
+		return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaAuto{x}}
 	case *PredBotInlineMessageText:
-		return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageText{x}}
+		return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageText{x}}
 	case *PredBotInlineMessageMediaGeo:
-		return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaGeo{x}}
+		return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaGeo{x}}
 	case *PredBotInlineMessageMediaVenue:
-		return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaVenue{x}}
+		return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaVenue{x}}
 	case *PredBotInlineMessageMediaContact:
-		return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaContact{x}}
+		return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaContact{x}}
 	}
 	return nil
 }
 func toTypeBotInlineResult(tl TL) *TypeBotInlineResult {
 	switch x := tl.(type) {
 	case *PredBotInlineResult:
-		return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineResult{x}}
+		return &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineResult{x}}
 	case *PredBotInlineMediaResult:
-		return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineMediaResult{x}}
+		return &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineMediaResult{x}}
 	}
 	return nil
 }
 func toTypeMessagesBotResults(tl TL) *TypeMessagesBotResults {
 	switch x := tl.(type) {
 	case *PredMessagesBotResults:
-		return &TypeMessagesBotResults{x}
+		return &TypeMessagesBotResults{Value: x}
 	}
 	return nil
 }
 func toTypeExportedMessageLink(tl TL) *TypeExportedMessageLink {
 	switch x := tl.(type) {
 	case *PredExportedMessageLink:
-		return &TypeExportedMessageLink{x}
+		return &TypeExportedMessageLink{Value: x}
 	}
 	return nil
 }
 func toTypeMessageFwdHeader(tl TL) *TypeMessageFwdHeader {
 	switch x := tl.(type) {
 	case *PredMessageFwdHeader:
-		return &TypeMessageFwdHeader{x}
+		return &TypeMessageFwdHeader{Value: x}
 	}
 	return nil
 }
 func toTypePeerSettings(tl TL) *TypePeerSettings {
 	switch x := tl.(type) {
 	case *PredPeerSettings:
-		return &TypePeerSettings{x}
+		return &TypePeerSettings{Value: x}
 	}
 	return nil
 }
 func toTypeAuthCodeType(tl TL) *TypeAuthCodeType {
 	switch x := tl.(type) {
 	case *PredAuthCodeTypeSms:
-		return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeSms{x}}
+		return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeSms{x}}
 	case *PredAuthCodeTypeCall:
-		return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeCall{x}}
+		return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeCall{x}}
 	case *PredAuthCodeTypeFlashCall:
-		return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeFlashCall{x}}
+		return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeFlashCall{x}}
 	}
 	return nil
 }
 func toTypeAuthSentCodeType(tl TL) *TypeAuthSentCodeType {
 	switch x := tl.(type) {
 	case *PredAuthSentCodeTypeApp:
-		return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeApp{x}}
+		return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeApp{x}}
 	case *PredAuthSentCodeTypeSms:
-		return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeSms{x}}
+		return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeSms{x}}
 	case *PredAuthSentCodeTypeCall:
-		return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeCall{x}}
+		return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeCall{x}}
 	case *PredAuthSentCodeTypeFlashCall:
-		return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{x}}
+		return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{x}}
 	}
 	return nil
 }
 func toTypeMessagesBotCallbackAnswer(tl TL) *TypeMessagesBotCallbackAnswer {
 	switch x := tl.(type) {
 	case *PredMessagesBotCallbackAnswer:
-		return &TypeMessagesBotCallbackAnswer{x}
+		return &TypeMessagesBotCallbackAnswer{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesMessageEditData(tl TL) *TypeMessagesMessageEditData {
 	switch x := tl.(type) {
 	case *PredMessagesMessageEditData:
-		return &TypeMessagesMessageEditData{x}
+		return &TypeMessagesMessageEditData{Value: x}
 	}
 	return nil
 }
 func toTypeInputBotInlineMessageID(tl TL) *TypeInputBotInlineMessageID {
 	switch x := tl.(type) {
 	case *PredInputBotInlineMessageID:
-		return &TypeInputBotInlineMessageID{x}
+		return &TypeInputBotInlineMessageID{Value: x}
 	}
 	return nil
 }
 func toTypeInlineBotSwitchPM(tl TL) *TypeInlineBotSwitchPM {
 	switch x := tl.(type) {
 	case *PredInlineBotSwitchPM:
-		return &TypeInlineBotSwitchPM{x}
+		return &TypeInlineBotSwitchPM{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesPeerDialogs(tl TL) *TypeMessagesPeerDialogs {
 	switch x := tl.(type) {
 	case *PredMessagesPeerDialogs:
-		return &TypeMessagesPeerDialogs{x}
+		return &TypeMessagesPeerDialogs{Value: x}
 	}
 	return nil
 }
 func toTypeTopPeer(tl TL) *TypeTopPeer {
 	switch x := tl.(type) {
 	case *PredTopPeer:
-		return &TypeTopPeer{x}
+		return &TypeTopPeer{Value: x}
 	}
 	return nil
 }
 func toTypeTopPeerCategory(tl TL) *TypeTopPeerCategory {
 	switch x := tl.(type) {
 	case *PredTopPeerCategoryBotsPM:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsPM{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsPM{x}}
 	case *PredTopPeerCategoryBotsInline:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsInline{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsInline{x}}
 	case *PredTopPeerCategoryCorrespondents:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryCorrespondents{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryCorrespondents{x}}
 	case *PredTopPeerCategoryGroups:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryGroups{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryGroups{x}}
 	case *PredTopPeerCategoryChannels:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryChannels{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryChannels{x}}
 	case *PredTopPeerCategoryPhoneCalls:
-		return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryPhoneCalls{x}}
+		return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryPhoneCalls{x}}
 	}
 	return nil
 }
 func toTypeTopPeerCategoryPeers(tl TL) *TypeTopPeerCategoryPeers {
 	switch x := tl.(type) {
 	case *PredTopPeerCategoryPeers:
-		return &TypeTopPeerCategoryPeers{x}
+		return &TypeTopPeerCategoryPeers{Value: x}
 	}
 	return nil
 }
 func toTypeContactsTopPeers(tl TL) *TypeContactsTopPeers {
 	switch x := tl.(type) {
 	case *PredContactsTopPeersNotModified:
-		return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeersNotModified{x}}
+		return &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeersNotModified{x}}
 	case *PredContactsTopPeers:
-		return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeers{x}}
+		return &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeers{x}}
 	}
 	return nil
 }
 func toTypeDraftMessage(tl TL) *TypeDraftMessage {
 	switch x := tl.(type) {
 	case *PredDraftMessageEmpty:
-		return &TypeDraftMessage{&TypeDraftMessage_DraftMessageEmpty{x}}
+		return &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessageEmpty{x}}
 	case *PredDraftMessage:
-		return &TypeDraftMessage{&TypeDraftMessage_DraftMessage{x}}
+		return &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessage{x}}
 	}
 	return nil
 }
 func toTypeMessagesFeaturedStickers(tl TL) *TypeMessagesFeaturedStickers {
 	switch x := tl.(type) {
 	case *PredMessagesFeaturedStickersNotModified:
-		return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{x}}
+		return &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{x}}
 	case *PredMessagesFeaturedStickers:
-		return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickers{x}}
+		return &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickers{x}}
 	}
 	return nil
 }
 func toTypeMessagesRecentStickers(tl TL) *TypeMessagesRecentStickers {
 	switch x := tl.(type) {
 	case *PredMessagesRecentStickersNotModified:
-		return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickersNotModified{x}}
+		return &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickersNotModified{x}}
 	case *PredMessagesRecentStickers:
-		return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickers{x}}
+		return &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickers{x}}
 	}
 	return nil
 }
 func toTypeMessagesArchivedStickers(tl TL) *TypeMessagesArchivedStickers {
 	switch x := tl.(type) {
 	case *PredMessagesArchivedStickers:
-		return &TypeMessagesArchivedStickers{x}
+		return &TypeMessagesArchivedStickers{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesStickerSetInstallResult(tl TL) *TypeMessagesStickerSetInstallResult {
 	switch x := tl.(type) {
 	case *PredMessagesStickerSetInstallResultSuccess:
-		return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{x}}
+		return &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{x}}
 	case *PredMessagesStickerSetInstallResultArchive:
-		return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{x}}
+		return &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{x}}
 	}
 	return nil
 }
 func toTypeStickerSetCovered(tl TL) *TypeStickerSetCovered {
 	switch x := tl.(type) {
 	case *PredStickerSetCovered:
-		return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetCovered{x}}
+		return &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetCovered{x}}
 	case *PredStickerSetMultiCovered:
-		return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetMultiCovered{x}}
+		return &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetMultiCovered{x}}
 	}
 	return nil
 }
 func toTypeMaskCoords(tl TL) *TypeMaskCoords {
 	switch x := tl.(type) {
 	case *PredMaskCoords:
-		return &TypeMaskCoords{x}
+		return &TypeMaskCoords{Value: x}
 	}
 	return nil
 }
 func toTypeInputStickeredMedia(tl TL) *TypeInputStickeredMedia {
 	switch x := tl.(type) {
 	case *PredInputStickeredMediaPhoto:
-		return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaPhoto{x}}
+		return &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaPhoto{x}}
 	case *PredInputStickeredMediaDocument:
-		return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaDocument{x}}
+		return &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaDocument{x}}
 	}
 	return nil
 }
 func toTypeGame(tl TL) *TypeGame {
 	switch x := tl.(type) {
 	case *PredGame:
-		return &TypeGame{x}
+		return &TypeGame{Value: x}
 	}
 	return nil
 }
 func toTypeInputGame(tl TL) *TypeInputGame {
 	switch x := tl.(type) {
 	case *PredInputGameID:
-		return &TypeInputGame{&TypeInputGame_InputGameID{x}}
+		return &TypeInputGame{Value: &TypeInputGame_InputGameID{x}}
 	case *PredInputGameShortName:
-		return &TypeInputGame{&TypeInputGame_InputGameShortName{x}}
+		return &TypeInputGame{Value: &TypeInputGame_InputGameShortName{x}}
 	}
 	return nil
 }
 func toTypeHighScore(tl TL) *TypeHighScore {
 	switch x := tl.(type) {
 	case *PredHighScore:
-		return &TypeHighScore{x}
+		return &TypeHighScore{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesHighScores(tl TL) *TypeMessagesHighScores {
 	switch x := tl.(type) {
 	case *PredMessagesHighScores:
-		return &TypeMessagesHighScores{x}
+		return &TypeMessagesHighScores{Value: x}
 	}
 	return nil
 }
 func toTypeRichText(tl TL) *TypeRichText {
 	switch x := tl.(type) {
 	case *PredTextEmpty:
-		return &TypeRichText{&TypeRichText_TextEmpty{x}}
+		return &TypeRichText{Value: &TypeRichText_TextEmpty{x}}
 	case *PredTextPlain:
-		return &TypeRichText{&TypeRichText_TextPlain{x}}
+		return &TypeRichText{Value: &TypeRichText_TextPlain{x}}
 	case *PredTextBold:
-		return &TypeRichText{&TypeRichText_TextBold{x}}
+		return &TypeRichText{Value: &TypeRichText_TextBold{x}}
 	case *PredTextItalic:
-		return &TypeRichText{&TypeRichText_TextItalic{x}}
+		return &TypeRichText{Value: &TypeRichText_TextItalic{x}}
 	case *PredTextUnderline:
-		return &TypeRichText{&TypeRichText_TextUnderline{x}}
+		return &TypeRichText{Value: &TypeRichText_TextUnderline{x}}
 	case *PredTextStrike:
-		return &TypeRichText{&TypeRichText_TextStrike{x}}
+		return &TypeRichText{Value: &TypeRichText_TextStrike{x}}
 	case *PredTextFixed:
-		return &TypeRichText{&TypeRichText_TextFixed{x}}
+		return &TypeRichText{Value: &TypeRichText_TextFixed{x}}
 	case *PredTextUrl:
-		return &TypeRichText{&TypeRichText_TextUrl{x}}
+		return &TypeRichText{Value: &TypeRichText_TextUrl{x}}
 	case *PredTextEmail:
-		return &TypeRichText{&TypeRichText_TextEmail{x}}
+		return &TypeRichText{Value: &TypeRichText_TextEmail{x}}
 	case *PredTextConcat:
-		return &TypeRichText{&TypeRichText_TextConcat{x}}
+		return &TypeRichText{Value: &TypeRichText_TextConcat{x}}
 	}
 	return nil
 }
 func toTypePageBlock(tl TL) *TypePageBlock {
 	switch x := tl.(type) {
 	case *PredPageBlockTitle:
-		return &TypePageBlock{&TypePageBlock_PageBlockTitle{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockTitle{x}}
 	case *PredPageBlockSubtitle:
-		return &TypePageBlock{&TypePageBlock_PageBlockSubtitle{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockSubtitle{x}}
 	case *PredPageBlockAuthorDate:
-		return &TypePageBlock{&TypePageBlock_PageBlockAuthorDate{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockAuthorDate{x}}
 	case *PredPageBlockHeader:
-		return &TypePageBlock{&TypePageBlock_PageBlockHeader{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockHeader{x}}
 	case *PredPageBlockSubheader:
-		return &TypePageBlock{&TypePageBlock_PageBlockSubheader{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockSubheader{x}}
 	case *PredPageBlockParagraph:
-		return &TypePageBlock{&TypePageBlock_PageBlockParagraph{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockParagraph{x}}
 	case *PredPageBlockPreformatted:
-		return &TypePageBlock{&TypePageBlock_PageBlockPreformatted{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockPreformatted{x}}
 	case *PredPageBlockFooter:
-		return &TypePageBlock{&TypePageBlock_PageBlockFooter{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockFooter{x}}
 	case *PredPageBlockDivider:
-		return &TypePageBlock{&TypePageBlock_PageBlockDivider{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockDivider{x}}
 	case *PredPageBlockList:
-		return &TypePageBlock{&TypePageBlock_PageBlockList{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockList{x}}
 	case *PredPageBlockBlockquote:
-		return &TypePageBlock{&TypePageBlock_PageBlockBlockquote{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockBlockquote{x}}
 	case *PredPageBlockPullquote:
-		return &TypePageBlock{&TypePageBlock_PageBlockPullquote{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockPullquote{x}}
 	case *PredPageBlockPhoto:
-		return &TypePageBlock{&TypePageBlock_PageBlockPhoto{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockPhoto{x}}
 	case *PredPageBlockVideo:
-		return &TypePageBlock{&TypePageBlock_PageBlockVideo{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockVideo{x}}
 	case *PredPageBlockCover:
-		return &TypePageBlock{&TypePageBlock_PageBlockCover{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockCover{x}}
 	case *PredPageBlockEmbed:
-		return &TypePageBlock{&TypePageBlock_PageBlockEmbed{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockEmbed{x}}
 	case *PredPageBlockEmbedPost:
-		return &TypePageBlock{&TypePageBlock_PageBlockEmbedPost{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockEmbedPost{x}}
 	case *PredPageBlockSlideshow:
-		return &TypePageBlock{&TypePageBlock_PageBlockSlideshow{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockSlideshow{x}}
 	case *PredPageBlockUnsupported:
-		return &TypePageBlock{&TypePageBlock_PageBlockUnsupported{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockUnsupported{x}}
 	case *PredPageBlockAnchor:
-		return &TypePageBlock{&TypePageBlock_PageBlockAnchor{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockAnchor{x}}
 	case *PredPageBlockCollage:
-		return &TypePageBlock{&TypePageBlock_PageBlockCollage{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockCollage{x}}
 	case *PredPageBlockChannel:
-		return &TypePageBlock{&TypePageBlock_PageBlockChannel{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockChannel{x}}
 	case *PredPageBlockAudio:
-		return &TypePageBlock{&TypePageBlock_PageBlockAudio{x}}
+		return &TypePageBlock{Value: &TypePageBlock_PageBlockAudio{x}}
 	}
 	return nil
 }
 func toTypePage(tl TL) *TypePage {
 	switch x := tl.(type) {
 	case *PredPagePart:
-		return &TypePage{&TypePage_PagePart{x}}
+		return &TypePage{Value: &TypePage_PagePart{x}}
 	case *PredPageFull:
-		return &TypePage{&TypePage_PageFull{x}}
+		return &TypePage{Value: &TypePage_PageFull{x}}
 	}
 	return nil
 }
 func toTypeInputPhoneCall(tl TL) *TypeInputPhoneCall {
 	switch x := tl.(type) {
 	case *PredInputPhoneCall:
-		return &TypeInputPhoneCall{x}
+		return &TypeInputPhoneCall{Value: x}
 	}
 	return nil
 }
 func toTypePhoneCall(tl TL) *TypePhoneCall {
 	switch x := tl.(type) {
 	case *PredPhoneCallEmpty:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCallEmpty{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallEmpty{x}}
 	case *PredPhoneCallWaiting:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCallWaiting{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallWaiting{x}}
 	case *PredPhoneCallRequested:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCallRequested{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallRequested{x}}
 	case *PredPhoneCall:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCall{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCall{x}}
 	case *PredPhoneCallDiscarded:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCallDiscarded{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallDiscarded{x}}
 	case *PredPhoneCallAccepted:
-		return &TypePhoneCall{&TypePhoneCall_PhoneCallAccepted{x}}
+		return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallAccepted{x}}
 	}
 	return nil
 }
 func toTypePhoneConnection(tl TL) *TypePhoneConnection {
 	switch x := tl.(type) {
 	case *PredPhoneConnection:
-		return &TypePhoneConnection{x}
+		return &TypePhoneConnection{Value: x}
 	}
 	return nil
 }
 func toTypePhoneCallProtocol(tl TL) *TypePhoneCallProtocol {
 	switch x := tl.(type) {
 	case *PredPhoneCallProtocol:
-		return &TypePhoneCallProtocol{x}
+		return &TypePhoneCallProtocol{Value: x}
 	}
 	return nil
 }
 func toTypePhonePhoneCall(tl TL) *TypePhonePhoneCall {
 	switch x := tl.(type) {
 	case *PredPhonePhoneCall:
-		return &TypePhonePhoneCall{x}
+		return &TypePhonePhoneCall{Value: x}
 	}
 	return nil
 }
 func toTypePhoneCallDiscardReason(tl TL) *TypePhoneCallDiscardReason {
 	switch x := tl.(type) {
 	case *PredPhoneCallDiscardReasonMissed:
-		return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{x}}
+		return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{x}}
 	case *PredPhoneCallDiscardReasonDisconnect:
-		return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{x}}
+		return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{x}}
 	case *PredPhoneCallDiscardReasonHangup:
-		return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{x}}
+		return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{x}}
 	case *PredPhoneCallDiscardReasonBusy:
-		return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{x}}
+		return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{x}}
 	}
 	return nil
 }
 func toTypeInvoice(tl TL) *TypeInvoice {
 	switch x := tl.(type) {
 	case *PredInvoice:
-		return &TypeInvoice{x}
+		return &TypeInvoice{Value: x}
 	}
 	return nil
 }
 func toTypePaymentsPaymentForm(tl TL) *TypePaymentsPaymentForm {
 	switch x := tl.(type) {
 	case *PredPaymentsPaymentForm:
-		return &TypePaymentsPaymentForm{x}
+		return &TypePaymentsPaymentForm{Value: x}
 	}
 	return nil
 }
 func toTypePostAddress(tl TL) *TypePostAddress {
 	switch x := tl.(type) {
 	case *PredPostAddress:
-		return &TypePostAddress{x}
+		return &TypePostAddress{Value: x}
 	}
 	return nil
 }
 func toTypePaymentRequestedInfo(tl TL) *TypePaymentRequestedInfo {
 	switch x := tl.(type) {
 	case *PredPaymentRequestedInfo:
-		return &TypePaymentRequestedInfo{x}
+		return &TypePaymentRequestedInfo{Value: x}
 	}
 	return nil
 }
 func toTypeDataJSON(tl TL) *TypeDataJSON {
 	switch x := tl.(type) {
 	case *PredDataJSON:
-		return &TypeDataJSON{x}
+		return &TypeDataJSON{Value: x}
 	}
 	return nil
 }
 func toTypeLabeledPrice(tl TL) *TypeLabeledPrice {
 	switch x := tl.(type) {
 	case *PredLabeledPrice:
-		return &TypeLabeledPrice{x}
+		return &TypeLabeledPrice{Value: x}
 	}
 	return nil
 }
 func toTypePaymentCharge(tl TL) *TypePaymentCharge {
 	switch x := tl.(type) {
 	case *PredPaymentCharge:
-		return &TypePaymentCharge{x}
+		return &TypePaymentCharge{Value: x}
 	}
 	return nil
 }
 func toTypePaymentSavedCredentials(tl TL) *TypePaymentSavedCredentials {
 	switch x := tl.(type) {
 	case *PredPaymentSavedCredentialsCard:
-		return &TypePaymentSavedCredentials{x}
+		return &TypePaymentSavedCredentials{Value: x}
 	}
 	return nil
 }
 func toTypeWebDocument(tl TL) *TypeWebDocument {
 	switch x := tl.(type) {
 	case *PredWebDocument:
-		return &TypeWebDocument{x}
+		return &TypeWebDocument{Value: x}
 	}
 	return nil
 }
 func toTypeInputWebDocument(tl TL) *TypeInputWebDocument {
 	switch x := tl.(type) {
 	case *PredInputWebDocument:
-		return &TypeInputWebDocument{x}
+		return &TypeInputWebDocument{Value: x}
 	}
 	return nil
 }
 func toTypeInputWebFileLocation(tl TL) *TypeInputWebFileLocation {
 	switch x := tl.(type) {
 	case *PredInputWebFileLocation:
-		return &TypeInputWebFileLocation{x}
+		return &TypeInputWebFileLocation{Value: x}
 	}
 	return nil
 }
 func toTypeUploadWebFile(tl TL) *TypeUploadWebFile {
 	switch x := tl.(type) {
 	case *PredUploadWebFile:
-		return &TypeUploadWebFile{x}
+		return &TypeUploadWebFile{Value: x}
 	}
 	return nil
 }
 func toTypePaymentsValidatedRequestedInfo(tl TL) *TypePaymentsValidatedRequestedInfo {
 	switch x := tl.(type) {
 	case *PredPaymentsValidatedRequestedInfo:
-		return &TypePaymentsValidatedRequestedInfo{x}
+		return &TypePaymentsValidatedRequestedInfo{Value: x}
 	}
 	return nil
 }
 func toTypePaymentsPaymentResult(tl TL) *TypePaymentsPaymentResult {
 	switch x := tl.(type) {
 	case *PredPaymentsPaymentResult:
-		return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentResult{x}}
+		return &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentResult{x}}
 	case *PredPaymentsPaymentVerficationNeeded:
-		return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{x}}
+		return &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{x}}
 	}
 	return nil
 }
 func toTypePaymentsPaymentReceipt(tl TL) *TypePaymentsPaymentReceipt {
 	switch x := tl.(type) {
 	case *PredPaymentsPaymentReceipt:
-		return &TypePaymentsPaymentReceipt{x}
+		return &TypePaymentsPaymentReceipt{Value: x}
 	}
 	return nil
 }
 func toTypePaymentsSavedInfo(tl TL) *TypePaymentsSavedInfo {
 	switch x := tl.(type) {
 	case *PredPaymentsSavedInfo:
-		return &TypePaymentsSavedInfo{x}
+		return &TypePaymentsSavedInfo{Value: x}
 	}
 	return nil
 }
 func toTypeInputPaymentCredentials(tl TL) *TypeInputPaymentCredentials {
 	switch x := tl.(type) {
 	case *PredInputPaymentCredentialsSaved:
-		return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentialsSaved{x}}
+		return &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentialsSaved{x}}
 	case *PredInputPaymentCredentials:
-		return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentials{x}}
+		return &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentials{x}}
 	}
 	return nil
 }
 func toTypeAccountTmpPassword(tl TL) *TypeAccountTmpPassword {
 	switch x := tl.(type) {
 	case *PredAccountTmpPassword:
-		return &TypeAccountTmpPassword{x}
+		return &TypeAccountTmpPassword{Value: x}
 	}
 	return nil
 }
 func toTypeShippingOption(tl TL) *TypeShippingOption {
 	switch x := tl.(type) {
 	case *PredShippingOption:
-		return &TypeShippingOption{x}
+		return &TypeShippingOption{Value: x}
 	}
 	return nil
 }
 func toTypeUploadCdnFile(tl TL) *TypeUploadCdnFile {
 	switch x := tl.(type) {
 	case *PredUploadCdnFileReuploadNeeded:
-		return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFileReuploadNeeded{x}}
+		return &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFileReuploadNeeded{x}}
 	case *PredUploadCdnFile:
-		return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFile{x}}
+		return &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFile{x}}
 	}
 	return nil
 }
 func toTypeCdnPublicKey(tl TL) *TypeCdnPublicKey {
 	switch x := tl.(type) {
 	case *PredCdnPublicKey:
-		return &TypeCdnPublicKey{x}
+		return &TypeCdnPublicKey{Value: x}
 	}
 	return nil
 }
 func toTypeCdnConfig(tl TL) *TypeCdnConfig {
 	switch x := tl.(type) {
 	case *PredCdnConfig:
-		return &TypeCdnConfig{x}
+		return &TypeCdnConfig{Value: x}
 	}
 	return nil
 }
 func toTypeInputStickerSetItem(tl TL) *TypeInputStickerSetItem {
 	switch x := tl.(type) {
 	case *PredInputStickerSetItem:
-		return &TypeInputStickerSetItem{x}
+		return &TypeInputStickerSetItem{Value: x}
 	}
 	return nil
 }
 func toTypeLangPackString(tl TL) *TypeLangPackString {
 	switch x := tl.(type) {
 	case *PredLangPackString:
-		return &TypeLangPackString{&TypeLangPackString_LangPackString{x}}
+		return &TypeLangPackString{Value: &TypeLangPackString_LangPackString{x}}
 	case *PredLangPackStringPluralized:
-		return &TypeLangPackString{&TypeLangPackString_LangPackStringPluralized{x}}
+		return &TypeLangPackString{Value: &TypeLangPackString_LangPackStringPluralized{x}}
 	case *PredLangPackStringDeleted:
-		return &TypeLangPackString{&TypeLangPackString_LangPackStringDeleted{x}}
+		return &TypeLangPackString{Value: &TypeLangPackString_LangPackStringDeleted{x}}
 	}
 	return nil
 }
 func toTypeLangPackDifference(tl TL) *TypeLangPackDifference {
 	switch x := tl.(type) {
 	case *PredLangPackDifference:
-		return &TypeLangPackDifference{x}
+		return &TypeLangPackDifference{Value: x}
 	}
 	return nil
 }
 func toTypeLangPackLanguage(tl TL) *TypeLangPackLanguage {
 	switch x := tl.(type) {
 	case *PredLangPackLanguage:
-		return &TypeLangPackLanguage{x}
+		return &TypeLangPackLanguage{Value: x}
 	}
 	return nil
 }
 func toTypeChannelAdminRights(tl TL) *TypeChannelAdminRights {
 	switch x := tl.(type) {
 	case *PredChannelAdminRights:
-		return &TypeChannelAdminRights{x}
+		return &TypeChannelAdminRights{Value: x}
 	}
 	return nil
 }
 func toTypeChannelBannedRights(tl TL) *TypeChannelBannedRights {
 	switch x := tl.(type) {
 	case *PredChannelBannedRights:
-		return &TypeChannelBannedRights{x}
+		return &TypeChannelBannedRights{Value: x}
 	}
 	return nil
 }
 func toTypeChannelAdminLogEventAction(tl TL) *TypeChannelAdminLogEventAction {
 	switch x := tl.(type) {
 	case *PredChannelAdminLogEventActionChangeTitle:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{x}}
 	case *PredChannelAdminLogEventActionChangeAbout:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{x}}
 	case *PredChannelAdminLogEventActionChangeUsername:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{x}}
 	case *PredChannelAdminLogEventActionChangePhoto:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{x}}
 	case *PredChannelAdminLogEventActionToggleInvites:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{x}}
 	case *PredChannelAdminLogEventActionToggleSignatures:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{x}}
 	case *PredChannelAdminLogEventActionUpdatePinned:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{x}}
 	case *PredChannelAdminLogEventActionEditMessage:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{x}}
 	case *PredChannelAdminLogEventActionDeleteMessage:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{x}}
 	case *PredChannelAdminLogEventActionParticipantJoin:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{x}}
 	case *PredChannelAdminLogEventActionParticipantLeave:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{x}}
 	case *PredChannelAdminLogEventActionParticipantInvite:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{x}}
 	case *PredChannelAdminLogEventActionParticipantToggleBan:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{x}}
 	case *PredChannelAdminLogEventActionParticipantToggleAdmin:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{x}}
 	case *PredChannelAdminLogEventActionChangeStickerSet:
-		return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{x}}
+		return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{x}}
 	}
 	return nil
 }
 func toTypeChannelAdminLogEvent(tl TL) *TypeChannelAdminLogEvent {
 	switch x := tl.(type) {
 	case *PredChannelAdminLogEvent:
-		return &TypeChannelAdminLogEvent{x}
+		return &TypeChannelAdminLogEvent{Value: x}
 	}
 	return nil
 }
 func toTypeChannelsAdminLogResults(tl TL) *TypeChannelsAdminLogResults {
 	switch x := tl.(type) {
 	case *PredChannelsAdminLogResults:
-		return &TypeChannelsAdminLogResults{x}
+		return &TypeChannelsAdminLogResults{Value: x}
 	}
 	return nil
 }
 func toTypeChannelAdminLogEventsFilter(tl TL) *TypeChannelAdminLogEventsFilter {
 	switch x := tl.(type) {
 	case *PredChannelAdminLogEventsFilter:
-		return &TypeChannelAdminLogEventsFilter{x}
+		return &TypeChannelAdminLogEventsFilter{Value: x}
 	}
 	return nil
 }
 func toTypePopularContact(tl TL) *TypePopularContact {
 	switch x := tl.(type) {
 	case *PredPopularContact:
-		return &TypePopularContact{x}
+		return &TypePopularContact{Value: x}
 	}
 	return nil
 }
 func toTypeCdnFileHash(tl TL) *TypeCdnFileHash {
 	switch x := tl.(type) {
 	case *PredCdnFileHash:
-		return &TypeCdnFileHash{x}
+		return &TypeCdnFileHash{Value: x}
 	}
 	return nil
 }
 func toTypeMessagesFavedStickers(tl TL) *TypeMessagesFavedStickers {
 	switch x := tl.(type) {
 	case *PredMessagesFavedStickers:
-		return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickers{x}}
+		return &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickers{x}}
 	case *PredMessagesFavedStickersNotModified:
-		return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickersNotModified{x}}
+		return &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickersNotModified{x}}
 	}
 	return nil
 }
@@ -10830,9 +10830,9 @@ func toTypeBoolSlice(tlslice []TL) (converted []*TypeBool) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredBoolFalse:
-			converted = append(converted, &TypeBool{&TypeBool_BoolFalse{x}})
+			converted = append(converted, &TypeBool{Value: &TypeBool_BoolFalse{x}})
 		case *PredBoolTrue:
-			converted = append(converted, &TypeBool{&TypeBool_BoolTrue{x}})
+			converted = append(converted, &TypeBool{Value: &TypeBool_BoolTrue{x}})
 		default:
 			// invalid predicate
 		}
@@ -10843,7 +10843,7 @@ func toTypeErrorSlice(tlslice []TL) (converted []*TypeError) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredError:
-			converted = append(converted, &TypeError{x})
+			converted = append(converted, &TypeError{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -10854,7 +10854,7 @@ func toTypeNullSlice(tlslice []TL) (converted []*TypeNull) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredNull:
-			converted = append(converted, &TypeNull{x})
+			converted = append(converted, &TypeNull{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -10865,15 +10865,15 @@ func toTypeInputPeerSlice(tlslice []TL) (converted []*TypeInputPeer) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPeerEmpty:
-			converted = append(converted, &TypeInputPeer{&TypeInputPeer_InputPeerEmpty{x}})
+			converted = append(converted, &TypeInputPeer{Value: &TypeInputPeer_InputPeerEmpty{x}})
 		case *PredInputPeerSelf:
-			converted = append(converted, &TypeInputPeer{&TypeInputPeer_InputPeerSelf{x}})
+			converted = append(converted, &TypeInputPeer{Value: &TypeInputPeer_InputPeerSelf{x}})
 		case *PredInputPeerChat:
-			converted = append(converted, &TypeInputPeer{&TypeInputPeer_InputPeerChat{x}})
+			converted = append(converted, &TypeInputPeer{Value: &TypeInputPeer_InputPeerChat{x}})
 		case *PredInputPeerUser:
-			converted = append(converted, &TypeInputPeer{&TypeInputPeer_InputPeerUser{x}})
+			converted = append(converted, &TypeInputPeer{Value: &TypeInputPeer_InputPeerUser{x}})
 		case *PredInputPeerChannel:
-			converted = append(converted, &TypeInputPeer{&TypeInputPeer_InputPeerChannel{x}})
+			converted = append(converted, &TypeInputPeer{Value: &TypeInputPeer_InputPeerChannel{x}})
 		default:
 			// invalid predicate
 		}
@@ -10884,11 +10884,11 @@ func toTypeInputUserSlice(tlslice []TL) (converted []*TypeInputUser) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputUserEmpty:
-			converted = append(converted, &TypeInputUser{&TypeInputUser_InputUserEmpty{x}})
+			converted = append(converted, &TypeInputUser{Value: &TypeInputUser_InputUserEmpty{x}})
 		case *PredInputUserSelf:
-			converted = append(converted, &TypeInputUser{&TypeInputUser_InputUserSelf{x}})
+			converted = append(converted, &TypeInputUser{Value: &TypeInputUser_InputUserSelf{x}})
 		case *PredInputUser:
-			converted = append(converted, &TypeInputUser{&TypeInputUser_InputUser{x}})
+			converted = append(converted, &TypeInputUser{Value: &TypeInputUser_InputUser{x}})
 		default:
 			// invalid predicate
 		}
@@ -10899,7 +10899,7 @@ func toTypeInputContactSlice(tlslice []TL) (converted []*TypeInputContact) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPhoneContact:
-			converted = append(converted, &TypeInputContact{x})
+			converted = append(converted, &TypeInputContact{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -10910,9 +10910,9 @@ func toTypeInputFileSlice(tlslice []TL) (converted []*TypeInputFile) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputFile:
-			converted = append(converted, &TypeInputFile{&TypeInputFile_InputFile{x}})
+			converted = append(converted, &TypeInputFile{Value: &TypeInputFile_InputFile{x}})
 		case *PredInputFileBig:
-			converted = append(converted, &TypeInputFile{&TypeInputFile_InputFileBig{x}})
+			converted = append(converted, &TypeInputFile{Value: &TypeInputFile_InputFileBig{x}})
 		default:
 			// invalid predicate
 		}
@@ -10923,31 +10923,31 @@ func toTypeInputMediaSlice(tlslice []TL) (converted []*TypeInputMedia) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputMediaEmpty:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaEmpty{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaEmpty{x}})
 		case *PredInputMediaUploadedPhoto:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaUploadedPhoto{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedPhoto{x}})
 		case *PredInputMediaPhoto:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaPhoto{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhoto{x}})
 		case *PredInputMediaGeoPoint:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaGeoPoint{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaGeoPoint{x}})
 		case *PredInputMediaContact:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaContact{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaContact{x}})
 		case *PredInputMediaUploadedDocument:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaUploadedDocument{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedDocument{x}})
 		case *PredInputMediaDocument:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaDocument{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocument{x}})
 		case *PredInputMediaVenue:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaVenue{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaVenue{x}})
 		case *PredInputMediaGifExternal:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaGifExternal{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaGifExternal{x}})
 		case *PredInputMediaPhotoExternal:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaPhotoExternal{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhotoExternal{x}})
 		case *PredInputMediaDocumentExternal:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaDocumentExternal{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocumentExternal{x}})
 		case *PredInputMediaGame:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaGame{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaGame{x}})
 		case *PredInputMediaInvoice:
-			converted = append(converted, &TypeInputMedia{&TypeInputMedia_InputMediaInvoice{x}})
+			converted = append(converted, &TypeInputMedia{Value: &TypeInputMedia_InputMediaInvoice{x}})
 		default:
 			// invalid predicate
 		}
@@ -10958,11 +10958,11 @@ func toTypeInputChatPhotoSlice(tlslice []TL) (converted []*TypeInputChatPhoto) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputChatPhotoEmpty:
-			converted = append(converted, &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhotoEmpty{x}})
+			converted = append(converted, &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhotoEmpty{x}})
 		case *PredInputChatUploadedPhoto:
-			converted = append(converted, &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatUploadedPhoto{x}})
+			converted = append(converted, &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatUploadedPhoto{x}})
 		case *PredInputChatPhoto:
-			converted = append(converted, &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhoto{x}})
+			converted = append(converted, &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhoto{x}})
 		default:
 			// invalid predicate
 		}
@@ -10973,9 +10973,9 @@ func toTypeInputGeoPointSlice(tlslice []TL) (converted []*TypeInputGeoPoint) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputGeoPointEmpty:
-			converted = append(converted, &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPointEmpty{x}})
+			converted = append(converted, &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPointEmpty{x}})
 		case *PredInputGeoPoint:
-			converted = append(converted, &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPoint{x}})
+			converted = append(converted, &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPoint{x}})
 		default:
 			// invalid predicate
 		}
@@ -10986,9 +10986,9 @@ func toTypeInputPhotoSlice(tlslice []TL) (converted []*TypeInputPhoto) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPhotoEmpty:
-			converted = append(converted, &TypeInputPhoto{&TypeInputPhoto_InputPhotoEmpty{x}})
+			converted = append(converted, &TypeInputPhoto{Value: &TypeInputPhoto_InputPhotoEmpty{x}})
 		case *PredInputPhoto:
-			converted = append(converted, &TypeInputPhoto{&TypeInputPhoto_InputPhoto{x}})
+			converted = append(converted, &TypeInputPhoto{Value: &TypeInputPhoto_InputPhoto{x}})
 		default:
 			// invalid predicate
 		}
@@ -10999,11 +10999,11 @@ func toTypeInputFileLocationSlice(tlslice []TL) (converted []*TypeInputFileLocat
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputFileLocation:
-			converted = append(converted, &TypeInputFileLocation{&TypeInputFileLocation_InputFileLocation{x}})
+			converted = append(converted, &TypeInputFileLocation{Value: &TypeInputFileLocation_InputFileLocation{x}})
 		case *PredInputEncryptedFileLocation:
-			converted = append(converted, &TypeInputFileLocation{&TypeInputFileLocation_InputEncryptedFileLocation{x}})
+			converted = append(converted, &TypeInputFileLocation{Value: &TypeInputFileLocation_InputEncryptedFileLocation{x}})
 		case *PredInputDocumentFileLocation:
-			converted = append(converted, &TypeInputFileLocation{&TypeInputFileLocation_InputDocumentFileLocation{x}})
+			converted = append(converted, &TypeInputFileLocation{Value: &TypeInputFileLocation_InputDocumentFileLocation{x}})
 		default:
 			// invalid predicate
 		}
@@ -11014,7 +11014,7 @@ func toTypeInputAppEventSlice(tlslice []TL) (converted []*TypeInputAppEvent) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputAppEvent:
-			converted = append(converted, &TypeInputAppEvent{x})
+			converted = append(converted, &TypeInputAppEvent{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11025,11 +11025,11 @@ func toTypePeerSlice(tlslice []TL) (converted []*TypePeer) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPeerUser:
-			converted = append(converted, &TypePeer{&TypePeer_PeerUser{x}})
+			converted = append(converted, &TypePeer{Value: &TypePeer_PeerUser{x}})
 		case *PredPeerChat:
-			converted = append(converted, &TypePeer{&TypePeer_PeerChat{x}})
+			converted = append(converted, &TypePeer{Value: &TypePeer_PeerChat{x}})
 		case *PredPeerChannel:
-			converted = append(converted, &TypePeer{&TypePeer_PeerChannel{x}})
+			converted = append(converted, &TypePeer{Value: &TypePeer_PeerChannel{x}})
 		default:
 			// invalid predicate
 		}
@@ -11040,25 +11040,25 @@ func toTypeStorageFileTypeSlice(tlslice []TL) (converted []*TypeStorageFileType)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredStorageFileUnknown:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileUnknown{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileUnknown{x}})
 		case *PredStorageFileJpeg:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileJpeg{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileJpeg{x}})
 		case *PredStorageFileGif:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileGif{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileGif{x}})
 		case *PredStorageFilePng:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFilePng{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePng{x}})
 		case *PredStorageFileMp3:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileMp3{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp3{x}})
 		case *PredStorageFileMov:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileMov{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMov{x}})
 		case *PredStorageFilePartial:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFilePartial{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePartial{x}})
 		case *PredStorageFileMp4:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileMp4{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp4{x}})
 		case *PredStorageFileWebp:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFileWebp{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileWebp{x}})
 		case *PredStorageFilePdf:
-			converted = append(converted, &TypeStorageFileType{&TypeStorageFileType_StorageFilePdf{x}})
+			converted = append(converted, &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePdf{x}})
 		default:
 			// invalid predicate
 		}
@@ -11069,9 +11069,9 @@ func toTypeFileLocationSlice(tlslice []TL) (converted []*TypeFileLocation) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredFileLocationUnavailable:
-			converted = append(converted, &TypeFileLocation{&TypeFileLocation_FileLocationUnavailable{x}})
+			converted = append(converted, &TypeFileLocation{Value: &TypeFileLocation_FileLocationUnavailable{x}})
 		case *PredFileLocation:
-			converted = append(converted, &TypeFileLocation{&TypeFileLocation_FileLocation{x}})
+			converted = append(converted, &TypeFileLocation{Value: &TypeFileLocation_FileLocation{x}})
 		default:
 			// invalid predicate
 		}
@@ -11082,9 +11082,9 @@ func toTypeUserSlice(tlslice []TL) (converted []*TypeUser) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUserEmpty:
-			converted = append(converted, &TypeUser{&TypeUser_UserEmpty{x}})
+			converted = append(converted, &TypeUser{Value: &TypeUser_UserEmpty{x}})
 		case *PredUser:
-			converted = append(converted, &TypeUser{&TypeUser_User{x}})
+			converted = append(converted, &TypeUser{Value: &TypeUser_User{x}})
 		default:
 			// invalid predicate
 		}
@@ -11095,9 +11095,9 @@ func toTypeUserProfilePhotoSlice(tlslice []TL) (converted []*TypeUserProfilePhot
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUserProfilePhotoEmpty:
-			converted = append(converted, &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhotoEmpty{x}})
+			converted = append(converted, &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhotoEmpty{x}})
 		case *PredUserProfilePhoto:
-			converted = append(converted, &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhoto{x}})
+			converted = append(converted, &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhoto{x}})
 		default:
 			// invalid predicate
 		}
@@ -11108,17 +11108,17 @@ func toTypeUserStatusSlice(tlslice []TL) (converted []*TypeUserStatus) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUserStatusEmpty:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusEmpty{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusEmpty{x}})
 		case *PredUserStatusOnline:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusOnline{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusOnline{x}})
 		case *PredUserStatusOffline:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusOffline{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusOffline{x}})
 		case *PredUserStatusRecently:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusRecently{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusRecently{x}})
 		case *PredUserStatusLastWeek:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusLastWeek{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastWeek{x}})
 		case *PredUserStatusLastMonth:
-			converted = append(converted, &TypeUserStatus{&TypeUserStatus_UserStatusLastMonth{x}})
+			converted = append(converted, &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastMonth{x}})
 		default:
 			// invalid predicate
 		}
@@ -11129,15 +11129,15 @@ func toTypeChatSlice(tlslice []TL) (converted []*TypeChat) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatEmpty:
-			converted = append(converted, &TypeChat{&TypeChat_ChatEmpty{x}})
+			converted = append(converted, &TypeChat{Value: &TypeChat_ChatEmpty{x}})
 		case *PredChat:
-			converted = append(converted, &TypeChat{&TypeChat_Chat{x}})
+			converted = append(converted, &TypeChat{Value: &TypeChat_Chat{x}})
 		case *PredChatForbidden:
-			converted = append(converted, &TypeChat{&TypeChat_ChatForbidden{x}})
+			converted = append(converted, &TypeChat{Value: &TypeChat_ChatForbidden{x}})
 		case *PredChannel:
-			converted = append(converted, &TypeChat{&TypeChat_Channel{x}})
+			converted = append(converted, &TypeChat{Value: &TypeChat_Channel{x}})
 		case *PredChannelForbidden:
-			converted = append(converted, &TypeChat{&TypeChat_ChannelForbidden{x}})
+			converted = append(converted, &TypeChat{Value: &TypeChat_ChannelForbidden{x}})
 		default:
 			// invalid predicate
 		}
@@ -11148,9 +11148,9 @@ func toTypeChatFullSlice(tlslice []TL) (converted []*TypeChatFull) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatFull:
-			converted = append(converted, &TypeChatFull{&TypeChatFull_ChatFull{x}})
+			converted = append(converted, &TypeChatFull{Value: &TypeChatFull_ChatFull{x}})
 		case *PredChannelFull:
-			converted = append(converted, &TypeChatFull{&TypeChatFull_ChannelFull{x}})
+			converted = append(converted, &TypeChatFull{Value: &TypeChatFull_ChannelFull{x}})
 		default:
 			// invalid predicate
 		}
@@ -11161,11 +11161,11 @@ func toTypeChatParticipantSlice(tlslice []TL) (converted []*TypeChatParticipant)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatParticipant:
-			converted = append(converted, &TypeChatParticipant{&TypeChatParticipant_ChatParticipant{x}})
+			converted = append(converted, &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipant{x}})
 		case *PredChatParticipantCreator:
-			converted = append(converted, &TypeChatParticipant{&TypeChatParticipant_ChatParticipantCreator{x}})
+			converted = append(converted, &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantCreator{x}})
 		case *PredChatParticipantAdmin:
-			converted = append(converted, &TypeChatParticipant{&TypeChatParticipant_ChatParticipantAdmin{x}})
+			converted = append(converted, &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantAdmin{x}})
 		default:
 			// invalid predicate
 		}
@@ -11176,9 +11176,9 @@ func toTypeChatParticipantsSlice(tlslice []TL) (converted []*TypeChatParticipant
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatParticipantsForbidden:
-			converted = append(converted, &TypeChatParticipants{&TypeChatParticipants_ChatParticipantsForbidden{x}})
+			converted = append(converted, &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipantsForbidden{x}})
 		case *PredChatParticipants:
-			converted = append(converted, &TypeChatParticipants{&TypeChatParticipants_ChatParticipants{x}})
+			converted = append(converted, &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipants{x}})
 		default:
 			// invalid predicate
 		}
@@ -11189,9 +11189,9 @@ func toTypeChatPhotoSlice(tlslice []TL) (converted []*TypeChatPhoto) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatPhotoEmpty:
-			converted = append(converted, &TypeChatPhoto{&TypeChatPhoto_ChatPhotoEmpty{x}})
+			converted = append(converted, &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhotoEmpty{x}})
 		case *PredChatPhoto:
-			converted = append(converted, &TypeChatPhoto{&TypeChatPhoto_ChatPhoto{x}})
+			converted = append(converted, &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhoto{x}})
 		default:
 			// invalid predicate
 		}
@@ -11202,11 +11202,11 @@ func toTypeMessageSlice(tlslice []TL) (converted []*TypeMessage) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageEmpty:
-			converted = append(converted, &TypeMessage{&TypeMessage_MessageEmpty{x}})
+			converted = append(converted, &TypeMessage{Value: &TypeMessage_MessageEmpty{x}})
 		case *PredMessage:
-			converted = append(converted, &TypeMessage{&TypeMessage_Message{x}})
+			converted = append(converted, &TypeMessage{Value: &TypeMessage_Message{x}})
 		case *PredMessageService:
-			converted = append(converted, &TypeMessage{&TypeMessage_MessageService{x}})
+			converted = append(converted, &TypeMessage{Value: &TypeMessage_MessageService{x}})
 		default:
 			// invalid predicate
 		}
@@ -11217,25 +11217,25 @@ func toTypeMessageMediaSlice(tlslice []TL) (converted []*TypeMessageMedia) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageMediaEmpty:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaEmpty{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaEmpty{x}})
 		case *PredMessageMediaPhoto:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaPhoto{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaPhoto{x}})
 		case *PredMessageMediaGeo:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaGeo{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGeo{x}})
 		case *PredMessageMediaContact:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaContact{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaContact{x}})
 		case *PredMessageMediaUnsupported:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaUnsupported{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaUnsupported{x}})
 		case *PredMessageMediaDocument:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaDocument{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaDocument{x}})
 		case *PredMessageMediaWebPage:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaWebPage{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaWebPage{x}})
 		case *PredMessageMediaVenue:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaVenue{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaVenue{x}})
 		case *PredMessageMediaGame:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaGame{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGame{x}})
 		case *PredMessageMediaInvoice:
-			converted = append(converted, &TypeMessageMedia{&TypeMessageMedia_MessageMediaInvoice{x}})
+			converted = append(converted, &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaInvoice{x}})
 		default:
 			// invalid predicate
 		}
@@ -11246,41 +11246,41 @@ func toTypeMessageActionSlice(tlslice []TL) (converted []*TypeMessageAction) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageActionEmpty:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionEmpty{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionEmpty{x}})
 		case *PredMessageActionChatCreate:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatCreate{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatCreate{x}})
 		case *PredMessageActionChatEditTitle:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatEditTitle{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditTitle{x}})
 		case *PredMessageActionChatEditPhoto:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatEditPhoto{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditPhoto{x}})
 		case *PredMessageActionChatDeletePhoto:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatDeletePhoto{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeletePhoto{x}})
 		case *PredMessageActionChatAddUser:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatAddUser{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatAddUser{x}})
 		case *PredMessageActionChatDeleteUser:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatDeleteUser{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeleteUser{x}})
 		case *PredMessageActionChatJoinedByLink:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatJoinedByLink{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatJoinedByLink{x}})
 		case *PredMessageActionChannelCreate:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChannelCreate{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelCreate{x}})
 		case *PredMessageActionChatMigrateTo:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChatMigrateTo{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatMigrateTo{x}})
 		case *PredMessageActionChannelMigrateFrom:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionChannelMigrateFrom{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelMigrateFrom{x}})
 		case *PredMessageActionPinMessage:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionPinMessage{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionPinMessage{x}})
 		case *PredMessageActionHistoryClear:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionHistoryClear{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionHistoryClear{x}})
 		case *PredMessageActionGameScore:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionGameScore{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionGameScore{x}})
 		case *PredMessageActionPhoneCall:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionPhoneCall{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionPhoneCall{x}})
 		case *PredMessageActionPaymentSentMe:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSentMe{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSentMe{x}})
 		case *PredMessageActionPaymentSent:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSent{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSent{x}})
 		case *PredMessageActionScreenshotTaken:
-			converted = append(converted, &TypeMessageAction{&TypeMessageAction_MessageActionScreenshotTaken{x}})
+			converted = append(converted, &TypeMessageAction{Value: &TypeMessageAction_MessageActionScreenshotTaken{x}})
 		default:
 			// invalid predicate
 		}
@@ -11291,7 +11291,7 @@ func toTypeDialogSlice(tlslice []TL) (converted []*TypeDialog) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDialog:
-			converted = append(converted, &TypeDialog{x})
+			converted = append(converted, &TypeDialog{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11302,9 +11302,9 @@ func toTypePhotoSlice(tlslice []TL) (converted []*TypePhoto) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhotoEmpty:
-			converted = append(converted, &TypePhoto{&TypePhoto_PhotoEmpty{x}})
+			converted = append(converted, &TypePhoto{Value: &TypePhoto_PhotoEmpty{x}})
 		case *PredPhoto:
-			converted = append(converted, &TypePhoto{&TypePhoto_Photo{x}})
+			converted = append(converted, &TypePhoto{Value: &TypePhoto_Photo{x}})
 		default:
 			// invalid predicate
 		}
@@ -11315,11 +11315,11 @@ func toTypePhotoSizeSlice(tlslice []TL) (converted []*TypePhotoSize) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhotoSizeEmpty:
-			converted = append(converted, &TypePhotoSize{&TypePhotoSize_PhotoSizeEmpty{x}})
+			converted = append(converted, &TypePhotoSize{Value: &TypePhotoSize_PhotoSizeEmpty{x}})
 		case *PredPhotoSize:
-			converted = append(converted, &TypePhotoSize{&TypePhotoSize_PhotoSize{x}})
+			converted = append(converted, &TypePhotoSize{Value: &TypePhotoSize_PhotoSize{x}})
 		case *PredPhotoCachedSize:
-			converted = append(converted, &TypePhotoSize{&TypePhotoSize_PhotoCachedSize{x}})
+			converted = append(converted, &TypePhotoSize{Value: &TypePhotoSize_PhotoCachedSize{x}})
 		default:
 			// invalid predicate
 		}
@@ -11330,9 +11330,9 @@ func toTypeGeoPointSlice(tlslice []TL) (converted []*TypeGeoPoint) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredGeoPointEmpty:
-			converted = append(converted, &TypeGeoPoint{&TypeGeoPoint_GeoPointEmpty{x}})
+			converted = append(converted, &TypeGeoPoint{Value: &TypeGeoPoint_GeoPointEmpty{x}})
 		case *PredGeoPoint:
-			converted = append(converted, &TypeGeoPoint{&TypeGeoPoint_GeoPoint{x}})
+			converted = append(converted, &TypeGeoPoint{Value: &TypeGeoPoint_GeoPoint{x}})
 		default:
 			// invalid predicate
 		}
@@ -11343,7 +11343,7 @@ func toTypeAuthCheckedPhoneSlice(tlslice []TL) (converted []*TypeAuthCheckedPhon
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthCheckedPhone:
-			converted = append(converted, &TypeAuthCheckedPhone{x})
+			converted = append(converted, &TypeAuthCheckedPhone{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11354,7 +11354,7 @@ func toTypeAuthSentCodeSlice(tlslice []TL) (converted []*TypeAuthSentCode) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthSentCode:
-			converted = append(converted, &TypeAuthSentCode{x})
+			converted = append(converted, &TypeAuthSentCode{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11365,7 +11365,7 @@ func toTypeAuthAuthorizationSlice(tlslice []TL) (converted []*TypeAuthAuthorizat
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthAuthorization:
-			converted = append(converted, &TypeAuthAuthorization{x})
+			converted = append(converted, &TypeAuthAuthorization{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11376,7 +11376,7 @@ func toTypeAuthExportedAuthorizationSlice(tlslice []TL) (converted []*TypeAuthEx
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthExportedAuthorization:
-			converted = append(converted, &TypeAuthExportedAuthorization{x})
+			converted = append(converted, &TypeAuthExportedAuthorization{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11387,13 +11387,13 @@ func toTypeInputNotifyPeerSlice(tlslice []TL) (converted []*TypeInputNotifyPeer)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputNotifyPeer:
-			converted = append(converted, &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyPeer{x}})
+			converted = append(converted, &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyPeer{x}})
 		case *PredInputNotifyUsers:
-			converted = append(converted, &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyUsers{x}})
+			converted = append(converted, &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyUsers{x}})
 		case *PredInputNotifyChats:
-			converted = append(converted, &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyChats{x}})
+			converted = append(converted, &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyChats{x}})
 		case *PredInputNotifyAll:
-			converted = append(converted, &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyAll{x}})
+			converted = append(converted, &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyAll{x}})
 		default:
 			// invalid predicate
 		}
@@ -11404,7 +11404,7 @@ func toTypeInputPeerNotifySettingsSlice(tlslice []TL) (converted []*TypeInputPee
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPeerNotifySettings:
-			converted = append(converted, &TypeInputPeerNotifySettings{x})
+			converted = append(converted, &TypeInputPeerNotifySettings{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11415,9 +11415,9 @@ func toTypePeerNotifyEventsSlice(tlslice []TL) (converted []*TypePeerNotifyEvent
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPeerNotifyEventsEmpty:
-			converted = append(converted, &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsEmpty{x}})
+			converted = append(converted, &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsEmpty{x}})
 		case *PredPeerNotifyEventsAll:
-			converted = append(converted, &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsAll{x}})
+			converted = append(converted, &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsAll{x}})
 		default:
 			// invalid predicate
 		}
@@ -11428,9 +11428,9 @@ func toTypePeerNotifySettingsSlice(tlslice []TL) (converted []*TypePeerNotifySet
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPeerNotifySettingsEmpty:
-			converted = append(converted, &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettingsEmpty{x}})
+			converted = append(converted, &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettingsEmpty{x}})
 		case *PredPeerNotifySettings:
-			converted = append(converted, &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettings{x}})
+			converted = append(converted, &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettings{x}})
 		default:
 			// invalid predicate
 		}
@@ -11441,9 +11441,9 @@ func toTypeWallPaperSlice(tlslice []TL) (converted []*TypeWallPaper) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredWallPaper:
-			converted = append(converted, &TypeWallPaper{&TypeWallPaper_WallPaper{x}})
+			converted = append(converted, &TypeWallPaper{Value: &TypeWallPaper_WallPaper{x}})
 		case *PredWallPaperSolid:
-			converted = append(converted, &TypeWallPaper{&TypeWallPaper_WallPaperSolid{x}})
+			converted = append(converted, &TypeWallPaper{Value: &TypeWallPaper_WallPaperSolid{x}})
 		default:
 			// invalid predicate
 		}
@@ -11454,7 +11454,7 @@ func toTypeUserFullSlice(tlslice []TL) (converted []*TypeUserFull) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUserFull:
-			converted = append(converted, &TypeUserFull{x})
+			converted = append(converted, &TypeUserFull{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11465,7 +11465,7 @@ func toTypeContactSlice(tlslice []TL) (converted []*TypeContact) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContact:
-			converted = append(converted, &TypeContact{x})
+			converted = append(converted, &TypeContact{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11476,7 +11476,7 @@ func toTypeImportedContactSlice(tlslice []TL) (converted []*TypeImportedContact)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredImportedContact:
-			converted = append(converted, &TypeImportedContact{x})
+			converted = append(converted, &TypeImportedContact{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11487,7 +11487,7 @@ func toTypeContactBlockedSlice(tlslice []TL) (converted []*TypeContactBlocked) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactBlocked:
-			converted = append(converted, &TypeContactBlocked{x})
+			converted = append(converted, &TypeContactBlocked{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11498,7 +11498,7 @@ func toTypeContactStatusSlice(tlslice []TL) (converted []*TypeContactStatus) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactStatus:
-			converted = append(converted, &TypeContactStatus{x})
+			converted = append(converted, &TypeContactStatus{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11509,7 +11509,7 @@ func toTypeContactsLinkSlice(tlslice []TL) (converted []*TypeContactsLink) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsLink:
-			converted = append(converted, &TypeContactsLink{x})
+			converted = append(converted, &TypeContactsLink{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11520,9 +11520,9 @@ func toTypeContactsContactsSlice(tlslice []TL) (converted []*TypeContactsContact
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsContacts:
-			converted = append(converted, &TypeContactsContacts{&TypeContactsContacts_ContactsContacts{x}})
+			converted = append(converted, &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContacts{x}})
 		case *PredContactsContactsNotModified:
-			converted = append(converted, &TypeContactsContacts{&TypeContactsContacts_ContactsContactsNotModified{x}})
+			converted = append(converted, &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContactsNotModified{x}})
 		default:
 			// invalid predicate
 		}
@@ -11533,7 +11533,7 @@ func toTypeContactsImportedContactsSlice(tlslice []TL) (converted []*TypeContact
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsImportedContacts:
-			converted = append(converted, &TypeContactsImportedContacts{x})
+			converted = append(converted, &TypeContactsImportedContacts{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11544,9 +11544,9 @@ func toTypeContactsBlockedSlice(tlslice []TL) (converted []*TypeContactsBlocked)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsBlocked:
-			converted = append(converted, &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlocked{x}})
+			converted = append(converted, &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlocked{x}})
 		case *PredContactsBlockedSlice:
-			converted = append(converted, &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlockedSlice{x}})
+			converted = append(converted, &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlockedSlice{x}})
 		default:
 			// invalid predicate
 		}
@@ -11557,7 +11557,7 @@ func toTypeContactsFoundSlice(tlslice []TL) (converted []*TypeContactsFound) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsFound:
-			converted = append(converted, &TypeContactsFound{x})
+			converted = append(converted, &TypeContactsFound{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11568,9 +11568,9 @@ func toTypeMessagesDialogsSlice(tlslice []TL) (converted []*TypeMessagesDialogs)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesDialogs:
-			converted = append(converted, &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogs{x}})
+			converted = append(converted, &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogs{x}})
 		case *PredMessagesDialogsSlice:
-			converted = append(converted, &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogsSlice{x}})
+			converted = append(converted, &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogsSlice{x}})
 		default:
 			// invalid predicate
 		}
@@ -11581,11 +11581,11 @@ func toTypeMessagesMessagesSlice(tlslice []TL) (converted []*TypeMessagesMessage
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesMessages:
-			converted = append(converted, &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessages{x}})
+			converted = append(converted, &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessages{x}})
 		case *PredMessagesMessagesSlice:
-			converted = append(converted, &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessagesSlice{x}})
+			converted = append(converted, &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessagesSlice{x}})
 		case *PredMessagesChannelMessages:
-			converted = append(converted, &TypeMessagesMessages{&TypeMessagesMessages_MessagesChannelMessages{x}})
+			converted = append(converted, &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesChannelMessages{x}})
 		default:
 			// invalid predicate
 		}
@@ -11596,9 +11596,9 @@ func toTypeMessagesChatsSlice(tlslice []TL) (converted []*TypeMessagesChats) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesChats:
-			converted = append(converted, &TypeMessagesChats{&TypeMessagesChats_MessagesChats{x}})
+			converted = append(converted, &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChats{x}})
 		case *PredMessagesChatsSlice:
-			converted = append(converted, &TypeMessagesChats{&TypeMessagesChats_MessagesChatsSlice{x}})
+			converted = append(converted, &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChatsSlice{x}})
 		default:
 			// invalid predicate
 		}
@@ -11609,7 +11609,7 @@ func toTypeMessagesChatFullSlice(tlslice []TL) (converted []*TypeMessagesChatFul
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesChatFull:
-			converted = append(converted, &TypeMessagesChatFull{x})
+			converted = append(converted, &TypeMessagesChatFull{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11620,7 +11620,7 @@ func toTypeMessagesAffectedHistorySlice(tlslice []TL) (converted []*TypeMessages
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesAffectedHistory:
-			converted = append(converted, &TypeMessagesAffectedHistory{x})
+			converted = append(converted, &TypeMessagesAffectedHistory{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11631,37 +11631,37 @@ func toTypeMessagesFilterSlice(tlslice []TL) (converted []*TypeMessagesFilter) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputMessagesFilterEmpty:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterEmpty{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterEmpty{x}})
 		case *PredInputMessagesFilterPhotos:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotos{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotos{x}})
 		case *PredInputMessagesFilterVideo:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVideo{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVideo{x}})
 		case *PredInputMessagesFilterPhotoVideo:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideo{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideo{x}})
 		case *PredInputMessagesFilterDocument:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterDocument{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterDocument{x}})
 		case *PredInputMessagesFilterPhotoVideoDocuments:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{x}})
 		case *PredInputMessagesFilterUrl:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterUrl{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterUrl{x}})
 		case *PredInputMessagesFilterGif:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterGif{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterGif{x}})
 		case *PredInputMessagesFilterVoice:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVoice{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVoice{x}})
 		case *PredInputMessagesFilterMusic:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMusic{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMusic{x}})
 		case *PredInputMessagesFilterChatPhotos:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterChatPhotos{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterChatPhotos{x}})
 		case *PredInputMessagesFilterPhoneCalls:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhoneCalls{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhoneCalls{x}})
 		case *PredInputMessagesFilterRoundVoice:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVoice{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVoice{x}})
 		case *PredInputMessagesFilterRoundVideo:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVideo{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVideo{x}})
 		case *PredInputMessagesFilterMyMentions:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentions{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentions{x}})
 		case *PredInputMessagesFilterMyMentionsUnread:
-			converted = append(converted, &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{x}})
+			converted = append(converted, &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{x}})
 		default:
 			// invalid predicate
 		}
@@ -11672,135 +11672,135 @@ func toTypeUpdateSlice(tlslice []TL) (converted []*TypeUpdate) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUpdateNewMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateNewMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateNewMessage{x}})
 		case *PredUpdateMessageID:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateMessageID{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateMessageID{x}})
 		case *PredUpdateDeleteMessages:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateDeleteMessages{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateDeleteMessages{x}})
 		case *PredUpdateUserTyping:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserTyping{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserTyping{x}})
 		case *PredUpdateChatUserTyping:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatUserTyping{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatUserTyping{x}})
 		case *PredUpdateChatParticipants:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatParticipants{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipants{x}})
 		case *PredUpdateUserStatus:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserStatus{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserStatus{x}})
 		case *PredUpdateUserName:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserName{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserName{x}})
 		case *PredUpdateUserPhoto:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserPhoto{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserPhoto{x}})
 		case *PredUpdateContactRegistered:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateContactRegistered{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateContactRegistered{x}})
 		case *PredUpdateContactLink:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateContactLink{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateContactLink{x}})
 		case *PredUpdateNewEncryptedMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateNewEncryptedMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateNewEncryptedMessage{x}})
 		case *PredUpdateEncryptedChatTyping:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateEncryptedChatTyping{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedChatTyping{x}})
 		case *PredUpdateEncryption:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateEncryption{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateEncryption{x}})
 		case *PredUpdateEncryptedMessagesRead:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateEncryptedMessagesRead{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedMessagesRead{x}})
 		case *PredUpdateChatParticipantAdd:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdd{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdd{x}})
 		case *PredUpdateChatParticipantDelete:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatParticipantDelete{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantDelete{x}})
 		case *PredUpdateDcOptions:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateDcOptions{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateDcOptions{x}})
 		case *PredUpdateUserBlocked:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserBlocked{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserBlocked{x}})
 		case *PredUpdateNotifySettings:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateNotifySettings{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateNotifySettings{x}})
 		case *PredUpdateServiceNotification:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateServiceNotification{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateServiceNotification{x}})
 		case *PredUpdatePrivacy:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdatePrivacy{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdatePrivacy{x}})
 		case *PredUpdateUserPhone:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateUserPhone{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateUserPhone{x}})
 		case *PredUpdateReadHistoryInbox:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadHistoryInbox{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryInbox{x}})
 		case *PredUpdateReadHistoryOutbox:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadHistoryOutbox{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryOutbox{x}})
 		case *PredUpdateWebPage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateWebPage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateWebPage{x}})
 		case *PredUpdateReadMessagesContents:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadMessagesContents{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadMessagesContents{x}})
 		case *PredUpdateChannelTooLong:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannelTooLong{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannelTooLong{x}})
 		case *PredUpdateChannel:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannel{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannel{x}})
 		case *PredUpdateNewChannelMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateNewChannelMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateNewChannelMessage{x}})
 		case *PredUpdateReadChannelInbox:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadChannelInbox{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelInbox{x}})
 		case *PredUpdateDeleteChannelMessages:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateDeleteChannelMessages{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateDeleteChannelMessages{x}})
 		case *PredUpdateChannelMessageViews:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannelMessageViews{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannelMessageViews{x}})
 		case *PredUpdateChatAdmins:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatAdmins{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatAdmins{x}})
 		case *PredUpdateChatParticipantAdmin:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdmin{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdmin{x}})
 		case *PredUpdateNewStickerSet:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateNewStickerSet{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateNewStickerSet{x}})
 		case *PredUpdateStickerSetsOrder:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateStickerSetsOrder{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateStickerSetsOrder{x}})
 		case *PredUpdateStickerSets:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateStickerSets{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateStickerSets{x}})
 		case *PredUpdateSavedGifs:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateSavedGifs{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateSavedGifs{x}})
 		case *PredUpdateBotInlineQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotInlineQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineQuery{x}})
 		case *PredUpdateBotInlineSend:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotInlineSend{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineSend{x}})
 		case *PredUpdateEditChannelMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateEditChannelMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateEditChannelMessage{x}})
 		case *PredUpdateChannelPinnedMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannelPinnedMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannelPinnedMessage{x}})
 		case *PredUpdateBotCallbackQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotCallbackQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotCallbackQuery{x}})
 		case *PredUpdateEditMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateEditMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateEditMessage{x}})
 		case *PredUpdateInlineBotCallbackQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateInlineBotCallbackQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateInlineBotCallbackQuery{x}})
 		case *PredUpdateReadChannelOutbox:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadChannelOutbox{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelOutbox{x}})
 		case *PredUpdateDraftMessage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateDraftMessage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateDraftMessage{x}})
 		case *PredUpdateReadFeaturedStickers:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateReadFeaturedStickers{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateReadFeaturedStickers{x}})
 		case *PredUpdateRecentStickers:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateRecentStickers{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateRecentStickers{x}})
 		case *PredUpdateConfig:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateConfig{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateConfig{x}})
 		case *PredUpdatePtsChanged:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdatePtsChanged{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdatePtsChanged{x}})
 		case *PredUpdateChannelWebPage:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannelWebPage{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannelWebPage{x}})
 		case *PredUpdatePhoneCall:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdatePhoneCall{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdatePhoneCall{x}})
 		case *PredUpdateDialogPinned:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateDialogPinned{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateDialogPinned{x}})
 		case *PredUpdatePinnedDialogs:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdatePinnedDialogs{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdatePinnedDialogs{x}})
 		case *PredUpdateBotWebhookJSON:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSON{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSON{x}})
 		case *PredUpdateBotWebhookJSONQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSONQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSONQuery{x}})
 		case *PredUpdateBotShippingQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotShippingQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotShippingQuery{x}})
 		case *PredUpdateBotPrecheckoutQuery:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateBotPrecheckoutQuery{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateBotPrecheckoutQuery{x}})
 		case *PredUpdateLangPackTooLong:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateLangPackTooLong{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateLangPackTooLong{x}})
 		case *PredUpdateLangPack:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateLangPack{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateLangPack{x}})
 		case *PredUpdateContactsReset:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateContactsReset{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateContactsReset{x}})
 		case *PredUpdateFavedStickers:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateFavedStickers{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateFavedStickers{x}})
 		case *PredUpdateChannelReadMessagesContents:
-			converted = append(converted, &TypeUpdate{&TypeUpdate_UpdateChannelReadMessagesContents{x}})
+			converted = append(converted, &TypeUpdate{Value: &TypeUpdate_UpdateChannelReadMessagesContents{x}})
 		default:
 			// invalid predicate
 		}
@@ -11811,7 +11811,7 @@ func toTypeUpdatesStateSlice(tlslice []TL) (converted []*TypeUpdatesState) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUpdatesState:
-			converted = append(converted, &TypeUpdatesState{x})
+			converted = append(converted, &TypeUpdatesState{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11822,13 +11822,13 @@ func toTypeUpdatesDifferenceSlice(tlslice []TL) (converted []*TypeUpdatesDiffere
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUpdatesDifferenceEmpty:
-			converted = append(converted, &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceEmpty{x}})
+			converted = append(converted, &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceEmpty{x}})
 		case *PredUpdatesDifference:
-			converted = append(converted, &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifference{x}})
+			converted = append(converted, &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifference{x}})
 		case *PredUpdatesDifferenceSlice:
-			converted = append(converted, &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceSlice{x}})
+			converted = append(converted, &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceSlice{x}})
 		case *PredUpdatesDifferenceTooLong:
-			converted = append(converted, &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceTooLong{x}})
+			converted = append(converted, &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceTooLong{x}})
 		default:
 			// invalid predicate
 		}
@@ -11839,19 +11839,19 @@ func toTypeUpdatesSlice(tlslice []TL) (converted []*TypeUpdates) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUpdatesTooLong:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdatesTooLong{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdatesTooLong{x}})
 		case *PredUpdateShortMessage:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdateShortMessage{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdateShortMessage{x}})
 		case *PredUpdateShortChatMessage:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdateShortChatMessage{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdateShortChatMessage{x}})
 		case *PredUpdateShort:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdateShort{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdateShort{x}})
 		case *PredUpdatesCombined:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdatesCombined{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdatesCombined{x}})
 		case *PredUpdates:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_Updates{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_Updates{x}})
 		case *PredUpdateShortSentMessage:
-			converted = append(converted, &TypeUpdates{&TypeUpdates_UpdateShortSentMessage{x}})
+			converted = append(converted, &TypeUpdates{Value: &TypeUpdates_UpdateShortSentMessage{x}})
 		default:
 			// invalid predicate
 		}
@@ -11862,7 +11862,7 @@ func toTypePhotosPhotoSlice(tlslice []TL) (converted []*TypePhotosPhoto) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhotosPhoto:
-			converted = append(converted, &TypePhotosPhoto{x})
+			converted = append(converted, &TypePhotosPhoto{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11873,9 +11873,9 @@ func toTypeUploadFileSlice(tlslice []TL) (converted []*TypeUploadFile) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUploadFile:
-			converted = append(converted, &TypeUploadFile{&TypeUploadFile_UploadFile{x}})
+			converted = append(converted, &TypeUploadFile{Value: &TypeUploadFile_UploadFile{x}})
 		case *PredUploadFileCdnRedirect:
-			converted = append(converted, &TypeUploadFile{&TypeUploadFile_UploadFileCdnRedirect{x}})
+			converted = append(converted, &TypeUploadFile{Value: &TypeUploadFile_UploadFileCdnRedirect{x}})
 		default:
 			// invalid predicate
 		}
@@ -11886,7 +11886,7 @@ func toTypeDcOptionSlice(tlslice []TL) (converted []*TypeDcOption) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDcOption:
-			converted = append(converted, &TypeDcOption{x})
+			converted = append(converted, &TypeDcOption{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11897,7 +11897,7 @@ func toTypeConfigSlice(tlslice []TL) (converted []*TypeConfig) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredConfig:
-			converted = append(converted, &TypeConfig{x})
+			converted = append(converted, &TypeConfig{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11908,7 +11908,7 @@ func toTypeNearestDcSlice(tlslice []TL) (converted []*TypeNearestDc) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredNearestDc:
-			converted = append(converted, &TypeNearestDc{x})
+			converted = append(converted, &TypeNearestDc{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11919,9 +11919,9 @@ func toTypeHelpAppUpdateSlice(tlslice []TL) (converted []*TypeHelpAppUpdate) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredHelpAppUpdate:
-			converted = append(converted, &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpAppUpdate{x}})
+			converted = append(converted, &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpAppUpdate{x}})
 		case *PredHelpNoAppUpdate:
-			converted = append(converted, &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpNoAppUpdate{x}})
+			converted = append(converted, &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpNoAppUpdate{x}})
 		default:
 			// invalid predicate
 		}
@@ -11932,7 +11932,7 @@ func toTypeHelpInviteTextSlice(tlslice []TL) (converted []*TypeHelpInviteText) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredHelpInviteText:
-			converted = append(converted, &TypeHelpInviteText{x})
+			converted = append(converted, &TypeHelpInviteText{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11943,9 +11943,9 @@ func toTypeInputPeerNotifyEventsSlice(tlslice []TL) (converted []*TypeInputPeerN
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPeerNotifyEventsEmpty:
-			converted = append(converted, &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{x}})
+			converted = append(converted, &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{x}})
 		case *PredInputPeerNotifyEventsAll:
-			converted = append(converted, &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{x}})
+			converted = append(converted, &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{x}})
 		default:
 			// invalid predicate
 		}
@@ -11956,9 +11956,9 @@ func toTypePhotosPhotosSlice(tlslice []TL) (converted []*TypePhotosPhotos) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhotosPhotos:
-			converted = append(converted, &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotos{x}})
+			converted = append(converted, &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotos{x}})
 		case *PredPhotosPhotosSlice:
-			converted = append(converted, &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotosSlice{x}})
+			converted = append(converted, &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotosSlice{x}})
 		default:
 			// invalid predicate
 		}
@@ -11969,15 +11969,15 @@ func toTypeEncryptedChatSlice(tlslice []TL) (converted []*TypeEncryptedChat) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredEncryptedChatEmpty:
-			converted = append(converted, &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatEmpty{x}})
+			converted = append(converted, &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatEmpty{x}})
 		case *PredEncryptedChatWaiting:
-			converted = append(converted, &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatWaiting{x}})
+			converted = append(converted, &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatWaiting{x}})
 		case *PredEncryptedChatRequested:
-			converted = append(converted, &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatRequested{x}})
+			converted = append(converted, &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatRequested{x}})
 		case *PredEncryptedChat:
-			converted = append(converted, &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChat{x}})
+			converted = append(converted, &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChat{x}})
 		case *PredEncryptedChatDiscarded:
-			converted = append(converted, &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatDiscarded{x}})
+			converted = append(converted, &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatDiscarded{x}})
 		default:
 			// invalid predicate
 		}
@@ -11988,7 +11988,7 @@ func toTypeInputEncryptedChatSlice(tlslice []TL) (converted []*TypeInputEncrypte
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputEncryptedChat:
-			converted = append(converted, &TypeInputEncryptedChat{x})
+			converted = append(converted, &TypeInputEncryptedChat{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -11999,9 +11999,9 @@ func toTypeEncryptedFileSlice(tlslice []TL) (converted []*TypeEncryptedFile) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredEncryptedFileEmpty:
-			converted = append(converted, &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFileEmpty{x}})
+			converted = append(converted, &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFileEmpty{x}})
 		case *PredEncryptedFile:
-			converted = append(converted, &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFile{x}})
+			converted = append(converted, &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFile{x}})
 		default:
 			// invalid predicate
 		}
@@ -12012,13 +12012,13 @@ func toTypeInputEncryptedFileSlice(tlslice []TL) (converted []*TypeInputEncrypte
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputEncryptedFileEmpty:
-			converted = append(converted, &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileEmpty{x}})
+			converted = append(converted, &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileEmpty{x}})
 		case *PredInputEncryptedFileUploaded:
-			converted = append(converted, &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileUploaded{x}})
+			converted = append(converted, &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileUploaded{x}})
 		case *PredInputEncryptedFile:
-			converted = append(converted, &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFile{x}})
+			converted = append(converted, &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFile{x}})
 		case *PredInputEncryptedFileBigUploaded:
-			converted = append(converted, &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileBigUploaded{x}})
+			converted = append(converted, &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileBigUploaded{x}})
 		default:
 			// invalid predicate
 		}
@@ -12029,9 +12029,9 @@ func toTypeEncryptedMessageSlice(tlslice []TL) (converted []*TypeEncryptedMessag
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredEncryptedMessage:
-			converted = append(converted, &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessage{x}})
+			converted = append(converted, &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessage{x}})
 		case *PredEncryptedMessageService:
-			converted = append(converted, &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessageService{x}})
+			converted = append(converted, &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessageService{x}})
 		default:
 			// invalid predicate
 		}
@@ -12042,9 +12042,9 @@ func toTypeMessagesDhConfigSlice(tlslice []TL) (converted []*TypeMessagesDhConfi
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesDhConfigNotModified:
-			converted = append(converted, &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfigNotModified{x}})
+			converted = append(converted, &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfigNotModified{x}})
 		case *PredMessagesDhConfig:
-			converted = append(converted, &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfig{x}})
+			converted = append(converted, &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfig{x}})
 		default:
 			// invalid predicate
 		}
@@ -12055,9 +12055,9 @@ func toTypeMessagesSentEncryptedMessageSlice(tlslice []TL) (converted []*TypeMes
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesSentEncryptedMessage:
-			converted = append(converted, &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{x}})
+			converted = append(converted, &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{x}})
 		case *PredMessagesSentEncryptedFile:
-			converted = append(converted, &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{x}})
+			converted = append(converted, &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{x}})
 		default:
 			// invalid predicate
 		}
@@ -12068,9 +12068,9 @@ func toTypeInputDocumentSlice(tlslice []TL) (converted []*TypeInputDocument) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputDocumentEmpty:
-			converted = append(converted, &TypeInputDocument{&TypeInputDocument_InputDocumentEmpty{x}})
+			converted = append(converted, &TypeInputDocument{Value: &TypeInputDocument_InputDocumentEmpty{x}})
 		case *PredInputDocument:
-			converted = append(converted, &TypeInputDocument{&TypeInputDocument_InputDocument{x}})
+			converted = append(converted, &TypeInputDocument{Value: &TypeInputDocument_InputDocument{x}})
 		default:
 			// invalid predicate
 		}
@@ -12081,9 +12081,9 @@ func toTypeDocumentSlice(tlslice []TL) (converted []*TypeDocument) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDocumentEmpty:
-			converted = append(converted, &TypeDocument{&TypeDocument_DocumentEmpty{x}})
+			converted = append(converted, &TypeDocument{Value: &TypeDocument_DocumentEmpty{x}})
 		case *PredDocument:
-			converted = append(converted, &TypeDocument{&TypeDocument_Document{x}})
+			converted = append(converted, &TypeDocument{Value: &TypeDocument_Document{x}})
 		default:
 			// invalid predicate
 		}
@@ -12094,7 +12094,7 @@ func toTypeHelpSupportSlice(tlslice []TL) (converted []*TypeHelpSupport) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredHelpSupport:
-			converted = append(converted, &TypeHelpSupport{x})
+			converted = append(converted, &TypeHelpSupport{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12105,13 +12105,13 @@ func toTypeNotifyPeerSlice(tlslice []TL) (converted []*TypeNotifyPeer) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredNotifyAll:
-			converted = append(converted, &TypeNotifyPeer{&TypeNotifyPeer_NotifyAll{x}})
+			converted = append(converted, &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyAll{x}})
 		case *PredNotifyChats:
-			converted = append(converted, &TypeNotifyPeer{&TypeNotifyPeer_NotifyChats{x}})
+			converted = append(converted, &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyChats{x}})
 		case *PredNotifyPeer:
-			converted = append(converted, &TypeNotifyPeer{&TypeNotifyPeer_NotifyPeer{x}})
+			converted = append(converted, &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyPeer{x}})
 		case *PredNotifyUsers:
-			converted = append(converted, &TypeNotifyPeer{&TypeNotifyPeer_NotifyUsers{x}})
+			converted = append(converted, &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyUsers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12122,31 +12122,31 @@ func toTypeSendMessageActionSlice(tlslice []TL) (converted []*TypeSendMessageAct
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredSendMessageTypingAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageTypingAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageTypingAction{x}})
 		case *PredSendMessageCancelAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageCancelAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageCancelAction{x}})
 		case *PredSendMessageRecordVideoAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordVideoAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordVideoAction{x}})
 		case *PredSendMessageUploadVideoAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadVideoAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadVideoAction{x}})
 		case *PredSendMessageRecordAudioAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordAudioAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordAudioAction{x}})
 		case *PredSendMessageUploadAudioAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadAudioAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadAudioAction{x}})
 		case *PredSendMessageUploadPhotoAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadPhotoAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadPhotoAction{x}})
 		case *PredSendMessageUploadDocumentAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadDocumentAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadDocumentAction{x}})
 		case *PredSendMessageGeoLocationAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGeoLocationAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGeoLocationAction{x}})
 		case *PredSendMessageChooseContactAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageChooseContactAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageChooseContactAction{x}})
 		case *PredSendMessageGamePlayAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGamePlayAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGamePlayAction{x}})
 		case *PredSendMessageRecordRoundAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordRoundAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordRoundAction{x}})
 		case *PredSendMessageUploadRoundAction:
-			converted = append(converted, &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadRoundAction{x}})
+			converted = append(converted, &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadRoundAction{x}})
 		default:
 			// invalid predicate
 		}
@@ -12157,11 +12157,11 @@ func toTypeInputPrivacyKeySlice(tlslice []TL) (converted []*TypeInputPrivacyKey)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPrivacyKeyStatusTimestamp:
-			converted = append(converted, &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{x}})
+			converted = append(converted, &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{x}})
 		case *PredInputPrivacyKeyChatInvite:
-			converted = append(converted, &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyChatInvite{x}})
+			converted = append(converted, &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyChatInvite{x}})
 		case *PredInputPrivacyKeyPhoneCall:
-			converted = append(converted, &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{x}})
+			converted = append(converted, &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{x}})
 		default:
 			// invalid predicate
 		}
@@ -12172,11 +12172,11 @@ func toTypePrivacyKeySlice(tlslice []TL) (converted []*TypePrivacyKey) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPrivacyKeyStatusTimestamp:
-			converted = append(converted, &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyStatusTimestamp{x}})
+			converted = append(converted, &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyStatusTimestamp{x}})
 		case *PredPrivacyKeyChatInvite:
-			converted = append(converted, &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyChatInvite{x}})
+			converted = append(converted, &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyChatInvite{x}})
 		case *PredPrivacyKeyPhoneCall:
-			converted = append(converted, &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyPhoneCall{x}})
+			converted = append(converted, &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyPhoneCall{x}})
 		default:
 			// invalid predicate
 		}
@@ -12187,17 +12187,17 @@ func toTypeInputPrivacyRuleSlice(tlslice []TL) (converted []*TypeInputPrivacyRul
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPrivacyValueAllowContacts:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowContacts{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowContacts{x}})
 		case *PredInputPrivacyValueAllowAll:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowAll{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowAll{x}})
 		case *PredInputPrivacyValueAllowUsers:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowUsers{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowUsers{x}})
 		case *PredInputPrivacyValueDisallowContacts:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{x}})
 		case *PredInputPrivacyValueDisallowAll:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowAll{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowAll{x}})
 		case *PredInputPrivacyValueDisallowUsers:
-			converted = append(converted, &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{x}})
+			converted = append(converted, &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12208,17 +12208,17 @@ func toTypePrivacyRuleSlice(tlslice []TL) (converted []*TypePrivacyRule) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPrivacyValueAllowContacts:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowContacts{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowContacts{x}})
 		case *PredPrivacyValueAllowAll:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowAll{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowAll{x}})
 		case *PredPrivacyValueAllowUsers:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowUsers{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowUsers{x}})
 		case *PredPrivacyValueDisallowContacts:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowContacts{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowContacts{x}})
 		case *PredPrivacyValueDisallowAll:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowAll{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowAll{x}})
 		case *PredPrivacyValueDisallowUsers:
-			converted = append(converted, &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowUsers{x}})
+			converted = append(converted, &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowUsers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12229,7 +12229,7 @@ func toTypeAccountPrivacyRulesSlice(tlslice []TL) (converted []*TypeAccountPriva
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountPrivacyRules:
-			converted = append(converted, &TypeAccountPrivacyRules{x})
+			converted = append(converted, &TypeAccountPrivacyRules{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12240,7 +12240,7 @@ func toTypeAccountDaysTTLSlice(tlslice []TL) (converted []*TypeAccountDaysTTL) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountDaysTTL:
-			converted = append(converted, &TypeAccountDaysTTL{x})
+			converted = append(converted, &TypeAccountDaysTTL{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12251,7 +12251,7 @@ func toTypeDisabledFeatureSlice(tlslice []TL) (converted []*TypeDisabledFeature)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDisabledFeature:
-			converted = append(converted, &TypeDisabledFeature{x})
+			converted = append(converted, &TypeDisabledFeature{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12262,19 +12262,19 @@ func toTypeDocumentAttributeSlice(tlslice []TL) (converted []*TypeDocumentAttrib
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDocumentAttributeImageSize:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeImageSize{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeImageSize{x}})
 		case *PredDocumentAttributeAnimated:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAnimated{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAnimated{x}})
 		case *PredDocumentAttributeSticker:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeSticker{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeSticker{x}})
 		case *PredDocumentAttributeVideo:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeVideo{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeVideo{x}})
 		case *PredDocumentAttributeAudio:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAudio{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAudio{x}})
 		case *PredDocumentAttributeFilename:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeFilename{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeFilename{x}})
 		case *PredDocumentAttributeHasStickers:
-			converted = append(converted, &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeHasStickers{x}})
+			converted = append(converted, &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeHasStickers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12285,9 +12285,9 @@ func toTypeMessagesStickersSlice(tlslice []TL) (converted []*TypeMessagesSticker
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesStickersNotModified:
-			converted = append(converted, &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickersNotModified{x}})
+			converted = append(converted, &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickersNotModified{x}})
 		case *PredMessagesStickers:
-			converted = append(converted, &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickers{x}})
+			converted = append(converted, &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12298,7 +12298,7 @@ func toTypeStickerPackSlice(tlslice []TL) (converted []*TypeStickerPack) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredStickerPack:
-			converted = append(converted, &TypeStickerPack{x})
+			converted = append(converted, &TypeStickerPack{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12309,9 +12309,9 @@ func toTypeMessagesAllStickersSlice(tlslice []TL) (converted []*TypeMessagesAllS
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesAllStickersNotModified:
-			converted = append(converted, &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickersNotModified{x}})
+			converted = append(converted, &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickersNotModified{x}})
 		case *PredMessagesAllStickers:
-			converted = append(converted, &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickers{x}})
+			converted = append(converted, &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickers{x}})
 		default:
 			// invalid predicate
 		}
@@ -12322,9 +12322,9 @@ func toTypeAccountPasswordSlice(tlslice []TL) (converted []*TypeAccountPassword)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountNoPassword:
-			converted = append(converted, &TypeAccountPassword{&TypeAccountPassword_AccountNoPassword{x}})
+			converted = append(converted, &TypeAccountPassword{Value: &TypeAccountPassword_AccountNoPassword{x}})
 		case *PredAccountPassword:
-			converted = append(converted, &TypeAccountPassword{&TypeAccountPassword_AccountPassword{x}})
+			converted = append(converted, &TypeAccountPassword{Value: &TypeAccountPassword_AccountPassword{x}})
 		default:
 			// invalid predicate
 		}
@@ -12335,7 +12335,7 @@ func toTypeMessagesAffectedMessagesSlice(tlslice []TL) (converted []*TypeMessage
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesAffectedMessages:
-			converted = append(converted, &TypeMessagesAffectedMessages{x})
+			converted = append(converted, &TypeMessagesAffectedMessages{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12346,13 +12346,13 @@ func toTypeContactLinkSlice(tlslice []TL) (converted []*TypeContactLink) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactLinkUnknown:
-			converted = append(converted, &TypeContactLink{&TypeContactLink_ContactLinkUnknown{x}})
+			converted = append(converted, &TypeContactLink{Value: &TypeContactLink_ContactLinkUnknown{x}})
 		case *PredContactLinkNone:
-			converted = append(converted, &TypeContactLink{&TypeContactLink_ContactLinkNone{x}})
+			converted = append(converted, &TypeContactLink{Value: &TypeContactLink_ContactLinkNone{x}})
 		case *PredContactLinkHasPhone:
-			converted = append(converted, &TypeContactLink{&TypeContactLink_ContactLinkHasPhone{x}})
+			converted = append(converted, &TypeContactLink{Value: &TypeContactLink_ContactLinkHasPhone{x}})
 		case *PredContactLinkContact:
-			converted = append(converted, &TypeContactLink{&TypeContactLink_ContactLinkContact{x}})
+			converted = append(converted, &TypeContactLink{Value: &TypeContactLink_ContactLinkContact{x}})
 		default:
 			// invalid predicate
 		}
@@ -12363,13 +12363,13 @@ func toTypeWebPageSlice(tlslice []TL) (converted []*TypeWebPage) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredWebPageEmpty:
-			converted = append(converted, &TypeWebPage{&TypeWebPage_WebPageEmpty{x}})
+			converted = append(converted, &TypeWebPage{Value: &TypeWebPage_WebPageEmpty{x}})
 		case *PredWebPagePending:
-			converted = append(converted, &TypeWebPage{&TypeWebPage_WebPagePending{x}})
+			converted = append(converted, &TypeWebPage{Value: &TypeWebPage_WebPagePending{x}})
 		case *PredWebPage:
-			converted = append(converted, &TypeWebPage{&TypeWebPage_WebPage{x}})
+			converted = append(converted, &TypeWebPage{Value: &TypeWebPage_WebPage{x}})
 		case *PredWebPageNotModified:
-			converted = append(converted, &TypeWebPage{&TypeWebPage_WebPageNotModified{x}})
+			converted = append(converted, &TypeWebPage{Value: &TypeWebPage_WebPageNotModified{x}})
 		default:
 			// invalid predicate
 		}
@@ -12380,7 +12380,7 @@ func toTypeAuthorizationSlice(tlslice []TL) (converted []*TypeAuthorization) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthorization:
-			converted = append(converted, &TypeAuthorization{x})
+			converted = append(converted, &TypeAuthorization{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12391,7 +12391,7 @@ func toTypeAccountAuthorizationsSlice(tlslice []TL) (converted []*TypeAccountAut
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountAuthorizations:
-			converted = append(converted, &TypeAccountAuthorizations{x})
+			converted = append(converted, &TypeAccountAuthorizations{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12402,7 +12402,7 @@ func toTypeAccountPasswordSettingsSlice(tlslice []TL) (converted []*TypeAccountP
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountPasswordSettings:
-			converted = append(converted, &TypeAccountPasswordSettings{x})
+			converted = append(converted, &TypeAccountPasswordSettings{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12413,7 +12413,7 @@ func toTypeAccountPasswordInputSettingsSlice(tlslice []TL) (converted []*TypeAcc
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountPasswordInputSettings:
-			converted = append(converted, &TypeAccountPasswordInputSettings{x})
+			converted = append(converted, &TypeAccountPasswordInputSettings{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12424,7 +12424,7 @@ func toTypeAuthPasswordRecoverySlice(tlslice []TL) (converted []*TypeAuthPasswor
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthPasswordRecovery:
-			converted = append(converted, &TypeAuthPasswordRecovery{x})
+			converted = append(converted, &TypeAuthPasswordRecovery{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12435,7 +12435,7 @@ func toTypeReceivedNotifyMessageSlice(tlslice []TL) (converted []*TypeReceivedNo
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredReceivedNotifyMessage:
-			converted = append(converted, &TypeReceivedNotifyMessage{x})
+			converted = append(converted, &TypeReceivedNotifyMessage{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12446,9 +12446,9 @@ func toTypeExportedChatInviteSlice(tlslice []TL) (converted []*TypeExportedChatI
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatInviteEmpty:
-			converted = append(converted, &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteEmpty{x}})
+			converted = append(converted, &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteEmpty{x}})
 		case *PredChatInviteExported:
-			converted = append(converted, &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteExported{x}})
+			converted = append(converted, &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteExported{x}})
 		default:
 			// invalid predicate
 		}
@@ -12459,9 +12459,9 @@ func toTypeChatInviteSlice(tlslice []TL) (converted []*TypeChatInvite) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChatInviteAlready:
-			converted = append(converted, &TypeChatInvite{&TypeChatInvite_ChatInviteAlready{x}})
+			converted = append(converted, &TypeChatInvite{Value: &TypeChatInvite_ChatInviteAlready{x}})
 		case *PredChatInvite:
-			converted = append(converted, &TypeChatInvite{&TypeChatInvite_ChatInvite{x}})
+			converted = append(converted, &TypeChatInvite{Value: &TypeChatInvite_ChatInvite{x}})
 		default:
 			// invalid predicate
 		}
@@ -12472,11 +12472,11 @@ func toTypeInputStickerSetSlice(tlslice []TL) (converted []*TypeInputStickerSet)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputStickerSetEmpty:
-			converted = append(converted, &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetEmpty{x}})
+			converted = append(converted, &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetEmpty{x}})
 		case *PredInputStickerSetID:
-			converted = append(converted, &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetID{x}})
+			converted = append(converted, &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetID{x}})
 		case *PredInputStickerSetShortName:
-			converted = append(converted, &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetShortName{x}})
+			converted = append(converted, &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetShortName{x}})
 		default:
 			// invalid predicate
 		}
@@ -12487,7 +12487,7 @@ func toTypeStickerSetSlice(tlslice []TL) (converted []*TypeStickerSet) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredStickerSet:
-			converted = append(converted, &TypeStickerSet{x})
+			converted = append(converted, &TypeStickerSet{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12498,7 +12498,7 @@ func toTypeMessagesStickerSetSlice(tlslice []TL) (converted []*TypeMessagesStick
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesStickerSet:
-			converted = append(converted, &TypeMessagesStickerSet{x})
+			converted = append(converted, &TypeMessagesStickerSet{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12509,7 +12509,7 @@ func toTypeBotCommandSlice(tlslice []TL) (converted []*TypeBotCommand) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredBotCommand:
-			converted = append(converted, &TypeBotCommand{x})
+			converted = append(converted, &TypeBotCommand{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12520,7 +12520,7 @@ func toTypeBotInfoSlice(tlslice []TL) (converted []*TypeBotInfo) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredBotInfo:
-			converted = append(converted, &TypeBotInfo{x})
+			converted = append(converted, &TypeBotInfo{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12531,21 +12531,21 @@ func toTypeKeyboardButtonSlice(tlslice []TL) (converted []*TypeKeyboardButton) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredKeyboardButton:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButton{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButton{x}})
 		case *PredKeyboardButtonUrl:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonUrl{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonUrl{x}})
 		case *PredKeyboardButtonCallback:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonCallback{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonCallback{x}})
 		case *PredKeyboardButtonRequestPhone:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestPhone{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestPhone{x}})
 		case *PredKeyboardButtonRequestGeoLocation:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestGeoLocation{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestGeoLocation{x}})
 		case *PredKeyboardButtonSwitchInline:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonSwitchInline{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonSwitchInline{x}})
 		case *PredKeyboardButtonGame:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonGame{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonGame{x}})
 		case *PredKeyboardButtonBuy:
-			converted = append(converted, &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonBuy{x}})
+			converted = append(converted, &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonBuy{x}})
 		default:
 			// invalid predicate
 		}
@@ -12556,7 +12556,7 @@ func toTypeKeyboardButtonRowSlice(tlslice []TL) (converted []*TypeKeyboardButton
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredKeyboardButtonRow:
-			converted = append(converted, &TypeKeyboardButtonRow{x})
+			converted = append(converted, &TypeKeyboardButtonRow{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12567,13 +12567,13 @@ func toTypeReplyMarkupSlice(tlslice []TL) (converted []*TypeReplyMarkup) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredReplyKeyboardHide:
-			converted = append(converted, &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardHide{x}})
+			converted = append(converted, &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardHide{x}})
 		case *PredReplyKeyboardForceReply:
-			converted = append(converted, &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardForceReply{x}})
+			converted = append(converted, &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardForceReply{x}})
 		case *PredReplyKeyboardMarkup:
-			converted = append(converted, &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardMarkup{x}})
+			converted = append(converted, &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardMarkup{x}})
 		case *PredReplyInlineMarkup:
-			converted = append(converted, &TypeReplyMarkup{&TypeReplyMarkup_ReplyInlineMarkup{x}})
+			converted = append(converted, &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyInlineMarkup{x}})
 		default:
 			// invalid predicate
 		}
@@ -12584,31 +12584,31 @@ func toTypeMessageEntitySlice(tlslice []TL) (converted []*TypeMessageEntity) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageEntityUnknown:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityUnknown{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUnknown{x}})
 		case *PredMessageEntityMention:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityMention{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMention{x}})
 		case *PredMessageEntityHashtag:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityHashtag{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityHashtag{x}})
 		case *PredMessageEntityBotCommand:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityBotCommand{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBotCommand{x}})
 		case *PredMessageEntityUrl:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityUrl{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUrl{x}})
 		case *PredMessageEntityEmail:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityEmail{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityEmail{x}})
 		case *PredMessageEntityBold:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityBold{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBold{x}})
 		case *PredMessageEntityItalic:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityItalic{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityItalic{x}})
 		case *PredMessageEntityCode:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityCode{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityCode{x}})
 		case *PredMessageEntityPre:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityPre{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityPre{x}})
 		case *PredMessageEntityTextUrl:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityTextUrl{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityTextUrl{x}})
 		case *PredMessageEntityMentionName:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_MessageEntityMentionName{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMentionName{x}})
 		case *PredInputMessageEntityMentionName:
-			converted = append(converted, &TypeMessageEntity{&TypeMessageEntity_InputMessageEntityMentionName{x}})
+			converted = append(converted, &TypeMessageEntity{Value: &TypeMessageEntity_InputMessageEntityMentionName{x}})
 		default:
 			// invalid predicate
 		}
@@ -12619,9 +12619,9 @@ func toTypeInputChannelSlice(tlslice []TL) (converted []*TypeInputChannel) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputChannelEmpty:
-			converted = append(converted, &TypeInputChannel{&TypeInputChannel_InputChannelEmpty{x}})
+			converted = append(converted, &TypeInputChannel{Value: &TypeInputChannel_InputChannelEmpty{x}})
 		case *PredInputChannel:
-			converted = append(converted, &TypeInputChannel{&TypeInputChannel_InputChannel{x}})
+			converted = append(converted, &TypeInputChannel{Value: &TypeInputChannel_InputChannel{x}})
 		default:
 			// invalid predicate
 		}
@@ -12632,7 +12632,7 @@ func toTypeContactsResolvedPeerSlice(tlslice []TL) (converted []*TypeContactsRes
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsResolvedPeer:
-			converted = append(converted, &TypeContactsResolvedPeer{x})
+			converted = append(converted, &TypeContactsResolvedPeer{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12643,7 +12643,7 @@ func toTypeMessageRangeSlice(tlslice []TL) (converted []*TypeMessageRange) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageRange:
-			converted = append(converted, &TypeMessageRange{x})
+			converted = append(converted, &TypeMessageRange{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12654,11 +12654,11 @@ func toTypeUpdatesChannelDifferenceSlice(tlslice []TL) (converted []*TypeUpdates
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUpdatesChannelDifferenceEmpty:
-			converted = append(converted, &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{x}})
+			converted = append(converted, &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{x}})
 		case *PredUpdatesChannelDifferenceTooLong:
-			converted = append(converted, &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{x}})
+			converted = append(converted, &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{x}})
 		case *PredUpdatesChannelDifference:
-			converted = append(converted, &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifference{x}})
+			converted = append(converted, &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifference{x}})
 		default:
 			// invalid predicate
 		}
@@ -12669,9 +12669,9 @@ func toTypeChannelMessagesFilterSlice(tlslice []TL) (converted []*TypeChannelMes
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelMessagesFilterEmpty:
-			converted = append(converted, &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{x}})
+			converted = append(converted, &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{x}})
 		case *PredChannelMessagesFilter:
-			converted = append(converted, &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilter{x}})
+			converted = append(converted, &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilter{x}})
 		default:
 			// invalid predicate
 		}
@@ -12682,15 +12682,15 @@ func toTypeChannelParticipantSlice(tlslice []TL) (converted []*TypeChannelPartic
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelParticipant:
-			converted = append(converted, &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipant{x}})
+			converted = append(converted, &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipant{x}})
 		case *PredChannelParticipantSelf:
-			converted = append(converted, &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantSelf{x}})
+			converted = append(converted, &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantSelf{x}})
 		case *PredChannelParticipantCreator:
-			converted = append(converted, &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantCreator{x}})
+			converted = append(converted, &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantCreator{x}})
 		case *PredChannelParticipantAdmin:
-			converted = append(converted, &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantAdmin{x}})
+			converted = append(converted, &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantAdmin{x}})
 		case *PredChannelParticipantBanned:
-			converted = append(converted, &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantBanned{x}})
+			converted = append(converted, &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantBanned{x}})
 		default:
 			// invalid predicate
 		}
@@ -12701,17 +12701,17 @@ func toTypeChannelParticipantsFilterSlice(tlslice []TL) (converted []*TypeChanne
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelParticipantsRecent:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsRecent{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsRecent{x}})
 		case *PredChannelParticipantsAdmins:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsAdmins{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsAdmins{x}})
 		case *PredChannelParticipantsKicked:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsKicked{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsKicked{x}})
 		case *PredChannelParticipantsBots:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBots{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBots{x}})
 		case *PredChannelParticipantsBanned:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBanned{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBanned{x}})
 		case *PredChannelParticipantsSearch:
-			converted = append(converted, &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsSearch{x}})
+			converted = append(converted, &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsSearch{x}})
 		default:
 			// invalid predicate
 		}
@@ -12722,7 +12722,7 @@ func toTypeChannelsChannelParticipantsSlice(tlslice []TL) (converted []*TypeChan
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelsChannelParticipants:
-			converted = append(converted, &TypeChannelsChannelParticipants{x})
+			converted = append(converted, &TypeChannelsChannelParticipants{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12733,7 +12733,7 @@ func toTypeChannelsChannelParticipantSlice(tlslice []TL) (converted []*TypeChann
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelsChannelParticipant:
-			converted = append(converted, &TypeChannelsChannelParticipant{x})
+			converted = append(converted, &TypeChannelsChannelParticipant{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12744,7 +12744,7 @@ func toTypeTrueSlice(tlslice []TL) (converted []*TypeTrue) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredTrue:
-			converted = append(converted, &TypeTrue{x})
+			converted = append(converted, &TypeTrue{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12755,13 +12755,13 @@ func toTypeReportReasonSlice(tlslice []TL) (converted []*TypeReportReason) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputReportReasonSpam:
-			converted = append(converted, &TypeReportReason{&TypeReportReason_InputReportReasonSpam{x}})
+			converted = append(converted, &TypeReportReason{Value: &TypeReportReason_InputReportReasonSpam{x}})
 		case *PredInputReportReasonViolence:
-			converted = append(converted, &TypeReportReason{&TypeReportReason_InputReportReasonViolence{x}})
+			converted = append(converted, &TypeReportReason{Value: &TypeReportReason_InputReportReasonViolence{x}})
 		case *PredInputReportReasonPornography:
-			converted = append(converted, &TypeReportReason{&TypeReportReason_InputReportReasonPornography{x}})
+			converted = append(converted, &TypeReportReason{Value: &TypeReportReason_InputReportReasonPornography{x}})
 		case *PredInputReportReasonOther:
-			converted = append(converted, &TypeReportReason{&TypeReportReason_InputReportReasonOther{x}})
+			converted = append(converted, &TypeReportReason{Value: &TypeReportReason_InputReportReasonOther{x}})
 		default:
 			// invalid predicate
 		}
@@ -12772,7 +12772,7 @@ func toTypeHelpTermsOfServiceSlice(tlslice []TL) (converted []*TypeHelpTermsOfSe
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredHelpTermsOfService:
-			converted = append(converted, &TypeHelpTermsOfService{x})
+			converted = append(converted, &TypeHelpTermsOfService{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12783,9 +12783,9 @@ func toTypeFoundGifSlice(tlslice []TL) (converted []*TypeFoundGif) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredFoundGif:
-			converted = append(converted, &TypeFoundGif{&TypeFoundGif_FoundGif{x}})
+			converted = append(converted, &TypeFoundGif{Value: &TypeFoundGif_FoundGif{x}})
 		case *PredFoundGifCached:
-			converted = append(converted, &TypeFoundGif{&TypeFoundGif_FoundGifCached{x}})
+			converted = append(converted, &TypeFoundGif{Value: &TypeFoundGif_FoundGifCached{x}})
 		default:
 			// invalid predicate
 		}
@@ -12796,7 +12796,7 @@ func toTypeMessagesFoundGifsSlice(tlslice []TL) (converted []*TypeMessagesFoundG
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesFoundGifs:
-			converted = append(converted, &TypeMessagesFoundGifs{x})
+			converted = append(converted, &TypeMessagesFoundGifs{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12807,9 +12807,9 @@ func toTypeMessagesSavedGifsSlice(tlslice []TL) (converted []*TypeMessagesSavedG
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesSavedGifsNotModified:
-			converted = append(converted, &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifsNotModified{x}})
+			converted = append(converted, &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifsNotModified{x}})
 		case *PredMessagesSavedGifs:
-			converted = append(converted, &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifs{x}})
+			converted = append(converted, &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifs{x}})
 		default:
 			// invalid predicate
 		}
@@ -12820,17 +12820,17 @@ func toTypeInputBotInlineMessageSlice(tlslice []TL) (converted []*TypeInputBotIn
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputBotInlineMessageMediaAuto:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{x}})
 		case *PredInputBotInlineMessageText:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageText{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageText{x}})
 		case *PredInputBotInlineMessageMediaGeo:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{x}})
 		case *PredInputBotInlineMessageMediaVenue:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{x}})
 		case *PredInputBotInlineMessageMediaContact:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{x}})
 		case *PredInputBotInlineMessageGame:
-			converted = append(converted, &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageGame{x}})
+			converted = append(converted, &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageGame{x}})
 		default:
 			// invalid predicate
 		}
@@ -12841,13 +12841,13 @@ func toTypeInputBotInlineResultSlice(tlslice []TL) (converted []*TypeInputBotInl
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputBotInlineResult:
-			converted = append(converted, &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResult{x}})
+			converted = append(converted, &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResult{x}})
 		case *PredInputBotInlineResultPhoto:
-			converted = append(converted, &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultPhoto{x}})
+			converted = append(converted, &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultPhoto{x}})
 		case *PredInputBotInlineResultDocument:
-			converted = append(converted, &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultDocument{x}})
+			converted = append(converted, &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultDocument{x}})
 		case *PredInputBotInlineResultGame:
-			converted = append(converted, &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultGame{x}})
+			converted = append(converted, &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultGame{x}})
 		default:
 			// invalid predicate
 		}
@@ -12858,15 +12858,15 @@ func toTypeBotInlineMessageSlice(tlslice []TL) (converted []*TypeBotInlineMessag
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredBotInlineMessageMediaAuto:
-			converted = append(converted, &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaAuto{x}})
+			converted = append(converted, &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaAuto{x}})
 		case *PredBotInlineMessageText:
-			converted = append(converted, &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageText{x}})
+			converted = append(converted, &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageText{x}})
 		case *PredBotInlineMessageMediaGeo:
-			converted = append(converted, &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaGeo{x}})
+			converted = append(converted, &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaGeo{x}})
 		case *PredBotInlineMessageMediaVenue:
-			converted = append(converted, &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaVenue{x}})
+			converted = append(converted, &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaVenue{x}})
 		case *PredBotInlineMessageMediaContact:
-			converted = append(converted, &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaContact{x}})
+			converted = append(converted, &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaContact{x}})
 		default:
 			// invalid predicate
 		}
@@ -12877,9 +12877,9 @@ func toTypeBotInlineResultSlice(tlslice []TL) (converted []*TypeBotInlineResult)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredBotInlineResult:
-			converted = append(converted, &TypeBotInlineResult{&TypeBotInlineResult_BotInlineResult{x}})
+			converted = append(converted, &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineResult{x}})
 		case *PredBotInlineMediaResult:
-			converted = append(converted, &TypeBotInlineResult{&TypeBotInlineResult_BotInlineMediaResult{x}})
+			converted = append(converted, &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineMediaResult{x}})
 		default:
 			// invalid predicate
 		}
@@ -12890,7 +12890,7 @@ func toTypeMessagesBotResultsSlice(tlslice []TL) (converted []*TypeMessagesBotRe
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesBotResults:
-			converted = append(converted, &TypeMessagesBotResults{x})
+			converted = append(converted, &TypeMessagesBotResults{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12901,7 +12901,7 @@ func toTypeExportedMessageLinkSlice(tlslice []TL) (converted []*TypeExportedMess
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredExportedMessageLink:
-			converted = append(converted, &TypeExportedMessageLink{x})
+			converted = append(converted, &TypeExportedMessageLink{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12912,7 +12912,7 @@ func toTypeMessageFwdHeaderSlice(tlslice []TL) (converted []*TypeMessageFwdHeade
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessageFwdHeader:
-			converted = append(converted, &TypeMessageFwdHeader{x})
+			converted = append(converted, &TypeMessageFwdHeader{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12923,7 +12923,7 @@ func toTypePeerSettingsSlice(tlslice []TL) (converted []*TypePeerSettings) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPeerSettings:
-			converted = append(converted, &TypePeerSettings{x})
+			converted = append(converted, &TypePeerSettings{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12934,11 +12934,11 @@ func toTypeAuthCodeTypeSlice(tlslice []TL) (converted []*TypeAuthCodeType) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthCodeTypeSms:
-			converted = append(converted, &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeSms{x}})
+			converted = append(converted, &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeSms{x}})
 		case *PredAuthCodeTypeCall:
-			converted = append(converted, &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeCall{x}})
+			converted = append(converted, &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeCall{x}})
 		case *PredAuthCodeTypeFlashCall:
-			converted = append(converted, &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeFlashCall{x}})
+			converted = append(converted, &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeFlashCall{x}})
 		default:
 			// invalid predicate
 		}
@@ -12949,13 +12949,13 @@ func toTypeAuthSentCodeTypeSlice(tlslice []TL) (converted []*TypeAuthSentCodeTyp
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAuthSentCodeTypeApp:
-			converted = append(converted, &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeApp{x}})
+			converted = append(converted, &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeApp{x}})
 		case *PredAuthSentCodeTypeSms:
-			converted = append(converted, &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeSms{x}})
+			converted = append(converted, &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeSms{x}})
 		case *PredAuthSentCodeTypeCall:
-			converted = append(converted, &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeCall{x}})
+			converted = append(converted, &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeCall{x}})
 		case *PredAuthSentCodeTypeFlashCall:
-			converted = append(converted, &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{x}})
+			converted = append(converted, &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{x}})
 		default:
 			// invalid predicate
 		}
@@ -12966,7 +12966,7 @@ func toTypeMessagesBotCallbackAnswerSlice(tlslice []TL) (converted []*TypeMessag
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesBotCallbackAnswer:
-			converted = append(converted, &TypeMessagesBotCallbackAnswer{x})
+			converted = append(converted, &TypeMessagesBotCallbackAnswer{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12977,7 +12977,7 @@ func toTypeMessagesMessageEditDataSlice(tlslice []TL) (converted []*TypeMessages
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesMessageEditData:
-			converted = append(converted, &TypeMessagesMessageEditData{x})
+			converted = append(converted, &TypeMessagesMessageEditData{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12988,7 +12988,7 @@ func toTypeInputBotInlineMessageIDSlice(tlslice []TL) (converted []*TypeInputBot
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputBotInlineMessageID:
-			converted = append(converted, &TypeInputBotInlineMessageID{x})
+			converted = append(converted, &TypeInputBotInlineMessageID{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -12999,7 +12999,7 @@ func toTypeInlineBotSwitchPMSlice(tlslice []TL) (converted []*TypeInlineBotSwitc
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInlineBotSwitchPM:
-			converted = append(converted, &TypeInlineBotSwitchPM{x})
+			converted = append(converted, &TypeInlineBotSwitchPM{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13010,7 +13010,7 @@ func toTypeMessagesPeerDialogsSlice(tlslice []TL) (converted []*TypeMessagesPeer
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesPeerDialogs:
-			converted = append(converted, &TypeMessagesPeerDialogs{x})
+			converted = append(converted, &TypeMessagesPeerDialogs{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13021,7 +13021,7 @@ func toTypeTopPeerSlice(tlslice []TL) (converted []*TypeTopPeer) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredTopPeer:
-			converted = append(converted, &TypeTopPeer{x})
+			converted = append(converted, &TypeTopPeer{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13032,17 +13032,17 @@ func toTypeTopPeerCategorySlice(tlslice []TL) (converted []*TypeTopPeerCategory)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredTopPeerCategoryBotsPM:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsPM{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsPM{x}})
 		case *PredTopPeerCategoryBotsInline:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsInline{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsInline{x}})
 		case *PredTopPeerCategoryCorrespondents:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryCorrespondents{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryCorrespondents{x}})
 		case *PredTopPeerCategoryGroups:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryGroups{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryGroups{x}})
 		case *PredTopPeerCategoryChannels:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryChannels{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryChannels{x}})
 		case *PredTopPeerCategoryPhoneCalls:
-			converted = append(converted, &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryPhoneCalls{x}})
+			converted = append(converted, &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryPhoneCalls{x}})
 		default:
 			// invalid predicate
 		}
@@ -13053,7 +13053,7 @@ func toTypeTopPeerCategoryPeersSlice(tlslice []TL) (converted []*TypeTopPeerCate
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredTopPeerCategoryPeers:
-			converted = append(converted, &TypeTopPeerCategoryPeers{x})
+			converted = append(converted, &TypeTopPeerCategoryPeers{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13064,9 +13064,9 @@ func toTypeContactsTopPeersSlice(tlslice []TL) (converted []*TypeContactsTopPeer
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredContactsTopPeersNotModified:
-			converted = append(converted, &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeersNotModified{x}})
+			converted = append(converted, &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeersNotModified{x}})
 		case *PredContactsTopPeers:
-			converted = append(converted, &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeers{x}})
+			converted = append(converted, &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeers{x}})
 		default:
 			// invalid predicate
 		}
@@ -13077,9 +13077,9 @@ func toTypeDraftMessageSlice(tlslice []TL) (converted []*TypeDraftMessage) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDraftMessageEmpty:
-			converted = append(converted, &TypeDraftMessage{&TypeDraftMessage_DraftMessageEmpty{x}})
+			converted = append(converted, &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessageEmpty{x}})
 		case *PredDraftMessage:
-			converted = append(converted, &TypeDraftMessage{&TypeDraftMessage_DraftMessage{x}})
+			converted = append(converted, &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessage{x}})
 		default:
 			// invalid predicate
 		}
@@ -13090,9 +13090,9 @@ func toTypeMessagesFeaturedStickersSlice(tlslice []TL) (converted []*TypeMessage
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesFeaturedStickersNotModified:
-			converted = append(converted, &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{x}})
+			converted = append(converted, &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{x}})
 		case *PredMessagesFeaturedStickers:
-			converted = append(converted, &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickers{x}})
+			converted = append(converted, &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickers{x}})
 		default:
 			// invalid predicate
 		}
@@ -13103,9 +13103,9 @@ func toTypeMessagesRecentStickersSlice(tlslice []TL) (converted []*TypeMessagesR
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesRecentStickersNotModified:
-			converted = append(converted, &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickersNotModified{x}})
+			converted = append(converted, &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickersNotModified{x}})
 		case *PredMessagesRecentStickers:
-			converted = append(converted, &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickers{x}})
+			converted = append(converted, &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickers{x}})
 		default:
 			// invalid predicate
 		}
@@ -13116,7 +13116,7 @@ func toTypeMessagesArchivedStickersSlice(tlslice []TL) (converted []*TypeMessage
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesArchivedStickers:
-			converted = append(converted, &TypeMessagesArchivedStickers{x})
+			converted = append(converted, &TypeMessagesArchivedStickers{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13127,9 +13127,9 @@ func toTypeMessagesStickerSetInstallResultSlice(tlslice []TL) (converted []*Type
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesStickerSetInstallResultSuccess:
-			converted = append(converted, &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{x}})
+			converted = append(converted, &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{x}})
 		case *PredMessagesStickerSetInstallResultArchive:
-			converted = append(converted, &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{x}})
+			converted = append(converted, &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{x}})
 		default:
 			// invalid predicate
 		}
@@ -13140,9 +13140,9 @@ func toTypeStickerSetCoveredSlice(tlslice []TL) (converted []*TypeStickerSetCove
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredStickerSetCovered:
-			converted = append(converted, &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetCovered{x}})
+			converted = append(converted, &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetCovered{x}})
 		case *PredStickerSetMultiCovered:
-			converted = append(converted, &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetMultiCovered{x}})
+			converted = append(converted, &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetMultiCovered{x}})
 		default:
 			// invalid predicate
 		}
@@ -13153,7 +13153,7 @@ func toTypeMaskCoordsSlice(tlslice []TL) (converted []*TypeMaskCoords) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMaskCoords:
-			converted = append(converted, &TypeMaskCoords{x})
+			converted = append(converted, &TypeMaskCoords{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13164,9 +13164,9 @@ func toTypeInputStickeredMediaSlice(tlslice []TL) (converted []*TypeInputSticker
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputStickeredMediaPhoto:
-			converted = append(converted, &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaPhoto{x}})
+			converted = append(converted, &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaPhoto{x}})
 		case *PredInputStickeredMediaDocument:
-			converted = append(converted, &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaDocument{x}})
+			converted = append(converted, &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaDocument{x}})
 		default:
 			// invalid predicate
 		}
@@ -13177,7 +13177,7 @@ func toTypeGameSlice(tlslice []TL) (converted []*TypeGame) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredGame:
-			converted = append(converted, &TypeGame{x})
+			converted = append(converted, &TypeGame{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13188,9 +13188,9 @@ func toTypeInputGameSlice(tlslice []TL) (converted []*TypeInputGame) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputGameID:
-			converted = append(converted, &TypeInputGame{&TypeInputGame_InputGameID{x}})
+			converted = append(converted, &TypeInputGame{Value: &TypeInputGame_InputGameID{x}})
 		case *PredInputGameShortName:
-			converted = append(converted, &TypeInputGame{&TypeInputGame_InputGameShortName{x}})
+			converted = append(converted, &TypeInputGame{Value: &TypeInputGame_InputGameShortName{x}})
 		default:
 			// invalid predicate
 		}
@@ -13201,7 +13201,7 @@ func toTypeHighScoreSlice(tlslice []TL) (converted []*TypeHighScore) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredHighScore:
-			converted = append(converted, &TypeHighScore{x})
+			converted = append(converted, &TypeHighScore{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13212,7 +13212,7 @@ func toTypeMessagesHighScoresSlice(tlslice []TL) (converted []*TypeMessagesHighS
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesHighScores:
-			converted = append(converted, &TypeMessagesHighScores{x})
+			converted = append(converted, &TypeMessagesHighScores{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13223,25 +13223,25 @@ func toTypeRichTextSlice(tlslice []TL) (converted []*TypeRichText) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredTextEmpty:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextEmpty{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextEmpty{x}})
 		case *PredTextPlain:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextPlain{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextPlain{x}})
 		case *PredTextBold:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextBold{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextBold{x}})
 		case *PredTextItalic:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextItalic{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextItalic{x}})
 		case *PredTextUnderline:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextUnderline{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextUnderline{x}})
 		case *PredTextStrike:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextStrike{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextStrike{x}})
 		case *PredTextFixed:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextFixed{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextFixed{x}})
 		case *PredTextUrl:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextUrl{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextUrl{x}})
 		case *PredTextEmail:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextEmail{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextEmail{x}})
 		case *PredTextConcat:
-			converted = append(converted, &TypeRichText{&TypeRichText_TextConcat{x}})
+			converted = append(converted, &TypeRichText{Value: &TypeRichText_TextConcat{x}})
 		default:
 			// invalid predicate
 		}
@@ -13252,51 +13252,51 @@ func toTypePageBlockSlice(tlslice []TL) (converted []*TypePageBlock) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPageBlockTitle:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockTitle{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockTitle{x}})
 		case *PredPageBlockSubtitle:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockSubtitle{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockSubtitle{x}})
 		case *PredPageBlockAuthorDate:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockAuthorDate{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockAuthorDate{x}})
 		case *PredPageBlockHeader:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockHeader{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockHeader{x}})
 		case *PredPageBlockSubheader:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockSubheader{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockSubheader{x}})
 		case *PredPageBlockParagraph:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockParagraph{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockParagraph{x}})
 		case *PredPageBlockPreformatted:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockPreformatted{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockPreformatted{x}})
 		case *PredPageBlockFooter:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockFooter{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockFooter{x}})
 		case *PredPageBlockDivider:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockDivider{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockDivider{x}})
 		case *PredPageBlockList:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockList{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockList{x}})
 		case *PredPageBlockBlockquote:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockBlockquote{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockBlockquote{x}})
 		case *PredPageBlockPullquote:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockPullquote{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockPullquote{x}})
 		case *PredPageBlockPhoto:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockPhoto{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockPhoto{x}})
 		case *PredPageBlockVideo:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockVideo{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockVideo{x}})
 		case *PredPageBlockCover:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockCover{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockCover{x}})
 		case *PredPageBlockEmbed:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockEmbed{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockEmbed{x}})
 		case *PredPageBlockEmbedPost:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockEmbedPost{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockEmbedPost{x}})
 		case *PredPageBlockSlideshow:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockSlideshow{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockSlideshow{x}})
 		case *PredPageBlockUnsupported:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockUnsupported{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockUnsupported{x}})
 		case *PredPageBlockAnchor:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockAnchor{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockAnchor{x}})
 		case *PredPageBlockCollage:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockCollage{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockCollage{x}})
 		case *PredPageBlockChannel:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockChannel{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockChannel{x}})
 		case *PredPageBlockAudio:
-			converted = append(converted, &TypePageBlock{&TypePageBlock_PageBlockAudio{x}})
+			converted = append(converted, &TypePageBlock{Value: &TypePageBlock_PageBlockAudio{x}})
 		default:
 			// invalid predicate
 		}
@@ -13307,9 +13307,9 @@ func toTypePageSlice(tlslice []TL) (converted []*TypePage) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPagePart:
-			converted = append(converted, &TypePage{&TypePage_PagePart{x}})
+			converted = append(converted, &TypePage{Value: &TypePage_PagePart{x}})
 		case *PredPageFull:
-			converted = append(converted, &TypePage{&TypePage_PageFull{x}})
+			converted = append(converted, &TypePage{Value: &TypePage_PageFull{x}})
 		default:
 			// invalid predicate
 		}
@@ -13320,7 +13320,7 @@ func toTypeInputPhoneCallSlice(tlslice []TL) (converted []*TypeInputPhoneCall) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPhoneCall:
-			converted = append(converted, &TypeInputPhoneCall{x})
+			converted = append(converted, &TypeInputPhoneCall{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13331,17 +13331,17 @@ func toTypePhoneCallSlice(tlslice []TL) (converted []*TypePhoneCall) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhoneCallEmpty:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCallEmpty{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCallEmpty{x}})
 		case *PredPhoneCallWaiting:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCallWaiting{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCallWaiting{x}})
 		case *PredPhoneCallRequested:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCallRequested{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCallRequested{x}})
 		case *PredPhoneCall:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCall{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCall{x}})
 		case *PredPhoneCallDiscarded:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCallDiscarded{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCallDiscarded{x}})
 		case *PredPhoneCallAccepted:
-			converted = append(converted, &TypePhoneCall{&TypePhoneCall_PhoneCallAccepted{x}})
+			converted = append(converted, &TypePhoneCall{Value: &TypePhoneCall_PhoneCallAccepted{x}})
 		default:
 			// invalid predicate
 		}
@@ -13352,7 +13352,7 @@ func toTypePhoneConnectionSlice(tlslice []TL) (converted []*TypePhoneConnection)
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhoneConnection:
-			converted = append(converted, &TypePhoneConnection{x})
+			converted = append(converted, &TypePhoneConnection{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13363,7 +13363,7 @@ func toTypePhoneCallProtocolSlice(tlslice []TL) (converted []*TypePhoneCallProto
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhoneCallProtocol:
-			converted = append(converted, &TypePhoneCallProtocol{x})
+			converted = append(converted, &TypePhoneCallProtocol{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13374,7 +13374,7 @@ func toTypePhonePhoneCallSlice(tlslice []TL) (converted []*TypePhonePhoneCall) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhonePhoneCall:
-			converted = append(converted, &TypePhonePhoneCall{x})
+			converted = append(converted, &TypePhonePhoneCall{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13385,13 +13385,13 @@ func toTypePhoneCallDiscardReasonSlice(tlslice []TL) (converted []*TypePhoneCall
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPhoneCallDiscardReasonMissed:
-			converted = append(converted, &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{x}})
+			converted = append(converted, &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{x}})
 		case *PredPhoneCallDiscardReasonDisconnect:
-			converted = append(converted, &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{x}})
+			converted = append(converted, &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{x}})
 		case *PredPhoneCallDiscardReasonHangup:
-			converted = append(converted, &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{x}})
+			converted = append(converted, &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{x}})
 		case *PredPhoneCallDiscardReasonBusy:
-			converted = append(converted, &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{x}})
+			converted = append(converted, &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{x}})
 		default:
 			// invalid predicate
 		}
@@ -13402,7 +13402,7 @@ func toTypeInvoiceSlice(tlslice []TL) (converted []*TypeInvoice) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInvoice:
-			converted = append(converted, &TypeInvoice{x})
+			converted = append(converted, &TypeInvoice{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13413,7 +13413,7 @@ func toTypePaymentsPaymentFormSlice(tlslice []TL) (converted []*TypePaymentsPaym
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentsPaymentForm:
-			converted = append(converted, &TypePaymentsPaymentForm{x})
+			converted = append(converted, &TypePaymentsPaymentForm{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13424,7 +13424,7 @@ func toTypePostAddressSlice(tlslice []TL) (converted []*TypePostAddress) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPostAddress:
-			converted = append(converted, &TypePostAddress{x})
+			converted = append(converted, &TypePostAddress{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13435,7 +13435,7 @@ func toTypePaymentRequestedInfoSlice(tlslice []TL) (converted []*TypePaymentRequ
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentRequestedInfo:
-			converted = append(converted, &TypePaymentRequestedInfo{x})
+			converted = append(converted, &TypePaymentRequestedInfo{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13446,7 +13446,7 @@ func toTypeDataJSONSlice(tlslice []TL) (converted []*TypeDataJSON) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredDataJSON:
-			converted = append(converted, &TypeDataJSON{x})
+			converted = append(converted, &TypeDataJSON{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13457,7 +13457,7 @@ func toTypeLabeledPriceSlice(tlslice []TL) (converted []*TypeLabeledPrice) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredLabeledPrice:
-			converted = append(converted, &TypeLabeledPrice{x})
+			converted = append(converted, &TypeLabeledPrice{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13468,7 +13468,7 @@ func toTypePaymentChargeSlice(tlslice []TL) (converted []*TypePaymentCharge) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentCharge:
-			converted = append(converted, &TypePaymentCharge{x})
+			converted = append(converted, &TypePaymentCharge{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13479,7 +13479,7 @@ func toTypePaymentSavedCredentialsSlice(tlslice []TL) (converted []*TypePaymentS
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentSavedCredentialsCard:
-			converted = append(converted, &TypePaymentSavedCredentials{x})
+			converted = append(converted, &TypePaymentSavedCredentials{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13490,7 +13490,7 @@ func toTypeWebDocumentSlice(tlslice []TL) (converted []*TypeWebDocument) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredWebDocument:
-			converted = append(converted, &TypeWebDocument{x})
+			converted = append(converted, &TypeWebDocument{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13501,7 +13501,7 @@ func toTypeInputWebDocumentSlice(tlslice []TL) (converted []*TypeInputWebDocumen
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputWebDocument:
-			converted = append(converted, &TypeInputWebDocument{x})
+			converted = append(converted, &TypeInputWebDocument{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13512,7 +13512,7 @@ func toTypeInputWebFileLocationSlice(tlslice []TL) (converted []*TypeInputWebFil
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputWebFileLocation:
-			converted = append(converted, &TypeInputWebFileLocation{x})
+			converted = append(converted, &TypeInputWebFileLocation{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13523,7 +13523,7 @@ func toTypeUploadWebFileSlice(tlslice []TL) (converted []*TypeUploadWebFile) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUploadWebFile:
-			converted = append(converted, &TypeUploadWebFile{x})
+			converted = append(converted, &TypeUploadWebFile{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13534,7 +13534,7 @@ func toTypePaymentsValidatedRequestedInfoSlice(tlslice []TL) (converted []*TypeP
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentsValidatedRequestedInfo:
-			converted = append(converted, &TypePaymentsValidatedRequestedInfo{x})
+			converted = append(converted, &TypePaymentsValidatedRequestedInfo{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13545,9 +13545,9 @@ func toTypePaymentsPaymentResultSlice(tlslice []TL) (converted []*TypePaymentsPa
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentsPaymentResult:
-			converted = append(converted, &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentResult{x}})
+			converted = append(converted, &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentResult{x}})
 		case *PredPaymentsPaymentVerficationNeeded:
-			converted = append(converted, &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{x}})
+			converted = append(converted, &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{x}})
 		default:
 			// invalid predicate
 		}
@@ -13558,7 +13558,7 @@ func toTypePaymentsPaymentReceiptSlice(tlslice []TL) (converted []*TypePaymentsP
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentsPaymentReceipt:
-			converted = append(converted, &TypePaymentsPaymentReceipt{x})
+			converted = append(converted, &TypePaymentsPaymentReceipt{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13569,7 +13569,7 @@ func toTypePaymentsSavedInfoSlice(tlslice []TL) (converted []*TypePaymentsSavedI
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPaymentsSavedInfo:
-			converted = append(converted, &TypePaymentsSavedInfo{x})
+			converted = append(converted, &TypePaymentsSavedInfo{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13580,9 +13580,9 @@ func toTypeInputPaymentCredentialsSlice(tlslice []TL) (converted []*TypeInputPay
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputPaymentCredentialsSaved:
-			converted = append(converted, &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentialsSaved{x}})
+			converted = append(converted, &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentialsSaved{x}})
 		case *PredInputPaymentCredentials:
-			converted = append(converted, &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentials{x}})
+			converted = append(converted, &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentials{x}})
 		default:
 			// invalid predicate
 		}
@@ -13593,7 +13593,7 @@ func toTypeAccountTmpPasswordSlice(tlslice []TL) (converted []*TypeAccountTmpPas
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredAccountTmpPassword:
-			converted = append(converted, &TypeAccountTmpPassword{x})
+			converted = append(converted, &TypeAccountTmpPassword{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13604,7 +13604,7 @@ func toTypeShippingOptionSlice(tlslice []TL) (converted []*TypeShippingOption) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredShippingOption:
-			converted = append(converted, &TypeShippingOption{x})
+			converted = append(converted, &TypeShippingOption{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13615,9 +13615,9 @@ func toTypeUploadCdnFileSlice(tlslice []TL) (converted []*TypeUploadCdnFile) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredUploadCdnFileReuploadNeeded:
-			converted = append(converted, &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFileReuploadNeeded{x}})
+			converted = append(converted, &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFileReuploadNeeded{x}})
 		case *PredUploadCdnFile:
-			converted = append(converted, &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFile{x}})
+			converted = append(converted, &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFile{x}})
 		default:
 			// invalid predicate
 		}
@@ -13628,7 +13628,7 @@ func toTypeCdnPublicKeySlice(tlslice []TL) (converted []*TypeCdnPublicKey) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredCdnPublicKey:
-			converted = append(converted, &TypeCdnPublicKey{x})
+			converted = append(converted, &TypeCdnPublicKey{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13639,7 +13639,7 @@ func toTypeCdnConfigSlice(tlslice []TL) (converted []*TypeCdnConfig) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredCdnConfig:
-			converted = append(converted, &TypeCdnConfig{x})
+			converted = append(converted, &TypeCdnConfig{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13650,7 +13650,7 @@ func toTypeInputStickerSetItemSlice(tlslice []TL) (converted []*TypeInputSticker
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredInputStickerSetItem:
-			converted = append(converted, &TypeInputStickerSetItem{x})
+			converted = append(converted, &TypeInputStickerSetItem{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13661,11 +13661,11 @@ func toTypeLangPackStringSlice(tlslice []TL) (converted []*TypeLangPackString) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredLangPackString:
-			converted = append(converted, &TypeLangPackString{&TypeLangPackString_LangPackString{x}})
+			converted = append(converted, &TypeLangPackString{Value: &TypeLangPackString_LangPackString{x}})
 		case *PredLangPackStringPluralized:
-			converted = append(converted, &TypeLangPackString{&TypeLangPackString_LangPackStringPluralized{x}})
+			converted = append(converted, &TypeLangPackString{Value: &TypeLangPackString_LangPackStringPluralized{x}})
 		case *PredLangPackStringDeleted:
-			converted = append(converted, &TypeLangPackString{&TypeLangPackString_LangPackStringDeleted{x}})
+			converted = append(converted, &TypeLangPackString{Value: &TypeLangPackString_LangPackStringDeleted{x}})
 		default:
 			// invalid predicate
 		}
@@ -13676,7 +13676,7 @@ func toTypeLangPackDifferenceSlice(tlslice []TL) (converted []*TypeLangPackDiffe
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredLangPackDifference:
-			converted = append(converted, &TypeLangPackDifference{x})
+			converted = append(converted, &TypeLangPackDifference{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13687,7 +13687,7 @@ func toTypeLangPackLanguageSlice(tlslice []TL) (converted []*TypeLangPackLanguag
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredLangPackLanguage:
-			converted = append(converted, &TypeLangPackLanguage{x})
+			converted = append(converted, &TypeLangPackLanguage{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13698,7 +13698,7 @@ func toTypeChannelAdminRightsSlice(tlslice []TL) (converted []*TypeChannelAdminR
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelAdminRights:
-			converted = append(converted, &TypeChannelAdminRights{x})
+			converted = append(converted, &TypeChannelAdminRights{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13709,7 +13709,7 @@ func toTypeChannelBannedRightsSlice(tlslice []TL) (converted []*TypeChannelBanne
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelBannedRights:
-			converted = append(converted, &TypeChannelBannedRights{x})
+			converted = append(converted, &TypeChannelBannedRights{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13720,35 +13720,35 @@ func toTypeChannelAdminLogEventActionSlice(tlslice []TL) (converted []*TypeChann
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelAdminLogEventActionChangeTitle:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{x}})
 		case *PredChannelAdminLogEventActionChangeAbout:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{x}})
 		case *PredChannelAdminLogEventActionChangeUsername:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{x}})
 		case *PredChannelAdminLogEventActionChangePhoto:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{x}})
 		case *PredChannelAdminLogEventActionToggleInvites:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{x}})
 		case *PredChannelAdminLogEventActionToggleSignatures:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{x}})
 		case *PredChannelAdminLogEventActionUpdatePinned:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{x}})
 		case *PredChannelAdminLogEventActionEditMessage:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{x}})
 		case *PredChannelAdminLogEventActionDeleteMessage:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{x}})
 		case *PredChannelAdminLogEventActionParticipantJoin:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{x}})
 		case *PredChannelAdminLogEventActionParticipantLeave:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{x}})
 		case *PredChannelAdminLogEventActionParticipantInvite:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{x}})
 		case *PredChannelAdminLogEventActionParticipantToggleBan:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{x}})
 		case *PredChannelAdminLogEventActionParticipantToggleAdmin:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{x}})
 		case *PredChannelAdminLogEventActionChangeStickerSet:
-			converted = append(converted, &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{x}})
+			converted = append(converted, &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{x}})
 		default:
 			// invalid predicate
 		}
@@ -13759,7 +13759,7 @@ func toTypeChannelAdminLogEventSlice(tlslice []TL) (converted []*TypeChannelAdmi
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelAdminLogEvent:
-			converted = append(converted, &TypeChannelAdminLogEvent{x})
+			converted = append(converted, &TypeChannelAdminLogEvent{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13770,7 +13770,7 @@ func toTypeChannelsAdminLogResultsSlice(tlslice []TL) (converted []*TypeChannels
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelsAdminLogResults:
-			converted = append(converted, &TypeChannelsAdminLogResults{x})
+			converted = append(converted, &TypeChannelsAdminLogResults{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13781,7 +13781,7 @@ func toTypeChannelAdminLogEventsFilterSlice(tlslice []TL) (converted []*TypeChan
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredChannelAdminLogEventsFilter:
-			converted = append(converted, &TypeChannelAdminLogEventsFilter{x})
+			converted = append(converted, &TypeChannelAdminLogEventsFilter{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13792,7 +13792,7 @@ func toTypePopularContactSlice(tlslice []TL) (converted []*TypePopularContact) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredPopularContact:
-			converted = append(converted, &TypePopularContact{x})
+			converted = append(converted, &TypePopularContact{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13803,7 +13803,7 @@ func toTypeCdnFileHashSlice(tlslice []TL) (converted []*TypeCdnFileHash) {
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredCdnFileHash:
-			converted = append(converted, &TypeCdnFileHash{x})
+			converted = append(converted, &TypeCdnFileHash{Value: x})
 		default:
 			// invalid predicate
 		}
@@ -13814,9 +13814,9 @@ func toTypeMessagesFavedStickersSlice(tlslice []TL) (converted []*TypeMessagesFa
 	for _, tl := range tlslice {
 		switch x := tl.(type) {
 		case *PredMessagesFavedStickers:
-			converted = append(converted, &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickers{x}})
+			converted = append(converted, &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickers{x}})
 		case *PredMessagesFavedStickersNotModified:
-			converted = append(converted, &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickersNotModified{x}})
+			converted = append(converted, &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickersNotModified{x}})
 		default:
 			// invalid predicate
 		}
@@ -13826,1759 +13826,1759 @@ func toTypeMessagesFavedStickersSlice(tlslice []TL) (converted []*TypeMessagesFa
 
 // predicate converters to a Type
 func (p *PredBoolFalse) ToType() TL {
-	return &TypeBool{&TypeBool_BoolFalse{p}}
+	return &TypeBool{Value: &TypeBool_BoolFalse{p}}
 }
 func (p *PredBoolTrue) ToType() TL {
-	return &TypeBool{&TypeBool_BoolTrue{p}}
+	return &TypeBool{Value: &TypeBool_BoolTrue{p}}
 }
 func (p *PredError) ToType() TL {
-	return &TypeError{p}
+	return &TypeError{Value: p}
 }
 func (p *PredNull) ToType() TL {
-	return &TypeNull{p}
+	return &TypeNull{Value: p}
 }
 func (p *PredInputPeerEmpty) ToType() TL {
-	return &TypeInputPeer{&TypeInputPeer_InputPeerEmpty{p}}
+	return &TypeInputPeer{Value: &TypeInputPeer_InputPeerEmpty{p}}
 }
 func (p *PredInputPeerSelf) ToType() TL {
-	return &TypeInputPeer{&TypeInputPeer_InputPeerSelf{p}}
+	return &TypeInputPeer{Value: &TypeInputPeer_InputPeerSelf{p}}
 }
 func (p *PredInputPeerChat) ToType() TL {
-	return &TypeInputPeer{&TypeInputPeer_InputPeerChat{p}}
+	return &TypeInputPeer{Value: &TypeInputPeer_InputPeerChat{p}}
 }
 func (p *PredInputUserEmpty) ToType() TL {
-	return &TypeInputUser{&TypeInputUser_InputUserEmpty{p}}
+	return &TypeInputUser{Value: &TypeInputUser_InputUserEmpty{p}}
 }
 func (p *PredInputUserSelf) ToType() TL {
-	return &TypeInputUser{&TypeInputUser_InputUserSelf{p}}
+	return &TypeInputUser{Value: &TypeInputUser_InputUserSelf{p}}
 }
 func (p *PredInputPhoneContact) ToType() TL {
-	return &TypeInputContact{p}
+	return &TypeInputContact{Value: p}
 }
 func (p *PredInputFile) ToType() TL {
-	return &TypeInputFile{&TypeInputFile_InputFile{p}}
+	return &TypeInputFile{Value: &TypeInputFile_InputFile{p}}
 }
 func (p *PredInputMediaEmpty) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaEmpty{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaEmpty{p}}
 }
 func (p *PredInputMediaUploadedPhoto) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedPhoto{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedPhoto{p}}
 }
 func (p *PredInputMediaPhoto) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaPhoto{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhoto{p}}
 }
 func (p *PredInputMediaGeoPoint) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaGeoPoint{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGeoPoint{p}}
 }
 func (p *PredInputMediaContact) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaContact{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaContact{p}}
 }
 func (p *PredInputChatPhotoEmpty) ToType() TL {
-	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhotoEmpty{p}}
+	return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhotoEmpty{p}}
 }
 func (p *PredInputChatUploadedPhoto) ToType() TL {
-	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatUploadedPhoto{p}}
+	return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatUploadedPhoto{p}}
 }
 func (p *PredInputChatPhoto) ToType() TL {
-	return &TypeInputChatPhoto{&TypeInputChatPhoto_InputChatPhoto{p}}
+	return &TypeInputChatPhoto{Value: &TypeInputChatPhoto_InputChatPhoto{p}}
 }
 func (p *PredInputGeoPointEmpty) ToType() TL {
-	return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPointEmpty{p}}
+	return &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPointEmpty{p}}
 }
 func (p *PredInputGeoPoint) ToType() TL {
-	return &TypeInputGeoPoint{&TypeInputGeoPoint_InputGeoPoint{p}}
+	return &TypeInputGeoPoint{Value: &TypeInputGeoPoint_InputGeoPoint{p}}
 }
 func (p *PredInputPhotoEmpty) ToType() TL {
-	return &TypeInputPhoto{&TypeInputPhoto_InputPhotoEmpty{p}}
+	return &TypeInputPhoto{Value: &TypeInputPhoto_InputPhotoEmpty{p}}
 }
 func (p *PredInputPhoto) ToType() TL {
-	return &TypeInputPhoto{&TypeInputPhoto_InputPhoto{p}}
+	return &TypeInputPhoto{Value: &TypeInputPhoto_InputPhoto{p}}
 }
 func (p *PredInputFileLocation) ToType() TL {
-	return &TypeInputFileLocation{&TypeInputFileLocation_InputFileLocation{p}}
+	return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputFileLocation{p}}
 }
 func (p *PredInputAppEvent) ToType() TL {
-	return &TypeInputAppEvent{p}
+	return &TypeInputAppEvent{Value: p}
 }
 func (p *PredPeerUser) ToType() TL {
-	return &TypePeer{&TypePeer_PeerUser{p}}
+	return &TypePeer{Value: &TypePeer_PeerUser{p}}
 }
 func (p *PredPeerChat) ToType() TL {
-	return &TypePeer{&TypePeer_PeerChat{p}}
+	return &TypePeer{Value: &TypePeer_PeerChat{p}}
 }
 func (p *PredStorageFileUnknown) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileUnknown{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileUnknown{p}}
 }
 func (p *PredStorageFileJpeg) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileJpeg{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileJpeg{p}}
 }
 func (p *PredStorageFileGif) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileGif{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileGif{p}}
 }
 func (p *PredStorageFilePng) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePng{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePng{p}}
 }
 func (p *PredStorageFileMp3) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp3{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp3{p}}
 }
 func (p *PredStorageFileMov) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMov{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMov{p}}
 }
 func (p *PredStorageFilePartial) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePartial{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePartial{p}}
 }
 func (p *PredStorageFileMp4) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileMp4{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileMp4{p}}
 }
 func (p *PredStorageFileWebp) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFileWebp{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFileWebp{p}}
 }
 func (p *PredFileLocationUnavailable) ToType() TL {
-	return &TypeFileLocation{&TypeFileLocation_FileLocationUnavailable{p}}
+	return &TypeFileLocation{Value: &TypeFileLocation_FileLocationUnavailable{p}}
 }
 func (p *PredFileLocation) ToType() TL {
-	return &TypeFileLocation{&TypeFileLocation_FileLocation{p}}
+	return &TypeFileLocation{Value: &TypeFileLocation_FileLocation{p}}
 }
 func (p *PredUserEmpty) ToType() TL {
-	return &TypeUser{&TypeUser_UserEmpty{p}}
+	return &TypeUser{Value: &TypeUser_UserEmpty{p}}
 }
 func (p *PredUserProfilePhotoEmpty) ToType() TL {
-	return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhotoEmpty{p}}
+	return &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhotoEmpty{p}}
 }
 func (p *PredUserProfilePhoto) ToType() TL {
-	return &TypeUserProfilePhoto{&TypeUserProfilePhoto_UserProfilePhoto{p}}
+	return &TypeUserProfilePhoto{Value: &TypeUserProfilePhoto_UserProfilePhoto{p}}
 }
 func (p *PredUserStatusEmpty) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusEmpty{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusEmpty{p}}
 }
 func (p *PredUserStatusOnline) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusOnline{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusOnline{p}}
 }
 func (p *PredUserStatusOffline) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusOffline{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusOffline{p}}
 }
 func (p *PredChatEmpty) ToType() TL {
-	return &TypeChat{&TypeChat_ChatEmpty{p}}
+	return &TypeChat{Value: &TypeChat_ChatEmpty{p}}
 }
 func (p *PredChat) ToType() TL {
-	return &TypeChat{&TypeChat_Chat{p}}
+	return &TypeChat{Value: &TypeChat_Chat{p}}
 }
 func (p *PredChatForbidden) ToType() TL {
-	return &TypeChat{&TypeChat_ChatForbidden{p}}
+	return &TypeChat{Value: &TypeChat_ChatForbidden{p}}
 }
 func (p *PredChatFull) ToType() TL {
-	return &TypeChatFull{&TypeChatFull_ChatFull{p}}
+	return &TypeChatFull{Value: &TypeChatFull_ChatFull{p}}
 }
 func (p *PredChatParticipant) ToType() TL {
-	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipant{p}}
+	return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipant{p}}
 }
 func (p *PredChatParticipantsForbidden) ToType() TL {
-	return &TypeChatParticipants{&TypeChatParticipants_ChatParticipantsForbidden{p}}
+	return &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipantsForbidden{p}}
 }
 func (p *PredChatParticipants) ToType() TL {
-	return &TypeChatParticipants{&TypeChatParticipants_ChatParticipants{p}}
+	return &TypeChatParticipants{Value: &TypeChatParticipants_ChatParticipants{p}}
 }
 func (p *PredChatPhotoEmpty) ToType() TL {
-	return &TypeChatPhoto{&TypeChatPhoto_ChatPhotoEmpty{p}}
+	return &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhotoEmpty{p}}
 }
 func (p *PredChatPhoto) ToType() TL {
-	return &TypeChatPhoto{&TypeChatPhoto_ChatPhoto{p}}
+	return &TypeChatPhoto{Value: &TypeChatPhoto_ChatPhoto{p}}
 }
 func (p *PredMessageEmpty) ToType() TL {
-	return &TypeMessage{&TypeMessage_MessageEmpty{p}}
+	return &TypeMessage{Value: &TypeMessage_MessageEmpty{p}}
 }
 func (p *PredMessage) ToType() TL {
-	return &TypeMessage{&TypeMessage_Message{p}}
+	return &TypeMessage{Value: &TypeMessage_Message{p}}
 }
 func (p *PredMessageService) ToType() TL {
-	return &TypeMessage{&TypeMessage_MessageService{p}}
+	return &TypeMessage{Value: &TypeMessage_MessageService{p}}
 }
 func (p *PredMessageMediaEmpty) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaEmpty{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaEmpty{p}}
 }
 func (p *PredMessageMediaPhoto) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaPhoto{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaPhoto{p}}
 }
 func (p *PredMessageMediaGeo) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGeo{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGeo{p}}
 }
 func (p *PredMessageMediaContact) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaContact{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaContact{p}}
 }
 func (p *PredMessageMediaUnsupported) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaUnsupported{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaUnsupported{p}}
 }
 func (p *PredMessageActionEmpty) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionEmpty{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionEmpty{p}}
 }
 func (p *PredMessageActionChatCreate) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatCreate{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatCreate{p}}
 }
 func (p *PredMessageActionChatEditTitle) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditTitle{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditTitle{p}}
 }
 func (p *PredMessageActionChatEditPhoto) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatEditPhoto{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatEditPhoto{p}}
 }
 func (p *PredMessageActionChatDeletePhoto) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeletePhoto{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeletePhoto{p}}
 }
 func (p *PredMessageActionChatAddUser) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatAddUser{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatAddUser{p}}
 }
 func (p *PredMessageActionChatDeleteUser) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatDeleteUser{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatDeleteUser{p}}
 }
 func (p *PredDialog) ToType() TL {
-	return &TypeDialog{p}
+	return &TypeDialog{Value: p}
 }
 func (p *PredPhotoEmpty) ToType() TL {
-	return &TypePhoto{&TypePhoto_PhotoEmpty{p}}
+	return &TypePhoto{Value: &TypePhoto_PhotoEmpty{p}}
 }
 func (p *PredPhoto) ToType() TL {
-	return &TypePhoto{&TypePhoto_Photo{p}}
+	return &TypePhoto{Value: &TypePhoto_Photo{p}}
 }
 func (p *PredPhotoSizeEmpty) ToType() TL {
-	return &TypePhotoSize{&TypePhotoSize_PhotoSizeEmpty{p}}
+	return &TypePhotoSize{Value: &TypePhotoSize_PhotoSizeEmpty{p}}
 }
 func (p *PredPhotoSize) ToType() TL {
-	return &TypePhotoSize{&TypePhotoSize_PhotoSize{p}}
+	return &TypePhotoSize{Value: &TypePhotoSize_PhotoSize{p}}
 }
 func (p *PredPhotoCachedSize) ToType() TL {
-	return &TypePhotoSize{&TypePhotoSize_PhotoCachedSize{p}}
+	return &TypePhotoSize{Value: &TypePhotoSize_PhotoCachedSize{p}}
 }
 func (p *PredGeoPointEmpty) ToType() TL {
-	return &TypeGeoPoint{&TypeGeoPoint_GeoPointEmpty{p}}
+	return &TypeGeoPoint{Value: &TypeGeoPoint_GeoPointEmpty{p}}
 }
 func (p *PredGeoPoint) ToType() TL {
-	return &TypeGeoPoint{&TypeGeoPoint_GeoPoint{p}}
+	return &TypeGeoPoint{Value: &TypeGeoPoint_GeoPoint{p}}
 }
 func (p *PredAuthCheckedPhone) ToType() TL {
-	return &TypeAuthCheckedPhone{p}
+	return &TypeAuthCheckedPhone{Value: p}
 }
 func (p *PredAuthSentCode) ToType() TL {
-	return &TypeAuthSentCode{p}
+	return &TypeAuthSentCode{Value: p}
 }
 func (p *PredAuthAuthorization) ToType() TL {
-	return &TypeAuthAuthorization{p}
+	return &TypeAuthAuthorization{Value: p}
 }
 func (p *PredAuthExportedAuthorization) ToType() TL {
-	return &TypeAuthExportedAuthorization{p}
+	return &TypeAuthExportedAuthorization{Value: p}
 }
 func (p *PredInputNotifyPeer) ToType() TL {
-	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyPeer{p}}
+	return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyPeer{p}}
 }
 func (p *PredInputNotifyUsers) ToType() TL {
-	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyUsers{p}}
+	return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyUsers{p}}
 }
 func (p *PredInputNotifyChats) ToType() TL {
-	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyChats{p}}
+	return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyChats{p}}
 }
 func (p *PredInputNotifyAll) ToType() TL {
-	return &TypeInputNotifyPeer{&TypeInputNotifyPeer_InputNotifyAll{p}}
+	return &TypeInputNotifyPeer{Value: &TypeInputNotifyPeer_InputNotifyAll{p}}
 }
 func (p *PredInputPeerNotifySettings) ToType() TL {
-	return &TypeInputPeerNotifySettings{p}
+	return &TypeInputPeerNotifySettings{Value: p}
 }
 func (p *PredPeerNotifyEventsEmpty) ToType() TL {
-	return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsEmpty{p}}
+	return &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsEmpty{p}}
 }
 func (p *PredPeerNotifyEventsAll) ToType() TL {
-	return &TypePeerNotifyEvents{&TypePeerNotifyEvents_PeerNotifyEventsAll{p}}
+	return &TypePeerNotifyEvents{Value: &TypePeerNotifyEvents_PeerNotifyEventsAll{p}}
 }
 func (p *PredPeerNotifySettingsEmpty) ToType() TL {
-	return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettingsEmpty{p}}
+	return &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettingsEmpty{p}}
 }
 func (p *PredPeerNotifySettings) ToType() TL {
-	return &TypePeerNotifySettings{&TypePeerNotifySettings_PeerNotifySettings{p}}
+	return &TypePeerNotifySettings{Value: &TypePeerNotifySettings_PeerNotifySettings{p}}
 }
 func (p *PredWallPaper) ToType() TL {
-	return &TypeWallPaper{&TypeWallPaper_WallPaper{p}}
+	return &TypeWallPaper{Value: &TypeWallPaper_WallPaper{p}}
 }
 func (p *PredUserFull) ToType() TL {
-	return &TypeUserFull{p}
+	return &TypeUserFull{Value: p}
 }
 func (p *PredContact) ToType() TL {
-	return &TypeContact{p}
+	return &TypeContact{Value: p}
 }
 func (p *PredImportedContact) ToType() TL {
-	return &TypeImportedContact{p}
+	return &TypeImportedContact{Value: p}
 }
 func (p *PredContactBlocked) ToType() TL {
-	return &TypeContactBlocked{p}
+	return &TypeContactBlocked{Value: p}
 }
 func (p *PredContactStatus) ToType() TL {
-	return &TypeContactStatus{p}
+	return &TypeContactStatus{Value: p}
 }
 func (p *PredContactsLink) ToType() TL {
-	return &TypeContactsLink{p}
+	return &TypeContactsLink{Value: p}
 }
 func (p *PredContactsContacts) ToType() TL {
-	return &TypeContactsContacts{&TypeContactsContacts_ContactsContacts{p}}
+	return &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContacts{p}}
 }
 func (p *PredContactsContactsNotModified) ToType() TL {
-	return &TypeContactsContacts{&TypeContactsContacts_ContactsContactsNotModified{p}}
+	return &TypeContactsContacts{Value: &TypeContactsContacts_ContactsContactsNotModified{p}}
 }
 func (p *PredContactsImportedContacts) ToType() TL {
-	return &TypeContactsImportedContacts{p}
+	return &TypeContactsImportedContacts{Value: p}
 }
 func (p *PredContactsBlocked) ToType() TL {
-	return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlocked{p}}
+	return &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlocked{p}}
 }
 func (p *PredContactsBlockedSlice) ToType() TL {
-	return &TypeContactsBlocked{&TypeContactsBlocked_ContactsBlockedSlice{p}}
+	return &TypeContactsBlocked{Value: &TypeContactsBlocked_ContactsBlockedSlice{p}}
 }
 func (p *PredContactsFound) ToType() TL {
-	return &TypeContactsFound{p}
+	return &TypeContactsFound{Value: p}
 }
 func (p *PredMessagesDialogs) ToType() TL {
-	return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogs{p}}
+	return &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogs{p}}
 }
 func (p *PredMessagesDialogsSlice) ToType() TL {
-	return &TypeMessagesDialogs{&TypeMessagesDialogs_MessagesDialogsSlice{p}}
+	return &TypeMessagesDialogs{Value: &TypeMessagesDialogs_MessagesDialogsSlice{p}}
 }
 func (p *PredMessagesMessages) ToType() TL {
-	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessages{p}}
+	return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessages{p}}
 }
 func (p *PredMessagesMessagesSlice) ToType() TL {
-	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesMessagesSlice{p}}
+	return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesMessagesSlice{p}}
 }
 func (p *PredMessagesChats) ToType() TL {
-	return &TypeMessagesChats{&TypeMessagesChats_MessagesChats{p}}
+	return &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChats{p}}
 }
 func (p *PredMessagesChatFull) ToType() TL {
-	return &TypeMessagesChatFull{p}
+	return &TypeMessagesChatFull{Value: p}
 }
 func (p *PredMessagesAffectedHistory) ToType() TL {
-	return &TypeMessagesAffectedHistory{p}
+	return &TypeMessagesAffectedHistory{Value: p}
 }
 func (p *PredInputMessagesFilterEmpty) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterEmpty{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterEmpty{p}}
 }
 func (p *PredInputMessagesFilterPhotos) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotos{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotos{p}}
 }
 func (p *PredInputMessagesFilterVideo) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVideo{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVideo{p}}
 }
 func (p *PredInputMessagesFilterPhotoVideo) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideo{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideo{p}}
 }
 func (p *PredUpdateNewMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateNewMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateNewMessage{p}}
 }
 func (p *PredUpdateMessageID) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateMessageID{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateMessageID{p}}
 }
 func (p *PredUpdateDeleteMessages) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateDeleteMessages{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateDeleteMessages{p}}
 }
 func (p *PredUpdateUserTyping) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserTyping{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserTyping{p}}
 }
 func (p *PredUpdateChatUserTyping) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatUserTyping{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatUserTyping{p}}
 }
 func (p *PredUpdateChatParticipants) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatParticipants{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipants{p}}
 }
 func (p *PredUpdateUserStatus) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserStatus{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserStatus{p}}
 }
 func (p *PredUpdateUserName) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserName{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserName{p}}
 }
 func (p *PredUpdateUserPhoto) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserPhoto{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserPhoto{p}}
 }
 func (p *PredUpdateContactRegistered) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateContactRegistered{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateContactRegistered{p}}
 }
 func (p *PredUpdateContactLink) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateContactLink{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateContactLink{p}}
 }
 func (p *PredUpdatesState) ToType() TL {
-	return &TypeUpdatesState{p}
+	return &TypeUpdatesState{Value: p}
 }
 func (p *PredUpdatesDifferenceEmpty) ToType() TL {
-	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceEmpty{p}}
+	return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceEmpty{p}}
 }
 func (p *PredUpdatesDifference) ToType() TL {
-	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifference{p}}
+	return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifference{p}}
 }
 func (p *PredUpdatesDifferenceSlice) ToType() TL {
-	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceSlice{p}}
+	return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceSlice{p}}
 }
 func (p *PredUpdatesTooLong) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdatesTooLong{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdatesTooLong{p}}
 }
 func (p *PredUpdateShortMessage) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdateShortMessage{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdateShortMessage{p}}
 }
 func (p *PredUpdateShortChatMessage) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdateShortChatMessage{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdateShortChatMessage{p}}
 }
 func (p *PredUpdateShort) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdateShort{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdateShort{p}}
 }
 func (p *PredUpdatesCombined) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdatesCombined{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdatesCombined{p}}
 }
 func (p *PredUpdates) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_Updates{p}}
+	return &TypeUpdates{Value: &TypeUpdates_Updates{p}}
 }
 func (p *PredPhotosPhoto) ToType() TL {
-	return &TypePhotosPhoto{p}
+	return &TypePhotosPhoto{Value: p}
 }
 func (p *PredUploadFile) ToType() TL {
-	return &TypeUploadFile{&TypeUploadFile_UploadFile{p}}
+	return &TypeUploadFile{Value: &TypeUploadFile_UploadFile{p}}
 }
 func (p *PredDcOption) ToType() TL {
-	return &TypeDcOption{p}
+	return &TypeDcOption{Value: p}
 }
 func (p *PredConfig) ToType() TL {
-	return &TypeConfig{p}
+	return &TypeConfig{Value: p}
 }
 func (p *PredNearestDc) ToType() TL {
-	return &TypeNearestDc{p}
+	return &TypeNearestDc{Value: p}
 }
 func (p *PredHelpAppUpdate) ToType() TL {
-	return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpAppUpdate{p}}
+	return &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpAppUpdate{p}}
 }
 func (p *PredHelpNoAppUpdate) ToType() TL {
-	return &TypeHelpAppUpdate{&TypeHelpAppUpdate_HelpNoAppUpdate{p}}
+	return &TypeHelpAppUpdate{Value: &TypeHelpAppUpdate_HelpNoAppUpdate{p}}
 }
 func (p *PredHelpInviteText) ToType() TL {
-	return &TypeHelpInviteText{p}
+	return &TypeHelpInviteText{Value: p}
 }
 func (p *PredInputPeerNotifyEventsEmpty) ToType() TL {
-	return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{p}}
+	return &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsEmpty{p}}
 }
 func (p *PredInputPeerNotifyEventsAll) ToType() TL {
-	return &TypeInputPeerNotifyEvents{&TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{p}}
+	return &TypeInputPeerNotifyEvents{Value: &TypeInputPeerNotifyEvents_InputPeerNotifyEventsAll{p}}
 }
 func (p *PredPhotosPhotos) ToType() TL {
-	return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotos{p}}
+	return &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotos{p}}
 }
 func (p *PredPhotosPhotosSlice) ToType() TL {
-	return &TypePhotosPhotos{&TypePhotosPhotos_PhotosPhotosSlice{p}}
+	return &TypePhotosPhotos{Value: &TypePhotosPhotos_PhotosPhotosSlice{p}}
 }
 func (p *PredWallPaperSolid) ToType() TL {
-	return &TypeWallPaper{&TypeWallPaper_WallPaperSolid{p}}
+	return &TypeWallPaper{Value: &TypeWallPaper_WallPaperSolid{p}}
 }
 func (p *PredUpdateNewEncryptedMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateNewEncryptedMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateNewEncryptedMessage{p}}
 }
 func (p *PredUpdateEncryptedChatTyping) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateEncryptedChatTyping{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedChatTyping{p}}
 }
 func (p *PredUpdateEncryption) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateEncryption{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateEncryption{p}}
 }
 func (p *PredUpdateEncryptedMessagesRead) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateEncryptedMessagesRead{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateEncryptedMessagesRead{p}}
 }
 func (p *PredEncryptedChatEmpty) ToType() TL {
-	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatEmpty{p}}
+	return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatEmpty{p}}
 }
 func (p *PredEncryptedChatWaiting) ToType() TL {
-	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatWaiting{p}}
+	return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatWaiting{p}}
 }
 func (p *PredEncryptedChatRequested) ToType() TL {
-	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatRequested{p}}
+	return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatRequested{p}}
 }
 func (p *PredEncryptedChat) ToType() TL {
-	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChat{p}}
+	return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChat{p}}
 }
 func (p *PredEncryptedChatDiscarded) ToType() TL {
-	return &TypeEncryptedChat{&TypeEncryptedChat_EncryptedChatDiscarded{p}}
+	return &TypeEncryptedChat{Value: &TypeEncryptedChat_EncryptedChatDiscarded{p}}
 }
 func (p *PredInputEncryptedChat) ToType() TL {
-	return &TypeInputEncryptedChat{p}
+	return &TypeInputEncryptedChat{Value: p}
 }
 func (p *PredEncryptedFileEmpty) ToType() TL {
-	return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFileEmpty{p}}
+	return &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFileEmpty{p}}
 }
 func (p *PredEncryptedFile) ToType() TL {
-	return &TypeEncryptedFile{&TypeEncryptedFile_EncryptedFile{p}}
+	return &TypeEncryptedFile{Value: &TypeEncryptedFile_EncryptedFile{p}}
 }
 func (p *PredInputEncryptedFileEmpty) ToType() TL {
-	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileEmpty{p}}
+	return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileEmpty{p}}
 }
 func (p *PredInputEncryptedFileUploaded) ToType() TL {
-	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileUploaded{p}}
+	return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileUploaded{p}}
 }
 func (p *PredInputEncryptedFile) ToType() TL {
-	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFile{p}}
+	return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFile{p}}
 }
 func (p *PredInputEncryptedFileLocation) ToType() TL {
-	return &TypeInputFileLocation{&TypeInputFileLocation_InputEncryptedFileLocation{p}}
+	return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputEncryptedFileLocation{p}}
 }
 func (p *PredEncryptedMessage) ToType() TL {
-	return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessage{p}}
+	return &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessage{p}}
 }
 func (p *PredEncryptedMessageService) ToType() TL {
-	return &TypeEncryptedMessage{&TypeEncryptedMessage_EncryptedMessageService{p}}
+	return &TypeEncryptedMessage{Value: &TypeEncryptedMessage_EncryptedMessageService{p}}
 }
 func (p *PredMessagesDhConfigNotModified) ToType() TL {
-	return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfigNotModified{p}}
+	return &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfigNotModified{p}}
 }
 func (p *PredMessagesDhConfig) ToType() TL {
-	return &TypeMessagesDhConfig{&TypeMessagesDhConfig_MessagesDhConfig{p}}
+	return &TypeMessagesDhConfig{Value: &TypeMessagesDhConfig_MessagesDhConfig{p}}
 }
 func (p *PredMessagesSentEncryptedMessage) ToType() TL {
-	return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{p}}
+	return &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedMessage{p}}
 }
 func (p *PredMessagesSentEncryptedFile) ToType() TL {
-	return &TypeMessagesSentEncryptedMessage{&TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{p}}
+	return &TypeMessagesSentEncryptedMessage{Value: &TypeMessagesSentEncryptedMessage_MessagesSentEncryptedFile{p}}
 }
 func (p *PredInputFileBig) ToType() TL {
-	return &TypeInputFile{&TypeInputFile_InputFileBig{p}}
+	return &TypeInputFile{Value: &TypeInputFile_InputFileBig{p}}
 }
 func (p *PredInputEncryptedFileBigUploaded) ToType() TL {
-	return &TypeInputEncryptedFile{&TypeInputEncryptedFile_InputEncryptedFileBigUploaded{p}}
+	return &TypeInputEncryptedFile{Value: &TypeInputEncryptedFile_InputEncryptedFileBigUploaded{p}}
 }
 func (p *PredStorageFilePdf) ToType() TL {
-	return &TypeStorageFileType{&TypeStorageFileType_StorageFilePdf{p}}
+	return &TypeStorageFileType{Value: &TypeStorageFileType_StorageFilePdf{p}}
 }
 func (p *PredInputMessagesFilterDocument) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterDocument{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterDocument{p}}
 }
 func (p *PredInputMessagesFilterPhotoVideoDocuments) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhotoVideoDocuments{p}}
 }
 func (p *PredUpdateChatParticipantAdd) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdd{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdd{p}}
 }
 func (p *PredUpdateChatParticipantDelete) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantDelete{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantDelete{p}}
 }
 func (p *PredUpdateDcOptions) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateDcOptions{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateDcOptions{p}}
 }
 func (p *PredInputMediaUploadedDocument) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaUploadedDocument{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaUploadedDocument{p}}
 }
 func (p *PredInputMediaDocument) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaDocument{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocument{p}}
 }
 func (p *PredMessageMediaDocument) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaDocument{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaDocument{p}}
 }
 func (p *PredInputDocumentEmpty) ToType() TL {
-	return &TypeInputDocument{&TypeInputDocument_InputDocumentEmpty{p}}
+	return &TypeInputDocument{Value: &TypeInputDocument_InputDocumentEmpty{p}}
 }
 func (p *PredInputDocument) ToType() TL {
-	return &TypeInputDocument{&TypeInputDocument_InputDocument{p}}
+	return &TypeInputDocument{Value: &TypeInputDocument_InputDocument{p}}
 }
 func (p *PredInputDocumentFileLocation) ToType() TL {
-	return &TypeInputFileLocation{&TypeInputFileLocation_InputDocumentFileLocation{p}}
+	return &TypeInputFileLocation{Value: &TypeInputFileLocation_InputDocumentFileLocation{p}}
 }
 func (p *PredDocumentEmpty) ToType() TL {
-	return &TypeDocument{&TypeDocument_DocumentEmpty{p}}
+	return &TypeDocument{Value: &TypeDocument_DocumentEmpty{p}}
 }
 func (p *PredDocument) ToType() TL {
-	return &TypeDocument{&TypeDocument_Document{p}}
+	return &TypeDocument{Value: &TypeDocument_Document{p}}
 }
 func (p *PredHelpSupport) ToType() TL {
-	return &TypeHelpSupport{p}
+	return &TypeHelpSupport{Value: p}
 }
 func (p *PredNotifyAll) ToType() TL {
-	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyAll{p}}
+	return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyAll{p}}
 }
 func (p *PredNotifyChats) ToType() TL {
-	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyChats{p}}
+	return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyChats{p}}
 }
 func (p *PredNotifyPeer) ToType() TL {
-	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyPeer{p}}
+	return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyPeer{p}}
 }
 func (p *PredNotifyUsers) ToType() TL {
-	return &TypeNotifyPeer{&TypeNotifyPeer_NotifyUsers{p}}
+	return &TypeNotifyPeer{Value: &TypeNotifyPeer_NotifyUsers{p}}
 }
 func (p *PredUpdateUserBlocked) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserBlocked{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserBlocked{p}}
 }
 func (p *PredUpdateNotifySettings) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateNotifySettings{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateNotifySettings{p}}
 }
 func (p *PredSendMessageTypingAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageTypingAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageTypingAction{p}}
 }
 func (p *PredSendMessageCancelAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageCancelAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageCancelAction{p}}
 }
 func (p *PredSendMessageRecordVideoAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordVideoAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordVideoAction{p}}
 }
 func (p *PredSendMessageUploadVideoAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadVideoAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadVideoAction{p}}
 }
 func (p *PredSendMessageRecordAudioAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordAudioAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordAudioAction{p}}
 }
 func (p *PredSendMessageUploadAudioAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadAudioAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadAudioAction{p}}
 }
 func (p *PredSendMessageUploadPhotoAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadPhotoAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadPhotoAction{p}}
 }
 func (p *PredSendMessageUploadDocumentAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadDocumentAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadDocumentAction{p}}
 }
 func (p *PredSendMessageGeoLocationAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGeoLocationAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGeoLocationAction{p}}
 }
 func (p *PredSendMessageChooseContactAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageChooseContactAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageChooseContactAction{p}}
 }
 func (p *PredUpdateServiceNotification) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateServiceNotification{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateServiceNotification{p}}
 }
 func (p *PredUserStatusRecently) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusRecently{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusRecently{p}}
 }
 func (p *PredUserStatusLastWeek) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusLastWeek{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastWeek{p}}
 }
 func (p *PredUserStatusLastMonth) ToType() TL {
-	return &TypeUserStatus{&TypeUserStatus_UserStatusLastMonth{p}}
+	return &TypeUserStatus{Value: &TypeUserStatus_UserStatusLastMonth{p}}
 }
 func (p *PredUpdatePrivacy) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdatePrivacy{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdatePrivacy{p}}
 }
 func (p *PredInputPrivacyKeyStatusTimestamp) ToType() TL {
-	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{p}}
+	return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyStatusTimestamp{p}}
 }
 func (p *PredPrivacyKeyStatusTimestamp) ToType() TL {
-	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyStatusTimestamp{p}}
+	return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyStatusTimestamp{p}}
 }
 func (p *PredInputPrivacyValueAllowContacts) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowContacts{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowContacts{p}}
 }
 func (p *PredInputPrivacyValueAllowAll) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowAll{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowAll{p}}
 }
 func (p *PredInputPrivacyValueAllowUsers) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueAllowUsers{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueAllowUsers{p}}
 }
 func (p *PredInputPrivacyValueDisallowContacts) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowContacts{p}}
 }
 func (p *PredInputPrivacyValueDisallowAll) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowAll{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowAll{p}}
 }
 func (p *PredInputPrivacyValueDisallowUsers) ToType() TL {
-	return &TypeInputPrivacyRule{&TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{p}}
+	return &TypeInputPrivacyRule{Value: &TypeInputPrivacyRule_InputPrivacyValueDisallowUsers{p}}
 }
 func (p *PredPrivacyValueAllowContacts) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowContacts{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowContacts{p}}
 }
 func (p *PredPrivacyValueAllowAll) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowAll{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowAll{p}}
 }
 func (p *PredPrivacyValueAllowUsers) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueAllowUsers{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueAllowUsers{p}}
 }
 func (p *PredPrivacyValueDisallowContacts) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowContacts{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowContacts{p}}
 }
 func (p *PredPrivacyValueDisallowAll) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowAll{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowAll{p}}
 }
 func (p *PredPrivacyValueDisallowUsers) ToType() TL {
-	return &TypePrivacyRule{&TypePrivacyRule_PrivacyValueDisallowUsers{p}}
+	return &TypePrivacyRule{Value: &TypePrivacyRule_PrivacyValueDisallowUsers{p}}
 }
 func (p *PredAccountPrivacyRules) ToType() TL {
-	return &TypeAccountPrivacyRules{p}
+	return &TypeAccountPrivacyRules{Value: p}
 }
 func (p *PredAccountDaysTTL) ToType() TL {
-	return &TypeAccountDaysTTL{p}
+	return &TypeAccountDaysTTL{Value: p}
 }
 func (p *PredUpdateUserPhone) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateUserPhone{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateUserPhone{p}}
 }
 func (p *PredDisabledFeature) ToType() TL {
-	return &TypeDisabledFeature{p}
+	return &TypeDisabledFeature{Value: p}
 }
 func (p *PredDocumentAttributeImageSize) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeImageSize{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeImageSize{p}}
 }
 func (p *PredDocumentAttributeAnimated) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAnimated{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAnimated{p}}
 }
 func (p *PredDocumentAttributeSticker) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeSticker{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeSticker{p}}
 }
 func (p *PredDocumentAttributeVideo) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeVideo{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeVideo{p}}
 }
 func (p *PredDocumentAttributeAudio) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeAudio{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeAudio{p}}
 }
 func (p *PredDocumentAttributeFilename) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeFilename{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeFilename{p}}
 }
 func (p *PredMessagesStickersNotModified) ToType() TL {
-	return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickersNotModified{p}}
+	return &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickersNotModified{p}}
 }
 func (p *PredMessagesStickers) ToType() TL {
-	return &TypeMessagesStickers{&TypeMessagesStickers_MessagesStickers{p}}
+	return &TypeMessagesStickers{Value: &TypeMessagesStickers_MessagesStickers{p}}
 }
 func (p *PredStickerPack) ToType() TL {
-	return &TypeStickerPack{p}
+	return &TypeStickerPack{Value: p}
 }
 func (p *PredMessagesAllStickersNotModified) ToType() TL {
-	return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickersNotModified{p}}
+	return &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickersNotModified{p}}
 }
 func (p *PredMessagesAllStickers) ToType() TL {
-	return &TypeMessagesAllStickers{&TypeMessagesAllStickers_MessagesAllStickers{p}}
+	return &TypeMessagesAllStickers{Value: &TypeMessagesAllStickers_MessagesAllStickers{p}}
 }
 func (p *PredAccountNoPassword) ToType() TL {
-	return &TypeAccountPassword{&TypeAccountPassword_AccountNoPassword{p}}
+	return &TypeAccountPassword{Value: &TypeAccountPassword_AccountNoPassword{p}}
 }
 func (p *PredAccountPassword) ToType() TL {
-	return &TypeAccountPassword{&TypeAccountPassword_AccountPassword{p}}
+	return &TypeAccountPassword{Value: &TypeAccountPassword_AccountPassword{p}}
 }
 func (p *PredUpdateReadHistoryInbox) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadHistoryInbox{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryInbox{p}}
 }
 func (p *PredUpdateReadHistoryOutbox) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadHistoryOutbox{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadHistoryOutbox{p}}
 }
 func (p *PredMessagesAffectedMessages) ToType() TL {
-	return &TypeMessagesAffectedMessages{p}
+	return &TypeMessagesAffectedMessages{Value: p}
 }
 func (p *PredContactLinkUnknown) ToType() TL {
-	return &TypeContactLink{&TypeContactLink_ContactLinkUnknown{p}}
+	return &TypeContactLink{Value: &TypeContactLink_ContactLinkUnknown{p}}
 }
 func (p *PredContactLinkNone) ToType() TL {
-	return &TypeContactLink{&TypeContactLink_ContactLinkNone{p}}
+	return &TypeContactLink{Value: &TypeContactLink_ContactLinkNone{p}}
 }
 func (p *PredContactLinkHasPhone) ToType() TL {
-	return &TypeContactLink{&TypeContactLink_ContactLinkHasPhone{p}}
+	return &TypeContactLink{Value: &TypeContactLink_ContactLinkHasPhone{p}}
 }
 func (p *PredContactLinkContact) ToType() TL {
-	return &TypeContactLink{&TypeContactLink_ContactLinkContact{p}}
+	return &TypeContactLink{Value: &TypeContactLink_ContactLinkContact{p}}
 }
 func (p *PredUpdateWebPage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateWebPage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateWebPage{p}}
 }
 func (p *PredWebPageEmpty) ToType() TL {
-	return &TypeWebPage{&TypeWebPage_WebPageEmpty{p}}
+	return &TypeWebPage{Value: &TypeWebPage_WebPageEmpty{p}}
 }
 func (p *PredWebPagePending) ToType() TL {
-	return &TypeWebPage{&TypeWebPage_WebPagePending{p}}
+	return &TypeWebPage{Value: &TypeWebPage_WebPagePending{p}}
 }
 func (p *PredWebPage) ToType() TL {
-	return &TypeWebPage{&TypeWebPage_WebPage{p}}
+	return &TypeWebPage{Value: &TypeWebPage_WebPage{p}}
 }
 func (p *PredMessageMediaWebPage) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaWebPage{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaWebPage{p}}
 }
 func (p *PredAuthorization) ToType() TL {
-	return &TypeAuthorization{p}
+	return &TypeAuthorization{Value: p}
 }
 func (p *PredAccountAuthorizations) ToType() TL {
-	return &TypeAccountAuthorizations{p}
+	return &TypeAccountAuthorizations{Value: p}
 }
 func (p *PredAccountPasswordSettings) ToType() TL {
-	return &TypeAccountPasswordSettings{p}
+	return &TypeAccountPasswordSettings{Value: p}
 }
 func (p *PredAccountPasswordInputSettings) ToType() TL {
-	return &TypeAccountPasswordInputSettings{p}
+	return &TypeAccountPasswordInputSettings{Value: p}
 }
 func (p *PredAuthPasswordRecovery) ToType() TL {
-	return &TypeAuthPasswordRecovery{p}
+	return &TypeAuthPasswordRecovery{Value: p}
 }
 func (p *PredInputMediaVenue) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaVenue{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaVenue{p}}
 }
 func (p *PredMessageMediaVenue) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaVenue{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaVenue{p}}
 }
 func (p *PredReceivedNotifyMessage) ToType() TL {
-	return &TypeReceivedNotifyMessage{p}
+	return &TypeReceivedNotifyMessage{Value: p}
 }
 func (p *PredChatInviteEmpty) ToType() TL {
-	return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteEmpty{p}}
+	return &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteEmpty{p}}
 }
 func (p *PredChatInviteExported) ToType() TL {
-	return &TypeExportedChatInvite{&TypeExportedChatInvite_ChatInviteExported{p}}
+	return &TypeExportedChatInvite{Value: &TypeExportedChatInvite_ChatInviteExported{p}}
 }
 func (p *PredChatInviteAlready) ToType() TL {
-	return &TypeChatInvite{&TypeChatInvite_ChatInviteAlready{p}}
+	return &TypeChatInvite{Value: &TypeChatInvite_ChatInviteAlready{p}}
 }
 func (p *PredChatInvite) ToType() TL {
-	return &TypeChatInvite{&TypeChatInvite_ChatInvite{p}}
+	return &TypeChatInvite{Value: &TypeChatInvite_ChatInvite{p}}
 }
 func (p *PredMessageActionChatJoinedByLink) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatJoinedByLink{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatJoinedByLink{p}}
 }
 func (p *PredUpdateReadMessagesContents) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadMessagesContents{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadMessagesContents{p}}
 }
 func (p *PredInputStickerSetEmpty) ToType() TL {
-	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetEmpty{p}}
+	return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetEmpty{p}}
 }
 func (p *PredInputStickerSetID) ToType() TL {
-	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetID{p}}
+	return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetID{p}}
 }
 func (p *PredInputStickerSetShortName) ToType() TL {
-	return &TypeInputStickerSet{&TypeInputStickerSet_InputStickerSetShortName{p}}
+	return &TypeInputStickerSet{Value: &TypeInputStickerSet_InputStickerSetShortName{p}}
 }
 func (p *PredStickerSet) ToType() TL {
-	return &TypeStickerSet{p}
+	return &TypeStickerSet{Value: p}
 }
 func (p *PredMessagesStickerSet) ToType() TL {
-	return &TypeMessagesStickerSet{p}
+	return &TypeMessagesStickerSet{Value: p}
 }
 func (p *PredUser) ToType() TL {
-	return &TypeUser{&TypeUser_User{p}}
+	return &TypeUser{Value: &TypeUser_User{p}}
 }
 func (p *PredBotCommand) ToType() TL {
-	return &TypeBotCommand{p}
+	return &TypeBotCommand{Value: p}
 }
 func (p *PredBotInfo) ToType() TL {
-	return &TypeBotInfo{p}
+	return &TypeBotInfo{Value: p}
 }
 func (p *PredKeyboardButton) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButton{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButton{p}}
 }
 func (p *PredKeyboardButtonRow) ToType() TL {
-	return &TypeKeyboardButtonRow{p}
+	return &TypeKeyboardButtonRow{Value: p}
 }
 func (p *PredReplyKeyboardHide) ToType() TL {
-	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardHide{p}}
+	return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardHide{p}}
 }
 func (p *PredReplyKeyboardForceReply) ToType() TL {
-	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardForceReply{p}}
+	return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardForceReply{p}}
 }
 func (p *PredReplyKeyboardMarkup) ToType() TL {
-	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyKeyboardMarkup{p}}
+	return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyKeyboardMarkup{p}}
 }
 func (p *PredInputMessagesFilterUrl) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterUrl{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterUrl{p}}
 }
 func (p *PredInputPeerUser) ToType() TL {
-	return &TypeInputPeer{&TypeInputPeer_InputPeerUser{p}}
+	return &TypeInputPeer{Value: &TypeInputPeer_InputPeerUser{p}}
 }
 func (p *PredInputUser) ToType() TL {
-	return &TypeInputUser{&TypeInputUser_InputUser{p}}
+	return &TypeInputUser{Value: &TypeInputUser_InputUser{p}}
 }
 func (p *PredMessageEntityUnknown) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUnknown{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUnknown{p}}
 }
 func (p *PredMessageEntityMention) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMention{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMention{p}}
 }
 func (p *PredMessageEntityHashtag) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityHashtag{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityHashtag{p}}
 }
 func (p *PredMessageEntityBotCommand) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBotCommand{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBotCommand{p}}
 }
 func (p *PredMessageEntityUrl) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityUrl{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityUrl{p}}
 }
 func (p *PredMessageEntityEmail) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityEmail{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityEmail{p}}
 }
 func (p *PredMessageEntityBold) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityBold{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityBold{p}}
 }
 func (p *PredMessageEntityItalic) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityItalic{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityItalic{p}}
 }
 func (p *PredMessageEntityCode) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityCode{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityCode{p}}
 }
 func (p *PredMessageEntityPre) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityPre{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityPre{p}}
 }
 func (p *PredMessageEntityTextUrl) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityTextUrl{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityTextUrl{p}}
 }
 func (p *PredUpdateShortSentMessage) ToType() TL {
-	return &TypeUpdates{&TypeUpdates_UpdateShortSentMessage{p}}
+	return &TypeUpdates{Value: &TypeUpdates_UpdateShortSentMessage{p}}
 }
 func (p *PredInputPeerChannel) ToType() TL {
-	return &TypeInputPeer{&TypeInputPeer_InputPeerChannel{p}}
+	return &TypeInputPeer{Value: &TypeInputPeer_InputPeerChannel{p}}
 }
 func (p *PredPeerChannel) ToType() TL {
-	return &TypePeer{&TypePeer_PeerChannel{p}}
+	return &TypePeer{Value: &TypePeer_PeerChannel{p}}
 }
 func (p *PredChannel) ToType() TL {
-	return &TypeChat{&TypeChat_Channel{p}}
+	return &TypeChat{Value: &TypeChat_Channel{p}}
 }
 func (p *PredChannelForbidden) ToType() TL {
-	return &TypeChat{&TypeChat_ChannelForbidden{p}}
+	return &TypeChat{Value: &TypeChat_ChannelForbidden{p}}
 }
 func (p *PredChannelFull) ToType() TL {
-	return &TypeChatFull{&TypeChatFull_ChannelFull{p}}
+	return &TypeChatFull{Value: &TypeChatFull_ChannelFull{p}}
 }
 func (p *PredMessageActionChannelCreate) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChannelCreate{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelCreate{p}}
 }
 func (p *PredMessagesChannelMessages) ToType() TL {
-	return &TypeMessagesMessages{&TypeMessagesMessages_MessagesChannelMessages{p}}
+	return &TypeMessagesMessages{Value: &TypeMessagesMessages_MessagesChannelMessages{p}}
 }
 func (p *PredUpdateChannelTooLong) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannelTooLong{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannelTooLong{p}}
 }
 func (p *PredUpdateChannel) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannel{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannel{p}}
 }
 func (p *PredUpdateNewChannelMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateNewChannelMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateNewChannelMessage{p}}
 }
 func (p *PredUpdateReadChannelInbox) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadChannelInbox{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelInbox{p}}
 }
 func (p *PredUpdateDeleteChannelMessages) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateDeleteChannelMessages{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateDeleteChannelMessages{p}}
 }
 func (p *PredUpdateChannelMessageViews) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannelMessageViews{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannelMessageViews{p}}
 }
 func (p *PredInputChannelEmpty) ToType() TL {
-	return &TypeInputChannel{&TypeInputChannel_InputChannelEmpty{p}}
+	return &TypeInputChannel{Value: &TypeInputChannel_InputChannelEmpty{p}}
 }
 func (p *PredInputChannel) ToType() TL {
-	return &TypeInputChannel{&TypeInputChannel_InputChannel{p}}
+	return &TypeInputChannel{Value: &TypeInputChannel_InputChannel{p}}
 }
 func (p *PredContactsResolvedPeer) ToType() TL {
-	return &TypeContactsResolvedPeer{p}
+	return &TypeContactsResolvedPeer{Value: p}
 }
 func (p *PredMessageRange) ToType() TL {
-	return &TypeMessageRange{p}
+	return &TypeMessageRange{Value: p}
 }
 func (p *PredUpdatesChannelDifferenceEmpty) ToType() TL {
-	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{p}}
+	return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceEmpty{p}}
 }
 func (p *PredUpdatesChannelDifferenceTooLong) ToType() TL {
-	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{p}}
+	return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifferenceTooLong{p}}
 }
 func (p *PredUpdatesChannelDifference) ToType() TL {
-	return &TypeUpdatesChannelDifference{&TypeUpdatesChannelDifference_UpdatesChannelDifference{p}}
+	return &TypeUpdatesChannelDifference{Value: &TypeUpdatesChannelDifference_UpdatesChannelDifference{p}}
 }
 func (p *PredChannelMessagesFilterEmpty) ToType() TL {
-	return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{p}}
+	return &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilterEmpty{p}}
 }
 func (p *PredChannelMessagesFilter) ToType() TL {
-	return &TypeChannelMessagesFilter{&TypeChannelMessagesFilter_ChannelMessagesFilter{p}}
+	return &TypeChannelMessagesFilter{Value: &TypeChannelMessagesFilter_ChannelMessagesFilter{p}}
 }
 func (p *PredChannelParticipant) ToType() TL {
-	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipant{p}}
+	return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipant{p}}
 }
 func (p *PredChannelParticipantSelf) ToType() TL {
-	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantSelf{p}}
+	return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantSelf{p}}
 }
 func (p *PredChannelParticipantCreator) ToType() TL {
-	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantCreator{p}}
+	return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantCreator{p}}
 }
 func (p *PredChannelParticipantsRecent) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsRecent{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsRecent{p}}
 }
 func (p *PredChannelParticipantsAdmins) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsAdmins{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsAdmins{p}}
 }
 func (p *PredChannelParticipantsKicked) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsKicked{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsKicked{p}}
 }
 func (p *PredChannelsChannelParticipants) ToType() TL {
-	return &TypeChannelsChannelParticipants{p}
+	return &TypeChannelsChannelParticipants{Value: p}
 }
 func (p *PredChannelsChannelParticipant) ToType() TL {
-	return &TypeChannelsChannelParticipant{p}
+	return &TypeChannelsChannelParticipant{Value: p}
 }
 func (p *PredTrue) ToType() TL {
-	return &TypeTrue{p}
+	return &TypeTrue{Value: p}
 }
 func (p *PredChatParticipantCreator) ToType() TL {
-	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantCreator{p}}
+	return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantCreator{p}}
 }
 func (p *PredChatParticipantAdmin) ToType() TL {
-	return &TypeChatParticipant{&TypeChatParticipant_ChatParticipantAdmin{p}}
+	return &TypeChatParticipant{Value: &TypeChatParticipant_ChatParticipantAdmin{p}}
 }
 func (p *PredUpdateChatAdmins) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatAdmins{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatAdmins{p}}
 }
 func (p *PredUpdateChatParticipantAdmin) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChatParticipantAdmin{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChatParticipantAdmin{p}}
 }
 func (p *PredMessageActionChatMigrateTo) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChatMigrateTo{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChatMigrateTo{p}}
 }
 func (p *PredMessageActionChannelMigrateFrom) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionChannelMigrateFrom{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionChannelMigrateFrom{p}}
 }
 func (p *PredChannelParticipantsBots) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBots{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBots{p}}
 }
 func (p *PredInputReportReasonSpam) ToType() TL {
-	return &TypeReportReason{&TypeReportReason_InputReportReasonSpam{p}}
+	return &TypeReportReason{Value: &TypeReportReason_InputReportReasonSpam{p}}
 }
 func (p *PredInputReportReasonViolence) ToType() TL {
-	return &TypeReportReason{&TypeReportReason_InputReportReasonViolence{p}}
+	return &TypeReportReason{Value: &TypeReportReason_InputReportReasonViolence{p}}
 }
 func (p *PredInputReportReasonPornography) ToType() TL {
-	return &TypeReportReason{&TypeReportReason_InputReportReasonPornography{p}}
+	return &TypeReportReason{Value: &TypeReportReason_InputReportReasonPornography{p}}
 }
 func (p *PredInputReportReasonOther) ToType() TL {
-	return &TypeReportReason{&TypeReportReason_InputReportReasonOther{p}}
+	return &TypeReportReason{Value: &TypeReportReason_InputReportReasonOther{p}}
 }
 func (p *PredUpdateNewStickerSet) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateNewStickerSet{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateNewStickerSet{p}}
 }
 func (p *PredUpdateStickerSetsOrder) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateStickerSetsOrder{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateStickerSetsOrder{p}}
 }
 func (p *PredUpdateStickerSets) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateStickerSets{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateStickerSets{p}}
 }
 func (p *PredHelpTermsOfService) ToType() TL {
-	return &TypeHelpTermsOfService{p}
+	return &TypeHelpTermsOfService{Value: p}
 }
 func (p *PredFoundGif) ToType() TL {
-	return &TypeFoundGif{&TypeFoundGif_FoundGif{p}}
+	return &TypeFoundGif{Value: &TypeFoundGif_FoundGif{p}}
 }
 func (p *PredInputMediaGifExternal) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaGifExternal{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGifExternal{p}}
 }
 func (p *PredMessagesFoundGifs) ToType() TL {
-	return &TypeMessagesFoundGifs{p}
+	return &TypeMessagesFoundGifs{Value: p}
 }
 func (p *PredInputMessagesFilterGif) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterGif{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterGif{p}}
 }
 func (p *PredUpdateSavedGifs) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateSavedGifs{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateSavedGifs{p}}
 }
 func (p *PredUpdateBotInlineQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotInlineQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineQuery{p}}
 }
 func (p *PredFoundGifCached) ToType() TL {
-	return &TypeFoundGif{&TypeFoundGif_FoundGifCached{p}}
+	return &TypeFoundGif{Value: &TypeFoundGif_FoundGifCached{p}}
 }
 func (p *PredMessagesSavedGifsNotModified) ToType() TL {
-	return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifsNotModified{p}}
+	return &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifsNotModified{p}}
 }
 func (p *PredMessagesSavedGifs) ToType() TL {
-	return &TypeMessagesSavedGifs{&TypeMessagesSavedGifs_MessagesSavedGifs{p}}
+	return &TypeMessagesSavedGifs{Value: &TypeMessagesSavedGifs_MessagesSavedGifs{p}}
 }
 func (p *PredInputBotInlineMessageMediaAuto) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaAuto{p}}
 }
 func (p *PredInputBotInlineMessageText) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageText{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageText{p}}
 }
 func (p *PredInputBotInlineResult) ToType() TL {
-	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResult{p}}
+	return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResult{p}}
 }
 func (p *PredBotInlineMessageMediaAuto) ToType() TL {
-	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaAuto{p}}
+	return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaAuto{p}}
 }
 func (p *PredBotInlineMessageText) ToType() TL {
-	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageText{p}}
+	return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageText{p}}
 }
 func (p *PredBotInlineResult) ToType() TL {
-	return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineResult{p}}
+	return &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineResult{p}}
 }
 func (p *PredMessagesBotResults) ToType() TL {
-	return &TypeMessagesBotResults{p}
+	return &TypeMessagesBotResults{Value: p}
 }
 func (p *PredInputMessagesFilterVoice) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterVoice{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterVoice{p}}
 }
 func (p *PredInputMessagesFilterMusic) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMusic{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMusic{p}}
 }
 func (p *PredUpdateBotInlineSend) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotInlineSend{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotInlineSend{p}}
 }
 func (p *PredInputPrivacyKeyChatInvite) ToType() TL {
-	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyChatInvite{p}}
+	return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyChatInvite{p}}
 }
 func (p *PredPrivacyKeyChatInvite) ToType() TL {
-	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyChatInvite{p}}
+	return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyChatInvite{p}}
 }
 func (p *PredUpdateEditChannelMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateEditChannelMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateEditChannelMessage{p}}
 }
 func (p *PredExportedMessageLink) ToType() TL {
-	return &TypeExportedMessageLink{p}
+	return &TypeExportedMessageLink{Value: p}
 }
 func (p *PredMessageFwdHeader) ToType() TL {
-	return &TypeMessageFwdHeader{p}
+	return &TypeMessageFwdHeader{Value: p}
 }
 func (p *PredMessageActionPinMessage) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionPinMessage{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPinMessage{p}}
 }
 func (p *PredPeerSettings) ToType() TL {
-	return &TypePeerSettings{p}
+	return &TypePeerSettings{Value: p}
 }
 func (p *PredUpdateChannelPinnedMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannelPinnedMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannelPinnedMessage{p}}
 }
 func (p *PredKeyboardButtonUrl) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonUrl{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonUrl{p}}
 }
 func (p *PredKeyboardButtonCallback) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonCallback{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonCallback{p}}
 }
 func (p *PredKeyboardButtonRequestPhone) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestPhone{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestPhone{p}}
 }
 func (p *PredKeyboardButtonRequestGeoLocation) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonRequestGeoLocation{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonRequestGeoLocation{p}}
 }
 func (p *PredAuthCodeTypeSms) ToType() TL {
-	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeSms{p}}
+	return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeSms{p}}
 }
 func (p *PredAuthCodeTypeCall) ToType() TL {
-	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeCall{p}}
+	return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeCall{p}}
 }
 func (p *PredAuthCodeTypeFlashCall) ToType() TL {
-	return &TypeAuthCodeType{&TypeAuthCodeType_AuthCodeTypeFlashCall{p}}
+	return &TypeAuthCodeType{Value: &TypeAuthCodeType_AuthCodeTypeFlashCall{p}}
 }
 func (p *PredAuthSentCodeTypeApp) ToType() TL {
-	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeApp{p}}
+	return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeApp{p}}
 }
 func (p *PredAuthSentCodeTypeSms) ToType() TL {
-	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeSms{p}}
+	return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeSms{p}}
 }
 func (p *PredAuthSentCodeTypeCall) ToType() TL {
-	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeCall{p}}
+	return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeCall{p}}
 }
 func (p *PredAuthSentCodeTypeFlashCall) ToType() TL {
-	return &TypeAuthSentCodeType{&TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{p}}
+	return &TypeAuthSentCodeType{Value: &TypeAuthSentCodeType_AuthSentCodeTypeFlashCall{p}}
 }
 func (p *PredKeyboardButtonSwitchInline) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonSwitchInline{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonSwitchInline{p}}
 }
 func (p *PredReplyInlineMarkup) ToType() TL {
-	return &TypeReplyMarkup{&TypeReplyMarkup_ReplyInlineMarkup{p}}
+	return &TypeReplyMarkup{Value: &TypeReplyMarkup_ReplyInlineMarkup{p}}
 }
 func (p *PredMessagesBotCallbackAnswer) ToType() TL {
-	return &TypeMessagesBotCallbackAnswer{p}
+	return &TypeMessagesBotCallbackAnswer{Value: p}
 }
 func (p *PredUpdateBotCallbackQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotCallbackQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotCallbackQuery{p}}
 }
 func (p *PredMessagesMessageEditData) ToType() TL {
-	return &TypeMessagesMessageEditData{p}
+	return &TypeMessagesMessageEditData{Value: p}
 }
 func (p *PredUpdateEditMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateEditMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateEditMessage{p}}
 }
 func (p *PredInputBotInlineMessageMediaGeo) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaGeo{p}}
 }
 func (p *PredInputBotInlineMessageMediaVenue) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaVenue{p}}
 }
 func (p *PredInputBotInlineMessageMediaContact) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageMediaContact{p}}
 }
 func (p *PredBotInlineMessageMediaGeo) ToType() TL {
-	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaGeo{p}}
+	return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaGeo{p}}
 }
 func (p *PredBotInlineMessageMediaVenue) ToType() TL {
-	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaVenue{p}}
+	return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaVenue{p}}
 }
 func (p *PredBotInlineMessageMediaContact) ToType() TL {
-	return &TypeBotInlineMessage{&TypeBotInlineMessage_BotInlineMessageMediaContact{p}}
+	return &TypeBotInlineMessage{Value: &TypeBotInlineMessage_BotInlineMessageMediaContact{p}}
 }
 func (p *PredInputBotInlineResultPhoto) ToType() TL {
-	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultPhoto{p}}
+	return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultPhoto{p}}
 }
 func (p *PredInputBotInlineResultDocument) ToType() TL {
-	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultDocument{p}}
+	return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultDocument{p}}
 }
 func (p *PredBotInlineMediaResult) ToType() TL {
-	return &TypeBotInlineResult{&TypeBotInlineResult_BotInlineMediaResult{p}}
+	return &TypeBotInlineResult{Value: &TypeBotInlineResult_BotInlineMediaResult{p}}
 }
 func (p *PredInputBotInlineMessageID) ToType() TL {
-	return &TypeInputBotInlineMessageID{p}
+	return &TypeInputBotInlineMessageID{Value: p}
 }
 func (p *PredUpdateInlineBotCallbackQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateInlineBotCallbackQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateInlineBotCallbackQuery{p}}
 }
 func (p *PredInlineBotSwitchPM) ToType() TL {
-	return &TypeInlineBotSwitchPM{p}
+	return &TypeInlineBotSwitchPM{Value: p}
 }
 func (p *PredMessageEntityMentionName) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_MessageEntityMentionName{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_MessageEntityMentionName{p}}
 }
 func (p *PredInputMessageEntityMentionName) ToType() TL {
-	return &TypeMessageEntity{&TypeMessageEntity_InputMessageEntityMentionName{p}}
+	return &TypeMessageEntity{Value: &TypeMessageEntity_InputMessageEntityMentionName{p}}
 }
 func (p *PredMessagesPeerDialogs) ToType() TL {
-	return &TypeMessagesPeerDialogs{p}
+	return &TypeMessagesPeerDialogs{Value: p}
 }
 func (p *PredTopPeer) ToType() TL {
-	return &TypeTopPeer{p}
+	return &TypeTopPeer{Value: p}
 }
 func (p *PredTopPeerCategoryBotsPM) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsPM{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsPM{p}}
 }
 func (p *PredTopPeerCategoryBotsInline) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryBotsInline{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryBotsInline{p}}
 }
 func (p *PredTopPeerCategoryCorrespondents) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryCorrespondents{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryCorrespondents{p}}
 }
 func (p *PredTopPeerCategoryGroups) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryGroups{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryGroups{p}}
 }
 func (p *PredTopPeerCategoryChannels) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryChannels{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryChannels{p}}
 }
 func (p *PredTopPeerCategoryPeers) ToType() TL {
-	return &TypeTopPeerCategoryPeers{p}
+	return &TypeTopPeerCategoryPeers{Value: p}
 }
 func (p *PredContactsTopPeersNotModified) ToType() TL {
-	return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeersNotModified{p}}
+	return &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeersNotModified{p}}
 }
 func (p *PredContactsTopPeers) ToType() TL {
-	return &TypeContactsTopPeers{&TypeContactsTopPeers_ContactsTopPeers{p}}
+	return &TypeContactsTopPeers{Value: &TypeContactsTopPeers_ContactsTopPeers{p}}
 }
 func (p *PredInputMessagesFilterChatPhotos) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterChatPhotos{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterChatPhotos{p}}
 }
 func (p *PredUpdateReadChannelOutbox) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadChannelOutbox{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadChannelOutbox{p}}
 }
 func (p *PredUpdateDraftMessage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateDraftMessage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateDraftMessage{p}}
 }
 func (p *PredDraftMessageEmpty) ToType() TL {
-	return &TypeDraftMessage{&TypeDraftMessage_DraftMessageEmpty{p}}
+	return &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessageEmpty{p}}
 }
 func (p *PredDraftMessage) ToType() TL {
-	return &TypeDraftMessage{&TypeDraftMessage_DraftMessage{p}}
+	return &TypeDraftMessage{Value: &TypeDraftMessage_DraftMessage{p}}
 }
 func (p *PredMessageActionHistoryClear) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionHistoryClear{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionHistoryClear{p}}
 }
 func (p *PredUpdateReadFeaturedStickers) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateReadFeaturedStickers{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateReadFeaturedStickers{p}}
 }
 func (p *PredUpdateRecentStickers) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateRecentStickers{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateRecentStickers{p}}
 }
 func (p *PredMessagesFeaturedStickersNotModified) ToType() TL {
-	return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{p}}
+	return &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickersNotModified{p}}
 }
 func (p *PredMessagesFeaturedStickers) ToType() TL {
-	return &TypeMessagesFeaturedStickers{&TypeMessagesFeaturedStickers_MessagesFeaturedStickers{p}}
+	return &TypeMessagesFeaturedStickers{Value: &TypeMessagesFeaturedStickers_MessagesFeaturedStickers{p}}
 }
 func (p *PredMessagesRecentStickersNotModified) ToType() TL {
-	return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickersNotModified{p}}
+	return &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickersNotModified{p}}
 }
 func (p *PredMessagesRecentStickers) ToType() TL {
-	return &TypeMessagesRecentStickers{&TypeMessagesRecentStickers_MessagesRecentStickers{p}}
+	return &TypeMessagesRecentStickers{Value: &TypeMessagesRecentStickers_MessagesRecentStickers{p}}
 }
 func (p *PredMessagesArchivedStickers) ToType() TL {
-	return &TypeMessagesArchivedStickers{p}
+	return &TypeMessagesArchivedStickers{Value: p}
 }
 func (p *PredMessagesStickerSetInstallResultSuccess) ToType() TL {
-	return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{p}}
+	return &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultSuccess{p}}
 }
 func (p *PredMessagesStickerSetInstallResultArchive) ToType() TL {
-	return &TypeMessagesStickerSetInstallResult{&TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{p}}
+	return &TypeMessagesStickerSetInstallResult{Value: &TypeMessagesStickerSetInstallResult_MessagesStickerSetInstallResultArchive{p}}
 }
 func (p *PredStickerSetCovered) ToType() TL {
-	return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetCovered{p}}
+	return &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetCovered{p}}
 }
 func (p *PredInputMediaPhotoExternal) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaPhotoExternal{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaPhotoExternal{p}}
 }
 func (p *PredInputMediaDocumentExternal) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaDocumentExternal{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaDocumentExternal{p}}
 }
 func (p *PredUpdateConfig) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateConfig{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateConfig{p}}
 }
 func (p *PredUpdatePtsChanged) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdatePtsChanged{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdatePtsChanged{p}}
 }
 func (p *PredMessageActionGameScore) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionGameScore{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionGameScore{p}}
 }
 func (p *PredDocumentAttributeHasStickers) ToType() TL {
-	return &TypeDocumentAttribute{&TypeDocumentAttribute_DocumentAttributeHasStickers{p}}
+	return &TypeDocumentAttribute{Value: &TypeDocumentAttribute_DocumentAttributeHasStickers{p}}
 }
 func (p *PredKeyboardButtonGame) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonGame{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonGame{p}}
 }
 func (p *PredStickerSetMultiCovered) ToType() TL {
-	return &TypeStickerSetCovered{&TypeStickerSetCovered_StickerSetMultiCovered{p}}
+	return &TypeStickerSetCovered{Value: &TypeStickerSetCovered_StickerSetMultiCovered{p}}
 }
 func (p *PredMaskCoords) ToType() TL {
-	return &TypeMaskCoords{p}
+	return &TypeMaskCoords{Value: p}
 }
 func (p *PredInputStickeredMediaPhoto) ToType() TL {
-	return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaPhoto{p}}
+	return &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaPhoto{p}}
 }
 func (p *PredInputStickeredMediaDocument) ToType() TL {
-	return &TypeInputStickeredMedia{&TypeInputStickeredMedia_InputStickeredMediaDocument{p}}
+	return &TypeInputStickeredMedia{Value: &TypeInputStickeredMedia_InputStickeredMediaDocument{p}}
 }
 func (p *PredInputMediaGame) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaGame{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaGame{p}}
 }
 func (p *PredMessageMediaGame) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaGame{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaGame{p}}
 }
 func (p *PredInputBotInlineMessageGame) ToType() TL {
-	return &TypeInputBotInlineMessage{&TypeInputBotInlineMessage_InputBotInlineMessageGame{p}}
+	return &TypeInputBotInlineMessage{Value: &TypeInputBotInlineMessage_InputBotInlineMessageGame{p}}
 }
 func (p *PredInputBotInlineResultGame) ToType() TL {
-	return &TypeInputBotInlineResult{&TypeInputBotInlineResult_InputBotInlineResultGame{p}}
+	return &TypeInputBotInlineResult{Value: &TypeInputBotInlineResult_InputBotInlineResultGame{p}}
 }
 func (p *PredGame) ToType() TL {
-	return &TypeGame{p}
+	return &TypeGame{Value: p}
 }
 func (p *PredInputGameID) ToType() TL {
-	return &TypeInputGame{&TypeInputGame_InputGameID{p}}
+	return &TypeInputGame{Value: &TypeInputGame_InputGameID{p}}
 }
 func (p *PredInputGameShortName) ToType() TL {
-	return &TypeInputGame{&TypeInputGame_InputGameShortName{p}}
+	return &TypeInputGame{Value: &TypeInputGame_InputGameShortName{p}}
 }
 func (p *PredHighScore) ToType() TL {
-	return &TypeHighScore{p}
+	return &TypeHighScore{Value: p}
 }
 func (p *PredMessagesHighScores) ToType() TL {
-	return &TypeMessagesHighScores{p}
+	return &TypeMessagesHighScores{Value: p}
 }
 func (p *PredMessagesChatsSlice) ToType() TL {
-	return &TypeMessagesChats{&TypeMessagesChats_MessagesChatsSlice{p}}
+	return &TypeMessagesChats{Value: &TypeMessagesChats_MessagesChatsSlice{p}}
 }
 func (p *PredUpdateChannelWebPage) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannelWebPage{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannelWebPage{p}}
 }
 func (p *PredUpdatesDifferenceTooLong) ToType() TL {
-	return &TypeUpdatesDifference{&TypeUpdatesDifference_UpdatesDifferenceTooLong{p}}
+	return &TypeUpdatesDifference{Value: &TypeUpdatesDifference_UpdatesDifferenceTooLong{p}}
 }
 func (p *PredSendMessageGamePlayAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageGamePlayAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageGamePlayAction{p}}
 }
 func (p *PredWebPageNotModified) ToType() TL {
-	return &TypeWebPage{&TypeWebPage_WebPageNotModified{p}}
+	return &TypeWebPage{Value: &TypeWebPage_WebPageNotModified{p}}
 }
 func (p *PredTextEmpty) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextEmpty{p}}
+	return &TypeRichText{Value: &TypeRichText_TextEmpty{p}}
 }
 func (p *PredTextPlain) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextPlain{p}}
+	return &TypeRichText{Value: &TypeRichText_TextPlain{p}}
 }
 func (p *PredTextBold) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextBold{p}}
+	return &TypeRichText{Value: &TypeRichText_TextBold{p}}
 }
 func (p *PredTextItalic) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextItalic{p}}
+	return &TypeRichText{Value: &TypeRichText_TextItalic{p}}
 }
 func (p *PredTextUnderline) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextUnderline{p}}
+	return &TypeRichText{Value: &TypeRichText_TextUnderline{p}}
 }
 func (p *PredTextStrike) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextStrike{p}}
+	return &TypeRichText{Value: &TypeRichText_TextStrike{p}}
 }
 func (p *PredTextFixed) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextFixed{p}}
+	return &TypeRichText{Value: &TypeRichText_TextFixed{p}}
 }
 func (p *PredTextUrl) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextUrl{p}}
+	return &TypeRichText{Value: &TypeRichText_TextUrl{p}}
 }
 func (p *PredTextEmail) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextEmail{p}}
+	return &TypeRichText{Value: &TypeRichText_TextEmail{p}}
 }
 func (p *PredTextConcat) ToType() TL {
-	return &TypeRichText{&TypeRichText_TextConcat{p}}
+	return &TypeRichText{Value: &TypeRichText_TextConcat{p}}
 }
 func (p *PredPageBlockTitle) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockTitle{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockTitle{p}}
 }
 func (p *PredPageBlockSubtitle) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockSubtitle{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockSubtitle{p}}
 }
 func (p *PredPageBlockAuthorDate) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockAuthorDate{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockAuthorDate{p}}
 }
 func (p *PredPageBlockHeader) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockHeader{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockHeader{p}}
 }
 func (p *PredPageBlockSubheader) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockSubheader{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockSubheader{p}}
 }
 func (p *PredPageBlockParagraph) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockParagraph{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockParagraph{p}}
 }
 func (p *PredPageBlockPreformatted) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockPreformatted{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockPreformatted{p}}
 }
 func (p *PredPageBlockFooter) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockFooter{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockFooter{p}}
 }
 func (p *PredPageBlockDivider) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockDivider{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockDivider{p}}
 }
 func (p *PredPageBlockList) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockList{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockList{p}}
 }
 func (p *PredPageBlockBlockquote) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockBlockquote{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockBlockquote{p}}
 }
 func (p *PredPageBlockPullquote) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockPullquote{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockPullquote{p}}
 }
 func (p *PredPageBlockPhoto) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockPhoto{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockPhoto{p}}
 }
 func (p *PredPageBlockVideo) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockVideo{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockVideo{p}}
 }
 func (p *PredPageBlockCover) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockCover{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockCover{p}}
 }
 func (p *PredPageBlockEmbed) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockEmbed{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockEmbed{p}}
 }
 func (p *PredPageBlockEmbedPost) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockEmbedPost{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockEmbedPost{p}}
 }
 func (p *PredPageBlockSlideshow) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockSlideshow{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockSlideshow{p}}
 }
 func (p *PredPagePart) ToType() TL {
-	return &TypePage{&TypePage_PagePart{p}}
+	return &TypePage{Value: &TypePage_PagePart{p}}
 }
 func (p *PredPageFull) ToType() TL {
-	return &TypePage{&TypePage_PageFull{p}}
+	return &TypePage{Value: &TypePage_PageFull{p}}
 }
 func (p *PredUpdatePhoneCall) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdatePhoneCall{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdatePhoneCall{p}}
 }
 func (p *PredUpdateDialogPinned) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateDialogPinned{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateDialogPinned{p}}
 }
 func (p *PredUpdatePinnedDialogs) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdatePinnedDialogs{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdatePinnedDialogs{p}}
 }
 func (p *PredInputPrivacyKeyPhoneCall) ToType() TL {
-	return &TypeInputPrivacyKey{&TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{p}}
+	return &TypeInputPrivacyKey{Value: &TypeInputPrivacyKey_InputPrivacyKeyPhoneCall{p}}
 }
 func (p *PredPrivacyKeyPhoneCall) ToType() TL {
-	return &TypePrivacyKey{&TypePrivacyKey_PrivacyKeyPhoneCall{p}}
+	return &TypePrivacyKey{Value: &TypePrivacyKey_PrivacyKeyPhoneCall{p}}
 }
 func (p *PredPageBlockUnsupported) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockUnsupported{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockUnsupported{p}}
 }
 func (p *PredPageBlockAnchor) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockAnchor{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockAnchor{p}}
 }
 func (p *PredPageBlockCollage) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockCollage{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockCollage{p}}
 }
 func (p *PredInputPhoneCall) ToType() TL {
-	return &TypeInputPhoneCall{p}
+	return &TypeInputPhoneCall{Value: p}
 }
 func (p *PredPhoneCallEmpty) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCallEmpty{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallEmpty{p}}
 }
 func (p *PredPhoneCallWaiting) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCallWaiting{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallWaiting{p}}
 }
 func (p *PredPhoneCallRequested) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCallRequested{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallRequested{p}}
 }
 func (p *PredPhoneCall) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCall{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCall{p}}
 }
 func (p *PredPhoneCallDiscarded) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCallDiscarded{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallDiscarded{p}}
 }
 func (p *PredPhoneConnection) ToType() TL {
-	return &TypePhoneConnection{p}
+	return &TypePhoneConnection{Value: p}
 }
 func (p *PredPhoneCallProtocol) ToType() TL {
-	return &TypePhoneCallProtocol{p}
+	return &TypePhoneCallProtocol{Value: p}
 }
 func (p *PredPhonePhoneCall) ToType() TL {
-	return &TypePhonePhoneCall{p}
+	return &TypePhonePhoneCall{Value: p}
 }
 func (p *PredPhoneCallDiscardReasonMissed) ToType() TL {
-	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{p}}
+	return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonMissed{p}}
 }
 func (p *PredPhoneCallDiscardReasonDisconnect) ToType() TL {
-	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{p}}
+	return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonDisconnect{p}}
 }
 func (p *PredPhoneCallDiscardReasonHangup) ToType() TL {
-	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{p}}
+	return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonHangup{p}}
 }
 func (p *PredPhoneCallDiscardReasonBusy) ToType() TL {
-	return &TypePhoneCallDiscardReason{&TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{p}}
+	return &TypePhoneCallDiscardReason{Value: &TypePhoneCallDiscardReason_PhoneCallDiscardReasonBusy{p}}
 }
 func (p *PredInputMessagesFilterPhoneCalls) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterPhoneCalls{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterPhoneCalls{p}}
 }
 func (p *PredMessageActionPhoneCall) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionPhoneCall{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPhoneCall{p}}
 }
 func (p *PredInvoice) ToType() TL {
-	return &TypeInvoice{p}
+	return &TypeInvoice{Value: p}
 }
 func (p *PredInputMediaInvoice) ToType() TL {
-	return &TypeInputMedia{&TypeInputMedia_InputMediaInvoice{p}}
+	return &TypeInputMedia{Value: &TypeInputMedia_InputMediaInvoice{p}}
 }
 func (p *PredMessageActionPaymentSentMe) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSentMe{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSentMe{p}}
 }
 func (p *PredMessageMediaInvoice) ToType() TL {
-	return &TypeMessageMedia{&TypeMessageMedia_MessageMediaInvoice{p}}
+	return &TypeMessageMedia{Value: &TypeMessageMedia_MessageMediaInvoice{p}}
 }
 func (p *PredKeyboardButtonBuy) ToType() TL {
-	return &TypeKeyboardButton{&TypeKeyboardButton_KeyboardButtonBuy{p}}
+	return &TypeKeyboardButton{Value: &TypeKeyboardButton_KeyboardButtonBuy{p}}
 }
 func (p *PredMessageActionPaymentSent) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionPaymentSent{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionPaymentSent{p}}
 }
 func (p *PredPaymentsPaymentForm) ToType() TL {
-	return &TypePaymentsPaymentForm{p}
+	return &TypePaymentsPaymentForm{Value: p}
 }
 func (p *PredPostAddress) ToType() TL {
-	return &TypePostAddress{p}
+	return &TypePostAddress{Value: p}
 }
 func (p *PredPaymentRequestedInfo) ToType() TL {
-	return &TypePaymentRequestedInfo{p}
+	return &TypePaymentRequestedInfo{Value: p}
 }
 func (p *PredUpdateBotWebhookJSON) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSON{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSON{p}}
 }
 func (p *PredUpdateBotWebhookJSONQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotWebhookJSONQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotWebhookJSONQuery{p}}
 }
 func (p *PredUpdateBotShippingQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotShippingQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotShippingQuery{p}}
 }
 func (p *PredUpdateBotPrecheckoutQuery) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateBotPrecheckoutQuery{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateBotPrecheckoutQuery{p}}
 }
 func (p *PredDataJSON) ToType() TL {
-	return &TypeDataJSON{p}
+	return &TypeDataJSON{Value: p}
 }
 func (p *PredLabeledPrice) ToType() TL {
-	return &TypeLabeledPrice{p}
+	return &TypeLabeledPrice{Value: p}
 }
 func (p *PredPaymentCharge) ToType() TL {
-	return &TypePaymentCharge{p}
+	return &TypePaymentCharge{Value: p}
 }
 func (p *PredPaymentSavedCredentialsCard) ToType() TL {
-	return &TypePaymentSavedCredentials{p}
+	return &TypePaymentSavedCredentials{Value: p}
 }
 func (p *PredWebDocument) ToType() TL {
-	return &TypeWebDocument{p}
+	return &TypeWebDocument{Value: p}
 }
 func (p *PredInputWebDocument) ToType() TL {
-	return &TypeInputWebDocument{p}
+	return &TypeInputWebDocument{Value: p}
 }
 func (p *PredInputWebFileLocation) ToType() TL {
-	return &TypeInputWebFileLocation{p}
+	return &TypeInputWebFileLocation{Value: p}
 }
 func (p *PredUploadWebFile) ToType() TL {
-	return &TypeUploadWebFile{p}
+	return &TypeUploadWebFile{Value: p}
 }
 func (p *PredPaymentsValidatedRequestedInfo) ToType() TL {
-	return &TypePaymentsValidatedRequestedInfo{p}
+	return &TypePaymentsValidatedRequestedInfo{Value: p}
 }
 func (p *PredPaymentsPaymentResult) ToType() TL {
-	return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentResult{p}}
+	return &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentResult{p}}
 }
 func (p *PredPaymentsPaymentVerficationNeeded) ToType() TL {
-	return &TypePaymentsPaymentResult{&TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{p}}
+	return &TypePaymentsPaymentResult{Value: &TypePaymentsPaymentResult_PaymentsPaymentVerficationNeeded{p}}
 }
 func (p *PredPaymentsPaymentReceipt) ToType() TL {
-	return &TypePaymentsPaymentReceipt{p}
+	return &TypePaymentsPaymentReceipt{Value: p}
 }
 func (p *PredPaymentsSavedInfo) ToType() TL {
-	return &TypePaymentsSavedInfo{p}
+	return &TypePaymentsSavedInfo{Value: p}
 }
 func (p *PredInputPaymentCredentialsSaved) ToType() TL {
-	return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentialsSaved{p}}
+	return &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentialsSaved{p}}
 }
 func (p *PredInputPaymentCredentials) ToType() TL {
-	return &TypeInputPaymentCredentials{&TypeInputPaymentCredentials_InputPaymentCredentials{p}}
+	return &TypeInputPaymentCredentials{Value: &TypeInputPaymentCredentials_InputPaymentCredentials{p}}
 }
 func (p *PredAccountTmpPassword) ToType() TL {
-	return &TypeAccountTmpPassword{p}
+	return &TypeAccountTmpPassword{Value: p}
 }
 func (p *PredShippingOption) ToType() TL {
-	return &TypeShippingOption{p}
+	return &TypeShippingOption{Value: p}
 }
 func (p *PredPhoneCallAccepted) ToType() TL {
-	return &TypePhoneCall{&TypePhoneCall_PhoneCallAccepted{p}}
+	return &TypePhoneCall{Value: &TypePhoneCall_PhoneCallAccepted{p}}
 }
 func (p *PredInputMessagesFilterRoundVoice) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVoice{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVoice{p}}
 }
 func (p *PredInputMessagesFilterRoundVideo) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterRoundVideo{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterRoundVideo{p}}
 }
 func (p *PredUploadFileCdnRedirect) ToType() TL {
-	return &TypeUploadFile{&TypeUploadFile_UploadFileCdnRedirect{p}}
+	return &TypeUploadFile{Value: &TypeUploadFile_UploadFileCdnRedirect{p}}
 }
 func (p *PredSendMessageRecordRoundAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageRecordRoundAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageRecordRoundAction{p}}
 }
 func (p *PredSendMessageUploadRoundAction) ToType() TL {
-	return &TypeSendMessageAction{&TypeSendMessageAction_SendMessageUploadRoundAction{p}}
+	return &TypeSendMessageAction{Value: &TypeSendMessageAction_SendMessageUploadRoundAction{p}}
 }
 func (p *PredUploadCdnFileReuploadNeeded) ToType() TL {
-	return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFileReuploadNeeded{p}}
+	return &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFileReuploadNeeded{p}}
 }
 func (p *PredUploadCdnFile) ToType() TL {
-	return &TypeUploadCdnFile{&TypeUploadCdnFile_UploadCdnFile{p}}
+	return &TypeUploadCdnFile{Value: &TypeUploadCdnFile_UploadCdnFile{p}}
 }
 func (p *PredCdnPublicKey) ToType() TL {
-	return &TypeCdnPublicKey{p}
+	return &TypeCdnPublicKey{Value: p}
 }
 func (p *PredCdnConfig) ToType() TL {
-	return &TypeCdnConfig{p}
+	return &TypeCdnConfig{Value: p}
 }
 func (p *PredUpdateLangPackTooLong) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateLangPackTooLong{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateLangPackTooLong{p}}
 }
 func (p *PredUpdateLangPack) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateLangPack{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateLangPack{p}}
 }
 func (p *PredPageBlockChannel) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockChannel{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockChannel{p}}
 }
 func (p *PredInputStickerSetItem) ToType() TL {
-	return &TypeInputStickerSetItem{p}
+	return &TypeInputStickerSetItem{Value: p}
 }
 func (p *PredLangPackString) ToType() TL {
-	return &TypeLangPackString{&TypeLangPackString_LangPackString{p}}
+	return &TypeLangPackString{Value: &TypeLangPackString_LangPackString{p}}
 }
 func (p *PredLangPackStringPluralized) ToType() TL {
-	return &TypeLangPackString{&TypeLangPackString_LangPackStringPluralized{p}}
+	return &TypeLangPackString{Value: &TypeLangPackString_LangPackStringPluralized{p}}
 }
 func (p *PredLangPackStringDeleted) ToType() TL {
-	return &TypeLangPackString{&TypeLangPackString_LangPackStringDeleted{p}}
+	return &TypeLangPackString{Value: &TypeLangPackString_LangPackStringDeleted{p}}
 }
 func (p *PredLangPackDifference) ToType() TL {
-	return &TypeLangPackDifference{p}
+	return &TypeLangPackDifference{Value: p}
 }
 func (p *PredLangPackLanguage) ToType() TL {
-	return &TypeLangPackLanguage{p}
+	return &TypeLangPackLanguage{Value: p}
 }
 func (p *PredChannelParticipantAdmin) ToType() TL {
-	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantAdmin{p}}
+	return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantAdmin{p}}
 }
 func (p *PredChannelParticipantBanned) ToType() TL {
-	return &TypeChannelParticipant{&TypeChannelParticipant_ChannelParticipantBanned{p}}
+	return &TypeChannelParticipant{Value: &TypeChannelParticipant_ChannelParticipantBanned{p}}
 }
 func (p *PredChannelParticipantsBanned) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsBanned{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsBanned{p}}
 }
 func (p *PredChannelParticipantsSearch) ToType() TL {
-	return &TypeChannelParticipantsFilter{&TypeChannelParticipantsFilter_ChannelParticipantsSearch{p}}
+	return &TypeChannelParticipantsFilter{Value: &TypeChannelParticipantsFilter_ChannelParticipantsSearch{p}}
 }
 func (p *PredTopPeerCategoryPhoneCalls) ToType() TL {
-	return &TypeTopPeerCategory{&TypeTopPeerCategory_TopPeerCategoryPhoneCalls{p}}
+	return &TypeTopPeerCategory{Value: &TypeTopPeerCategory_TopPeerCategoryPhoneCalls{p}}
 }
 func (p *PredPageBlockAudio) ToType() TL {
-	return &TypePageBlock{&TypePageBlock_PageBlockAudio{p}}
+	return &TypePageBlock{Value: &TypePageBlock_PageBlockAudio{p}}
 }
 func (p *PredChannelAdminRights) ToType() TL {
-	return &TypeChannelAdminRights{p}
+	return &TypeChannelAdminRights{Value: p}
 }
 func (p *PredChannelBannedRights) ToType() TL {
-	return &TypeChannelBannedRights{p}
+	return &TypeChannelBannedRights{Value: p}
 }
 func (p *PredChannelAdminLogEventActionChangeTitle) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeTitle{p}}
 }
 func (p *PredChannelAdminLogEventActionChangeAbout) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeAbout{p}}
 }
 func (p *PredChannelAdminLogEventActionChangeUsername) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeUsername{p}}
 }
 func (p *PredChannelAdminLogEventActionChangePhoto) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangePhoto{p}}
 }
 func (p *PredChannelAdminLogEventActionToggleInvites) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleInvites{p}}
 }
 func (p *PredChannelAdminLogEventActionToggleSignatures) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionToggleSignatures{p}}
 }
 func (p *PredChannelAdminLogEventActionUpdatePinned) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionUpdatePinned{p}}
 }
 func (p *PredChannelAdminLogEventActionEditMessage) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionEditMessage{p}}
 }
 func (p *PredChannelAdminLogEventActionDeleteMessage) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionDeleteMessage{p}}
 }
 func (p *PredChannelAdminLogEventActionParticipantJoin) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantJoin{p}}
 }
 func (p *PredChannelAdminLogEventActionParticipantLeave) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantLeave{p}}
 }
 func (p *PredChannelAdminLogEventActionParticipantInvite) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantInvite{p}}
 }
 func (p *PredChannelAdminLogEventActionParticipantToggleBan) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleBan{p}}
 }
 func (p *PredChannelAdminLogEventActionParticipantToggleAdmin) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionParticipantToggleAdmin{p}}
 }
 func (p *PredChannelAdminLogEvent) ToType() TL {
-	return &TypeChannelAdminLogEvent{p}
+	return &TypeChannelAdminLogEvent{Value: p}
 }
 func (p *PredChannelsAdminLogResults) ToType() TL {
-	return &TypeChannelsAdminLogResults{p}
+	return &TypeChannelsAdminLogResults{Value: p}
 }
 func (p *PredChannelAdminLogEventsFilter) ToType() TL {
-	return &TypeChannelAdminLogEventsFilter{p}
+	return &TypeChannelAdminLogEventsFilter{Value: p}
 }
 func (p *PredMessageActionScreenshotTaken) ToType() TL {
-	return &TypeMessageAction{&TypeMessageAction_MessageActionScreenshotTaken{p}}
+	return &TypeMessageAction{Value: &TypeMessageAction_MessageActionScreenshotTaken{p}}
 }
 func (p *PredPopularContact) ToType() TL {
-	return &TypePopularContact{p}
+	return &TypePopularContact{Value: p}
 }
 func (p *PredCdnFileHash) ToType() TL {
-	return &TypeCdnFileHash{p}
+	return &TypeCdnFileHash{Value: p}
 }
 func (p *PredInputMessagesFilterMyMentions) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentions{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentions{p}}
 }
 func (p *PredInputMessagesFilterMyMentionsUnread) ToType() TL {
-	return &TypeMessagesFilter{&TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{p}}
+	return &TypeMessagesFilter{Value: &TypeMessagesFilter_InputMessagesFilterMyMentionsUnread{p}}
 }
 func (p *PredUpdateContactsReset) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateContactsReset{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateContactsReset{p}}
 }
 func (p *PredChannelAdminLogEventActionChangeStickerSet) ToType() TL {
-	return &TypeChannelAdminLogEventAction{&TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{p}}
+	return &TypeChannelAdminLogEventAction{Value: &TypeChannelAdminLogEventAction_ChannelAdminLogEventActionChangeStickerSet{p}}
 }
 func (p *PredUpdateFavedStickers) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateFavedStickers{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateFavedStickers{p}}
 }
 func (p *PredMessagesFavedStickers) ToType() TL {
-	return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickers{p}}
+	return &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickers{p}}
 }
 func (p *PredMessagesFavedStickersNotModified) ToType() TL {
-	return &TypeMessagesFavedStickers{&TypeMessagesFavedStickers_MessagesFavedStickersNotModified{p}}
+	return &TypeMessagesFavedStickers{Value: &TypeMessagesFavedStickers_MessagesFavedStickersNotModified{p}}
 }
 func (p *PredUpdateChannelReadMessagesContents) ToType() TL {
-	return &TypeUpdate{&TypeUpdate_UpdateChannelReadMessagesContents{p}}
+	return &TypeUpdate{Value: &TypeUpdate_UpdateChannelReadMessagesContents{p}}
 }
 
 func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
@@ -15591,8 +15591,8 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_error:
 		r = &PredError{
-			m.Int(),
-			m.String(),
+			Code: m.Int(),
+			Text: m.String(),
 		}
 
 	case crc_null:
@@ -15606,7 +15606,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPeerChat:
 		r = &PredInputPeerChat{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_inputUserEmpty:
@@ -15617,18 +15617,18 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPhoneContact:
 		r = &PredInputPhoneContact{
-			m.Long(),
-			m.String(),
-			m.String(),
-			m.String(),
+			ClientId:  m.Long(),
+			Phone:     m.String(),
+			FirstName: m.String(),
+			LastName:  m.String(),
 		}
 
 	case crc_inputFile:
 		r = &PredInputFile{
-			m.Long(),
-			m.Int(),
-			m.String(),
-			m.String(),
+			Id:          m.Long(),
+			Parts:       m.Int(),
+			Name:        m.String(),
+			Md5Checksum: m.String(),
 		}
 
 	case crc_inputMediaEmpty:
@@ -15638,33 +15638,33 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaUploadedPhoto{
-			flags,
-			toTypeInputFile(m.Object()),
-			m.String(),
-			toTypeInputDocumentSlice(m.FlaggedVector(flags, 0)),
-			m.FlaggedInt(flags, 1),
+			Flags:      flags,
+			File:       toTypeInputFile(m.Object()),
+			Caption:    m.String(),
+			Stickers:   toTypeInputDocumentSlice(m.FlaggedVector(flags, 0)),
+			TtlSeconds: m.FlaggedInt(flags, 1),
 		}
 
 	case crc_inputMediaPhoto:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaPhoto{
-			flags,
-			toTypeInputPhoto(m.Object()),
-			m.String(),
-			m.FlaggedInt(flags, 0),
+			Flags:      flags,
+			Id:         toTypeInputPhoto(m.Object()),
+			Caption:    m.String(),
+			TtlSeconds: m.FlaggedInt(flags, 0),
 		}
 
 	case crc_inputMediaGeoPoint:
 		r = &PredInputMediaGeoPoint{
-			toTypeInputGeoPoint(m.Object()),
+			GeoPoint: toTypeInputGeoPoint(m.Object()),
 		}
 
 	case crc_inputMediaContact:
 		r = &PredInputMediaContact{
-			m.String(),
-			m.String(),
-			m.String(),
+			PhoneNumber: m.String(),
+			FirstName:   m.String(),
+			LastName:    m.String(),
 		}
 
 	case crc_inputChatPhotoEmpty:
@@ -15672,12 +15672,12 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputChatUploadedPhoto:
 		r = &PredInputChatUploadedPhoto{
-			toTypeInputFile(m.Object()),
+			File: toTypeInputFile(m.Object()),
 		}
 
 	case crc_inputChatPhoto:
 		r = &PredInputChatPhoto{
-			toTypeInputPhoto(m.Object()),
+			Id: toTypeInputPhoto(m.Object()),
 		}
 
 	case crc_inputGeoPointEmpty:
@@ -15685,8 +15685,8 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputGeoPoint:
 		r = &PredInputGeoPoint{
-			m.Double(),
-			m.Double(),
+			Lat:  m.Double(),
+			Long: m.Double(),
 		}
 
 	case crc_inputPhotoEmpty:
@@ -15694,33 +15694,33 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPhoto:
 		r = &PredInputPhoto{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputFileLocation:
 		r = &PredInputFileLocation{
-			m.Long(),
-			m.Int(),
-			m.Long(),
+			VolumeId: m.Long(),
+			LocalId:  m.Int(),
+			Secret:   m.Long(),
 		}
 
 	case crc_inputAppEvent:
 		r = &PredInputAppEvent{
-			m.Double(),
-			m.String(),
-			m.Long(),
-			m.String(),
+			Time: m.Double(),
+			Type: m.String(),
+			Peer: m.Long(),
+			Data: m.String(),
 		}
 
 	case crc_peerUser:
 		r = &PredPeerUser{
-			m.Int(),
+			UserId: m.Int(),
 		}
 
 	case crc_peerChat:
 		r = &PredPeerChat{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_storageFileUnknown:
@@ -15752,22 +15752,22 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_fileLocationUnavailable:
 		r = &PredFileLocationUnavailable{
-			m.Long(),
-			m.Int(),
-			m.Long(),
+			VolumeId: m.Long(),
+			LocalId:  m.Int(),
+			Secret:   m.Long(),
 		}
 
 	case crc_fileLocation:
 		r = &PredFileLocation{
-			m.Int(),
-			m.Long(),
-			m.Int(),
-			m.Long(),
+			DcId:     m.Int(),
+			VolumeId: m.Long(),
+			LocalId:  m.Int(),
+			Secret:   m.Long(),
 		}
 
 	case crc_userEmpty:
 		r = &PredUserEmpty{
-			m.Int(),
+			Id: m.Int(),
 		}
 
 	case crc_userProfilePhotoEmpty:
@@ -15775,9 +15775,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_userProfilePhoto:
 		r = &PredUserProfilePhoto{
-			m.Long(),
-			toTypeFileLocation(m.Object()),
-			toTypeFileLocation(m.Object()),
+			PhotoId:    m.Long(),
+			PhotoSmall: toTypeFileLocation(m.Object()),
+			PhotoBig:   toTypeFileLocation(m.Object()),
 		}
 
 	case crc_userStatusEmpty:
@@ -15785,70 +15785,70 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_userStatusOnline:
 		r = &PredUserStatusOnline{
-			m.Int(),
+			Expires: m.Int(),
 		}
 
 	case crc_userStatusOffline:
 		r = &PredUserStatusOffline{
-			m.Int(),
+			WasOnline: m.Int(),
 		}
 
 	case crc_chatEmpty:
 		r = &PredChatEmpty{
-			m.Int(),
+			Id: m.Int(),
 		}
 
 	case crc_chat:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChat{
-			flags,
-			m.Int(),
-			m.String(),
-			toTypeChatPhoto(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeInputChannel(m.FlaggedObject(flags, 6)),
+			Flags:             flags,
+			Id:                m.Int(),
+			Title:             m.String(),
+			Photo:             toTypeChatPhoto(m.Object()),
+			ParticipantsCount: m.Int(),
+			Date:              m.Int(),
+			Version:           m.Int(),
+			MigratedTo:        toTypeInputChannel(m.FlaggedObject(flags, 6)),
 		}
 
 	case crc_chatForbidden:
 		r = &PredChatForbidden{
-			m.Int(),
-			m.String(),
+			Id:    m.Int(),
+			Title: m.String(),
 		}
 
 	case crc_chatFull:
 		r = &PredChatFull{
-			m.Int(),
-			toTypeChatParticipants(m.Object()),
-			toTypePhoto(m.Object()),
-			toTypePeerNotifySettings(m.Object()),
-			toTypeExportedChatInvite(m.Object()),
-			toTypeBotInfoSlice(m.Vector()),
+			Id:             m.Int(),
+			Participants:   toTypeChatParticipants(m.Object()),
+			ChatPhoto:      toTypePhoto(m.Object()),
+			NotifySettings: toTypePeerNotifySettings(m.Object()),
+			ExportedInvite: toTypeExportedChatInvite(m.Object()),
+			BotInfos:       toTypeBotInfoSlice(m.Vector()),
 		}
 
 	case crc_chatParticipant:
 		r = &PredChatParticipant{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			UserId:    m.Int(),
+			InviterId: m.Int(),
+			Date:      m.Int(),
 		}
 
 	case crc_chatParticipantsForbidden:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChatParticipantsForbidden{
-			flags,
-			m.Int(),
-			toTypeChatParticipant(m.FlaggedObject(flags, 0)),
+			Flags:           flags,
+			ChatId:          m.Int(),
+			SelfParticipant: toTypeChatParticipant(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_chatParticipants:
 		r = &PredChatParticipants{
-			m.Int(),
-			toTypeChatParticipantSlice(m.Vector()),
-			m.Int(),
+			ChatId:       m.Int(),
+			Participants: toTypeChatParticipantSlice(m.Vector()),
+			Version:      m.Int(),
 		}
 
 	case crc_chatPhotoEmpty:
@@ -15856,47 +15856,47 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_chatPhoto:
 		r = &PredChatPhoto{
-			toTypeFileLocation(m.Object()),
-			toTypeFileLocation(m.Object()),
+			PhotoSmall: toTypeFileLocation(m.Object()),
+			PhotoBig:   toTypeFileLocation(m.Object()),
 		}
 
 	case crc_messageEmpty:
 		r = &PredMessageEmpty{
-			m.Int(),
+			Id: m.Int(),
 		}
 
 	case crc_message:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessage{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 8),
-			toTypePeer(m.Object()),
-			toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
-			m.FlaggedInt(flags, 11),
-			m.FlaggedInt(flags, 3),
-			m.Int(),
-			m.String(),
-			toTypeMessageMedia(m.FlaggedObject(flags, 9)),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 6)),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
-			m.FlaggedInt(flags, 10),
-			m.FlaggedInt(flags, 15),
-			m.FlaggedString(flags, 16),
+			Flags:        flags,
+			Id:           m.Int(),
+			FromId:       m.FlaggedInt(flags, 8),
+			ToId:         toTypePeer(m.Object()),
+			FwdFrom:      toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
+			ViaBotId:     m.FlaggedInt(flags, 11),
+			ReplyToMsgId: m.FlaggedInt(flags, 3),
+			Date:         m.Int(),
+			Message:      m.String(),
+			Media:        toTypeMessageMedia(m.FlaggedObject(flags, 9)),
+			ReplyMarkup:  toTypeReplyMarkup(m.FlaggedObject(flags, 6)),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
+			Views:        m.FlaggedInt(flags, 10),
+			EditDate:     m.FlaggedInt(flags, 15),
+			PostAuthor:   m.FlaggedString(flags, 16),
 		}
 
 	case crc_messageService:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageService{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 8),
-			toTypePeer(m.Object()),
-			m.FlaggedInt(flags, 3),
-			m.Int(),
-			toTypeMessageAction(m.Object()),
+			Flags:        flags,
+			Id:           m.Int(),
+			FromId:       m.FlaggedInt(flags, 8),
+			ToId:         toTypePeer(m.Object()),
+			ReplyToMsgId: m.FlaggedInt(flags, 3),
+			Date:         m.Int(),
+			Action:       toTypeMessageAction(m.Object()),
 		}
 
 	case crc_messageMediaEmpty:
@@ -15906,23 +15906,23 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageMediaPhoto{
-			flags,
-			toTypePhoto(m.FlaggedObject(flags, 0)),
-			m.FlaggedString(flags, 1),
-			m.FlaggedInt(flags, 2),
+			Flags:      flags,
+			Photo:      toTypePhoto(m.FlaggedObject(flags, 0)),
+			Caption:    m.FlaggedString(flags, 1),
+			TtlSeconds: m.FlaggedInt(flags, 2),
 		}
 
 	case crc_messageMediaGeo:
 		r = &PredMessageMediaGeo{
-			toTypeGeoPoint(m.Object()),
+			Geo: toTypeGeoPoint(m.Object()),
 		}
 
 	case crc_messageMediaContact:
 		r = &PredMessageMediaContact{
-			m.String(),
-			m.String(),
-			m.String(),
-			m.Int(),
+			PhoneNumber: m.String(),
+			FirstName:   m.String(),
+			LastName:    m.String(),
+			UserId:      m.Int(),
 		}
 
 	case crc_messageMediaUnsupported:
@@ -15933,18 +15933,18 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messageActionChatCreate:
 		r = &PredMessageActionChatCreate{
-			m.String(),
-			m.VectorInt(),
+			Title: m.String(),
+			Users: m.VectorInt(),
 		}
 
 	case crc_messageActionChatEditTitle:
 		r = &PredMessageActionChatEditTitle{
-			m.String(),
+			Title: m.String(),
 		}
 
 	case crc_messageActionChatEditPhoto:
 		r = &PredMessageActionChatEditPhoto{
-			toTypePhoto(m.Object()),
+			Photo: toTypePhoto(m.Object()),
 		}
 
 	case crc_messageActionChatDeletePhoto:
@@ -15952,67 +15952,67 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messageActionChatAddUser:
 		r = &PredMessageActionChatAddUser{
-			m.VectorInt(),
+			Users: m.VectorInt(),
 		}
 
 	case crc_messageActionChatDeleteUser:
 		r = &PredMessageActionChatDeleteUser{
-			m.Int(),
+			UserId: m.Int(),
 		}
 
 	case crc_dialog:
 		flags := m.Flags()
 		_ = flags
 		r = &PredDialog{
-			flags,
-			toTypePeer(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypePeerNotifySettings(m.Object()),
-			m.FlaggedInt(flags, 0),
-			toTypeDraftMessage(m.FlaggedObject(flags, 1)),
+			Flags:               flags,
+			Peer:                toTypePeer(m.Object()),
+			TopMessage:          m.Int(),
+			ReadInboxMaxId:      m.Int(),
+			ReadOutboxMaxId:     m.Int(),
+			UnreadCount:         m.Int(),
+			UnreadMentionsCount: m.Int(),
+			NotifySettings:      toTypePeerNotifySettings(m.Object()),
+			Pts:                 m.FlaggedInt(flags, 0),
+			Draft:               toTypeDraftMessage(m.FlaggedObject(flags, 1)),
 		}
 
 	case crc_photoEmpty:
 		r = &PredPhotoEmpty{
-			m.Long(),
+			Id: m.Long(),
 		}
 
 	case crc_photo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPhoto{
-			flags,
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			toTypePhotoSizeSlice(m.Vector()),
+			Flags:      flags,
+			Id:         m.Long(),
+			AccessHash: m.Long(),
+			Date:       m.Int(),
+			Sizes:      toTypePhotoSizeSlice(m.Vector()),
 		}
 
 	case crc_photoSizeEmpty:
 		r = &PredPhotoSizeEmpty{
-			m.String(),
+			Type: m.String(),
 		}
 
 	case crc_photoSize:
 		r = &PredPhotoSize{
-			m.String(),
-			toTypeFileLocation(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Type:     m.String(),
+			Location: toTypeFileLocation(m.Object()),
+			W:        m.Int(),
+			H:        m.Int(),
+			Size:     m.Int(),
 		}
 
 	case crc_photoCachedSize:
 		r = &PredPhotoCachedSize{
-			m.String(),
-			toTypeFileLocation(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
+			Type:     m.String(),
+			Location: toTypeFileLocation(m.Object()),
+			W:        m.Int(),
+			H:        m.Int(),
+			Bytes:    m.StringBytes(),
 		}
 
 	case crc_geoPointEmpty:
@@ -16020,44 +16020,44 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_geoPoint:
 		r = &PredGeoPoint{
-			m.Double(),
-			m.Double(),
+			Long: m.Double(),
+			Lat:  m.Double(),
 		}
 
 	case crc_authCheckedPhone:
 		r = &PredAuthCheckedPhone{
-			toTypeBool(m.Object()),
+			PhoneRegistered: toTypeBool(m.Object()),
 		}
 
 	case crc_authSentCode:
 		flags := m.Flags()
 		_ = flags
 		r = &PredAuthSentCode{
-			flags,
-			toTypeAuthSentCodeType(m.Object()),
-			m.String(),
-			toTypeAuthCodeType(m.FlaggedObject(flags, 1)),
-			m.FlaggedInt(flags, 2),
+			Flags:         flags,
+			Type:          toTypeAuthSentCodeType(m.Object()),
+			PhoneCodeHash: m.String(),
+			NextType:      toTypeAuthCodeType(m.FlaggedObject(flags, 1)),
+			Timeout:       m.FlaggedInt(flags, 2),
 		}
 
 	case crc_authAuthorization:
 		flags := m.Flags()
 		_ = flags
 		r = &PredAuthAuthorization{
-			flags,
-			m.FlaggedInt(flags, 0),
-			toTypeUser(m.Object()),
+			Flags:       flags,
+			TmpSessions: m.FlaggedInt(flags, 0),
+			User:        toTypeUser(m.Object()),
 		}
 
 	case crc_authExportedAuthorization:
 		r = &PredAuthExportedAuthorization{
-			m.Int(),
-			m.StringBytes(),
+			Id:    m.Int(),
+			Bytes: m.StringBytes(),
 		}
 
 	case crc_inputNotifyPeer:
 		r = &PredInputNotifyPeer{
-			toTypeInputPeer(m.Object()),
+			Peer: toTypeInputPeer(m.Object()),
 		}
 
 	case crc_inputNotifyUsers:
@@ -16073,9 +16073,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputPeerNotifySettings{
-			flags,
-			m.Int(),
-			m.String(),
+			Flags:     flags,
+			MuteUntil: m.Int(),
+			Sound:     m.String(),
 		}
 
 	case crc_peerNotifyEventsEmpty:
@@ -16091,69 +16091,69 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredPeerNotifySettings{
-			flags,
-			m.Int(),
-			m.String(),
+			Flags:     flags,
+			MuteUntil: m.Int(),
+			Sound:     m.String(),
 		}
 
 	case crc_wallPaper:
 		r = &PredWallPaper{
-			m.Int(),
-			m.String(),
-			toTypePhotoSizeSlice(m.Vector()),
-			m.Int(),
+			Id:    m.Int(),
+			Title: m.String(),
+			Sizes: toTypePhotoSizeSlice(m.Vector()),
+			Color: m.Int(),
 		}
 
 	case crc_userFull:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUserFull{
-			flags,
-			toTypeUser(m.Object()),
-			m.FlaggedString(flags, 1),
-			toTypeContactsLink(m.Object()),
-			toTypePhoto(m.FlaggedObject(flags, 2)),
-			toTypePeerNotifySettings(m.Object()),
-			toTypeBotInfo(m.FlaggedObject(flags, 3)),
-			m.Int(),
+			Flags:            flags,
+			User:             toTypeUser(m.Object()),
+			About:            m.FlaggedString(flags, 1),
+			Link:             toTypeContactsLink(m.Object()),
+			ProfilePhoto:     toTypePhoto(m.FlaggedObject(flags, 2)),
+			NotifySettings:   toTypePeerNotifySettings(m.Object()),
+			BotInfo:          toTypeBotInfo(m.FlaggedObject(flags, 3)),
+			CommonChatsCount: m.Int(),
 		}
 
 	case crc_contact:
 		r = &PredContact{
-			m.Int(),
-			toTypeBool(m.Object()),
+			UserId: m.Int(),
+			Mutual: toTypeBool(m.Object()),
 		}
 
 	case crc_importedContact:
 		r = &PredImportedContact{
-			m.Int(),
-			m.Long(),
+			UserId:   m.Int(),
+			ClientId: m.Long(),
 		}
 
 	case crc_contactBlocked:
 		r = &PredContactBlocked{
-			m.Int(),
-			m.Int(),
+			UserId: m.Int(),
+			Date:   m.Int(),
 		}
 
 	case crc_contactStatus:
 		r = &PredContactStatus{
-			m.Int(),
-			toTypeUserStatus(m.Object()),
+			UserId: m.Int(),
+			Status: toTypeUserStatus(m.Object()),
 		}
 
 	case crc_contactsLink:
 		r = &PredContactsLink{
-			toTypeContactLink(m.Object()),
-			toTypeContactLink(m.Object()),
-			toTypeUser(m.Object()),
+			MyLink:      toTypeContactLink(m.Object()),
+			ForeignLink: toTypeContactLink(m.Object()),
+			User:        toTypeUser(m.Object()),
 		}
 
 	case crc_contactsContacts:
 		r = &PredContactsContacts{
-			toTypeContactSlice(m.Vector()),
-			m.Int(),
-			toTypeUserSlice(m.Vector()),
+			Contacts:   toTypeContactSlice(m.Vector()),
+			SavedCount: m.Int(),
+			Users:      toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_contactsContactsNotModified:
@@ -16161,81 +16161,81 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_contactsImportedContacts:
 		r = &PredContactsImportedContacts{
-			toTypeImportedContactSlice(m.Vector()),
-			toTypePopularContactSlice(m.Vector()),
-			m.VectorLong(),
-			toTypeUserSlice(m.Vector()),
+			Imported:       toTypeImportedContactSlice(m.Vector()),
+			PopularInvites: toTypePopularContactSlice(m.Vector()),
+			RetryContacts:  m.VectorLong(),
+			Users:          toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_contactsBlocked:
 		r = &PredContactsBlocked{
-			toTypeContactBlockedSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Blocked: toTypeContactBlockedSlice(m.Vector()),
+			Users:   toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_contactsBlockedSlice:
 		r = &PredContactsBlockedSlice{
-			m.Int(),
-			toTypeContactBlockedSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Count:   m.Int(),
+			Blocked: toTypeContactBlockedSlice(m.Vector()),
+			Users:   toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_contactsFound:
 		r = &PredContactsFound{
-			toTypePeerSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Results: toTypePeerSlice(m.Vector()),
+			Chats:   toTypeChatSlice(m.Vector()),
+			Users:   toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesDialogs:
 		r = &PredMessagesDialogs{
-			toTypeDialogSlice(m.Vector()),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Dialogs:  toTypeDialogSlice(m.Vector()),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesDialogsSlice:
 		r = &PredMessagesDialogsSlice{
-			m.Int(),
-			toTypeDialogSlice(m.Vector()),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Count:    m.Int(),
+			Dialogs:  toTypeDialogSlice(m.Vector()),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesMessages:
 		r = &PredMessagesMessages{
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesMessagesSlice:
 		r = &PredMessagesMessagesSlice{
-			m.Int(),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Count:    m.Int(),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesChats:
 		r = &PredMessagesChats{
-			toTypeChatSlice(m.Vector()),
+			Chats: toTypeChatSlice(m.Vector()),
 		}
 
 	case crc_messagesChatFull:
 		r = &PredMessagesChatFull{
-			toTypeChatFull(m.Object()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			FullChat: toTypeChatFull(m.Object()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesAffectedHistory:
 		r = &PredMessagesAffectedHistory{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
+			Offset:   m.Int(),
 		}
 
 	case crc_inputMessagesFilterEmpty:
@@ -16252,110 +16252,110 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateNewMessage:
 		r = &PredUpdateNewMessage{
-			toTypeMessage(m.Object()),
-			m.Int(),
-			m.Int(),
+			Message:  toTypeMessage(m.Object()),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_updateMessageID:
 		r = &PredUpdateMessageID{
-			m.Int(),
-			m.Long(),
+			Id:       m.Int(),
+			RandomId: m.Long(),
 		}
 
 	case crc_updateDeleteMessages:
 		r = &PredUpdateDeleteMessages{
-			m.VectorInt(),
-			m.Int(),
-			m.Int(),
+			Messages: m.VectorInt(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_updateUserTyping:
 		r = &PredUpdateUserTyping{
-			m.Int(),
-			toTypeSendMessageAction(m.Object()),
+			UserId: m.Int(),
+			Action: toTypeSendMessageAction(m.Object()),
 		}
 
 	case crc_updateChatUserTyping:
 		r = &PredUpdateChatUserTyping{
-			m.Int(),
-			m.Int(),
-			toTypeSendMessageAction(m.Object()),
+			ChatId: m.Int(),
+			UserId: m.Int(),
+			Action: toTypeSendMessageAction(m.Object()),
 		}
 
 	case crc_updateChatParticipants:
 		r = &PredUpdateChatParticipants{
-			toTypeChatParticipants(m.Object()),
+			Participants: toTypeChatParticipants(m.Object()),
 		}
 
 	case crc_updateUserStatus:
 		r = &PredUpdateUserStatus{
-			m.Int(),
-			toTypeUserStatus(m.Object()),
+			UserId: m.Int(),
+			Status: toTypeUserStatus(m.Object()),
 		}
 
 	case crc_updateUserName:
 		r = &PredUpdateUserName{
-			m.Int(),
-			m.String(),
-			m.String(),
-			m.String(),
+			UserId:    m.Int(),
+			FirstName: m.String(),
+			LastName:  m.String(),
+			Username:  m.String(),
 		}
 
 	case crc_updateUserPhoto:
 		r = &PredUpdateUserPhoto{
-			m.Int(),
-			m.Int(),
-			toTypeUserProfilePhoto(m.Object()),
-			toTypeBool(m.Object()),
+			UserId:   m.Int(),
+			Date:     m.Int(),
+			Photo:    toTypeUserProfilePhoto(m.Object()),
+			Previous: toTypeBool(m.Object()),
 		}
 
 	case crc_updateContactRegistered:
 		r = &PredUpdateContactRegistered{
-			m.Int(),
-			m.Int(),
+			UserId: m.Int(),
+			Date:   m.Int(),
 		}
 
 	case crc_updateContactLink:
 		r = &PredUpdateContactLink{
-			m.Int(),
-			toTypeContactLink(m.Object()),
-			toTypeContactLink(m.Object()),
+			UserId:      m.Int(),
+			MyLink:      toTypeContactLink(m.Object()),
+			ForeignLink: toTypeContactLink(m.Object()),
 		}
 
 	case crc_updatesState:
 		r = &PredUpdatesState{
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Pts:         m.Int(),
+			Qts:         m.Int(),
+			Date:        m.Int(),
+			Seq:         m.Int(),
+			UnreadCount: m.Int(),
 		}
 
 	case crc_updatesDifferenceEmpty:
 		r = &PredUpdatesDifferenceEmpty{
-			m.Int(),
-			m.Int(),
+			Date: m.Int(),
+			Seq:  m.Int(),
 		}
 
 	case crc_updatesDifference:
 		r = &PredUpdatesDifference{
-			toTypeMessageSlice(m.Vector()),
-			toTypeEncryptedMessageSlice(m.Vector()),
-			toTypeUpdateSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
-			toTypeUpdatesState(m.Object()),
+			NewMessages:          toTypeMessageSlice(m.Vector()),
+			NewEncryptedMessages: toTypeEncryptedMessageSlice(m.Vector()),
+			OtherUpdates:         toTypeUpdateSlice(m.Vector()),
+			Chats:                toTypeChatSlice(m.Vector()),
+			Users:                toTypeUserSlice(m.Vector()),
+			State:                toTypeUpdatesState(m.Object()),
 		}
 
 	case crc_updatesDifferenceSlice:
 		r = &PredUpdatesDifferenceSlice{
-			toTypeMessageSlice(m.Vector()),
-			toTypeEncryptedMessageSlice(m.Vector()),
-			toTypeUpdateSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
-			toTypeUpdatesState(m.Object()),
+			NewMessages:          toTypeMessageSlice(m.Vector()),
+			NewEncryptedMessages: toTypeEncryptedMessageSlice(m.Vector()),
+			OtherUpdates:         toTypeUpdateSlice(m.Vector()),
+			Chats:                toTypeChatSlice(m.Vector()),
+			Users:                toTypeUserSlice(m.Vector()),
+			IntermediateState:    toTypeUpdatesState(m.Object()),
 		}
 
 	case crc_updatesTooLong:
@@ -16365,137 +16365,137 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateShortMessage{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.String(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
-			m.FlaggedInt(flags, 11),
-			m.FlaggedInt(flags, 3),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
+			Flags:        flags,
+			Id:           m.Int(),
+			UserId:       m.Int(),
+			Message:      m.String(),
+			Pts:          m.Int(),
+			PtsCount:     m.Int(),
+			Date:         m.Int(),
+			FwdFrom:      toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
+			ViaBotId:     m.FlaggedInt(flags, 11),
+			ReplyToMsgId: m.FlaggedInt(flags, 3),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
 		}
 
 	case crc_updateShortChatMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateShortChatMessage{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.String(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
-			m.FlaggedInt(flags, 11),
-			m.FlaggedInt(flags, 3),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
+			Flags:        flags,
+			Id:           m.Int(),
+			FromId:       m.Int(),
+			ChatId:       m.Int(),
+			Message:      m.String(),
+			Pts:          m.Int(),
+			PtsCount:     m.Int(),
+			Date:         m.Int(),
+			FwdFrom:      toTypeMessageFwdHeader(m.FlaggedObject(flags, 2)),
+			ViaBotId:     m.FlaggedInt(flags, 11),
+			ReplyToMsgId: m.FlaggedInt(flags, 3),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
 		}
 
 	case crc_updateShort:
 		r = &PredUpdateShort{
-			toTypeUpdate(m.Object()),
-			m.Int(),
+			Update: toTypeUpdate(m.Object()),
+			Date:   m.Int(),
 		}
 
 	case crc_updatesCombined:
 		r = &PredUpdatesCombined{
-			toTypeUpdateSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Updates:  toTypeUpdateSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Date:     m.Int(),
+			SeqStart: m.Int(),
+			Seq:      m.Int(),
 		}
 
 	case crc_updates:
 		r = &PredUpdates{
-			toTypeUpdateSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			m.Int(),
-			m.Int(),
+			Updates: toTypeUpdateSlice(m.Vector()),
+			Users:   toTypeUserSlice(m.Vector()),
+			Chats:   toTypeChatSlice(m.Vector()),
+			Date:    m.Int(),
+			Seq:     m.Int(),
 		}
 
 	case crc_photosPhoto:
 		r = &PredPhotosPhoto{
-			toTypePhoto(m.Object()),
-			toTypeUserSlice(m.Vector()),
+			Photo: toTypePhoto(m.Object()),
+			Users: toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_uploadFile:
 		r = &PredUploadFile{
-			toTypeStorageFileType(m.Object()),
-			m.Int(),
-			m.StringBytes(),
+			Type:  toTypeStorageFileType(m.Object()),
+			Mtime: m.Int(),
+			Bytes: m.StringBytes(),
 		}
 
 	case crc_dcOption:
 		flags := m.Flags()
 		_ = flags
 		r = &PredDcOption{
-			flags,
-			m.Int(),
-			m.String(),
-			m.Int(),
+			Flags:     flags,
+			Id:        m.Int(),
+			IpAddress: m.String(),
+			Port:      m.Int(),
 		}
 
 	case crc_config:
 		flags := m.Flags()
 		_ = flags
 		r = &PredConfig{
-			flags,
-			m.Int(),
-			m.Int(),
-			toTypeBool(m.Object()),
-			m.Int(),
-			toTypeDcOptionSlice(m.Vector()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.FlaggedInt(flags, 0),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.String(),
-			m.FlaggedString(flags, 2),
-			m.FlaggedInt(flags, 2),
-			toTypeDisabledFeatureSlice(m.Vector()),
+			Flags:                 flags,
+			Date:                  m.Int(),
+			Expires:               m.Int(),
+			TestMode:              toTypeBool(m.Object()),
+			ThisDc:                m.Int(),
+			DcOptions:             toTypeDcOptionSlice(m.Vector()),
+			ChatSizeMax:           m.Int(),
+			MegagroupSizeMax:      m.Int(),
+			ForwardedCountMax:     m.Int(),
+			OnlineUpdatePeriodMs:  m.Int(),
+			OfflineBlurTimeoutMs:  m.Int(),
+			OfflineIdleTimeoutMs:  m.Int(),
+			OnlineCloudTimeoutMs:  m.Int(),
+			NotifyCloudDelayMs:    m.Int(),
+			NotifyDefaultDelayMs:  m.Int(),
+			ChatBigSize:           m.Int(),
+			PushChatPeriodMs:      m.Int(),
+			PushChatLimit:         m.Int(),
+			SavedGifsLimit:        m.Int(),
+			EditTimeLimit:         m.Int(),
+			RatingEDecay:          m.Int(),
+			StickersRecentLimit:   m.Int(),
+			StickersFavedLimit:    m.Int(),
+			TmpSessions:           m.FlaggedInt(flags, 0),
+			PinnedDialogsCountMax: m.Int(),
+			CallReceiveTimeoutMs:  m.Int(),
+			CallRingTimeoutMs:     m.Int(),
+			CallConnectTimeoutMs:  m.Int(),
+			CallPacketTimeoutMs:   m.Int(),
+			MeUrlPrefix:           m.String(),
+			SuggestedLangCode:     m.FlaggedString(flags, 2),
+			LangPackVersion:       m.FlaggedInt(flags, 2),
+			DisabledFeatures:      toTypeDisabledFeatureSlice(m.Vector()),
 		}
 
 	case crc_nearestDc:
 		r = &PredNearestDc{
-			m.String(),
-			m.Int(),
-			m.Int(),
+			Country:   m.String(),
+			ThisDc:    m.Int(),
+			NearestDc: m.Int(),
 		}
 
 	case crc_helpAppUpdate:
 		r = &PredHelpAppUpdate{
-			m.Int(),
-			toTypeBool(m.Object()),
-			m.String(),
-			m.String(),
+			Id:       m.Int(),
+			Critical: toTypeBool(m.Object()),
+			Url:      m.String(),
+			Text:     m.String(),
 		}
 
 	case crc_helpNoAppUpdate:
@@ -16503,7 +16503,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_helpInviteText:
 		r = &PredHelpInviteText{
-			m.String(),
+			Message: m.String(),
 		}
 
 	case crc_inputPeerNotifyEventsEmpty:
@@ -16514,93 +16514,93 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_photosPhotos:
 		r = &PredPhotosPhotos{
-			toTypePhotoSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Photos: toTypePhotoSlice(m.Vector()),
+			Users:  toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_photosPhotosSlice:
 		r = &PredPhotosPhotosSlice{
-			m.Int(),
-			toTypePhotoSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Count:  m.Int(),
+			Photos: toTypePhotoSlice(m.Vector()),
+			Users:  toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_wallPaperSolid:
 		r = &PredWallPaperSolid{
-			m.Int(),
-			m.String(),
-			m.Int(),
-			m.Int(),
+			Id:      m.Int(),
+			Title:   m.String(),
+			BgColor: m.Int(),
+			Color:   m.Int(),
 		}
 
 	case crc_updateNewEncryptedMessage:
 		r = &PredUpdateNewEncryptedMessage{
-			toTypeEncryptedMessage(m.Object()),
-			m.Int(),
+			Message: toTypeEncryptedMessage(m.Object()),
+			Qts:     m.Int(),
 		}
 
 	case crc_updateEncryptedChatTyping:
 		r = &PredUpdateEncryptedChatTyping{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_updateEncryption:
 		r = &PredUpdateEncryption{
-			toTypeEncryptedChat(m.Object()),
-			m.Int(),
+			Chat: toTypeEncryptedChat(m.Object()),
+			Date: m.Int(),
 		}
 
 	case crc_updateEncryptedMessagesRead:
 		r = &PredUpdateEncryptedMessagesRead{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			ChatId:  m.Int(),
+			MaxDate: m.Int(),
+			Date:    m.Int(),
 		}
 
 	case crc_encryptedChatEmpty:
 		r = &PredEncryptedChatEmpty{
-			m.Int(),
+			Id: m.Int(),
 		}
 
 	case crc_encryptedChatWaiting:
 		r = &PredEncryptedChatWaiting{
-			m.Int(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Id:            m.Int(),
+			AccessHash:    m.Long(),
+			Date:          m.Int(),
+			AdminId:       m.Int(),
+			ParticipantId: m.Int(),
 		}
 
 	case crc_encryptedChatRequested:
 		r = &PredEncryptedChatRequested{
-			m.Int(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
+			Id:            m.Int(),
+			AccessHash:    m.Long(),
+			Date:          m.Int(),
+			AdminId:       m.Int(),
+			ParticipantId: m.Int(),
+			GA:            m.StringBytes(),
 		}
 
 	case crc_encryptedChat:
 		r = &PredEncryptedChat{
-			m.Int(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
-			m.Long(),
+			Id:             m.Int(),
+			AccessHash:     m.Long(),
+			Date:           m.Int(),
+			AdminId:        m.Int(),
+			ParticipantId:  m.Int(),
+			GAOrB:          m.StringBytes(),
+			KeyFingerprint: m.Long(),
 		}
 
 	case crc_encryptedChatDiscarded:
 		r = &PredEncryptedChatDiscarded{
-			m.Int(),
+			Id: m.Int(),
 		}
 
 	case crc_inputEncryptedChat:
 		r = &PredInputEncryptedChat{
-			m.Int(),
-			m.Long(),
+			ChatId:     m.Int(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_encryptedFileEmpty:
@@ -16608,11 +16608,11 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_encryptedFile:
 		r = &PredEncryptedFile{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Id:             m.Long(),
+			AccessHash:     m.Long(),
+			Size:           m.Int(),
+			DcId:           m.Int(),
+			KeyFingerprint: m.Int(),
 		}
 
 	case crc_inputEncryptedFileEmpty:
@@ -16620,77 +16620,77 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputEncryptedFileUploaded:
 		r = &PredInputEncryptedFileUploaded{
-			m.Long(),
-			m.Int(),
-			m.String(),
-			m.Int(),
+			Id:             m.Long(),
+			Parts:          m.Int(),
+			Md5Checksum:    m.String(),
+			KeyFingerprint: m.Int(),
 		}
 
 	case crc_inputEncryptedFile:
 		r = &PredInputEncryptedFile{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputEncryptedFileLocation:
 		r = &PredInputEncryptedFileLocation{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_encryptedMessage:
 		r = &PredEncryptedMessage{
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
-			toTypeEncryptedFile(m.Object()),
+			RandomId: m.Long(),
+			ChatId:   m.Int(),
+			Date:     m.Int(),
+			Bytes:    m.StringBytes(),
+			File:     toTypeEncryptedFile(m.Object()),
 		}
 
 	case crc_encryptedMessageService:
 		r = &PredEncryptedMessageService{
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
+			RandomId: m.Long(),
+			ChatId:   m.Int(),
+			Date:     m.Int(),
+			Bytes:    m.StringBytes(),
 		}
 
 	case crc_messagesDhConfigNotModified:
 		r = &PredMessagesDhConfigNotModified{
-			m.StringBytes(),
+			Random: m.StringBytes(),
 		}
 
 	case crc_messagesDhConfig:
 		r = &PredMessagesDhConfig{
-			m.Int(),
-			m.StringBytes(),
-			m.Int(),
-			m.StringBytes(),
+			G:       m.Int(),
+			P:       m.StringBytes(),
+			Version: m.Int(),
+			Random:  m.StringBytes(),
 		}
 
 	case crc_messagesSentEncryptedMessage:
 		r = &PredMessagesSentEncryptedMessage{
-			m.Int(),
+			Date: m.Int(),
 		}
 
 	case crc_messagesSentEncryptedFile:
 		r = &PredMessagesSentEncryptedFile{
-			m.Int(),
-			toTypeEncryptedFile(m.Object()),
+			Date: m.Int(),
+			File: toTypeEncryptedFile(m.Object()),
 		}
 
 	case crc_inputFileBig:
 		r = &PredInputFileBig{
-			m.Long(),
-			m.Int(),
-			m.String(),
+			Id:    m.Long(),
+			Parts: m.Int(),
+			Name:  m.String(),
 		}
 
 	case crc_inputEncryptedFileBigUploaded:
 		r = &PredInputEncryptedFileBigUploaded{
-			m.Long(),
-			m.Int(),
-			m.Int(),
+			Id:             m.Long(),
+			Parts:          m.Int(),
+			KeyFingerprint: m.Int(),
 		}
 
 	case crc_storageFilePdf:
@@ -16704,57 +16704,57 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateChatParticipantAdd:
 		r = &PredUpdateChatParticipantAdd{
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			ChatId:    m.Int(),
+			UserId:    m.Int(),
+			InviterId: m.Int(),
+			Date:      m.Int(),
+			Version:   m.Int(),
 		}
 
 	case crc_updateChatParticipantDelete:
 		r = &PredUpdateChatParticipantDelete{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			ChatId:  m.Int(),
+			UserId:  m.Int(),
+			Version: m.Int(),
 		}
 
 	case crc_updateDcOptions:
 		r = &PredUpdateDcOptions{
-			toTypeDcOptionSlice(m.Vector()),
+			DcOptions: toTypeDcOptionSlice(m.Vector()),
 		}
 
 	case crc_inputMediaUploadedDocument:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaUploadedDocument{
-			flags,
-			toTypeInputFile(m.Object()),
-			toTypeInputFile(m.FlaggedObject(flags, 2)),
-			m.String(),
-			toTypeDocumentAttributeSlice(m.Vector()),
-			m.String(),
-			toTypeInputDocumentSlice(m.FlaggedVector(flags, 0)),
-			m.FlaggedInt(flags, 1),
+			Flags:      flags,
+			File:       toTypeInputFile(m.Object()),
+			Thumb:      toTypeInputFile(m.FlaggedObject(flags, 2)),
+			MimeType:   m.String(),
+			Attributes: toTypeDocumentAttributeSlice(m.Vector()),
+			Caption:    m.String(),
+			Stickers:   toTypeInputDocumentSlice(m.FlaggedVector(flags, 0)),
+			TtlSeconds: m.FlaggedInt(flags, 1),
 		}
 
 	case crc_inputMediaDocument:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaDocument{
-			flags,
-			toTypeInputDocument(m.Object()),
-			m.String(),
-			m.FlaggedInt(flags, 0),
+			Flags:      flags,
+			Id:         toTypeInputDocument(m.Object()),
+			Caption:    m.String(),
+			TtlSeconds: m.FlaggedInt(flags, 0),
 		}
 
 	case crc_messageMediaDocument:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageMediaDocument{
-			flags,
-			toTypeDocument(m.FlaggedObject(flags, 0)),
-			m.FlaggedString(flags, 1),
-			m.FlaggedInt(flags, 2),
+			Flags:      flags,
+			Document:   toTypeDocument(m.FlaggedObject(flags, 0)),
+			Caption:    m.FlaggedString(flags, 1),
+			TtlSeconds: m.FlaggedInt(flags, 2),
 		}
 
 	case crc_inputDocumentEmpty:
@@ -16762,39 +16762,39 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputDocument:
 		r = &PredInputDocument{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputDocumentFileLocation:
 		r = &PredInputDocumentFileLocation{
-			m.Long(),
-			m.Long(),
-			m.Int(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
+			Version:    m.Int(),
 		}
 
 	case crc_documentEmpty:
 		r = &PredDocumentEmpty{
-			m.Long(),
+			Id: m.Long(),
 		}
 
 	case crc_document:
 		r = &PredDocument{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.String(),
-			m.Int(),
-			toTypePhotoSize(m.Object()),
-			m.Int(),
-			m.Int(),
-			toTypeDocumentAttributeSlice(m.Vector()),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
+			Date:       m.Int(),
+			MimeType:   m.String(),
+			Size:       m.Int(),
+			Thumb:      toTypePhotoSize(m.Object()),
+			DcId:       m.Int(),
+			Version:    m.Int(),
+			Attributes: toTypeDocumentAttributeSlice(m.Vector()),
 		}
 
 	case crc_helpSupport:
 		r = &PredHelpSupport{
-			m.String(),
-			toTypeUser(m.Object()),
+			PhoneNumber: m.String(),
+			User:        toTypeUser(m.Object()),
 		}
 
 	case crc_notifyAll:
@@ -16805,7 +16805,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_notifyPeer:
 		r = &PredNotifyPeer{
-			toTypePeer(m.Object()),
+			Peer: toTypePeer(m.Object()),
 		}
 
 	case crc_notifyUsers:
@@ -16813,14 +16813,14 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateUserBlocked:
 		r = &PredUpdateUserBlocked{
-			m.Int(),
-			toTypeBool(m.Object()),
+			UserId:  m.Int(),
+			Blocked: toTypeBool(m.Object()),
 		}
 
 	case crc_updateNotifySettings:
 		r = &PredUpdateNotifySettings{
-			toTypeNotifyPeer(m.Object()),
-			toTypePeerNotifySettings(m.Object()),
+			Peer:           toTypeNotifyPeer(m.Object()),
+			NotifySettings: toTypePeerNotifySettings(m.Object()),
 		}
 
 	case crc_sendMessageTypingAction:
@@ -16834,7 +16834,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_sendMessageUploadVideoAction:
 		r = &PredSendMessageUploadVideoAction{
-			m.Int(),
+			Progress: m.Int(),
 		}
 
 	case crc_sendMessageRecordAudioAction:
@@ -16842,17 +16842,17 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_sendMessageUploadAudioAction:
 		r = &PredSendMessageUploadAudioAction{
-			m.Int(),
+			Progress: m.Int(),
 		}
 
 	case crc_sendMessageUploadPhotoAction:
 		r = &PredSendMessageUploadPhotoAction{
-			m.Int(),
+			Progress: m.Int(),
 		}
 
 	case crc_sendMessageUploadDocumentAction:
 		r = &PredSendMessageUploadDocumentAction{
-			m.Int(),
+			Progress: m.Int(),
 		}
 
 	case crc_sendMessageGeoLocationAction:
@@ -16865,12 +16865,12 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateServiceNotification{
-			flags,
-			m.FlaggedInt(flags, 1),
-			m.String(),
-			m.String(),
-			toTypeMessageMedia(m.Object()),
-			toTypeMessageEntitySlice(m.Vector()),
+			Flags:     flags,
+			InboxDate: m.FlaggedInt(flags, 1),
+			Type:      m.String(),
+			Message:   m.String(),
+			Media:     toTypeMessageMedia(m.Object()),
+			Entities:  toTypeMessageEntitySlice(m.Vector()),
 		}
 
 	case crc_userStatusRecently:
@@ -16884,8 +16884,8 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updatePrivacy:
 		r = &PredUpdatePrivacy{
-			toTypePrivacyKey(m.Object()),
-			toTypePrivacyRuleSlice(m.Vector()),
+			Key:   toTypePrivacyKey(m.Object()),
+			Rules: toTypePrivacyRuleSlice(m.Vector()),
 		}
 
 	case crc_inputPrivacyKeyStatusTimestamp:
@@ -16902,7 +16902,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPrivacyValueAllowUsers:
 		r = &PredInputPrivacyValueAllowUsers{
-			toTypeInputUserSlice(m.Vector()),
+			Users: toTypeInputUserSlice(m.Vector()),
 		}
 
 	case crc_inputPrivacyValueDisallowContacts:
@@ -16913,7 +16913,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPrivacyValueDisallowUsers:
 		r = &PredInputPrivacyValueDisallowUsers{
-			toTypeInputUserSlice(m.Vector()),
+			Users: toTypeInputUserSlice(m.Vector()),
 		}
 
 	case crc_privacyValueAllowContacts:
@@ -16924,7 +16924,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_privacyValueAllowUsers:
 		r = &PredPrivacyValueAllowUsers{
-			m.VectorInt(),
+			Users: m.VectorInt(),
 		}
 
 	case crc_privacyValueDisallowContacts:
@@ -16935,36 +16935,36 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_privacyValueDisallowUsers:
 		r = &PredPrivacyValueDisallowUsers{
-			m.VectorInt(),
+			Users: m.VectorInt(),
 		}
 
 	case crc_accountPrivacyRules:
 		r = &PredAccountPrivacyRules{
-			toTypePrivacyRuleSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Rules: toTypePrivacyRuleSlice(m.Vector()),
+			Users: toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_accountDaysTTL:
 		r = &PredAccountDaysTTL{
-			m.Int(),
+			Days: m.Int(),
 		}
 
 	case crc_updateUserPhone:
 		r = &PredUpdateUserPhone{
-			m.Int(),
-			m.String(),
+			UserId: m.Int(),
+			Phone:  m.String(),
 		}
 
 	case crc_disabledFeature:
 		r = &PredDisabledFeature{
-			m.String(),
-			m.String(),
+			Feature:     m.String(),
+			Description: m.String(),
 		}
 
 	case crc_documentAttributeImageSize:
 		r = &PredDocumentAttributeImageSize{
-			m.Int(),
-			m.Int(),
+			W: m.Int(),
+			H: m.Int(),
 		}
 
 	case crc_documentAttributeAnimated:
@@ -16974,36 +16974,36 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredDocumentAttributeSticker{
-			flags,
-			m.String(),
-			toTypeInputStickerSet(m.Object()),
-			toTypeMaskCoords(m.FlaggedObject(flags, 0)),
+			Flags:      flags,
+			Alt:        m.String(),
+			Stickerset: toTypeInputStickerSet(m.Object()),
+			MaskCoords: toTypeMaskCoords(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_documentAttributeVideo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredDocumentAttributeVideo{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Flags:    flags,
+			Duration: m.Int(),
+			W:        m.Int(),
+			H:        m.Int(),
 		}
 
 	case crc_documentAttributeAudio:
 		flags := m.Flags()
 		_ = flags
 		r = &PredDocumentAttributeAudio{
-			flags,
-			m.Int(),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedStringBytes(flags, 2),
+			Flags:     flags,
+			Duration:  m.Int(),
+			Title:     m.FlaggedString(flags, 0),
+			Performer: m.FlaggedString(flags, 1),
+			Waveform:  m.FlaggedStringBytes(flags, 2),
 		}
 
 	case crc_documentAttributeFilename:
 		r = &PredDocumentAttributeFilename{
-			m.String(),
+			FileName: m.String(),
 		}
 
 	case crc_messagesStickersNotModified:
@@ -17011,14 +17011,14 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesStickers:
 		r = &PredMessagesStickers{
-			m.String(),
-			toTypeDocumentSlice(m.Vector()),
+			Hash:     m.String(),
+			Stickers: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_stickerPack:
 		r = &PredStickerPack{
-			m.String(),
-			m.VectorLong(),
+			Emoticon:  m.String(),
+			Documents: m.VectorLong(),
 		}
 
 	case crc_messagesAllStickersNotModified:
@@ -17026,45 +17026,45 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesAllStickers:
 		r = &PredMessagesAllStickers{
-			m.Int(),
-			toTypeStickerSetSlice(m.Vector()),
+			Hash: m.Int(),
+			Sets: toTypeStickerSetSlice(m.Vector()),
 		}
 
 	case crc_accountNoPassword:
 		r = &PredAccountNoPassword{
-			m.StringBytes(),
-			m.String(),
+			NewSalt:                 m.StringBytes(),
+			EmailUnconfirmedPattern: m.String(),
 		}
 
 	case crc_accountPassword:
 		r = &PredAccountPassword{
-			m.StringBytes(),
-			m.StringBytes(),
-			m.String(),
-			toTypeBool(m.Object()),
-			m.String(),
+			CurrentSalt:             m.StringBytes(),
+			NewSalt:                 m.StringBytes(),
+			Hint:                    m.String(),
+			HasRecovery:             toTypeBool(m.Object()),
+			EmailUnconfirmedPattern: m.String(),
 		}
 
 	case crc_updateReadHistoryInbox:
 		r = &PredUpdateReadHistoryInbox{
-			toTypePeer(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Peer:     toTypePeer(m.Object()),
+			MaxId:    m.Int(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_updateReadHistoryOutbox:
 		r = &PredUpdateReadHistoryOutbox{
-			toTypePeer(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Peer:     toTypePeer(m.Object()),
+			MaxId:    m.Int(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_messagesAffectedMessages:
 		r = &PredMessagesAffectedMessages{
-			m.Int(),
-			m.Int(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_contactLinkUnknown:
@@ -17081,116 +17081,116 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateWebPage:
 		r = &PredUpdateWebPage{
-			toTypeWebPage(m.Object()),
-			m.Int(),
-			m.Int(),
+			Webpage:  toTypeWebPage(m.Object()),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_webPageEmpty:
 		r = &PredWebPageEmpty{
-			m.Long(),
+			Id: m.Long(),
 		}
 
 	case crc_webPagePending:
 		r = &PredWebPagePending{
-			m.Long(),
-			m.Int(),
+			Id:   m.Long(),
+			Date: m.Int(),
 		}
 
 	case crc_webPage:
 		flags := m.Flags()
 		_ = flags
 		r = &PredWebPage{
-			flags,
-			m.Long(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			toTypePhoto(m.FlaggedObject(flags, 4)),
-			m.FlaggedString(flags, 5),
-			m.FlaggedString(flags, 5),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 7),
-			m.FlaggedString(flags, 8),
-			toTypeDocument(m.FlaggedObject(flags, 9)),
-			toTypePage(m.FlaggedObject(flags, 10)),
+			Flags:       flags,
+			Id:          m.Long(),
+			Url:         m.String(),
+			DisplayUrl:  m.String(),
+			Hash:        m.Int(),
+			Type:        m.FlaggedString(flags, 0),
+			SiteName:    m.FlaggedString(flags, 1),
+			Title:       m.FlaggedString(flags, 2),
+			Description: m.FlaggedString(flags, 3),
+			Photo:       toTypePhoto(m.FlaggedObject(flags, 4)),
+			EmbedUrl:    m.FlaggedString(flags, 5),
+			EmbedType:   m.FlaggedString(flags, 5),
+			EmbedWidth:  m.FlaggedInt(flags, 6),
+			EmbedHeight: m.FlaggedInt(flags, 6),
+			Duration:    m.FlaggedInt(flags, 7),
+			Author:      m.FlaggedString(flags, 8),
+			Document:    toTypeDocument(m.FlaggedObject(flags, 9)),
+			CachedPage:  toTypePage(m.FlaggedObject(flags, 10)),
 		}
 
 	case crc_messageMediaWebPage:
 		r = &PredMessageMediaWebPage{
-			toTypeWebPage(m.Object()),
+			Webpage: toTypeWebPage(m.Object()),
 		}
 
 	case crc_authorization:
 		r = &PredAuthorization{
-			m.Long(),
-			m.Int(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.Int(),
-			m.String(),
-			m.String(),
-			m.String(),
+			Hash:          m.Long(),
+			Flags:         m.Int(),
+			DeviceModel:   m.String(),
+			Platform:      m.String(),
+			SystemVersion: m.String(),
+			ApiId:         m.Int(),
+			AppName:       m.String(),
+			AppVersion:    m.String(),
+			DateCreated:   m.Int(),
+			DateActive:    m.Int(),
+			Ip:            m.String(),
+			Country:       m.String(),
+			Region:        m.String(),
 		}
 
 	case crc_accountAuthorizations:
 		r = &PredAccountAuthorizations{
-			toTypeAuthorizationSlice(m.Vector()),
+			Authorizations: toTypeAuthorizationSlice(m.Vector()),
 		}
 
 	case crc_accountPasswordSettings:
 		r = &PredAccountPasswordSettings{
-			m.String(),
+			Email: m.String(),
 		}
 
 	case crc_accountPasswordInputSettings:
 		flags := m.Flags()
 		_ = flags
 		r = &PredAccountPasswordInputSettings{
-			flags,
-			m.FlaggedStringBytes(flags, 0),
-			m.FlaggedStringBytes(flags, 0),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
+			Flags:           flags,
+			NewSalt:         m.FlaggedStringBytes(flags, 0),
+			NewPasswordHash: m.FlaggedStringBytes(flags, 0),
+			Hint:            m.FlaggedString(flags, 0),
+			Email:           m.FlaggedString(flags, 1),
 		}
 
 	case crc_authPasswordRecovery:
 		r = &PredAuthPasswordRecovery{
-			m.String(),
+			EmailPattern: m.String(),
 		}
 
 	case crc_inputMediaVenue:
 		r = &PredInputMediaVenue{
-			toTypeInputGeoPoint(m.Object()),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
+			GeoPoint: toTypeInputGeoPoint(m.Object()),
+			Title:    m.String(),
+			Address:  m.String(),
+			Provider: m.String(),
+			VenueId:  m.String(),
 		}
 
 	case crc_messageMediaVenue:
 		r = &PredMessageMediaVenue{
-			toTypeGeoPoint(m.Object()),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
+			Geo:      toTypeGeoPoint(m.Object()),
+			Title:    m.String(),
+			Address:  m.String(),
+			Provider: m.String(),
+			VenueId:  m.String(),
 		}
 
 	case crc_receivedNotifyMessage:
 		r = &PredReceivedNotifyMessage{
-			m.Int(),
-			m.Int(),
+			Id:    m.Int(),
+			Flags: m.Int(),
 		}
 
 	case crc_chatInviteEmpty:
@@ -17198,35 +17198,35 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_chatInviteExported:
 		r = &PredChatInviteExported{
-			m.String(),
+			Link: m.String(),
 		}
 
 	case crc_chatInviteAlready:
 		r = &PredChatInviteAlready{
-			toTypeChat(m.Object()),
+			Chat: toTypeChat(m.Object()),
 		}
 
 	case crc_chatInvite:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChatInvite{
-			flags,
-			m.String(),
-			toTypeChatPhoto(m.Object()),
-			m.Int(),
-			toTypeUserSlice(m.FlaggedVector(flags, 4)),
+			Flags:             flags,
+			Title:             m.String(),
+			Photo:             toTypeChatPhoto(m.Object()),
+			ParticipantsCount: m.Int(),
+			Participants:      toTypeUserSlice(m.FlaggedVector(flags, 4)),
 		}
 
 	case crc_messageActionChatJoinedByLink:
 		r = &PredMessageActionChatJoinedByLink{
-			m.Int(),
+			InviterId: m.Int(),
 		}
 
 	case crc_updateReadMessagesContents:
 		r = &PredUpdateReadMessagesContents{
-			m.VectorInt(),
-			m.Int(),
-			m.Int(),
+			Messages: m.VectorInt(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_inputStickerSetEmpty:
@@ -17234,97 +17234,97 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputStickerSetID:
 		r = &PredInputStickerSetID{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputStickerSetShortName:
 		r = &PredInputStickerSetShortName{
-			m.String(),
+			ShortName: m.String(),
 		}
 
 	case crc_stickerSet:
 		flags := m.Flags()
 		_ = flags
 		r = &PredStickerSet{
-			flags,
-			m.Long(),
-			m.Long(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.Int(),
+			Flags:      flags,
+			Id:         m.Long(),
+			AccessHash: m.Long(),
+			Title:      m.String(),
+			ShortName:  m.String(),
+			Count:      m.Int(),
+			Hash:       m.Int(),
 		}
 
 	case crc_messagesStickerSet:
 		r = &PredMessagesStickerSet{
-			toTypeStickerSet(m.Object()),
-			toTypeStickerPackSlice(m.Vector()),
-			toTypeDocumentSlice(m.Vector()),
+			Set:       toTypeStickerSet(m.Object()),
+			Packs:     toTypeStickerPackSlice(m.Vector()),
+			Documents: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_user:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUser{
-			flags,
-			m.Int(),
-			m.FlaggedLong(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			m.FlaggedString(flags, 4),
-			toTypeUserProfilePhoto(m.FlaggedObject(flags, 5)),
-			toTypeUserStatus(m.FlaggedObject(flags, 6)),
-			m.FlaggedInt(flags, 14),
-			m.FlaggedString(flags, 18),
-			m.FlaggedString(flags, 19),
-			m.FlaggedString(flags, 22),
+			Flags:                flags,
+			Id:                   m.Int(),
+			AccessHash:           m.FlaggedLong(flags, 0),
+			FirstName:            m.FlaggedString(flags, 1),
+			LastName:             m.FlaggedString(flags, 2),
+			Username:             m.FlaggedString(flags, 3),
+			Phone:                m.FlaggedString(flags, 4),
+			Photo:                toTypeUserProfilePhoto(m.FlaggedObject(flags, 5)),
+			Status:               toTypeUserStatus(m.FlaggedObject(flags, 6)),
+			BotInfoVersion:       m.FlaggedInt(flags, 14),
+			RestrictionReason:    m.FlaggedString(flags, 18),
+			BotInlinePlaceholder: m.FlaggedString(flags, 19),
+			LangCode:             m.FlaggedString(flags, 22),
 		}
 
 	case crc_botCommand:
 		r = &PredBotCommand{
-			m.String(),
-			m.String(),
+			Command:     m.String(),
+			Description: m.String(),
 		}
 
 	case crc_botInfo:
 		r = &PredBotInfo{
-			m.Int(),
-			m.String(),
-			toTypeBotCommandSlice(m.Vector()),
+			UserId:      m.Int(),
+			Description: m.String(),
+			Commands:    toTypeBotCommandSlice(m.Vector()),
 		}
 
 	case crc_keyboardButton:
 		r = &PredKeyboardButton{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_keyboardButtonRow:
 		r = &PredKeyboardButtonRow{
-			toTypeKeyboardButtonSlice(m.Vector()),
+			Buttons: toTypeKeyboardButtonSlice(m.Vector()),
 		}
 
 	case crc_replyKeyboardHide:
 		flags := m.Flags()
 		_ = flags
 		r = &PredReplyKeyboardHide{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_replyKeyboardForceReply:
 		flags := m.Flags()
 		_ = flags
 		r = &PredReplyKeyboardForceReply{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_replyKeyboardMarkup:
 		flags := m.Flags()
 		_ = flags
 		r = &PredReplyKeyboardMarkup{
-			flags,
-			toTypeKeyboardButtonRowSlice(m.Vector()),
+			Flags: flags,
+			Rows:  toTypeKeyboardButtonRowSlice(m.Vector()),
 		}
 
 	case crc_inputMessagesFilterUrl:
@@ -17332,217 +17332,217 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputPeerUser:
 		r = &PredInputPeerUser{
-			m.Int(),
-			m.Long(),
+			UserId:     m.Int(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputUser:
 		r = &PredInputUser{
-			m.Int(),
-			m.Long(),
+			UserId:     m.Int(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_messageEntityUnknown:
 		r = &PredMessageEntityUnknown{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityMention:
 		r = &PredMessageEntityMention{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityHashtag:
 		r = &PredMessageEntityHashtag{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityBotCommand:
 		r = &PredMessageEntityBotCommand{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityUrl:
 		r = &PredMessageEntityUrl{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityEmail:
 		r = &PredMessageEntityEmail{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityBold:
 		r = &PredMessageEntityBold{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityItalic:
 		r = &PredMessageEntityItalic{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityCode:
 		r = &PredMessageEntityCode{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_messageEntityPre:
 		r = &PredMessageEntityPre{
-			m.Int(),
-			m.Int(),
-			m.String(),
+			Offset:   m.Int(),
+			Length:   m.Int(),
+			Language: m.String(),
 		}
 
 	case crc_messageEntityTextUrl:
 		r = &PredMessageEntityTextUrl{
-			m.Int(),
-			m.Int(),
-			m.String(),
+			Offset: m.Int(),
+			Length: m.Int(),
+			Url:    m.String(),
 		}
 
 	case crc_updateShortSentMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateShortSentMessage{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeMessageMedia(m.FlaggedObject(flags, 9)),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
+			Flags:    flags,
+			Id:       m.Int(),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
+			Date:     m.Int(),
+			Media:    toTypeMessageMedia(m.FlaggedObject(flags, 9)),
+			Entities: toTypeMessageEntitySlice(m.FlaggedVector(flags, 7)),
 		}
 
 	case crc_inputPeerChannel:
 		r = &PredInputPeerChannel{
-			m.Int(),
-			m.Long(),
+			ChannelId:  m.Int(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_peerChannel:
 		r = &PredPeerChannel{
-			m.Int(),
+			ChannelId: m.Int(),
 		}
 
 	case crc_channel:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannel{
-			flags,
-			m.Int(),
-			m.FlaggedLong(flags, 13),
-			m.String(),
-			m.FlaggedString(flags, 6),
-			toTypeChatPhoto(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.FlaggedString(flags, 9),
-			toTypeChannelAdminRights(m.FlaggedObject(flags, 14)),
-			toTypeChannelBannedRights(m.FlaggedObject(flags, 15)),
+			Flags:             flags,
+			Id:                m.Int(),
+			AccessHash:        m.FlaggedLong(flags, 13),
+			Title:             m.String(),
+			Username:          m.FlaggedString(flags, 6),
+			Photo:             toTypeChatPhoto(m.Object()),
+			Date:              m.Int(),
+			Version:           m.Int(),
+			RestrictionReason: m.FlaggedString(flags, 9),
+			AdminRights:       toTypeChannelAdminRights(m.FlaggedObject(flags, 14)),
+			BannedRights:      toTypeChannelBannedRights(m.FlaggedObject(flags, 15)),
 		}
 
 	case crc_channelForbidden:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelForbidden{
-			flags,
-			m.Int(),
-			m.Long(),
-			m.String(),
-			m.FlaggedInt(flags, 16),
+			Flags:      flags,
+			Id:         m.Int(),
+			AccessHash: m.Long(),
+			Title:      m.String(),
+			UntilDate:  m.FlaggedInt(flags, 16),
 		}
 
 	case crc_channelFull:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelFull{
-			flags,
-			m.Int(),
-			m.String(),
-			m.FlaggedInt(flags, 0),
-			m.FlaggedInt(flags, 1),
-			m.FlaggedInt(flags, 2),
-			m.FlaggedInt(flags, 2),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypePhoto(m.Object()),
-			toTypePeerNotifySettings(m.Object()),
-			toTypeExportedChatInvite(m.Object()),
-			toTypeBotInfoSlice(m.Vector()),
-			m.FlaggedInt(flags, 4),
-			m.FlaggedInt(flags, 4),
-			m.FlaggedInt(flags, 5),
-			toTypeStickerSet(m.FlaggedObject(flags, 8)),
+			Flags:              flags,
+			Id:                 m.Int(),
+			About:              m.String(),
+			ParticipantsCount:  m.FlaggedInt(flags, 0),
+			AdminsCount:        m.FlaggedInt(flags, 1),
+			KickedCount:        m.FlaggedInt(flags, 2),
+			BannedCount:        m.FlaggedInt(flags, 2),
+			ReadInboxMaxId:     m.Int(),
+			ReadOutboxMaxId:    m.Int(),
+			UnreadCount:        m.Int(),
+			ChatPhoto:          toTypePhoto(m.Object()),
+			NotifySettings:     toTypePeerNotifySettings(m.Object()),
+			ExportedInvite:     toTypeExportedChatInvite(m.Object()),
+			BotInfos:           toTypeBotInfoSlice(m.Vector()),
+			MigratedFromChatId: m.FlaggedInt(flags, 4),
+			MigratedFromMaxId:  m.FlaggedInt(flags, 4),
+			PinnedMsgId:        m.FlaggedInt(flags, 5),
+			Stickerset:         toTypeStickerSet(m.FlaggedObject(flags, 8)),
 		}
 
 	case crc_messageActionChannelCreate:
 		r = &PredMessageActionChannelCreate{
-			m.String(),
+			Title: m.String(),
 		}
 
 	case crc_messagesChannelMessages:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessagesChannelMessages{
-			flags,
-			m.Int(),
-			m.Int(),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Flags:    flags,
+			Pts:      m.Int(),
+			Count:    m.Int(),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_updateChannelTooLong:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateChannelTooLong{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 0),
+			Flags:     flags,
+			ChannelId: m.Int(),
+			Pts:       m.FlaggedInt(flags, 0),
 		}
 
 	case crc_updateChannel:
 		r = &PredUpdateChannel{
-			m.Int(),
+			ChannelId: m.Int(),
 		}
 
 	case crc_updateNewChannelMessage:
 		r = &PredUpdateNewChannelMessage{
-			toTypeMessage(m.Object()),
-			m.Int(),
-			m.Int(),
+			Message:  toTypeMessage(m.Object()),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_updateReadChannelInbox:
 		r = &PredUpdateReadChannelInbox{
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			MaxId:     m.Int(),
 		}
 
 	case crc_updateDeleteChannelMessages:
 		r = &PredUpdateDeleteChannelMessages{
-			m.Int(),
-			m.VectorInt(),
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			Messages:  m.VectorInt(),
+			Pts:       m.Int(),
+			PtsCount:  m.Int(),
 		}
 
 	case crc_updateChannelMessageViews:
 		r = &PredUpdateChannelMessageViews{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			Id:        m.Int(),
+			Views:     m.Int(),
 		}
 
 	case crc_inputChannelEmpty:
@@ -17550,60 +17550,60 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputChannel:
 		r = &PredInputChannel{
-			m.Int(),
-			m.Long(),
+			ChannelId:  m.Int(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_contactsResolvedPeer:
 		r = &PredContactsResolvedPeer{
-			toTypePeer(m.Object()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Peer:  toTypePeer(m.Object()),
+			Chats: toTypeChatSlice(m.Vector()),
+			Users: toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messageRange:
 		r = &PredMessageRange{
-			m.Int(),
-			m.Int(),
+			MinId: m.Int(),
+			MaxId: m.Int(),
 		}
 
 	case crc_updatesChannelDifferenceEmpty:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdatesChannelDifferenceEmpty{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 1),
+			Flags:   flags,
+			Pts:     m.Int(),
+			Timeout: m.FlaggedInt(flags, 1),
 		}
 
 	case crc_updatesChannelDifferenceTooLong:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdatesChannelDifferenceTooLong{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 1),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Flags:               flags,
+			Pts:                 m.Int(),
+			Timeout:             m.FlaggedInt(flags, 1),
+			TopMessage:          m.Int(),
+			ReadInboxMaxId:      m.Int(),
+			ReadOutboxMaxId:     m.Int(),
+			UnreadCount:         m.Int(),
+			UnreadMentionsCount: m.Int(),
+			Messages:            toTypeMessageSlice(m.Vector()),
+			Chats:               toTypeChatSlice(m.Vector()),
+			Users:               toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_updatesChannelDifference:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdatesChannelDifference{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 1),
-			toTypeMessageSlice(m.Vector()),
-			toTypeUpdateSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Flags:        flags,
+			Pts:          m.Int(),
+			Timeout:      m.FlaggedInt(flags, 1),
+			NewMessages:  toTypeMessageSlice(m.Vector()),
+			OtherUpdates: toTypeUpdateSlice(m.Vector()),
+			Chats:        toTypeChatSlice(m.Vector()),
+			Users:        toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_channelMessagesFilterEmpty:
@@ -17613,26 +17613,26 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelMessagesFilter{
-			flags,
-			toTypeMessageRangeSlice(m.Vector()),
+			Flags:  flags,
+			Ranges: toTypeMessageRangeSlice(m.Vector()),
 		}
 
 	case crc_channelParticipant:
 		r = &PredChannelParticipant{
-			m.Int(),
-			m.Int(),
+			UserId: m.Int(),
+			Date:   m.Int(),
 		}
 
 	case crc_channelParticipantSelf:
 		r = &PredChannelParticipantSelf{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			UserId:    m.Int(),
+			InviterId: m.Int(),
+			Date:      m.Int(),
 		}
 
 	case crc_channelParticipantCreator:
 		r = &PredChannelParticipantCreator{
-			m.Int(),
+			UserId: m.Int(),
 		}
 
 	case crc_channelParticipantsRecent:
@@ -17643,20 +17643,20 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_channelParticipantsKicked:
 		r = &PredChannelParticipantsKicked{
-			m.String(),
+			Q: m.String(),
 		}
 
 	case crc_channelsChannelParticipants:
 		r = &PredChannelsChannelParticipants{
-			m.Int(),
-			toTypeChannelParticipantSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Count:        m.Int(),
+			Participants: toTypeChannelParticipantSlice(m.Vector()),
+			Users:        toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_channelsChannelParticipant:
 		r = &PredChannelsChannelParticipant{
-			toTypeChannelParticipant(m.Object()),
-			toTypeUserSlice(m.Vector()),
+			Participant: toTypeChannelParticipant(m.Object()),
+			Users:       toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_true:
@@ -17664,40 +17664,40 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_chatParticipantCreator:
 		r = &PredChatParticipantCreator{
-			m.Int(),
+			UserId: m.Int(),
 		}
 
 	case crc_chatParticipantAdmin:
 		r = &PredChatParticipantAdmin{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			UserId:    m.Int(),
+			InviterId: m.Int(),
+			Date:      m.Int(),
 		}
 
 	case crc_updateChatAdmins:
 		r = &PredUpdateChatAdmins{
-			m.Int(),
-			toTypeBool(m.Object()),
-			m.Int(),
+			ChatId:  m.Int(),
+			Enabled: toTypeBool(m.Object()),
+			Version: m.Int(),
 		}
 
 	case crc_updateChatParticipantAdmin:
 		r = &PredUpdateChatParticipantAdmin{
-			m.Int(),
-			m.Int(),
-			toTypeBool(m.Object()),
-			m.Int(),
+			ChatId:  m.Int(),
+			UserId:  m.Int(),
+			IsAdmin: toTypeBool(m.Object()),
+			Version: m.Int(),
 		}
 
 	case crc_messageActionChatMigrateTo:
 		r = &PredMessageActionChatMigrateTo{
-			m.Int(),
+			ChannelId: m.Int(),
 		}
 
 	case crc_messageActionChannelMigrateFrom:
 		r = &PredMessageActionChannelMigrateFrom{
-			m.String(),
-			m.Int(),
+			Title:  m.String(),
+			ChatId: m.Int(),
 		}
 
 	case crc_channelParticipantsBots:
@@ -17714,20 +17714,20 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_inputReportReasonOther:
 		r = &PredInputReportReasonOther{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_updateNewStickerSet:
 		r = &PredUpdateNewStickerSet{
-			toTypeMessagesStickerSet(m.Object()),
+			Stickerset: toTypeMessagesStickerSet(m.Object()),
 		}
 
 	case crc_updateStickerSetsOrder:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateStickerSetsOrder{
-			flags,
-			m.VectorLong(),
+			Flags: flags,
+			Order: m.VectorLong(),
 		}
 
 	case crc_updateStickerSets:
@@ -17735,29 +17735,29 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_helpTermsOfService:
 		r = &PredHelpTermsOfService{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_foundGif:
 		r = &PredFoundGif{
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.Int(),
+			Url:         m.String(),
+			ThumbUrl:    m.String(),
+			ContentUrl:  m.String(),
+			ContentType: m.String(),
+			W:           m.Int(),
+			H:           m.Int(),
 		}
 
 	case crc_inputMediaGifExternal:
 		r = &PredInputMediaGifExternal{
-			m.String(),
-			m.String(),
+			Url: m.String(),
+			Q:   m.String(),
 		}
 
 	case crc_messagesFoundGifs:
 		r = &PredMessagesFoundGifs{
-			m.Int(),
-			toTypeFoundGifSlice(m.Vector()),
+			NextOffset: m.Int(),
+			Results:    toTypeFoundGifSlice(m.Vector()),
 		}
 
 	case crc_inputMessagesFilterGif:
@@ -17770,19 +17770,19 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateBotInlineQuery{
-			flags,
-			m.Long(),
-			m.Int(),
-			m.String(),
-			toTypeGeoPoint(m.FlaggedObject(flags, 0)),
-			m.String(),
+			Flags:   flags,
+			QueryId: m.Long(),
+			UserId:  m.Int(),
+			Query:   m.String(),
+			Geo:     toTypeGeoPoint(m.FlaggedObject(flags, 0)),
+			Offset:  m.String(),
 		}
 
 	case crc_foundGifCached:
 		r = &PredFoundGifCached{
-			m.String(),
-			toTypePhoto(m.Object()),
-			toTypeDocument(m.Object()),
+			Url:      m.String(),
+			Photo:    toTypePhoto(m.Object()),
+			Document: toTypeDocument(m.Object()),
 		}
 
 	case crc_messagesSavedGifsNotModified:
@@ -17790,96 +17790,96 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesSavedGifs:
 		r = &PredMessagesSavedGifs{
-			m.Int(),
-			toTypeDocumentSlice(m.Vector()),
+			Hash: m.Int(),
+			Gifs: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_inputBotInlineMessageMediaAuto:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageMediaAuto{
-			flags,
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Caption:     m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineMessageText:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageText{
-			flags,
-			m.String(),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 1)),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Message:     m.String(),
+			Entities:    toTypeMessageEntitySlice(m.FlaggedVector(flags, 1)),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineResult:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineResult{
-			flags,
-			m.String(),
-			m.String(),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			m.FlaggedString(flags, 4),
-			m.FlaggedString(flags, 5),
-			m.FlaggedString(flags, 5),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 7),
-			toTypeInputBotInlineMessage(m.Object()),
+			Flags:       flags,
+			Id:          m.String(),
+			Type:        m.String(),
+			Title:       m.FlaggedString(flags, 1),
+			Description: m.FlaggedString(flags, 2),
+			Url:         m.FlaggedString(flags, 3),
+			ThumbUrl:    m.FlaggedString(flags, 4),
+			ContentUrl:  m.FlaggedString(flags, 5),
+			ContentType: m.FlaggedString(flags, 5),
+			W:           m.FlaggedInt(flags, 6),
+			H:           m.FlaggedInt(flags, 6),
+			Duration:    m.FlaggedInt(flags, 7),
+			SendMessage: toTypeInputBotInlineMessage(m.Object()),
 		}
 
 	case crc_botInlineMessageMediaAuto:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMessageMediaAuto{
-			flags,
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Caption:     m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_botInlineMessageText:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMessageText{
-			flags,
-			m.String(),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 1)),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Message:     m.String(),
+			Entities:    toTypeMessageEntitySlice(m.FlaggedVector(flags, 1)),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_botInlineResult:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineResult{
-			flags,
-			m.String(),
-			m.String(),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			m.FlaggedString(flags, 4),
-			m.FlaggedString(flags, 5),
-			m.FlaggedString(flags, 5),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 6),
-			m.FlaggedInt(flags, 7),
-			toTypeBotInlineMessage(m.Object()),
+			Flags:       flags,
+			Id:          m.String(),
+			Type:        m.String(),
+			Title:       m.FlaggedString(flags, 1),
+			Description: m.FlaggedString(flags, 2),
+			Url:         m.FlaggedString(flags, 3),
+			ThumbUrl:    m.FlaggedString(flags, 4),
+			ContentUrl:  m.FlaggedString(flags, 5),
+			ContentType: m.FlaggedString(flags, 5),
+			W:           m.FlaggedInt(flags, 6),
+			H:           m.FlaggedInt(flags, 6),
+			Duration:    m.FlaggedInt(flags, 7),
+			SendMessage: toTypeBotInlineMessage(m.Object()),
 		}
 
 	case crc_messagesBotResults:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessagesBotResults{
-			flags,
-			m.Long(),
-			m.FlaggedString(flags, 1),
-			toTypeInlineBotSwitchPM(m.FlaggedObject(flags, 2)),
-			toTypeBotInlineResultSlice(m.Vector()),
-			m.Int(),
+			Flags:      flags,
+			QueryId:    m.Long(),
+			NextOffset: m.FlaggedString(flags, 1),
+			SwitchPm:   toTypeInlineBotSwitchPM(m.FlaggedObject(flags, 2)),
+			Results:    toTypeBotInlineResultSlice(m.Vector()),
+			CacheTime:  m.Int(),
 		}
 
 	case crc_inputMessagesFilterVoice:
@@ -17892,12 +17892,12 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateBotInlineSend{
-			flags,
-			m.Int(),
-			m.String(),
-			toTypeGeoPoint(m.FlaggedObject(flags, 0)),
-			m.String(),
-			toTypeInputBotInlineMessageID(m.FlaggedObject(flags, 1)),
+			Flags:  flags,
+			UserId: m.Int(),
+			Query:  m.String(),
+			Geo:    toTypeGeoPoint(m.FlaggedObject(flags, 0)),
+			Id:     m.String(),
+			MsgId:  toTypeInputBotInlineMessageID(m.FlaggedObject(flags, 1)),
 		}
 
 	case crc_inputPrivacyKeyChatInvite:
@@ -17908,26 +17908,26 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateEditChannelMessage:
 		r = &PredUpdateEditChannelMessage{
-			toTypeMessage(m.Object()),
-			m.Int(),
-			m.Int(),
+			Message:  toTypeMessage(m.Object()),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_exportedMessageLink:
 		r = &PredExportedMessageLink{
-			m.String(),
+			Link: m.String(),
 		}
 
 	case crc_messageFwdHeader:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageFwdHeader{
-			flags,
-			m.FlaggedInt(flags, 0),
-			m.Int(),
-			m.FlaggedInt(flags, 1),
-			m.FlaggedInt(flags, 2),
-			m.FlaggedString(flags, 3),
+			Flags:       flags,
+			FromId:      m.FlaggedInt(flags, 0),
+			Date:        m.Int(),
+			ChannelId:   m.FlaggedInt(flags, 1),
+			ChannelPost: m.FlaggedInt(flags, 2),
+			PostAuthor:  m.FlaggedString(flags, 3),
 		}
 
 	case crc_messageActionPinMessage:
@@ -17937,35 +17937,35 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredPeerSettings{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_updateChannelPinnedMessage:
 		r = &PredUpdateChannelPinnedMessage{
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			Id:        m.Int(),
 		}
 
 	case crc_keyboardButtonUrl:
 		r = &PredKeyboardButtonUrl{
-			m.String(),
-			m.String(),
+			Text: m.String(),
+			Url:  m.String(),
 		}
 
 	case crc_keyboardButtonCallback:
 		r = &PredKeyboardButtonCallback{
-			m.String(),
-			m.StringBytes(),
+			Text: m.String(),
+			Data: m.StringBytes(),
 		}
 
 	case crc_keyboardButtonRequestPhone:
 		r = &PredKeyboardButtonRequestPhone{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_keyboardButtonRequestGeoLocation:
 		r = &PredKeyboardButtonRequestGeoLocation{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_authCodeTypeSms:
@@ -17979,230 +17979,230 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authSentCodeTypeApp:
 		r = &PredAuthSentCodeTypeApp{
-			m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_authSentCodeTypeSms:
 		r = &PredAuthSentCodeTypeSms{
-			m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_authSentCodeTypeCall:
 		r = &PredAuthSentCodeTypeCall{
-			m.Int(),
+			Length: m.Int(),
 		}
 
 	case crc_authSentCodeTypeFlashCall:
 		r = &PredAuthSentCodeTypeFlashCall{
-			m.String(),
+			Pattern: m.String(),
 		}
 
 	case crc_keyboardButtonSwitchInline:
 		flags := m.Flags()
 		_ = flags
 		r = &PredKeyboardButtonSwitchInline{
-			flags,
-			m.String(),
-			m.String(),
+			Flags: flags,
+			Text:  m.String(),
+			Query: m.String(),
 		}
 
 	case crc_replyInlineMarkup:
 		r = &PredReplyInlineMarkup{
-			toTypeKeyboardButtonRowSlice(m.Vector()),
+			Rows: toTypeKeyboardButtonRowSlice(m.Vector()),
 		}
 
 	case crc_messagesBotCallbackAnswer:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessagesBotCallbackAnswer{
-			flags,
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 2),
-			m.Int(),
+			Flags:     flags,
+			Message:   m.FlaggedString(flags, 0),
+			Url:       m.FlaggedString(flags, 2),
+			CacheTime: m.Int(),
 		}
 
 	case crc_updateBotCallbackQuery:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateBotCallbackQuery{
-			flags,
-			m.Long(),
-			m.Int(),
-			toTypePeer(m.Object()),
-			m.Int(),
-			m.Long(),
-			m.FlaggedStringBytes(flags, 0),
-			m.FlaggedString(flags, 1),
+			Flags:         flags,
+			QueryId:       m.Long(),
+			UserId:        m.Int(),
+			Peer:          toTypePeer(m.Object()),
+			MsgId:         m.Int(),
+			ChatInstance:  m.Long(),
+			Data:          m.FlaggedStringBytes(flags, 0),
+			GameShortName: m.FlaggedString(flags, 1),
 		}
 
 	case crc_messagesMessageEditData:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessagesMessageEditData{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_updateEditMessage:
 		r = &PredUpdateEditMessage{
-			toTypeMessage(m.Object()),
-			m.Int(),
-			m.Int(),
+			Message:  toTypeMessage(m.Object()),
+			Pts:      m.Int(),
+			PtsCount: m.Int(),
 		}
 
 	case crc_inputBotInlineMessageMediaGeo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageMediaGeo{
-			flags,
-			toTypeInputGeoPoint(m.Object()),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			GeoPoint:    toTypeInputGeoPoint(m.Object()),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineMessageMediaVenue:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageMediaVenue{
-			flags,
-			toTypeInputGeoPoint(m.Object()),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			GeoPoint:    toTypeInputGeoPoint(m.Object()),
+			Title:       m.String(),
+			Address:     m.String(),
+			Provider:    m.String(),
+			VenueId:     m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineMessageMediaContact:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageMediaContact{
-			flags,
-			m.String(),
-			m.String(),
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			PhoneNumber: m.String(),
+			FirstName:   m.String(),
+			LastName:    m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_botInlineMessageMediaGeo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMessageMediaGeo{
-			flags,
-			toTypeGeoPoint(m.Object()),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Geo:         toTypeGeoPoint(m.Object()),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_botInlineMessageMediaVenue:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMessageMediaVenue{
-			flags,
-			toTypeGeoPoint(m.Object()),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			Geo:         toTypeGeoPoint(m.Object()),
+			Title:       m.String(),
+			Address:     m.String(),
+			Provider:    m.String(),
+			VenueId:     m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_botInlineMessageMediaContact:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMessageMediaContact{
-			flags,
-			m.String(),
-			m.String(),
-			m.String(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			PhoneNumber: m.String(),
+			FirstName:   m.String(),
+			LastName:    m.String(),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineResultPhoto:
 		r = &PredInputBotInlineResultPhoto{
-			m.String(),
-			m.String(),
-			toTypeInputPhoto(m.Object()),
-			toTypeInputBotInlineMessage(m.Object()),
+			Id:          m.String(),
+			Type:        m.String(),
+			Photo:       toTypeInputPhoto(m.Object()),
+			SendMessage: toTypeInputBotInlineMessage(m.Object()),
 		}
 
 	case crc_inputBotInlineResultDocument:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineResultDocument{
-			flags,
-			m.String(),
-			m.String(),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			toTypeInputDocument(m.Object()),
-			toTypeInputBotInlineMessage(m.Object()),
+			Flags:       flags,
+			Id:          m.String(),
+			Type:        m.String(),
+			Title:       m.FlaggedString(flags, 1),
+			Description: m.FlaggedString(flags, 2),
+			Document:    toTypeInputDocument(m.Object()),
+			SendMessage: toTypeInputBotInlineMessage(m.Object()),
 		}
 
 	case crc_botInlineMediaResult:
 		flags := m.Flags()
 		_ = flags
 		r = &PredBotInlineMediaResult{
-			flags,
-			m.String(),
-			m.String(),
-			toTypePhoto(m.FlaggedObject(flags, 0)),
-			toTypeDocument(m.FlaggedObject(flags, 1)),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			toTypeBotInlineMessage(m.Object()),
+			Flags:       flags,
+			Id:          m.String(),
+			Type:        m.String(),
+			Photo:       toTypePhoto(m.FlaggedObject(flags, 0)),
+			Document:    toTypeDocument(m.FlaggedObject(flags, 1)),
+			Title:       m.FlaggedString(flags, 2),
+			Description: m.FlaggedString(flags, 3),
+			SendMessage: toTypeBotInlineMessage(m.Object()),
 		}
 
 	case crc_inputBotInlineMessageID:
 		r = &PredInputBotInlineMessageID{
-			m.Int(),
-			m.Long(),
-			m.Long(),
+			DcId:       m.Int(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_updateInlineBotCallbackQuery:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateInlineBotCallbackQuery{
-			flags,
-			m.Long(),
-			m.Int(),
-			toTypeInputBotInlineMessageID(m.Object()),
-			m.Long(),
-			m.FlaggedStringBytes(flags, 0),
-			m.FlaggedString(flags, 1),
+			Flags:         flags,
+			QueryId:       m.Long(),
+			UserId:        m.Int(),
+			MsgId:         toTypeInputBotInlineMessageID(m.Object()),
+			ChatInstance:  m.Long(),
+			Data:          m.FlaggedStringBytes(flags, 0),
+			GameShortName: m.FlaggedString(flags, 1),
 		}
 
 	case crc_inlineBotSwitchPM:
 		r = &PredInlineBotSwitchPM{
-			m.String(),
-			m.String(),
+			Text:       m.String(),
+			StartParam: m.String(),
 		}
 
 	case crc_messageEntityMentionName:
 		r = &PredMessageEntityMentionName{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Length: m.Int(),
+			UserId: m.Int(),
 		}
 
 	case crc_inputMessageEntityMentionName:
 		r = &PredInputMessageEntityMentionName{
-			m.Int(),
-			m.Int(),
-			toTypeInputUser(m.Object()),
+			Offset: m.Int(),
+			Length: m.Int(),
+			UserId: toTypeInputUser(m.Object()),
 		}
 
 	case crc_messagesPeerDialogs:
 		r = &PredMessagesPeerDialogs{
-			toTypeDialogSlice(m.Vector()),
-			toTypeMessageSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
-			toTypeUpdatesState(m.Object()),
+			Dialogs:  toTypeDialogSlice(m.Vector()),
+			Messages: toTypeMessageSlice(m.Vector()),
+			Chats:    toTypeChatSlice(m.Vector()),
+			Users:    toTypeUserSlice(m.Vector()),
+			State:    toTypeUpdatesState(m.Object()),
 		}
 
 	case crc_topPeer:
 		r = &PredTopPeer{
-			toTypePeer(m.Object()),
-			m.Double(),
+			Peer:   toTypePeer(m.Object()),
+			Rating: m.Double(),
 		}
 
 	case crc_topPeerCategoryBotsPM:
@@ -18222,9 +18222,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_topPeerCategoryPeers:
 		r = &PredTopPeerCategoryPeers{
-			toTypeTopPeerCategory(m.Object()),
-			m.Int(),
-			toTypeTopPeerSlice(m.Vector()),
+			Category: toTypeTopPeerCategory(m.Object()),
+			Count:    m.Int(),
+			Peers:    toTypeTopPeerSlice(m.Vector()),
 		}
 
 	case crc_contactsTopPeersNotModified:
@@ -18232,9 +18232,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_contactsTopPeers:
 		r = &PredContactsTopPeers{
-			toTypeTopPeerCategoryPeersSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Categories: toTypeTopPeerCategoryPeersSlice(m.Vector()),
+			Chats:      toTypeChatSlice(m.Vector()),
+			Users:      toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_inputMessagesFilterChatPhotos:
@@ -18242,14 +18242,14 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateReadChannelOutbox:
 		r = &PredUpdateReadChannelOutbox{
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			MaxId:     m.Int(),
 		}
 
 	case crc_updateDraftMessage:
 		r = &PredUpdateDraftMessage{
-			toTypePeer(m.Object()),
-			toTypeDraftMessage(m.Object()),
+			Peer:  toTypePeer(m.Object()),
+			Draft: toTypeDraftMessage(m.Object()),
 		}
 
 	case crc_draftMessageEmpty:
@@ -18259,11 +18259,11 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredDraftMessage{
-			flags,
-			m.FlaggedInt(flags, 0),
-			m.String(),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
-			m.Int(),
+			Flags:        flags,
+			ReplyToMsgId: m.FlaggedInt(flags, 0),
+			Message:      m.String(),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
+			Date:         m.Int(),
 		}
 
 	case crc_messageActionHistoryClear:
@@ -18280,9 +18280,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesFeaturedStickers:
 		r = &PredMessagesFeaturedStickers{
-			m.Int(),
-			toTypeStickerSetCoveredSlice(m.Vector()),
-			m.VectorLong(),
+			Hash:   m.Int(),
+			Sets:   toTypeStickerSetCoveredSlice(m.Vector()),
+			Unread: m.VectorLong(),
 		}
 
 	case crc_messagesRecentStickersNotModified:
@@ -18290,14 +18290,14 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesRecentStickers:
 		r = &PredMessagesRecentStickers{
-			m.Int(),
-			toTypeDocumentSlice(m.Vector()),
+			Hash:     m.Int(),
+			Stickers: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_messagesArchivedStickers:
 		r = &PredMessagesArchivedStickers{
-			m.Int(),
-			toTypeStickerSetCoveredSlice(m.Vector()),
+			Count: m.Int(),
+			Sets:  toTypeStickerSetCoveredSlice(m.Vector()),
 		}
 
 	case crc_messagesStickerSetInstallResultSuccess:
@@ -18305,33 +18305,33 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesStickerSetInstallResultArchive:
 		r = &PredMessagesStickerSetInstallResultArchive{
-			toTypeStickerSetCoveredSlice(m.Vector()),
+			Sets: toTypeStickerSetCoveredSlice(m.Vector()),
 		}
 
 	case crc_stickerSetCovered:
 		r = &PredStickerSetCovered{
-			toTypeStickerSet(m.Object()),
-			toTypeDocument(m.Object()),
+			Set:   toTypeStickerSet(m.Object()),
+			Cover: toTypeDocument(m.Object()),
 		}
 
 	case crc_inputMediaPhotoExternal:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaPhotoExternal{
-			flags,
-			m.String(),
-			m.String(),
-			m.FlaggedInt(flags, 0),
+			Flags:      flags,
+			Url:        m.String(),
+			Caption:    m.String(),
+			TtlSeconds: m.FlaggedInt(flags, 0),
 		}
 
 	case crc_inputMediaDocumentExternal:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaDocumentExternal{
-			flags,
-			m.String(),
-			m.String(),
-			m.FlaggedInt(flags, 0),
+			Flags:      flags,
+			Url:        m.String(),
+			Caption:    m.String(),
+			TtlSeconds: m.FlaggedInt(flags, 0),
 		}
 
 	case crc_updateConfig:
@@ -18342,8 +18342,8 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messageActionGameScore:
 		r = &PredMessageActionGameScore{
-			m.Long(),
-			m.Int(),
+			GameId: m.Long(),
+			Score:  m.Int(),
 		}
 
 	case crc_documentAttributeHasStickers:
@@ -18351,114 +18351,114 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_keyboardButtonGame:
 		r = &PredKeyboardButtonGame{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_stickerSetMultiCovered:
 		r = &PredStickerSetMultiCovered{
-			toTypeStickerSet(m.Object()),
-			toTypeDocumentSlice(m.Vector()),
+			Set:    toTypeStickerSet(m.Object()),
+			Covers: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_maskCoords:
 		r = &PredMaskCoords{
-			m.Int(),
-			m.Double(),
-			m.Double(),
-			m.Double(),
+			N:    m.Int(),
+			X:    m.Double(),
+			Y:    m.Double(),
+			Zoom: m.Double(),
 		}
 
 	case crc_inputStickeredMediaPhoto:
 		r = &PredInputStickeredMediaPhoto{
-			toTypeInputPhoto(m.Object()),
+			Id: toTypeInputPhoto(m.Object()),
 		}
 
 	case crc_inputStickeredMediaDocument:
 		r = &PredInputStickeredMediaDocument{
-			toTypeInputDocument(m.Object()),
+			Id: toTypeInputDocument(m.Object()),
 		}
 
 	case crc_inputMediaGame:
 		r = &PredInputMediaGame{
-			toTypeInputGame(m.Object()),
+			Id: toTypeInputGame(m.Object()),
 		}
 
 	case crc_messageMediaGame:
 		r = &PredMessageMediaGame{
-			toTypeGame(m.Object()),
+			Game: toTypeGame(m.Object()),
 		}
 
 	case crc_inputBotInlineMessageGame:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputBotInlineMessageGame{
-			flags,
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:       flags,
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_inputBotInlineResultGame:
 		r = &PredInputBotInlineResultGame{
-			m.String(),
-			m.String(),
-			toTypeInputBotInlineMessage(m.Object()),
+			Id:          m.String(),
+			ShortName:   m.String(),
+			SendMessage: toTypeInputBotInlineMessage(m.Object()),
 		}
 
 	case crc_game:
 		flags := m.Flags()
 		_ = flags
 		r = &PredGame{
-			flags,
-			m.Long(),
-			m.Long(),
-			m.String(),
-			m.String(),
-			m.String(),
-			toTypePhoto(m.Object()),
-			toTypeDocument(m.FlaggedObject(flags, 0)),
+			Flags:       flags,
+			Id:          m.Long(),
+			AccessHash:  m.Long(),
+			ShortName:   m.String(),
+			Title:       m.String(),
+			Description: m.String(),
+			Photo:       toTypePhoto(m.Object()),
+			Document:    toTypeDocument(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_inputGameID:
 		r = &PredInputGameID{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_inputGameShortName:
 		r = &PredInputGameShortName{
-			toTypeInputUser(m.Object()),
-			m.String(),
+			BotId:     toTypeInputUser(m.Object()),
+			ShortName: m.String(),
 		}
 
 	case crc_highScore:
 		r = &PredHighScore{
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Pos:    m.Int(),
+			UserId: m.Int(),
+			Score:  m.Int(),
 		}
 
 	case crc_messagesHighScores:
 		r = &PredMessagesHighScores{
-			toTypeHighScoreSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Scores: toTypeHighScoreSlice(m.Vector()),
+			Users:  toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_messagesChatsSlice:
 		r = &PredMessagesChatsSlice{
-			m.Int(),
-			toTypeChatSlice(m.Vector()),
+			Count: m.Int(),
+			Chats: toTypeChatSlice(m.Vector()),
 		}
 
 	case crc_updateChannelWebPage:
 		r = &PredUpdateChannelWebPage{
-			m.Int(),
-			toTypeWebPage(m.Object()),
-			m.Int(),
-			m.Int(),
+			ChannelId: m.Int(),
+			Webpage:   toTypeWebPage(m.Object()),
+			Pts:       m.Int(),
+			PtsCount:  m.Int(),
 		}
 
 	case crc_updatesDifferenceTooLong:
 		r = &PredUpdatesDifferenceTooLong{
-			m.Int(),
+			Pts: m.Int(),
 		}
 
 	case crc_sendMessageGamePlayAction:
@@ -18472,92 +18472,92 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_textPlain:
 		r = &PredTextPlain{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_textBold:
 		r = &PredTextBold{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_textItalic:
 		r = &PredTextItalic{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_textUnderline:
 		r = &PredTextUnderline{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_textStrike:
 		r = &PredTextStrike{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_textFixed:
 		r = &PredTextFixed{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_textUrl:
 		r = &PredTextUrl{
-			toTypeRichText(m.Object()),
-			m.String(),
-			m.Long(),
+			Text:      toTypeRichText(m.Object()),
+			Url:       m.String(),
+			WebpageId: m.Long(),
 		}
 
 	case crc_textEmail:
 		r = &PredTextEmail{
-			toTypeRichText(m.Object()),
-			m.String(),
+			Text:  toTypeRichText(m.Object()),
+			Email: m.String(),
 		}
 
 	case crc_textConcat:
 		r = &PredTextConcat{
-			toTypeRichTextSlice(m.Vector()),
+			Texts: toTypeRichTextSlice(m.Vector()),
 		}
 
 	case crc_pageBlockTitle:
 		r = &PredPageBlockTitle{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockSubtitle:
 		r = &PredPageBlockSubtitle{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockAuthorDate:
 		r = &PredPageBlockAuthorDate{
-			toTypeRichText(m.Object()),
-			m.Int(),
+			Author:        toTypeRichText(m.Object()),
+			PublishedDate: m.Int(),
 		}
 
 	case crc_pageBlockHeader:
 		r = &PredPageBlockHeader{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockSubheader:
 		r = &PredPageBlockSubheader{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockParagraph:
 		r = &PredPageBlockParagraph{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockPreformatted:
 		r = &PredPageBlockPreformatted{
-			toTypeRichText(m.Object()),
-			m.String(),
+			Text:     toTypeRichText(m.Object()),
+			Language: m.String(),
 		}
 
 	case crc_pageBlockFooter:
 		r = &PredPageBlockFooter{
-			toTypeRichText(m.Object()),
+			Text: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockDivider:
@@ -18565,105 +18565,105 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_pageBlockList:
 		r = &PredPageBlockList{
-			toTypeBool(m.Object()),
-			toTypeRichTextSlice(m.Vector()),
+			Ordered: toTypeBool(m.Object()),
+			Items:   toTypeRichTextSlice(m.Vector()),
 		}
 
 	case crc_pageBlockBlockquote:
 		r = &PredPageBlockBlockquote{
-			toTypeRichText(m.Object()),
-			toTypeRichText(m.Object()),
+			Text:    toTypeRichText(m.Object()),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockPullquote:
 		r = &PredPageBlockPullquote{
-			toTypeRichText(m.Object()),
-			toTypeRichText(m.Object()),
+			Text:    toTypeRichText(m.Object()),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockPhoto:
 		r = &PredPageBlockPhoto{
-			m.Long(),
-			toTypeRichText(m.Object()),
+			PhotoId: m.Long(),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockVideo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPageBlockVideo{
-			flags,
-			m.Long(),
-			toTypeRichText(m.Object()),
+			Flags:   flags,
+			VideoId: m.Long(),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockCover:
 		r = &PredPageBlockCover{
-			toTypePageBlock(m.Object()),
+			Cover: toTypePageBlock(m.Object()),
 		}
 
 	case crc_pageBlockEmbed:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPageBlockEmbed{
-			flags,
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedLong(flags, 4),
-			m.Int(),
-			m.Int(),
-			toTypeRichText(m.Object()),
+			Flags:         flags,
+			Url:           m.FlaggedString(flags, 1),
+			Html:          m.FlaggedString(flags, 2),
+			PosterPhotoId: m.FlaggedLong(flags, 4),
+			W:             m.Int(),
+			H:             m.Int(),
+			Caption:       toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockEmbedPost:
 		r = &PredPageBlockEmbedPost{
-			m.String(),
-			m.Long(),
-			m.Long(),
-			m.String(),
-			m.Int(),
-			toTypePageBlockSlice(m.Vector()),
-			toTypeRichText(m.Object()),
+			Url:           m.String(),
+			WebpageId:     m.Long(),
+			AuthorPhotoId: m.Long(),
+			Author:        m.String(),
+			Date:          m.Int(),
+			Blocks:        toTypePageBlockSlice(m.Vector()),
+			Caption:       toTypeRichText(m.Object()),
 		}
 
 	case crc_pageBlockSlideshow:
 		r = &PredPageBlockSlideshow{
-			toTypePageBlockSlice(m.Vector()),
-			toTypeRichText(m.Object()),
+			Items:   toTypePageBlockSlice(m.Vector()),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_pagePart:
 		r = &PredPagePart{
-			toTypePageBlockSlice(m.Vector()),
-			toTypePhotoSlice(m.Vector()),
-			toTypeDocumentSlice(m.Vector()),
+			Blocks:    toTypePageBlockSlice(m.Vector()),
+			Photos:    toTypePhotoSlice(m.Vector()),
+			Documents: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_pageFull:
 		r = &PredPageFull{
-			toTypePageBlockSlice(m.Vector()),
-			toTypePhotoSlice(m.Vector()),
-			toTypeDocumentSlice(m.Vector()),
+			Blocks:    toTypePageBlockSlice(m.Vector()),
+			Photos:    toTypePhotoSlice(m.Vector()),
+			Documents: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_updatePhoneCall:
 		r = &PredUpdatePhoneCall{
-			toTypePhoneCall(m.Object()),
+			PhoneCall: toTypePhoneCall(m.Object()),
 		}
 
 	case crc_updateDialogPinned:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateDialogPinned{
-			flags,
-			toTypePeer(m.Object()),
+			Flags: flags,
+			Peer:  toTypePeer(m.Object()),
 		}
 
 	case crc_updatePinnedDialogs:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdatePinnedDialogs{
-			flags,
-			toTypePeerSlice(m.FlaggedVector(flags, 0)),
+			Flags: flags,
+			Order: toTypePeerSlice(m.FlaggedVector(flags, 0)),
 		}
 
 	case crc_inputPrivacyKeyPhoneCall:
@@ -18677,98 +18677,98 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_pageBlockAnchor:
 		r = &PredPageBlockAnchor{
-			m.String(),
+			Name: m.String(),
 		}
 
 	case crc_pageBlockCollage:
 		r = &PredPageBlockCollage{
-			toTypePageBlockSlice(m.Vector()),
-			toTypeRichText(m.Object()),
+			Items:   toTypePageBlockSlice(m.Vector()),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_inputPhoneCall:
 		r = &PredInputPhoneCall{
-			m.Long(),
-			m.Long(),
+			Id:         m.Long(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_phoneCallEmpty:
 		r = &PredPhoneCallEmpty{
-			m.Long(),
+			Id: m.Long(),
 		}
 
 	case crc_phoneCallWaiting:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPhoneCallWaiting{
-			flags,
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypePhoneCallProtocol(m.Object()),
-			m.FlaggedInt(flags, 0),
+			Flags:         flags,
+			Id:            m.Long(),
+			AccessHash:    m.Long(),
+			Date:          m.Int(),
+			AdminId:       m.Int(),
+			ParticipantId: m.Int(),
+			Protocol:      toTypePhoneCallProtocol(m.Object()),
+			ReceiveDate:   m.FlaggedInt(flags, 0),
 		}
 
 	case crc_phoneCallRequested:
 		r = &PredPhoneCallRequested{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
-			toTypePhoneCallProtocol(m.Object()),
+			Id:            m.Long(),
+			AccessHash:    m.Long(),
+			Date:          m.Int(),
+			AdminId:       m.Int(),
+			ParticipantId: m.Int(),
+			GAHash:        m.StringBytes(),
+			Protocol:      toTypePhoneCallProtocol(m.Object()),
 		}
 
 	case crc_phoneCall:
 		r = &PredPhoneCall{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
-			m.Long(),
-			toTypePhoneCallProtocol(m.Object()),
-			toTypePhoneConnection(m.Object()),
-			toTypePhoneConnectionSlice(m.Vector()),
-			m.Int(),
+			Id:                     m.Long(),
+			AccessHash:             m.Long(),
+			Date:                   m.Int(),
+			AdminId:                m.Int(),
+			ParticipantId:          m.Int(),
+			GAOrB:                  m.StringBytes(),
+			KeyFingerprint:         m.Long(),
+			Protocol:               toTypePhoneCallProtocol(m.Object()),
+			Connection:             toTypePhoneConnection(m.Object()),
+			AlternativeConnections: toTypePhoneConnectionSlice(m.Vector()),
+			StartDate:              m.Int(),
 		}
 
 	case crc_phoneCallDiscarded:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPhoneCallDiscarded{
-			flags,
-			m.Long(),
-			toTypePhoneCallDiscardReason(m.FlaggedObject(flags, 0)),
-			m.FlaggedInt(flags, 1),
+			Flags:    flags,
+			Id:       m.Long(),
+			Reason:   toTypePhoneCallDiscardReason(m.FlaggedObject(flags, 0)),
+			Duration: m.FlaggedInt(flags, 1),
 		}
 
 	case crc_phoneConnection:
 		r = &PredPhoneConnection{
-			m.Long(),
-			m.String(),
-			m.String(),
-			m.Int(),
-			m.StringBytes(),
+			Id:      m.Long(),
+			Ip:      m.String(),
+			Ipv6:    m.String(),
+			Port:    m.Int(),
+			PeerTag: m.StringBytes(),
 		}
 
 	case crc_phoneCallProtocol:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPhoneCallProtocol{
-			flags,
-			m.Int(),
-			m.Int(),
+			Flags:    flags,
+			MinLayer: m.Int(),
+			MaxLayer: m.Int(),
 		}
 
 	case crc_phonePhoneCall:
 		r = &PredPhonePhoneCall{
-			toTypePhoneCall(m.Object()),
-			toTypeUserSlice(m.Vector()),
+			PhoneCall: toTypePhoneCall(m.Object()),
+			Users:     toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_phoneCallDiscardReasonMissed:
@@ -18787,287 +18787,287 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMessagesFilterPhoneCalls{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_messageActionPhoneCall:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageActionPhoneCall{
-			flags,
-			m.Long(),
-			toTypePhoneCallDiscardReason(m.FlaggedObject(flags, 0)),
-			m.FlaggedInt(flags, 1),
+			Flags:    flags,
+			CallId:   m.Long(),
+			Reason:   toTypePhoneCallDiscardReason(m.FlaggedObject(flags, 0)),
+			Duration: m.FlaggedInt(flags, 1),
 		}
 
 	case crc_invoice:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInvoice{
-			flags,
-			m.String(),
-			toTypeLabeledPriceSlice(m.Vector()),
+			Flags:    flags,
+			Currency: m.String(),
+			Prices:   toTypeLabeledPriceSlice(m.Vector()),
 		}
 
 	case crc_inputMediaInvoice:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputMediaInvoice{
-			flags,
-			m.String(),
-			m.String(),
-			toTypeInputWebDocument(m.FlaggedObject(flags, 0)),
-			toTypeInvoice(m.Object()),
-			m.StringBytes(),
-			m.String(),
-			m.String(),
+			Flags:       flags,
+			Title:       m.String(),
+			Description: m.String(),
+			Photo:       toTypeInputWebDocument(m.FlaggedObject(flags, 0)),
+			Invoice:     toTypeInvoice(m.Object()),
+			Payload:     m.StringBytes(),
+			Provider:    m.String(),
+			StartParam:  m.String(),
 		}
 
 	case crc_messageActionPaymentSentMe:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageActionPaymentSentMe{
-			flags,
-			m.String(),
-			m.Long(),
-			m.StringBytes(),
-			toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
-			m.FlaggedString(flags, 1),
-			toTypePaymentCharge(m.Object()),
+			Flags:            flags,
+			Currency:         m.String(),
+			TotalAmount:      m.Long(),
+			Payload:          m.StringBytes(),
+			Info:             toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
+			ShippingOptionId: m.FlaggedString(flags, 1),
+			Charge:           toTypePaymentCharge(m.Object()),
 		}
 
 	case crc_messageMediaInvoice:
 		flags := m.Flags()
 		_ = flags
 		r = &PredMessageMediaInvoice{
-			flags,
-			m.String(),
-			m.String(),
-			toTypeWebDocument(m.FlaggedObject(flags, 0)),
-			m.FlaggedInt(flags, 2),
-			m.String(),
-			m.Long(),
-			m.String(),
+			Flags:        flags,
+			Title:        m.String(),
+			Description:  m.String(),
+			Photo:        toTypeWebDocument(m.FlaggedObject(flags, 0)),
+			ReceiptMsgId: m.FlaggedInt(flags, 2),
+			Currency:     m.String(),
+			TotalAmount:  m.Long(),
+			StartParam:   m.String(),
 		}
 
 	case crc_keyboardButtonBuy:
 		r = &PredKeyboardButtonBuy{
-			m.String(),
+			Text: m.String(),
 		}
 
 	case crc_messageActionPaymentSent:
 		r = &PredMessageActionPaymentSent{
-			m.String(),
-			m.Long(),
+			Currency:    m.String(),
+			TotalAmount: m.Long(),
 		}
 
 	case crc_paymentsPaymentForm:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPaymentsPaymentForm{
-			flags,
-			m.Int(),
-			toTypeInvoice(m.Object()),
-			m.Int(),
-			m.String(),
-			m.FlaggedString(flags, 4),
-			toTypeDataJSON(m.FlaggedObject(flags, 4)),
-			toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
-			toTypePaymentSavedCredentials(m.FlaggedObject(flags, 1)),
-			toTypeUserSlice(m.Vector()),
+			Flags:            flags,
+			BotId:            m.Int(),
+			Invoice:          toTypeInvoice(m.Object()),
+			ProviderId:       m.Int(),
+			Url:              m.String(),
+			NativeProvider:   m.FlaggedString(flags, 4),
+			NativeParams:     toTypeDataJSON(m.FlaggedObject(flags, 4)),
+			SavedInfo:        toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
+			SavedCredentials: toTypePaymentSavedCredentials(m.FlaggedObject(flags, 1)),
+			Users:            toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_postAddress:
 		r = &PredPostAddress{
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
+			StreetLine1: m.String(),
+			StreetLine2: m.String(),
+			City:        m.String(),
+			State:       m.String(),
+			CountryIso2: m.String(),
+			PostCode:    m.String(),
 		}
 
 	case crc_paymentRequestedInfo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPaymentRequestedInfo{
-			flags,
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			toTypePostAddress(m.FlaggedObject(flags, 3)),
+			Flags:           flags,
+			Name:            m.FlaggedString(flags, 0),
+			Phone:           m.FlaggedString(flags, 1),
+			Email:           m.FlaggedString(flags, 2),
+			ShippingAddress: toTypePostAddress(m.FlaggedObject(flags, 3)),
 		}
 
 	case crc_updateBotWebhookJSON:
 		r = &PredUpdateBotWebhookJSON{
-			toTypeDataJSON(m.Object()),
+			Data: toTypeDataJSON(m.Object()),
 		}
 
 	case crc_updateBotWebhookJSONQuery:
 		r = &PredUpdateBotWebhookJSONQuery{
-			m.Long(),
-			toTypeDataJSON(m.Object()),
-			m.Int(),
+			QueryId: m.Long(),
+			Data:    toTypeDataJSON(m.Object()),
+			Timeout: m.Int(),
 		}
 
 	case crc_updateBotShippingQuery:
 		r = &PredUpdateBotShippingQuery{
-			m.Long(),
-			m.Int(),
-			m.StringBytes(),
-			toTypePostAddress(m.Object()),
+			QueryId:         m.Long(),
+			UserId:          m.Int(),
+			Payload:         m.StringBytes(),
+			ShippingAddress: toTypePostAddress(m.Object()),
 		}
 
 	case crc_updateBotPrecheckoutQuery:
 		flags := m.Flags()
 		_ = flags
 		r = &PredUpdateBotPrecheckoutQuery{
-			flags,
-			m.Long(),
-			m.Int(),
-			m.StringBytes(),
-			toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
-			m.FlaggedString(flags, 1),
-			m.String(),
-			m.Long(),
+			Flags:            flags,
+			QueryId:          m.Long(),
+			UserId:           m.Int(),
+			Payload:          m.StringBytes(),
+			Info:             toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
+			ShippingOptionId: m.FlaggedString(flags, 1),
+			Currency:         m.String(),
+			TotalAmount:      m.Long(),
 		}
 
 	case crc_dataJSON:
 		r = &PredDataJSON{
-			m.String(),
+			Data: m.String(),
 		}
 
 	case crc_labeledPrice:
 		r = &PredLabeledPrice{
-			m.String(),
-			m.Long(),
+			Label:  m.String(),
+			Amount: m.Long(),
 		}
 
 	case crc_paymentCharge:
 		r = &PredPaymentCharge{
-			m.String(),
-			m.String(),
+			Id:               m.String(),
+			ProviderChargeId: m.String(),
 		}
 
 	case crc_paymentSavedCredentialsCard:
 		r = &PredPaymentSavedCredentialsCard{
-			m.String(),
-			m.String(),
+			Id:    m.String(),
+			Title: m.String(),
 		}
 
 	case crc_webDocument:
 		r = &PredWebDocument{
-			m.String(),
-			m.Long(),
-			m.Int(),
-			m.String(),
-			toTypeDocumentAttributeSlice(m.Vector()),
-			m.Int(),
+			Url:        m.String(),
+			AccessHash: m.Long(),
+			Size:       m.Int(),
+			MimeType:   m.String(),
+			Attributes: toTypeDocumentAttributeSlice(m.Vector()),
+			DcId:       m.Int(),
 		}
 
 	case crc_inputWebDocument:
 		r = &PredInputWebDocument{
-			m.String(),
-			m.Int(),
-			m.String(),
-			toTypeDocumentAttributeSlice(m.Vector()),
+			Url:        m.String(),
+			Size:       m.Int(),
+			MimeType:   m.String(),
+			Attributes: toTypeDocumentAttributeSlice(m.Vector()),
 		}
 
 	case crc_inputWebFileLocation:
 		r = &PredInputWebFileLocation{
-			m.String(),
-			m.Long(),
+			Url:        m.String(),
+			AccessHash: m.Long(),
 		}
 
 	case crc_uploadWebFile:
 		r = &PredUploadWebFile{
-			m.Int(),
-			m.String(),
-			toTypeStorageFileType(m.Object()),
-			m.Int(),
-			m.StringBytes(),
+			Size:     m.Int(),
+			MimeType: m.String(),
+			FileType: toTypeStorageFileType(m.Object()),
+			Mtime:    m.Int(),
+			Bytes:    m.StringBytes(),
 		}
 
 	case crc_paymentsValidatedRequestedInfo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPaymentsValidatedRequestedInfo{
-			flags,
-			m.FlaggedString(flags, 0),
-			toTypeShippingOptionSlice(m.FlaggedVector(flags, 1)),
+			Flags:           flags,
+			Id:              m.FlaggedString(flags, 0),
+			ShippingOptions: toTypeShippingOptionSlice(m.FlaggedVector(flags, 1)),
 		}
 
 	case crc_paymentsPaymentResult:
 		r = &PredPaymentsPaymentResult{
-			toTypeUpdates(m.Object()),
+			Updates: toTypeUpdates(m.Object()),
 		}
 
 	case crc_paymentsPaymentVerficationNeeded:
 		r = &PredPaymentsPaymentVerficationNeeded{
-			m.String(),
+			Url: m.String(),
 		}
 
 	case crc_paymentsPaymentReceipt:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPaymentsPaymentReceipt{
-			flags,
-			m.Int(),
-			m.Int(),
-			toTypeInvoice(m.Object()),
-			m.Int(),
-			toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
-			toTypeShippingOption(m.FlaggedObject(flags, 1)),
-			m.String(),
-			m.Long(),
-			m.String(),
-			toTypeUserSlice(m.Vector()),
+			Flags:            flags,
+			Date:             m.Int(),
+			BotId:            m.Int(),
+			Invoice:          toTypeInvoice(m.Object()),
+			ProviderId:       m.Int(),
+			Info:             toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
+			Shipping:         toTypeShippingOption(m.FlaggedObject(flags, 1)),
+			Currency:         m.String(),
+			TotalAmount:      m.Long(),
+			CredentialsTitle: m.String(),
+			Users:            toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_paymentsSavedInfo:
 		flags := m.Flags()
 		_ = flags
 		r = &PredPaymentsSavedInfo{
-			flags,
-			toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
+			Flags:     flags,
+			SavedInfo: toTypePaymentRequestedInfo(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_inputPaymentCredentialsSaved:
 		r = &PredInputPaymentCredentialsSaved{
-			m.String(),
-			m.StringBytes(),
+			Id:          m.String(),
+			TmpPassword: m.StringBytes(),
 		}
 
 	case crc_inputPaymentCredentials:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputPaymentCredentials{
-			flags,
-			toTypeDataJSON(m.Object()),
+			Flags: flags,
+			Data:  toTypeDataJSON(m.Object()),
 		}
 
 	case crc_accountTmpPassword:
 		r = &PredAccountTmpPassword{
-			m.StringBytes(),
-			m.Int(),
+			TmpPassword: m.StringBytes(),
+			ValidUntil:  m.Int(),
 		}
 
 	case crc_shippingOption:
 		r = &PredShippingOption{
-			m.String(),
-			m.String(),
-			toTypeLabeledPriceSlice(m.Vector()),
+			Id:     m.String(),
+			Title:  m.String(),
+			Prices: toTypeLabeledPriceSlice(m.Vector()),
 		}
 
 	case crc_phoneCallAccepted:
 		r = &PredPhoneCallAccepted{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
-			toTypePhoneCallProtocol(m.Object()),
+			Id:            m.Long(),
+			AccessHash:    m.Long(),
+			Date:          m.Int(),
+			AdminId:       m.Int(),
+			ParticipantId: m.Int(),
+			GB:            m.StringBytes(),
+			Protocol:      toTypePhoneCallProtocol(m.Object()),
 		}
 
 	case crc_inputMessagesFilterRoundVoice:
@@ -19078,11 +19078,11 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_uploadFileCdnRedirect:
 		r = &PredUploadFileCdnRedirect{
-			m.Int(),
-			m.StringBytes(),
-			m.StringBytes(),
-			m.StringBytes(),
-			toTypeCdnFileHashSlice(m.Vector()),
+			DcId:          m.Int(),
+			FileToken:     m.StringBytes(),
+			EncryptionKey: m.StringBytes(),
+			EncryptionIv:  m.StringBytes(),
+			CdnFileHashes: toTypeCdnFileHashSlice(m.Vector()),
 		}
 
 	case crc_sendMessageRecordRoundAction:
@@ -19090,28 +19090,28 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_sendMessageUploadRoundAction:
 		r = &PredSendMessageUploadRoundAction{
-			m.Int(),
+			Progress: m.Int(),
 		}
 
 	case crc_uploadCdnFileReuploadNeeded:
 		r = &PredUploadCdnFileReuploadNeeded{
-			m.StringBytes(),
+			RequestToken: m.StringBytes(),
 		}
 
 	case crc_uploadCdnFile:
 		r = &PredUploadCdnFile{
-			m.StringBytes(),
+			Bytes: m.StringBytes(),
 		}
 
 	case crc_cdnPublicKey:
 		r = &PredCdnPublicKey{
-			m.Int(),
-			m.String(),
+			DcId:      m.Int(),
+			PublicKey: m.String(),
 		}
 
 	case crc_cdnConfig:
 		r = &PredCdnConfig{
-			toTypeCdnPublicKeySlice(m.Vector()),
+			PublicKeys: toTypeCdnPublicKeySlice(m.Vector()),
 		}
 
 	case crc_updateLangPackTooLong:
@@ -19119,95 +19119,95 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateLangPack:
 		r = &PredUpdateLangPack{
-			toTypeLangPackDifference(m.Object()),
+			Difference: toTypeLangPackDifference(m.Object()),
 		}
 
 	case crc_pageBlockChannel:
 		r = &PredPageBlockChannel{
-			toTypeChat(m.Object()),
+			Channel: toTypeChat(m.Object()),
 		}
 
 	case crc_inputStickerSetItem:
 		flags := m.Flags()
 		_ = flags
 		r = &PredInputStickerSetItem{
-			flags,
-			toTypeInputDocument(m.Object()),
-			m.String(),
-			toTypeMaskCoords(m.FlaggedObject(flags, 0)),
+			Flags:      flags,
+			Document:   toTypeInputDocument(m.Object()),
+			Emoji:      m.String(),
+			MaskCoords: toTypeMaskCoords(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_langPackString:
 		r = &PredLangPackString{
-			m.String(),
-			m.String(),
+			Key:   m.String(),
+			Value: m.String(),
 		}
 
 	case crc_langPackStringPluralized:
 		flags := m.Flags()
 		_ = flags
 		r = &PredLangPackStringPluralized{
-			flags,
-			m.String(),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
-			m.FlaggedString(flags, 3),
-			m.FlaggedString(flags, 4),
-			m.String(),
+			Flags:      flags,
+			Key:        m.String(),
+			ZeroValue:  m.FlaggedString(flags, 0),
+			OneValue:   m.FlaggedString(flags, 1),
+			TwoValue:   m.FlaggedString(flags, 2),
+			FewValue:   m.FlaggedString(flags, 3),
+			ManyValue:  m.FlaggedString(flags, 4),
+			OtherValue: m.String(),
 		}
 
 	case crc_langPackStringDeleted:
 		r = &PredLangPackStringDeleted{
-			m.String(),
+			Key: m.String(),
 		}
 
 	case crc_langPackDifference:
 		r = &PredLangPackDifference{
-			m.String(),
-			m.Int(),
-			m.Int(),
-			toTypeLangPackStringSlice(m.Vector()),
+			LangCode:    m.String(),
+			FromVersion: m.Int(),
+			Version:     m.Int(),
+			Strings:     toTypeLangPackStringSlice(m.Vector()),
 		}
 
 	case crc_langPackLanguage:
 		r = &PredLangPackLanguage{
-			m.String(),
-			m.String(),
-			m.String(),
+			Name:       m.String(),
+			NativeName: m.String(),
+			LangCode:   m.String(),
 		}
 
 	case crc_channelParticipantAdmin:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelParticipantAdmin{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeChannelAdminRights(m.Object()),
+			Flags:       flags,
+			UserId:      m.Int(),
+			InviterId:   m.Int(),
+			PromotedBy:  m.Int(),
+			Date:        m.Int(),
+			AdminRights: toTypeChannelAdminRights(m.Object()),
 		}
 
 	case crc_channelParticipantBanned:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelParticipantBanned{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			toTypeChannelBannedRights(m.Object()),
+			Flags:        flags,
+			UserId:       m.Int(),
+			KickedBy:     m.Int(),
+			Date:         m.Int(),
+			BannedRights: toTypeChannelBannedRights(m.Object()),
 		}
 
 	case crc_channelParticipantsBanned:
 		r = &PredChannelParticipantsBanned{
-			m.String(),
+			Q: m.String(),
 		}
 
 	case crc_channelParticipantsSearch:
 		r = &PredChannelParticipantsSearch{
-			m.String(),
+			Q: m.String(),
 		}
 
 	case crc_topPeerCategoryPhoneCalls:
@@ -19215,73 +19215,73 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_pageBlockAudio:
 		r = &PredPageBlockAudio{
-			m.Long(),
-			toTypeRichText(m.Object()),
+			AudioId: m.Long(),
+			Caption: toTypeRichText(m.Object()),
 		}
 
 	case crc_channelAdminRights:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelAdminRights{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_channelBannedRights:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelBannedRights{
-			flags,
-			m.Int(),
+			Flags:     flags,
+			UntilDate: m.Int(),
 		}
 
 	case crc_channelAdminLogEventActionChangeTitle:
 		r = &PredChannelAdminLogEventActionChangeTitle{
-			m.String(),
-			m.String(),
+			PrevValue: m.String(),
+			NewValue:  m.String(),
 		}
 
 	case crc_channelAdminLogEventActionChangeAbout:
 		r = &PredChannelAdminLogEventActionChangeAbout{
-			m.String(),
-			m.String(),
+			PrevValue: m.String(),
+			NewValue:  m.String(),
 		}
 
 	case crc_channelAdminLogEventActionChangeUsername:
 		r = &PredChannelAdminLogEventActionChangeUsername{
-			m.String(),
-			m.String(),
+			PrevValue: m.String(),
+			NewValue:  m.String(),
 		}
 
 	case crc_channelAdminLogEventActionChangePhoto:
 		r = &PredChannelAdminLogEventActionChangePhoto{
-			toTypeChatPhoto(m.Object()),
-			toTypeChatPhoto(m.Object()),
+			PrevPhoto: toTypeChatPhoto(m.Object()),
+			NewPhoto:  toTypeChatPhoto(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionToggleInvites:
 		r = &PredChannelAdminLogEventActionToggleInvites{
-			toTypeBool(m.Object()),
+			NewValue: toTypeBool(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionToggleSignatures:
 		r = &PredChannelAdminLogEventActionToggleSignatures{
-			toTypeBool(m.Object()),
+			NewValue: toTypeBool(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionUpdatePinned:
 		r = &PredChannelAdminLogEventActionUpdatePinned{
-			toTypeMessage(m.Object()),
+			Message: toTypeMessage(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionEditMessage:
 		r = &PredChannelAdminLogEventActionEditMessage{
-			toTypeMessage(m.Object()),
-			toTypeMessage(m.Object()),
+			PrevMessage: toTypeMessage(m.Object()),
+			NewMessage:  toTypeMessage(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionDeleteMessage:
 		r = &PredChannelAdminLogEventActionDeleteMessage{
-			toTypeMessage(m.Object()),
+			Message: toTypeMessage(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionParticipantJoin:
@@ -19292,41 +19292,41 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_channelAdminLogEventActionParticipantInvite:
 		r = &PredChannelAdminLogEventActionParticipantInvite{
-			toTypeChannelParticipant(m.Object()),
+			Participant: toTypeChannelParticipant(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionParticipantToggleBan:
 		r = &PredChannelAdminLogEventActionParticipantToggleBan{
-			toTypeChannelParticipant(m.Object()),
-			toTypeChannelParticipant(m.Object()),
+			PrevParticipant: toTypeChannelParticipant(m.Object()),
+			NewParticipant:  toTypeChannelParticipant(m.Object()),
 		}
 
 	case crc_channelAdminLogEventActionParticipantToggleAdmin:
 		r = &PredChannelAdminLogEventActionParticipantToggleAdmin{
-			toTypeChannelParticipant(m.Object()),
-			toTypeChannelParticipant(m.Object()),
+			PrevParticipant: toTypeChannelParticipant(m.Object()),
+			NewParticipant:  toTypeChannelParticipant(m.Object()),
 		}
 
 	case crc_channelAdminLogEvent:
 		r = &PredChannelAdminLogEvent{
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			toTypeChannelAdminLogEventAction(m.Object()),
+			Id:     m.Long(),
+			Date:   m.Int(),
+			UserId: m.Int(),
+			Action: toTypeChannelAdminLogEventAction(m.Object()),
 		}
 
 	case crc_channelsAdminLogResults:
 		r = &PredChannelsAdminLogResults{
-			toTypeChannelAdminLogEventSlice(m.Vector()),
-			toTypeChatSlice(m.Vector()),
-			toTypeUserSlice(m.Vector()),
+			Events: toTypeChannelAdminLogEventSlice(m.Vector()),
+			Chats:  toTypeChatSlice(m.Vector()),
+			Users:  toTypeUserSlice(m.Vector()),
 		}
 
 	case crc_channelAdminLogEventsFilter:
 		flags := m.Flags()
 		_ = flags
 		r = &PredChannelAdminLogEventsFilter{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_messageActionScreenshotTaken:
@@ -19334,15 +19334,15 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_popularContact:
 		r = &PredPopularContact{
-			m.Long(),
-			m.Int(),
+			ClientId:  m.Long(),
+			Importers: m.Int(),
 		}
 
 	case crc_cdnFileHash:
 		r = &PredCdnFileHash{
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
+			Offset: m.Int(),
+			Limit:  m.Int(),
+			Hash:   m.StringBytes(),
 		}
 
 	case crc_inputMessagesFilterMyMentions:
@@ -19356,8 +19356,8 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_channelAdminLogEventActionChangeStickerSet:
 		r = &PredChannelAdminLogEventActionChangeStickerSet{
-			toTypeInputStickerSet(m.Object()),
-			toTypeInputStickerSet(m.Object()),
+			PrevStickerset: toTypeInputStickerSet(m.Object()),
+			NewStickerset:  toTypeInputStickerSet(m.Object()),
 		}
 
 	case crc_updateFavedStickers:
@@ -19365,9 +19365,9 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesFavedStickers:
 		r = &PredMessagesFavedStickers{
-			m.Int(),
-			toTypeStickerPackSlice(m.Vector()),
-			toTypeDocumentSlice(m.Vector()),
+			Hash:     m.Int(),
+			Packs:    toTypeStickerPackSlice(m.Vector()),
+			Stickers: toTypeDocumentSlice(m.Vector()),
 		}
 
 	case crc_messagesFavedStickersNotModified:
@@ -19375,52 +19375,52 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_updateChannelReadMessagesContents:
 		r = &PredUpdateChannelReadMessagesContents{
-			m.Int(),
-			m.VectorInt(),
+			ChannelId: m.Int(),
+			Messages:  m.VectorInt(),
 		}
 
 	case crc_invokeAfterMsg:
 		r = &ReqInvokeAfterMsg{
-			m.Long(),
-			Pack(m.Object()),
+			MsgId: m.Long(),
+			Query: Pack(m.Object()),
 		}
 
 	case crc_invokeAfterMsgs:
 		r = &ReqInvokeAfterMsgs{
-			m.VectorLong(),
-			Pack(m.Object()),
+			MsgIds: m.VectorLong(),
+			Query:  Pack(m.Object()),
 		}
 
 	case crc_authCheckPhone:
 		r = &ReqAuthCheckPhone{
-			m.String(),
+			PhoneNumber: m.String(),
 		}
 
 	case crc_authSendCode:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqAuthSendCode{
-			flags,
-			m.String(),
-			toTypeBool(m.FlaggedObject(flags, 0)),
-			m.Int(),
-			m.String(),
+			Flags:         flags,
+			PhoneNumber:   m.String(),
+			CurrentNumber: toTypeBool(m.FlaggedObject(flags, 0)),
+			ApiId:         m.Int(),
+			ApiHash:       m.String(),
 		}
 
 	case crc_authSignUp:
 		r = &ReqAuthSignUp{
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
+			PhoneNumber:   m.String(),
+			PhoneCodeHash: m.String(),
+			PhoneCode:     m.String(),
+			FirstName:     m.String(),
+			LastName:      m.String(),
 		}
 
 	case crc_authSignIn:
 		r = &ReqAuthSignIn{
-			m.String(),
-			m.String(),
-			m.String(),
+			PhoneNumber:   m.String(),
+			PhoneCodeHash: m.String(),
+			PhoneCode:     m.String(),
 		}
 
 	case crc_authLogOut:
@@ -19431,42 +19431,42 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authSendInvites:
 		r = &ReqAuthSendInvites{
-			m.VectorString(),
-			m.String(),
+			PhoneNumbers: m.VectorString(),
+			Message:      m.String(),
 		}
 
 	case crc_authExportAuthorization:
 		r = &ReqAuthExportAuthorization{
-			m.Int(),
+			DcId: m.Int(),
 		}
 
 	case crc_authImportAuthorization:
 		r = &ReqAuthImportAuthorization{
-			m.Int(),
-			m.StringBytes(),
+			Id:    m.Int(),
+			Bytes: m.StringBytes(),
 		}
 
 	case crc_accountRegisterDevice:
 		r = &ReqAccountRegisterDevice{
-			m.Int(),
-			m.String(),
+			TokenType: m.Int(),
+			Token:     m.String(),
 		}
 
 	case crc_accountUnregisterDevice:
 		r = &ReqAccountUnregisterDevice{
-			m.Int(),
-			m.String(),
+			TokenType: m.Int(),
+			Token:     m.String(),
 		}
 
 	case crc_accountUpdateNotifySettings:
 		r = &ReqAccountUpdateNotifySettings{
-			toTypeInputNotifyPeer(m.Object()),
-			toTypeInputPeerNotifySettings(m.Object()),
+			Peer:     toTypeInputNotifyPeer(m.Object()),
+			Settings: toTypeInputPeerNotifySettings(m.Object()),
 		}
 
 	case crc_accountGetNotifySettings:
 		r = &ReqAccountGetNotifySettings{
-			toTypeInputNotifyPeer(m.Object()),
+			Peer: toTypeInputNotifyPeer(m.Object()),
 		}
 
 	case crc_accountResetNotifySettings:
@@ -19476,15 +19476,15 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &ReqAccountUpdateProfile{
-			flags,
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			m.FlaggedString(flags, 2),
+			Flags:     flags,
+			FirstName: m.FlaggedString(flags, 0),
+			LastName:  m.FlaggedString(flags, 1),
+			About:     m.FlaggedString(flags, 2),
 		}
 
 	case crc_accountUpdateStatus:
 		r = &ReqAccountUpdateStatus{
-			toTypeBool(m.Object()),
+			Offline: toTypeBool(m.Object()),
 		}
 
 	case crc_accountGetWallPapers:
@@ -19492,12 +19492,12 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_usersGetUsers:
 		r = &ReqUsersGetUsers{
-			toTypeInputUserSlice(m.Vector()),
+			Id: toTypeInputUserSlice(m.Vector()),
 		}
 
 	case crc_usersGetFullUser:
 		r = &ReqUsersGetFullUser{
-			toTypeInputUser(m.Object()),
+			Id: toTypeInputUser(m.Object()),
 		}
 
 	case crc_contactsGetStatuses:
@@ -19505,200 +19505,200 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_contactsGetContacts:
 		r = &ReqContactsGetContacts{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_contactsImportContacts:
 		r = &ReqContactsImportContacts{
-			toTypeInputContactSlice(m.Vector()),
+			Contacts: toTypeInputContactSlice(m.Vector()),
 		}
 
 	case crc_contactsSearch:
 		r = &ReqContactsSearch{
-			m.String(),
-			m.Int(),
+			Q:     m.String(),
+			Limit: m.Int(),
 		}
 
 	case crc_contactsDeleteContact:
 		r = &ReqContactsDeleteContact{
-			toTypeInputUser(m.Object()),
+			Id: toTypeInputUser(m.Object()),
 		}
 
 	case crc_contactsDeleteContacts:
 		r = &ReqContactsDeleteContacts{
-			toTypeInputUserSlice(m.Vector()),
+			Id: toTypeInputUserSlice(m.Vector()),
 		}
 
 	case crc_contactsBlock:
 		r = &ReqContactsBlock{
-			toTypeInputUser(m.Object()),
+			Id: toTypeInputUser(m.Object()),
 		}
 
 	case crc_contactsUnblock:
 		r = &ReqContactsUnblock{
-			toTypeInputUser(m.Object()),
+			Id: toTypeInputUser(m.Object()),
 		}
 
 	case crc_contactsGetBlocked:
 		r = &ReqContactsGetBlocked{
-			m.Int(),
-			m.Int(),
+			Offset: m.Int(),
+			Limit:  m.Int(),
 		}
 
 	case crc_messagesGetMessages:
 		r = &ReqMessagesGetMessages{
-			m.VectorInt(),
+			Id: m.VectorInt(),
 		}
 
 	case crc_messagesGetDialogs:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesGetDialogs{
-			flags,
-			m.Int(),
-			m.Int(),
-			toTypeInputPeer(m.Object()),
-			m.Int(),
+			Flags:      flags,
+			OffsetDate: m.Int(),
+			OffsetId:   m.Int(),
+			OffsetPeer: toTypeInputPeer(m.Object()),
+			Limit:      m.Int(),
 		}
 
 	case crc_messagesGetHistory:
 		r = &ReqMessagesGetHistory{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Peer:       toTypeInputPeer(m.Object()),
+			OffsetId:   m.Int(),
+			OffsetDate: m.Int(),
+			AddOffset:  m.Int(),
+			Limit:      m.Int(),
+			MaxId:      m.Int(),
+			MinId:      m.Int(),
 		}
 
 	case crc_messagesSearch:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSearch{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.String(),
-			toTypeInputUser(m.FlaggedObject(flags, 0)),
-			toTypeMessagesFilter(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Flags:     flags,
+			Peer:      toTypeInputPeer(m.Object()),
+			Q:         m.String(),
+			FromId:    toTypeInputUser(m.FlaggedObject(flags, 0)),
+			Filter:    toTypeMessagesFilter(m.Object()),
+			MinDate:   m.Int(),
+			MaxDate:   m.Int(),
+			OffsetId:  m.Int(),
+			AddOffset: m.Int(),
+			Limit:     m.Int(),
+			MaxId:     m.Int(),
+			MinId:     m.Int(),
 		}
 
 	case crc_messagesReadHistory:
 		r = &ReqMessagesReadHistory{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
+			Peer:  toTypeInputPeer(m.Object()),
+			MaxId: m.Int(),
 		}
 
 	case crc_messagesDeleteHistory:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesDeleteHistory{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.Int(),
+			Flags: flags,
+			Peer:  toTypeInputPeer(m.Object()),
+			MaxId: m.Int(),
 		}
 
 	case crc_messagesDeleteMessages:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesDeleteMessages{
-			flags,
-			m.VectorInt(),
+			Flags: flags,
+			Id:    m.VectorInt(),
 		}
 
 	case crc_messagesReceivedMessages:
 		r = &ReqMessagesReceivedMessages{
-			m.Int(),
+			MaxId: m.Int(),
 		}
 
 	case crc_messagesSetTyping:
 		r = &ReqMessagesSetTyping{
-			toTypeInputPeer(m.Object()),
-			toTypeSendMessageAction(m.Object()),
+			Peer:   toTypeInputPeer(m.Object()),
+			Action: toTypeSendMessageAction(m.Object()),
 		}
 
 	case crc_messagesSendMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSendMessage{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.FlaggedInt(flags, 0),
-			m.String(),
-			m.Long(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
+			Flags:        flags,
+			Peer:         toTypeInputPeer(m.Object()),
+			ReplyToMsgId: m.FlaggedInt(flags, 0),
+			Message:      m.String(),
+			RandomId:     m.Long(),
+			ReplyMarkup:  toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
 		}
 
 	case crc_messagesSendMedia:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSendMedia{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.FlaggedInt(flags, 0),
-			toTypeInputMedia(m.Object()),
-			m.Long(),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Flags:        flags,
+			Peer:         toTypeInputPeer(m.Object()),
+			ReplyToMsgId: m.FlaggedInt(flags, 0),
+			Media:        toTypeInputMedia(m.Object()),
+			RandomId:     m.Long(),
+			ReplyMarkup:  toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
 		}
 
 	case crc_messagesForwardMessages:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesForwardMessages{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.VectorInt(),
-			m.VectorLong(),
-			toTypeInputPeer(m.Object()),
+			Flags:    flags,
+			FromPeer: toTypeInputPeer(m.Object()),
+			Id:       m.VectorInt(),
+			RandomId: m.VectorLong(),
+			ToPeer:   toTypeInputPeer(m.Object()),
 		}
 
 	case crc_messagesGetChats:
 		r = &ReqMessagesGetChats{
-			m.VectorInt(),
+			Id: m.VectorInt(),
 		}
 
 	case crc_messagesGetFullChat:
 		r = &ReqMessagesGetFullChat{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_messagesEditChatTitle:
 		r = &ReqMessagesEditChatTitle{
-			m.Int(),
-			m.String(),
+			ChatId: m.Int(),
+			Title:  m.String(),
 		}
 
 	case crc_messagesEditChatPhoto:
 		r = &ReqMessagesEditChatPhoto{
-			m.Int(),
-			toTypeInputChatPhoto(m.Object()),
+			ChatId: m.Int(),
+			Photo:  toTypeInputChatPhoto(m.Object()),
 		}
 
 	case crc_messagesAddChatUser:
 		r = &ReqMessagesAddChatUser{
-			m.Int(),
-			toTypeInputUser(m.Object()),
-			m.Int(),
+			ChatId:   m.Int(),
+			UserId:   toTypeInputUser(m.Object()),
+			FwdLimit: m.Int(),
 		}
 
 	case crc_messagesDeleteChatUser:
 		r = &ReqMessagesDeleteChatUser{
-			m.Int(),
-			toTypeInputUser(m.Object()),
+			ChatId: m.Int(),
+			UserId: toTypeInputUser(m.Object()),
 		}
 
 	case crc_messagesCreateChat:
 		r = &ReqMessagesCreateChat{
-			toTypeInputUserSlice(m.Vector()),
-			m.String(),
+			Users: toTypeInputUserSlice(m.Vector()),
+			Title: m.String(),
 		}
 
 	case crc_updatesGetState:
@@ -19708,35 +19708,35 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &ReqUpdatesGetDifference{
-			flags,
-			m.Int(),
-			m.FlaggedInt(flags, 0),
-			m.Int(),
-			m.Int(),
+			Flags:         flags,
+			Pts:           m.Int(),
+			PtsTotalLimit: m.FlaggedInt(flags, 0),
+			Date:          m.Int(),
+			Qts:           m.Int(),
 		}
 
 	case crc_photosUpdateProfilePhoto:
 		r = &ReqPhotosUpdateProfilePhoto{
-			toTypeInputPhoto(m.Object()),
+			Id: toTypeInputPhoto(m.Object()),
 		}
 
 	case crc_photosUploadProfilePhoto:
 		r = &ReqPhotosUploadProfilePhoto{
-			toTypeInputFile(m.Object()),
+			File: toTypeInputFile(m.Object()),
 		}
 
 	case crc_uploadSaveFilePart:
 		r = &ReqUploadSaveFilePart{
-			m.Long(),
-			m.Int(),
-			m.StringBytes(),
+			FileId:   m.Long(),
+			FilePart: m.Int(),
+			Bytes:    m.StringBytes(),
 		}
 
 	case crc_uploadGetFile:
 		r = &ReqUploadGetFile{
-			toTypeInputFileLocation(m.Object()),
-			m.Int(),
-			m.Int(),
+			Location: toTypeInputFileLocation(m.Object()),
+			Offset:   m.Int(),
+			Limit:    m.Int(),
 		}
 
 	case crc_helpGetConfig:
@@ -19750,7 +19750,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_helpSaveAppLog:
 		r = &ReqHelpSaveAppLog{
-			toTypeInputAppEventSlice(m.Vector()),
+			Events: toTypeInputAppEventSlice(m.Vector()),
 		}
 
 	case crc_helpGetInviteText:
@@ -19758,106 +19758,106 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_photosDeletePhotos:
 		r = &ReqPhotosDeletePhotos{
-			toTypeInputPhotoSlice(m.Vector()),
+			Id: toTypeInputPhotoSlice(m.Vector()),
 		}
 
 	case crc_photosGetUserPhotos:
 		r = &ReqPhotosGetUserPhotos{
-			toTypeInputUser(m.Object()),
-			m.Int(),
-			m.Long(),
-			m.Int(),
+			UserId: toTypeInputUser(m.Object()),
+			Offset: m.Int(),
+			MaxId:  m.Long(),
+			Limit:  m.Int(),
 		}
 
 	case crc_messagesForwardMessage:
 		r = &ReqMessagesForwardMessage{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.Long(),
+			Peer:     toTypeInputPeer(m.Object()),
+			Id:       m.Int(),
+			RandomId: m.Long(),
 		}
 
 	case crc_messagesGetDhConfig:
 		r = &ReqMessagesGetDhConfig{
-			m.Int(),
-			m.Int(),
+			Version:      m.Int(),
+			RandomLength: m.Int(),
 		}
 
 	case crc_messagesRequestEncryption:
 		r = &ReqMessagesRequestEncryption{
-			toTypeInputUser(m.Object()),
-			m.Int(),
-			m.StringBytes(),
+			UserId:   toTypeInputUser(m.Object()),
+			RandomId: m.Int(),
+			GA:       m.StringBytes(),
 		}
 
 	case crc_messagesAcceptEncryption:
 		r = &ReqMessagesAcceptEncryption{
-			toTypeInputEncryptedChat(m.Object()),
-			m.StringBytes(),
-			m.Long(),
+			Peer:           toTypeInputEncryptedChat(m.Object()),
+			GB:             m.StringBytes(),
+			KeyFingerprint: m.Long(),
 		}
 
 	case crc_messagesDiscardEncryption:
 		r = &ReqMessagesDiscardEncryption{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_messagesSetEncryptedTyping:
 		r = &ReqMessagesSetEncryptedTyping{
-			toTypeInputEncryptedChat(m.Object()),
-			toTypeBool(m.Object()),
+			Peer:   toTypeInputEncryptedChat(m.Object()),
+			Typing: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesReadEncryptedHistory:
 		r = &ReqMessagesReadEncryptedHistory{
-			toTypeInputEncryptedChat(m.Object()),
-			m.Int(),
+			Peer:    toTypeInputEncryptedChat(m.Object()),
+			MaxDate: m.Int(),
 		}
 
 	case crc_messagesSendEncrypted:
 		r = &ReqMessagesSendEncrypted{
-			toTypeInputEncryptedChat(m.Object()),
-			m.Long(),
-			m.StringBytes(),
+			Peer:     toTypeInputEncryptedChat(m.Object()),
+			RandomId: m.Long(),
+			Data:     m.StringBytes(),
 		}
 
 	case crc_messagesSendEncryptedFile:
 		r = &ReqMessagesSendEncryptedFile{
-			toTypeInputEncryptedChat(m.Object()),
-			m.Long(),
-			m.StringBytes(),
-			toTypeInputEncryptedFile(m.Object()),
+			Peer:     toTypeInputEncryptedChat(m.Object()),
+			RandomId: m.Long(),
+			Data:     m.StringBytes(),
+			File:     toTypeInputEncryptedFile(m.Object()),
 		}
 
 	case crc_messagesSendEncryptedService:
 		r = &ReqMessagesSendEncryptedService{
-			toTypeInputEncryptedChat(m.Object()),
-			m.Long(),
-			m.StringBytes(),
+			Peer:     toTypeInputEncryptedChat(m.Object()),
+			RandomId: m.Long(),
+			Data:     m.StringBytes(),
 		}
 
 	case crc_messagesReceivedQueue:
 		r = &ReqMessagesReceivedQueue{
-			m.Int(),
+			MaxQts: m.Int(),
 		}
 
 	case crc_uploadSaveBigFilePart:
 		r = &ReqUploadSaveBigFilePart{
-			m.Long(),
-			m.Int(),
-			m.Int(),
-			m.StringBytes(),
+			FileId:         m.Long(),
+			FilePart:       m.Int(),
+			FileTotalParts: m.Int(),
+			Bytes:          m.StringBytes(),
 		}
 
 	case crc_initConnection:
 		r = &ReqInitConnection{
-			m.Int(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			m.String(),
-			Pack(m.Object()),
+			ApiId:          m.Int(),
+			DeviceModel:    m.String(),
+			SystemVersion:  m.String(),
+			AppVersion:     m.String(),
+			SystemLangCode: m.String(),
+			LangPack:       m.String(),
+			LangCode:       m.String(),
+			Query:          Pack(m.Object()),
 		}
 
 	case crc_helpGetSupport:
@@ -19865,10 +19865,10 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authBindTempAuthKey:
 		r = &ReqAuthBindTempAuthKey{
-			m.Long(),
-			m.Long(),
-			m.Int(),
-			m.StringBytes(),
+			PermAuthKeyId:    m.Long(),
+			Nonce:            m.Long(),
+			ExpiresAt:        m.Int(),
+			EncryptedMessage: m.StringBytes(),
 		}
 
 	case crc_contactsExportCard:
@@ -19876,38 +19876,38 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_contactsImportCard:
 		r = &ReqContactsImportCard{
-			m.VectorInt(),
+			ExportCard: m.VectorInt(),
 		}
 
 	case crc_messagesReadMessageContents:
 		r = &ReqMessagesReadMessageContents{
-			m.VectorInt(),
+			Id: m.VectorInt(),
 		}
 
 	case crc_accountCheckUsername:
 		r = &ReqAccountCheckUsername{
-			m.String(),
+			Username: m.String(),
 		}
 
 	case crc_accountUpdateUsername:
 		r = &ReqAccountUpdateUsername{
-			m.String(),
+			Username: m.String(),
 		}
 
 	case crc_accountGetPrivacy:
 		r = &ReqAccountGetPrivacy{
-			toTypeInputPrivacyKey(m.Object()),
+			Key: toTypeInputPrivacyKey(m.Object()),
 		}
 
 	case crc_accountSetPrivacy:
 		r = &ReqAccountSetPrivacy{
-			toTypeInputPrivacyKey(m.Object()),
-			toTypeInputPrivacyRuleSlice(m.Vector()),
+			Key:   toTypeInputPrivacyKey(m.Object()),
+			Rules: toTypeInputPrivacyRuleSlice(m.Vector()),
 		}
 
 	case crc_accountDeleteAccount:
 		r = &ReqAccountDeleteAccount{
-			m.String(),
+			Reason: m.String(),
 		}
 
 	case crc_accountGetAccountTTL:
@@ -19915,44 +19915,44 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_accountSetAccountTTL:
 		r = &ReqAccountSetAccountTTL{
-			toTypeAccountDaysTTL(m.Object()),
+			Ttl: toTypeAccountDaysTTL(m.Object()),
 		}
 
 	case crc_invokeWithLayer:
 		r = &ReqInvokeWithLayer{
-			m.Int(),
-			Pack(m.Object()),
+			Layer: m.Int(),
+			Query: Pack(m.Object()),
 		}
 
 	case crc_contactsResolveUsername:
 		r = &ReqContactsResolveUsername{
-			m.String(),
+			Username: m.String(),
 		}
 
 	case crc_accountSendChangePhoneCode:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqAccountSendChangePhoneCode{
-			flags,
-			m.String(),
-			toTypeBool(m.FlaggedObject(flags, 0)),
+			Flags:         flags,
+			PhoneNumber:   m.String(),
+			CurrentNumber: toTypeBool(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_accountChangePhone:
 		r = &ReqAccountChangePhone{
-			m.String(),
-			m.String(),
-			m.String(),
+			PhoneNumber:   m.String(),
+			PhoneCodeHash: m.String(),
+			PhoneCode:     m.String(),
 		}
 
 	case crc_messagesGetAllStickers:
 		r = &ReqMessagesGetAllStickers{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_accountUpdateDeviceLocked:
 		r = &ReqAccountUpdateDeviceLocked{
-			m.Int(),
+			Period: m.Int(),
 		}
 
 	case crc_accountGetPassword:
@@ -19960,12 +19960,12 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authCheckPassword:
 		r = &ReqAuthCheckPassword{
-			m.StringBytes(),
+			PasswordHash: m.StringBytes(),
 		}
 
 	case crc_messagesGetWebPagePreview:
 		r = &ReqMessagesGetWebPagePreview{
-			m.String(),
+			Message: m.String(),
 		}
 
 	case crc_accountGetAuthorizations:
@@ -19973,18 +19973,18 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_accountResetAuthorization:
 		r = &ReqAccountResetAuthorization{
-			m.Long(),
+			Hash: m.Long(),
 		}
 
 	case crc_accountGetPasswordSettings:
 		r = &ReqAccountGetPasswordSettings{
-			m.StringBytes(),
+			CurrentPasswordHash: m.StringBytes(),
 		}
 
 	case crc_accountUpdatePasswordSettings:
 		r = &ReqAccountUpdatePasswordSettings{
-			m.StringBytes(),
-			toTypeAccountPasswordInputSettings(m.Object()),
+			CurrentPasswordHash: m.StringBytes(),
+			NewSettings:         toTypeAccountPasswordInputSettings(m.Object()),
 		}
 
 	case crc_authRequestPasswordRecovery:
@@ -19992,255 +19992,255 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authRecoverPassword:
 		r = &ReqAuthRecoverPassword{
-			m.String(),
+			Code: m.String(),
 		}
 
 	case crc_invokeWithoutUpdates:
 		r = &ReqInvokeWithoutUpdates{
-			Pack(m.Object()),
+			Query: Pack(m.Object()),
 		}
 
 	case crc_messagesExportChatInvite:
 		r = &ReqMessagesExportChatInvite{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_messagesCheckChatInvite:
 		r = &ReqMessagesCheckChatInvite{
-			m.String(),
+			Hash: m.String(),
 		}
 
 	case crc_messagesImportChatInvite:
 		r = &ReqMessagesImportChatInvite{
-			m.String(),
+			Hash: m.String(),
 		}
 
 	case crc_messagesGetStickerSet:
 		r = &ReqMessagesGetStickerSet{
-			toTypeInputStickerSet(m.Object()),
+			Stickerset: toTypeInputStickerSet(m.Object()),
 		}
 
 	case crc_messagesInstallStickerSet:
 		r = &ReqMessagesInstallStickerSet{
-			toTypeInputStickerSet(m.Object()),
-			toTypeBool(m.Object()),
+			Stickerset: toTypeInputStickerSet(m.Object()),
+			Archived:   toTypeBool(m.Object()),
 		}
 
 	case crc_messagesUninstallStickerSet:
 		r = &ReqMessagesUninstallStickerSet{
-			toTypeInputStickerSet(m.Object()),
+			Stickerset: toTypeInputStickerSet(m.Object()),
 		}
 
 	case crc_authImportBotAuthorization:
 		r = &ReqAuthImportBotAuthorization{
-			m.Int(),
-			m.Int(),
-			m.String(),
-			m.String(),
+			Flags:        m.Int(),
+			ApiId:        m.Int(),
+			ApiHash:      m.String(),
+			BotAuthToken: m.String(),
 		}
 
 	case crc_messagesStartBot:
 		r = &ReqMessagesStartBot{
-			toTypeInputUser(m.Object()),
-			toTypeInputPeer(m.Object()),
-			m.Long(),
-			m.String(),
+			Bot:        toTypeInputUser(m.Object()),
+			Peer:       toTypeInputPeer(m.Object()),
+			RandomId:   m.Long(),
+			StartParam: m.String(),
 		}
 
 	case crc_helpGetAppChangelog:
 		r = &ReqHelpGetAppChangelog{
-			m.String(),
+			PrevAppVersion: m.String(),
 		}
 
 	case crc_messagesReportSpam:
 		r = &ReqMessagesReportSpam{
-			toTypeInputPeer(m.Object()),
+			Peer: toTypeInputPeer(m.Object()),
 		}
 
 	case crc_messagesGetMessagesViews:
 		r = &ReqMessagesGetMessagesViews{
-			toTypeInputPeer(m.Object()),
-			m.VectorInt(),
-			toTypeBool(m.Object()),
+			Peer:      toTypeInputPeer(m.Object()),
+			Id:        m.VectorInt(),
+			Increment: toTypeBool(m.Object()),
 		}
 
 	case crc_updatesGetChannelDifference:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqUpdatesGetChannelDifference{
-			flags,
-			toTypeInputChannel(m.Object()),
-			toTypeChannelMessagesFilter(m.Object()),
-			m.Int(),
-			m.Int(),
+			Flags:   flags,
+			Channel: toTypeInputChannel(m.Object()),
+			Filter:  toTypeChannelMessagesFilter(m.Object()),
+			Pts:     m.Int(),
+			Limit:   m.Int(),
 		}
 
 	case crc_channelsReadHistory:
 		r = &ReqChannelsReadHistory{
-			toTypeInputChannel(m.Object()),
-			m.Int(),
+			Channel: toTypeInputChannel(m.Object()),
+			MaxId:   m.Int(),
 		}
 
 	case crc_channelsDeleteMessages:
 		r = &ReqChannelsDeleteMessages{
-			toTypeInputChannel(m.Object()),
-			m.VectorInt(),
+			Channel: toTypeInputChannel(m.Object()),
+			Id:      m.VectorInt(),
 		}
 
 	case crc_channelsDeleteUserHistory:
 		r = &ReqChannelsDeleteUserHistory{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUser(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
+			UserId:  toTypeInputUser(m.Object()),
 		}
 
 	case crc_channelsReportSpam:
 		r = &ReqChannelsReportSpam{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUser(m.Object()),
-			m.VectorInt(),
+			Channel: toTypeInputChannel(m.Object()),
+			UserId:  toTypeInputUser(m.Object()),
+			Id:      m.VectorInt(),
 		}
 
 	case crc_channelsGetMessages:
 		r = &ReqChannelsGetMessages{
-			toTypeInputChannel(m.Object()),
-			m.VectorInt(),
+			Channel: toTypeInputChannel(m.Object()),
+			Id:      m.VectorInt(),
 		}
 
 	case crc_channelsGetParticipants:
 		r = &ReqChannelsGetParticipants{
-			toTypeInputChannel(m.Object()),
-			toTypeChannelParticipantsFilter(m.Object()),
-			m.Int(),
-			m.Int(),
+			Channel: toTypeInputChannel(m.Object()),
+			Filter:  toTypeChannelParticipantsFilter(m.Object()),
+			Offset:  m.Int(),
+			Limit:   m.Int(),
 		}
 
 	case crc_channelsGetParticipant:
 		r = &ReqChannelsGetParticipant{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUser(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
+			UserId:  toTypeInputUser(m.Object()),
 		}
 
 	case crc_channelsGetChannels:
 		r = &ReqChannelsGetChannels{
-			toTypeInputChannelSlice(m.Vector()),
+			Id: toTypeInputChannelSlice(m.Vector()),
 		}
 
 	case crc_channelsGetFullChannel:
 		r = &ReqChannelsGetFullChannel{
-			toTypeInputChannel(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
 		}
 
 	case crc_channelsCreateChannel:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqChannelsCreateChannel{
-			flags,
-			m.String(),
-			m.String(),
+			Flags: flags,
+			Title: m.String(),
+			About: m.String(),
 		}
 
 	case crc_channelsEditAbout:
 		r = &ReqChannelsEditAbout{
-			toTypeInputChannel(m.Object()),
-			m.String(),
+			Channel: toTypeInputChannel(m.Object()),
+			About:   m.String(),
 		}
 
 	case crc_channelsEditAdmin:
 		r = &ReqChannelsEditAdmin{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUser(m.Object()),
-			toTypeChannelAdminRights(m.Object()),
+			Channel:     toTypeInputChannel(m.Object()),
+			UserId:      toTypeInputUser(m.Object()),
+			AdminRights: toTypeChannelAdminRights(m.Object()),
 		}
 
 	case crc_channelsEditTitle:
 		r = &ReqChannelsEditTitle{
-			toTypeInputChannel(m.Object()),
-			m.String(),
+			Channel: toTypeInputChannel(m.Object()),
+			Title:   m.String(),
 		}
 
 	case crc_channelsEditPhoto:
 		r = &ReqChannelsEditPhoto{
-			toTypeInputChannel(m.Object()),
-			toTypeInputChatPhoto(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
+			Photo:   toTypeInputChatPhoto(m.Object()),
 		}
 
 	case crc_channelsCheckUsername:
 		r = &ReqChannelsCheckUsername{
-			toTypeInputChannel(m.Object()),
-			m.String(),
+			Channel:  toTypeInputChannel(m.Object()),
+			Username: m.String(),
 		}
 
 	case crc_channelsUpdateUsername:
 		r = &ReqChannelsUpdateUsername{
-			toTypeInputChannel(m.Object()),
-			m.String(),
+			Channel:  toTypeInputChannel(m.Object()),
+			Username: m.String(),
 		}
 
 	case crc_channelsJoinChannel:
 		r = &ReqChannelsJoinChannel{
-			toTypeInputChannel(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
 		}
 
 	case crc_channelsLeaveChannel:
 		r = &ReqChannelsLeaveChannel{
-			toTypeInputChannel(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
 		}
 
 	case crc_channelsInviteToChannel:
 		r = &ReqChannelsInviteToChannel{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUserSlice(m.Vector()),
+			Channel: toTypeInputChannel(m.Object()),
+			Users:   toTypeInputUserSlice(m.Vector()),
 		}
 
 	case crc_channelsExportInvite:
 		r = &ReqChannelsExportInvite{
-			toTypeInputChannel(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
 		}
 
 	case crc_channelsDeleteChannel:
 		r = &ReqChannelsDeleteChannel{
-			toTypeInputChannel(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
 		}
 
 	case crc_messagesToggleChatAdmins:
 		r = &ReqMessagesToggleChatAdmins{
-			m.Int(),
-			toTypeBool(m.Object()),
+			ChatId:  m.Int(),
+			Enabled: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesEditChatAdmin:
 		r = &ReqMessagesEditChatAdmin{
-			m.Int(),
-			toTypeInputUser(m.Object()),
-			toTypeBool(m.Object()),
+			ChatId:  m.Int(),
+			UserId:  toTypeInputUser(m.Object()),
+			IsAdmin: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesMigrateChat:
 		r = &ReqMessagesMigrateChat{
-			m.Int(),
+			ChatId: m.Int(),
 		}
 
 	case crc_messagesSearchGlobal:
 		r = &ReqMessagesSearchGlobal{
-			m.String(),
-			m.Int(),
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.Int(),
+			Q:          m.String(),
+			OffsetDate: m.Int(),
+			OffsetPeer: toTypeInputPeer(m.Object()),
+			OffsetId:   m.Int(),
+			Limit:      m.Int(),
 		}
 
 	case crc_accountReportPeer:
 		r = &ReqAccountReportPeer{
-			toTypeInputPeer(m.Object()),
-			toTypeReportReason(m.Object()),
+			Peer:   toTypeInputPeer(m.Object()),
+			Reason: toTypeReportReason(m.Object()),
 		}
 
 	case crc_messagesReorderStickerSets:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesReorderStickerSets{
-			flags,
-			m.VectorLong(),
+			Flags: flags,
+			Order: m.VectorLong(),
 		}
 
 	case crc_helpGetTermsOfService:
@@ -20248,193 +20248,193 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesGetDocumentByHash:
 		r = &ReqMessagesGetDocumentByHash{
-			m.StringBytes(),
-			m.Int(),
-			m.String(),
+			Sha256:   m.StringBytes(),
+			Size:     m.Int(),
+			MimeType: m.String(),
 		}
 
 	case crc_messagesSearchGifs:
 		r = &ReqMessagesSearchGifs{
-			m.String(),
-			m.Int(),
+			Q:      m.String(),
+			Offset: m.Int(),
 		}
 
 	case crc_messagesGetSavedGifs:
 		r = &ReqMessagesGetSavedGifs{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_messagesSaveGif:
 		r = &ReqMessagesSaveGif{
-			toTypeInputDocument(m.Object()),
-			toTypeBool(m.Object()),
+			Id:     toTypeInputDocument(m.Object()),
+			Unsave: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesGetInlineBotResults:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesGetInlineBotResults{
-			flags,
-			toTypeInputUser(m.Object()),
-			toTypeInputPeer(m.Object()),
-			toTypeInputGeoPoint(m.FlaggedObject(flags, 0)),
-			m.String(),
-			m.String(),
+			Flags:    flags,
+			Bot:      toTypeInputUser(m.Object()),
+			Peer:     toTypeInputPeer(m.Object()),
+			GeoPoint: toTypeInputGeoPoint(m.FlaggedObject(flags, 0)),
+			Query:    m.String(),
+			Offset:   m.String(),
 		}
 
 	case crc_messagesSetInlineBotResults:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetInlineBotResults{
-			flags,
-			m.Long(),
-			toTypeInputBotInlineResultSlice(m.Vector()),
-			m.Int(),
-			m.FlaggedString(flags, 2),
-			toTypeInlineBotSwitchPM(m.FlaggedObject(flags, 3)),
+			Flags:      flags,
+			QueryId:    m.Long(),
+			Results:    toTypeInputBotInlineResultSlice(m.Vector()),
+			CacheTime:  m.Int(),
+			NextOffset: m.FlaggedString(flags, 2),
+			SwitchPm:   toTypeInlineBotSwitchPM(m.FlaggedObject(flags, 3)),
 		}
 
 	case crc_messagesSendInlineBotResult:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSendInlineBotResult{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.FlaggedInt(flags, 0),
-			m.Long(),
-			m.Long(),
-			m.String(),
+			Flags:        flags,
+			Peer:         toTypeInputPeer(m.Object()),
+			ReplyToMsgId: m.FlaggedInt(flags, 0),
+			RandomId:     m.Long(),
+			QueryId:      m.Long(),
+			Id:           m.String(),
 		}
 
 	case crc_channelsToggleInvites:
 		r = &ReqChannelsToggleInvites{
-			toTypeInputChannel(m.Object()),
-			toTypeBool(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
+			Enabled: toTypeBool(m.Object()),
 		}
 
 	case crc_channelsExportMessageLink:
 		r = &ReqChannelsExportMessageLink{
-			toTypeInputChannel(m.Object()),
-			m.Int(),
+			Channel: toTypeInputChannel(m.Object()),
+			Id:      m.Int(),
 		}
 
 	case crc_channelsToggleSignatures:
 		r = &ReqChannelsToggleSignatures{
-			toTypeInputChannel(m.Object()),
-			toTypeBool(m.Object()),
+			Channel: toTypeInputChannel(m.Object()),
+			Enabled: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesHideReportSpam:
 		r = &ReqMessagesHideReportSpam{
-			toTypeInputPeer(m.Object()),
+			Peer: toTypeInputPeer(m.Object()),
 		}
 
 	case crc_messagesGetPeerSettings:
 		r = &ReqMessagesGetPeerSettings{
-			toTypeInputPeer(m.Object()),
+			Peer: toTypeInputPeer(m.Object()),
 		}
 
 	case crc_channelsUpdatePinnedMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqChannelsUpdatePinnedMessage{
-			flags,
-			toTypeInputChannel(m.Object()),
-			m.Int(),
+			Flags:   flags,
+			Channel: toTypeInputChannel(m.Object()),
+			Id:      m.Int(),
 		}
 
 	case crc_authResendCode:
 		r = &ReqAuthResendCode{
-			m.String(),
-			m.String(),
+			PhoneNumber:   m.String(),
+			PhoneCodeHash: m.String(),
 		}
 
 	case crc_authCancelCode:
 		r = &ReqAuthCancelCode{
-			m.String(),
-			m.String(),
+			PhoneNumber:   m.String(),
+			PhoneCodeHash: m.String(),
 		}
 
 	case crc_messagesGetMessageEditData:
 		r = &ReqMessagesGetMessageEditData{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
+			Peer: toTypeInputPeer(m.Object()),
+			Id:   m.Int(),
 		}
 
 	case crc_messagesEditMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesEditMessage{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.FlaggedString(flags, 11),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
+			Flags:       flags,
+			Peer:        toTypeInputPeer(m.Object()),
+			Id:          m.Int(),
+			Message:     m.FlaggedString(flags, 11),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Entities:    toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
 		}
 
 	case crc_messagesEditInlineBotMessage:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesEditInlineBotMessage{
-			flags,
-			toTypeInputBotInlineMessageID(m.Object()),
-			m.FlaggedString(flags, 11),
-			toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
+			Flags:       flags,
+			Id:          toTypeInputBotInlineMessageID(m.Object()),
+			Message:     m.FlaggedString(flags, 11),
+			ReplyMarkup: toTypeReplyMarkup(m.FlaggedObject(flags, 2)),
+			Entities:    toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
 		}
 
 	case crc_messagesGetBotCallbackAnswer:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesGetBotCallbackAnswer{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.FlaggedStringBytes(flags, 0),
+			Flags: flags,
+			Peer:  toTypeInputPeer(m.Object()),
+			MsgId: m.Int(),
+			Data:  m.FlaggedStringBytes(flags, 0),
 		}
 
 	case crc_messagesSetBotCallbackAnswer:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetBotCallbackAnswer{
-			flags,
-			m.Long(),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 2),
-			m.Int(),
+			Flags:     flags,
+			QueryId:   m.Long(),
+			Message:   m.FlaggedString(flags, 0),
+			Url:       m.FlaggedString(flags, 2),
+			CacheTime: m.Int(),
 		}
 
 	case crc_contactsGetTopPeers:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqContactsGetTopPeers{
-			flags,
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Flags:  flags,
+			Offset: m.Int(),
+			Limit:  m.Int(),
+			Hash:   m.Int(),
 		}
 
 	case crc_contactsResetTopPeerRating:
 		r = &ReqContactsResetTopPeerRating{
-			toTypeTopPeerCategory(m.Object()),
-			toTypeInputPeer(m.Object()),
+			Category: toTypeTopPeerCategory(m.Object()),
+			Peer:     toTypeInputPeer(m.Object()),
 		}
 
 	case crc_messagesGetPeerDialogs:
 		r = &ReqMessagesGetPeerDialogs{
-			toTypeInputPeerSlice(m.Vector()),
+			Peers: toTypeInputPeerSlice(m.Vector()),
 		}
 
 	case crc_messagesSaveDraft:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSaveDraft{
-			flags,
-			m.FlaggedInt(flags, 0),
-			toTypeInputPeer(m.Object()),
-			m.String(),
-			toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
+			Flags:        flags,
+			ReplyToMsgId: m.FlaggedInt(flags, 0),
+			Peer:         toTypeInputPeer(m.Object()),
+			Message:      m.String(),
+			Entities:     toTypeMessageEntitySlice(m.FlaggedVector(flags, 3)),
 		}
 
 	case crc_messagesGetAllDrafts:
@@ -20444,58 +20444,58 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &ReqAccountSendConfirmPhoneCode{
-			flags,
-			m.String(),
-			toTypeBool(m.FlaggedObject(flags, 0)),
+			Flags:         flags,
+			Hash:          m.String(),
+			CurrentNumber: toTypeBool(m.FlaggedObject(flags, 0)),
 		}
 
 	case crc_accountConfirmPhone:
 		r = &ReqAccountConfirmPhone{
-			m.String(),
-			m.String(),
+			PhoneCodeHash: m.String(),
+			PhoneCode:     m.String(),
 		}
 
 	case crc_messagesGetFeaturedStickers:
 		r = &ReqMessagesGetFeaturedStickers{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_messagesReadFeaturedStickers:
 		r = &ReqMessagesReadFeaturedStickers{
-			m.VectorLong(),
+			Id: m.VectorLong(),
 		}
 
 	case crc_messagesGetRecentStickers:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesGetRecentStickers{
-			flags,
-			m.Int(),
+			Flags: flags,
+			Hash:  m.Int(),
 		}
 
 	case crc_messagesSaveRecentSticker:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSaveRecentSticker{
-			flags,
-			toTypeInputDocument(m.Object()),
-			toTypeBool(m.Object()),
+			Flags:  flags,
+			Id:     toTypeInputDocument(m.Object()),
+			Unsave: toTypeBool(m.Object()),
 		}
 
 	case crc_messagesClearRecentStickers:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesClearRecentStickers{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_messagesGetArchivedStickers:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesGetArchivedStickers{
-			flags,
-			m.Long(),
-			m.Int(),
+			Flags:    flags,
+			OffsetId: m.Long(),
+			Limit:    m.Int(),
 		}
 
 	case crc_channelsGetAdminedPublicChannels:
@@ -20503,91 +20503,91 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_authDropTempAuthKeys:
 		r = &ReqAuthDropTempAuthKeys{
-			m.VectorLong(),
+			ExceptAuthKeys: m.VectorLong(),
 		}
 
 	case crc_messagesSetGameScore:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetGameScore{
-			flags,
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			toTypeInputUser(m.Object()),
-			m.Int(),
+			Flags:  flags,
+			Peer:   toTypeInputPeer(m.Object()),
+			Id:     m.Int(),
+			UserId: toTypeInputUser(m.Object()),
+			Score:  m.Int(),
 		}
 
 	case crc_messagesSetInlineGameScore:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetInlineGameScore{
-			flags,
-			toTypeInputBotInlineMessageID(m.Object()),
-			toTypeInputUser(m.Object()),
-			m.Int(),
+			Flags:  flags,
+			Id:     toTypeInputBotInlineMessageID(m.Object()),
+			UserId: toTypeInputUser(m.Object()),
+			Score:  m.Int(),
 		}
 
 	case crc_messagesGetMaskStickers:
 		r = &ReqMessagesGetMaskStickers{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_messagesGetAttachedStickers:
 		r = &ReqMessagesGetAttachedStickers{
-			toTypeInputStickeredMedia(m.Object()),
+			Media: toTypeInputStickeredMedia(m.Object()),
 		}
 
 	case crc_messagesGetGameHighScores:
 		r = &ReqMessagesGetGameHighScores{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			toTypeInputUser(m.Object()),
+			Peer:   toTypeInputPeer(m.Object()),
+			Id:     m.Int(),
+			UserId: toTypeInputUser(m.Object()),
 		}
 
 	case crc_messagesGetInlineGameHighScores:
 		r = &ReqMessagesGetInlineGameHighScores{
-			toTypeInputBotInlineMessageID(m.Object()),
-			toTypeInputUser(m.Object()),
+			Id:     toTypeInputBotInlineMessageID(m.Object()),
+			UserId: toTypeInputUser(m.Object()),
 		}
 
 	case crc_messagesGetCommonChats:
 		r = &ReqMessagesGetCommonChats{
-			toTypeInputUser(m.Object()),
-			m.Int(),
-			m.Int(),
+			UserId: toTypeInputUser(m.Object()),
+			MaxId:  m.Int(),
+			Limit:  m.Int(),
 		}
 
 	case crc_messagesGetAllChats:
 		r = &ReqMessagesGetAllChats{
-			m.VectorInt(),
+			ExceptIds: m.VectorInt(),
 		}
 
 	case crc_helpSetBotUpdatesStatus:
 		r = &ReqHelpSetBotUpdatesStatus{
-			m.Int(),
-			m.String(),
+			PendingUpdatesCount: m.Int(),
+			Message:             m.String(),
 		}
 
 	case crc_messagesGetWebPage:
 		r = &ReqMessagesGetWebPage{
-			m.String(),
-			m.Int(),
+			Url:  m.String(),
+			Hash: m.Int(),
 		}
 
 	case crc_messagesToggleDialogPin:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesToggleDialogPin{
-			flags,
-			toTypeInputPeer(m.Object()),
+			Flags: flags,
+			Peer:  toTypeInputPeer(m.Object()),
 		}
 
 	case crc_messagesReorderPinnedDialogs:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesReorderPinnedDialogs{
-			flags,
-			toTypeInputPeerSlice(m.Vector()),
+			Flags: flags,
+			Order: toTypeInputPeerSlice(m.Vector()),
 		}
 
 	case crc_messagesGetPinnedDialogs:
@@ -20595,109 +20595,109 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_phoneRequestCall:
 		r = &ReqPhoneRequestCall{
-			toTypeInputUser(m.Object()),
-			m.Int(),
-			m.StringBytes(),
-			toTypePhoneCallProtocol(m.Object()),
+			UserId:   toTypeInputUser(m.Object()),
+			RandomId: m.Int(),
+			GAHash:   m.StringBytes(),
+			Protocol: toTypePhoneCallProtocol(m.Object()),
 		}
 
 	case crc_phoneAcceptCall:
 		r = &ReqPhoneAcceptCall{
-			toTypeInputPhoneCall(m.Object()),
-			m.StringBytes(),
-			toTypePhoneCallProtocol(m.Object()),
+			Peer:     toTypeInputPhoneCall(m.Object()),
+			GB:       m.StringBytes(),
+			Protocol: toTypePhoneCallProtocol(m.Object()),
 		}
 
 	case crc_phoneDiscardCall:
 		r = &ReqPhoneDiscardCall{
-			toTypeInputPhoneCall(m.Object()),
-			m.Int(),
-			toTypePhoneCallDiscardReason(m.Object()),
-			m.Long(),
+			Peer:         toTypeInputPhoneCall(m.Object()),
+			Duration:     m.Int(),
+			Reason:       toTypePhoneCallDiscardReason(m.Object()),
+			ConnectionId: m.Long(),
 		}
 
 	case crc_phoneReceivedCall:
 		r = &ReqPhoneReceivedCall{
-			toTypeInputPhoneCall(m.Object()),
+			Peer: toTypeInputPhoneCall(m.Object()),
 		}
 
 	case crc_messagesReportEncryptedSpam:
 		r = &ReqMessagesReportEncryptedSpam{
-			toTypeInputEncryptedChat(m.Object()),
+			Peer: toTypeInputEncryptedChat(m.Object()),
 		}
 
 	case crc_paymentsGetPaymentForm:
 		r = &ReqPaymentsGetPaymentForm{
-			m.Int(),
+			MsgId: m.Int(),
 		}
 
 	case crc_paymentsSendPaymentForm:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqPaymentsSendPaymentForm{
-			flags,
-			m.Int(),
-			m.FlaggedString(flags, 0),
-			m.FlaggedString(flags, 1),
-			toTypeInputPaymentCredentials(m.Object()),
+			Flags:            flags,
+			MsgId:            m.Int(),
+			RequestedInfoId:  m.FlaggedString(flags, 0),
+			ShippingOptionId: m.FlaggedString(flags, 1),
+			Credentials:      toTypeInputPaymentCredentials(m.Object()),
 		}
 
 	case crc_accountGetTmpPassword:
 		r = &ReqAccountGetTmpPassword{
-			m.StringBytes(),
-			m.Int(),
+			PasswordHash: m.StringBytes(),
+			Period:       m.Int(),
 		}
 
 	case crc_messagesSetBotShippingResults:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetBotShippingResults{
-			flags,
-			m.Long(),
-			m.FlaggedString(flags, 0),
-			toTypeShippingOptionSlice(m.FlaggedVector(flags, 1)),
+			Flags:           flags,
+			QueryId:         m.Long(),
+			Error:           m.FlaggedString(flags, 0),
+			ShippingOptions: toTypeShippingOptionSlice(m.FlaggedVector(flags, 1)),
 		}
 
 	case crc_messagesSetBotPrecheckoutResults:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqMessagesSetBotPrecheckoutResults{
-			flags,
-			m.Long(),
-			m.FlaggedString(flags, 0),
+			Flags:   flags,
+			QueryId: m.Long(),
+			Error:   m.FlaggedString(flags, 0),
 		}
 
 	case crc_uploadGetWebFile:
 		r = &ReqUploadGetWebFile{
-			toTypeInputWebFileLocation(m.Object()),
-			m.Int(),
-			m.Int(),
+			Location: toTypeInputWebFileLocation(m.Object()),
+			Offset:   m.Int(),
+			Limit:    m.Int(),
 		}
 
 	case crc_botsSendCustomRequest:
 		r = &ReqBotsSendCustomRequest{
-			m.String(),
-			toTypeDataJSON(m.Object()),
+			CustomMethod: m.String(),
+			Params:       toTypeDataJSON(m.Object()),
 		}
 
 	case crc_botsAnswerWebhookJSONQuery:
 		r = &ReqBotsAnswerWebhookJSONQuery{
-			m.Long(),
-			toTypeDataJSON(m.Object()),
+			QueryId: m.Long(),
+			Data:    toTypeDataJSON(m.Object()),
 		}
 
 	case crc_paymentsGetPaymentReceipt:
 		r = &ReqPaymentsGetPaymentReceipt{
-			m.Int(),
+			MsgId: m.Int(),
 		}
 
 	case crc_paymentsValidateRequestedInfo:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqPaymentsValidateRequestedInfo{
-			flags,
-			m.Int(),
-			toTypePaymentRequestedInfo(m.Object()),
+			Flags: flags,
+			MsgId: m.Int(),
+			Info:  toTypePaymentRequestedInfo(m.Object()),
 		}
 
 	case crc_paymentsGetSavedInfo:
@@ -20707,7 +20707,7 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 		flags := m.Flags()
 		_ = flags
 		r = &ReqPaymentsClearSavedInfo{
-			flags,
+			Flags: flags,
 		}
 
 	case crc_phoneGetCallConfig:
@@ -20715,36 +20715,36 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_phoneConfirmCall:
 		r = &ReqPhoneConfirmCall{
-			toTypeInputPhoneCall(m.Object()),
-			m.StringBytes(),
-			m.Long(),
-			toTypePhoneCallProtocol(m.Object()),
+			Peer:           toTypeInputPhoneCall(m.Object()),
+			GA:             m.StringBytes(),
+			KeyFingerprint: m.Long(),
+			Protocol:       toTypePhoneCallProtocol(m.Object()),
 		}
 
 	case crc_phoneSetCallRating:
 		r = &ReqPhoneSetCallRating{
-			toTypeInputPhoneCall(m.Object()),
-			m.Int(),
-			m.String(),
+			Peer:    toTypeInputPhoneCall(m.Object()),
+			Rating:  m.Int(),
+			Comment: m.String(),
 		}
 
 	case crc_phoneSaveCallDebug:
 		r = &ReqPhoneSaveCallDebug{
-			toTypeInputPhoneCall(m.Object()),
-			toTypeDataJSON(m.Object()),
+			Peer:  toTypeInputPhoneCall(m.Object()),
+			Debug: toTypeDataJSON(m.Object()),
 		}
 
 	case crc_uploadGetCdnFile:
 		r = &ReqUploadGetCdnFile{
-			m.StringBytes(),
-			m.Int(),
-			m.Int(),
+			FileToken: m.StringBytes(),
+			Offset:    m.Int(),
+			Limit:     m.Int(),
 		}
 
 	case crc_uploadReuploadCdnFile:
 		r = &ReqUploadReuploadCdnFile{
-			m.StringBytes(),
-			m.StringBytes(),
+			FileToken:    m.StringBytes(),
+			RequestToken: m.StringBytes(),
 		}
 
 	case crc_helpGetCdnConfig:
@@ -20752,35 +20752,35 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesUploadMedia:
 		r = &ReqMessagesUploadMedia{
-			toTypeInputPeer(m.Object()),
-			toTypeInputMedia(m.Object()),
+			Peer:  toTypeInputPeer(m.Object()),
+			Media: toTypeInputMedia(m.Object()),
 		}
 
 	case crc_stickersCreateStickerSet:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqStickersCreateStickerSet{
-			flags,
-			toTypeInputUser(m.Object()),
-			m.String(),
-			m.String(),
-			toTypeInputStickerSetItemSlice(m.Vector()),
+			Flags:     flags,
+			UserId:    toTypeInputUser(m.Object()),
+			Title:     m.String(),
+			ShortName: m.String(),
+			Stickers:  toTypeInputStickerSetItemSlice(m.Vector()),
 		}
 
 	case crc_langpackGetLangPack:
 		r = &ReqLangpackGetLangPack{
-			m.String(),
+			LangCode: m.String(),
 		}
 
 	case crc_langpackGetStrings:
 		r = &ReqLangpackGetStrings{
-			m.String(),
-			m.VectorString(),
+			LangCode: m.String(),
+			Keys:     m.VectorString(),
 		}
 
 	case crc_langpackGetDifference:
 		r = &ReqLangpackGetDifference{
-			m.Int(),
+			FromVersion: m.Int(),
 		}
 
 	case crc_langpackGetLanguages:
@@ -20788,75 +20788,75 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_channelsEditBanned:
 		r = &ReqChannelsEditBanned{
-			toTypeInputChannel(m.Object()),
-			toTypeInputUser(m.Object()),
-			toTypeChannelBannedRights(m.Object()),
+			Channel:      toTypeInputChannel(m.Object()),
+			UserId:       toTypeInputUser(m.Object()),
+			BannedRights: toTypeChannelBannedRights(m.Object()),
 		}
 
 	case crc_channelsGetAdminLog:
 		flags := m.Flags()
 		_ = flags
 		r = &ReqChannelsGetAdminLog{
-			flags,
-			toTypeInputChannel(m.Object()),
-			m.String(),
-			toTypeChannelAdminLogEventsFilter(m.FlaggedObject(flags, 0)),
-			toTypeInputUserSlice(m.FlaggedVector(flags, 1)),
-			m.Long(),
-			m.Long(),
-			m.Int(),
+			Flags:        flags,
+			Channel:      toTypeInputChannel(m.Object()),
+			Q:            m.String(),
+			EventsFilter: toTypeChannelAdminLogEventsFilter(m.FlaggedObject(flags, 0)),
+			Admins:       toTypeInputUserSlice(m.FlaggedVector(flags, 1)),
+			MaxId:        m.Long(),
+			MinId:        m.Long(),
+			Limit:        m.Int(),
 		}
 
 	case crc_stickersRemoveStickerFromSet:
 		r = &ReqStickersRemoveStickerFromSet{
-			toTypeInputDocument(m.Object()),
+			Sticker: toTypeInputDocument(m.Object()),
 		}
 
 	case crc_stickersChangeStickerPosition:
 		r = &ReqStickersChangeStickerPosition{
-			toTypeInputDocument(m.Object()),
-			m.Int(),
+			Sticker:  toTypeInputDocument(m.Object()),
+			Position: m.Int(),
 		}
 
 	case crc_stickersAddStickerToSet:
 		r = &ReqStickersAddStickerToSet{
-			toTypeInputStickerSet(m.Object()),
-			toTypeInputStickerSetItem(m.Object()),
+			Stickerset: toTypeInputStickerSet(m.Object()),
+			Sticker:    toTypeInputStickerSetItem(m.Object()),
 		}
 
 	case crc_messagesSendScreenshotNotification:
 		r = &ReqMessagesSendScreenshotNotification{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.Long(),
+			Peer:         toTypeInputPeer(m.Object()),
+			ReplyToMsgId: m.Int(),
+			RandomId:     m.Long(),
 		}
 
 	case crc_uploadGetCdnFileHashes:
 		r = &ReqUploadGetCdnFileHashes{
-			m.StringBytes(),
-			m.Int(),
+			FileToken: m.StringBytes(),
+			Offset:    m.Int(),
 		}
 
 	case crc_messagesGetUnreadMentions:
 		r = &ReqMessagesGetUnreadMentions{
-			toTypeInputPeer(m.Object()),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
-			m.Int(),
+			Peer:      toTypeInputPeer(m.Object()),
+			OffsetId:  m.Int(),
+			AddOffset: m.Int(),
+			Limit:     m.Int(),
+			MaxId:     m.Int(),
+			MinId:     m.Int(),
 		}
 
 	case crc_messagesFaveSticker:
 		r = &ReqMessagesFaveSticker{
-			toTypeInputDocument(m.Object()),
-			toTypeBool(m.Object()),
+			Id:     toTypeInputDocument(m.Object()),
+			Unfave: toTypeBool(m.Object()),
 		}
 
 	case crc_channelsSetStickers:
 		r = &ReqChannelsSetStickers{
-			toTypeInputChannel(m.Object()),
-			toTypeInputStickerSet(m.Object()),
+			Channel:    toTypeInputChannel(m.Object()),
+			Stickerset: toTypeInputStickerSet(m.Object()),
 		}
 
 	case crc_contactsResetSaved:
@@ -20864,13 +20864,13 @@ func (m *DecodeBuf) ObjectGenerated(constructor uint32) (r TL) {
 
 	case crc_messagesGetFavedStickers:
 		r = &ReqMessagesGetFavedStickers{
-			m.Int(),
+			Hash: m.Int(),
 		}
 
 	case crc_channelsReadMessageContents:
 		r = &ReqChannelsReadMessageContents{
-			toTypeInputChannel(m.Object()),
-			m.VectorInt(),
+			Channel: toTypeInputChannel(m.Object()),
+			Id:      m.VectorInt(),
 		}
 
 	default:

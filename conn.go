@@ -306,7 +306,7 @@ func (mconn *Conn) SignIn(phoneNumber, phoneCode, phoneCodeHash string) (*TypeAu
 
 	session, err := mconn.Session()
 	if err != nil {
-		return &TypeAuthAuthorization{auth}, err
+		return &TypeAuthAuthorization{Value: auth}, err
 	}
 
 	if auth.GetUser().GetUser() != nil {
@@ -319,7 +319,7 @@ func (mconn *Conn) SignIn(phoneNumber, phoneCode, phoneCodeHash string) (*TypeAu
 		session.user = &PredUser{}
 		slog.Logln(mconn, "Signed in without user response: neither user nor user empty")
 	}
-	return &TypeAuthAuthorization{auth}, nil
+	return &TypeAuthAuthorization{Value: auth}, nil
 }
 
 func (mconn *Conn) SignOut() (bool, error) {

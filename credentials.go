@@ -3,8 +3,8 @@ package mtproto
 import (
 	"encoding/base64"
 	"encoding/json"
-	"os"
 	"errors"
+	"os"
 )
 
 type Credentials struct {
@@ -32,8 +32,8 @@ type credentialsJSON struct {
 // It creates the file, if not exists, and overwrite the file, if exists.
 
 // JSON turns the given credentials into JSON binary in the format of credentialsJSON
-func (c *Credentials) JSON() ([]byte, error){
-	return json.Marshal(credentialsJSON {
+func (c *Credentials) JSON() ([]byte, error) {
+	return json.Marshal(credentialsJSON{
 		c.Phone,
 		c.ApiID,
 		c.ApiHash,
@@ -73,7 +73,6 @@ func NewCredentials(jsonInBytes []byte) (c *Credentials, err error) {
 	}
 	return
 }
-
 
 // Save session
 //TODO: save channel and datacenter information

@@ -54,7 +54,7 @@ func afterTest(t *testing.T) {
 func TestDialogs(t *testing.T) {
 	beforeTest(t)
 	defer afterTest(t)
-	emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
+	emptyPeer := &mtproto.TypeInputPeer{Value: &mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
 	dialogs, err := client.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
 		OffsetDate: 0,
 		OffsetId:   0,

@@ -14,16 +14,16 @@ type Event interface {
 type newsession struct {
 	// If connId is zero, Manager makes new connection and assigns it the new session.
 	// Otherwise, the new session is allocated to the connection of connId.
-	connId      int32
+	connId int32
 	//phonenumber string
 	//addr        string
 	//useIPv6     bool
-	phone string
-	apiid int32
+	phone   string
+	apiid   int32
 	apihash string
-	ip string
-	port int
-	resp        chan sessionResponse
+	ip      string
+	port    int
+	resp    chan sessionResponse
 }
 
 type loadsession struct {
@@ -60,20 +60,20 @@ type SessionDiscarded struct {
 
 // discardSession + newsession
 type renewSession struct {
-	sessionId   int64
-	phone	string
-	apiID int32
-	apiHash string
-	ip string
-	port int
-	resp        chan sessionResponse
+	sessionId int64
+	phone     string
+	apiID     int32
+	apiHash   string
+	ip        string
+	port      int
+	resp      chan sessionResponse
 }
 
 // discardSession + loadsession
 type refreshSession struct {
 	sessionId int64
 	phone     string
-	policy      retryPolicy
+	policy    retryPolicy
 	resp      chan sessionResponse
 }
 type retryPolicy string

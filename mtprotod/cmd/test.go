@@ -68,7 +68,7 @@ func init() {
 
 func dialogs(addr string) int {
 	client, err := proxy.NewClient(fmt.Sprintf("localhost:%d", port))
-	emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
+	emptyPeer := &mtproto.TypeInputPeer{Value: &mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
 	dialogs, err := client.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
 		OffsetDate: 0,
 		OffsetId:   0,

@@ -153,41 +153,41 @@ func NewClient(addr string) (*Client, error) {
 func toProxyUpdate(u mtproto.Update) *Update {
 	switch pu := u.(type) {
 	case *mtproto.PredUpdatesState:
-		return &Update{&Update_UpdatesState{pu}}
+		return &Update{Value: &Update_UpdatesState{pu}}
 	case *mtproto.PredUpdateShortMessage:
-		return &Update{&Update_UpdateShortMessage{pu}}
+		return &Update{Value: &Update_UpdateShortMessage{pu}}
 	case *mtproto.PredUpdateShortChatMessage:
-		return &Update{&Update_UpdateShortChatMessage{pu}}
+		return &Update{Value: &Update_UpdateShortChatMessage{pu}}
 	case *mtproto.PredUpdateShort:
-		return &Update{&Update_UpdateShort{pu}}
+		return &Update{Value: &Update_UpdateShort{pu}}
 	case *mtproto.PredUpdates:
-		return &Update{&Update_Updates{pu}}
+		return &Update{Value: &Update_Updates{pu}}
 	case *mtproto.PredUpdateShortSentMessage:
-		return &Update{&Update_UpdateShortSentMessage{pu}}
+		return &Update{Value: &Update_UpdateShortSentMessage{pu}}
 	case *mtproto.PredUpdatesDifference:
-		return &Update{&Update_UpdatesDifference{pu}}
+		return &Update{Value: &Update_UpdatesDifference{pu}}
 	case *mtproto.PredUpdatesDifferenceSlice:
-		return &Update{&Update_UpdatesDifferenceSlice{pu}}
+		return &Update{Value: &Update_UpdatesDifferenceSlice{pu}}
 	case *mtproto.PredUpdateNewMessage:
-		return &Update{&Update_UpdateNewMessage{pu}}
+		return &Update{Value: &Update_UpdateNewMessage{pu}}
 	case *mtproto.PredUpdateReadMessagesContents:
-		return &Update{&Update_UpdateReadMessagesContents{pu}}
+		return &Update{Value: &Update_UpdateReadMessagesContents{pu}}
 	case *mtproto.PredUpdateDeleteMessages:
-		return &Update{&Update_UpdateDeleteMessages{pu}}
+		return &Update{Value: &Update_UpdateDeleteMessages{pu}}
 	case *mtproto.PredUpdateNewEncryptedMessage:
-		return &Update{&Update_UpdateNewEncryptedMessage{pu}}
+		return &Update{Value: &Update_UpdateNewEncryptedMessage{pu}}
 	case *mtproto.PredUpdateChannel:
-		return &Update{&Update_UpdateChannel{pu}}
+		return &Update{Value: &Update_UpdateChannel{pu}}
 	case *mtproto.PredUpdateChannelMessageViews:
-		return &Update{&Update_UpdateChannelMessageViews{pu}}
+		return &Update{Value: &Update_UpdateChannelMessageViews{pu}}
 	case *mtproto.PredUpdateChannelTooLong:
-		return &Update{&Update_UpdateChannelTooLong{pu}}
+		return &Update{Value: &Update_UpdateChannelTooLong{pu}}
 	case *mtproto.PredUpdateReadChannelInbox:
-		return &Update{&Update_UpdateReadChannelInbox{pu}}
+		return &Update{Value: &Update_UpdateReadChannelInbox{pu}}
 	case *mtproto.PredUpdateReadChannelOutbox:
-		return &Update{&Update_UpdateReadChannelOutbox{pu}}
+		return &Update{Value: &Update_UpdateReadChannelOutbox{pu}}
 	case *mtproto.PredUpdateNewChannelMessage:
-		return &Update{&Update_UpdateNewChannelMessage{pu}}
+		return &Update{Value: &Update_UpdateNewChannelMessage{pu}}
 	}
 	return nil
 }

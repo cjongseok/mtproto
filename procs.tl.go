@@ -881,7 +881,7 @@ func (caller RPCaller) PhotosDeletePhotos(ctx context.Context, req *ReqPhotosDel
 		return nil, err
 	}
 	if resp, ok := resp.([]int64); ok {
-		return &TypeVectorLong{resp}, nil
+		return &TypeVectorLong{Values: resp}, nil
 	}
 	return &TypeVectorLong{}, fmt.Errorf("unexpected return: %T", resp)
 }
@@ -1056,7 +1056,7 @@ func (caller RPCaller) MessagesReceivedQueue(ctx context.Context, req *ReqMessag
 		return nil, err
 	}
 	if resp, ok := resp.([]int64); ok {
-		return &TypeVectorLong{resp}, nil
+		return &TypeVectorLong{Values: resp}, nil
 	}
 	return &TypeVectorLong{}, fmt.Errorf("unexpected return: %T", resp)
 }
@@ -1116,7 +1116,7 @@ func (caller RPCaller) ContactsExportCard(ctx context.Context, req *ReqContactsE
 		return nil, err
 	}
 	if resp, ok := resp.([]int32); ok {
-		return &TypeVectorInt{resp}, nil
+		return &TypeVectorInt{Values: resp}, nil
 	}
 	return &TypeVectorInt{}, fmt.Errorf("unexpected return: %T", resp)
 }
@@ -1601,7 +1601,7 @@ func (caller RPCaller) MessagesGetMessagesViews(ctx context.Context, req *ReqMes
 		return nil, err
 	}
 	if resp, ok := resp.([]int32); ok {
-		return &TypeVectorInt{resp}, nil
+		return &TypeVectorInt{Values: resp}, nil
 	}
 	return &TypeVectorInt{}, fmt.Errorf("unexpected return: %T", resp)
 }

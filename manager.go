@@ -87,7 +87,7 @@ func (mm *Manager) Finish() {
 func (mm *Manager) LoadAuthentication() (*Conn, error) {
 	// req connect
 	respCh := make(chan sessionResponse, 1)
-	mm.eventq <- loadsession{0,  respCh}
+	mm.eventq <- loadsession{0, respCh}
 
 	// Wait for connection built
 	resp := <-respCh
@@ -103,16 +103,16 @@ func (mm *Manager) LoadAuthentication() (*Conn, error) {
 	//}
 
 	// Request full user
-	inputUser := &TypeInputUser{&TypeInputUser_InputUserSelf{&PredInputUserSelf{}}}
+	inputUser := &TypeInputUser{Value: &TypeInputUser_InputUserSelf{&PredInputUserSelf{}}}
 	var userFull *TypeUserFull
-	x := <-mconn.InvokeNonBlocked(&ReqUsersGetFullUser{inputUser})
+	x := <-mconn.InvokeNonBlocked(&ReqUsersGetFullUser{Id: inputUser})
 	if x.err != nil {
 		return nil, x.err
 	}
 
 	switch casted := x.data.(type) {
 	case *PredUserFull:
-		userFull = &TypeUserFull{casted}
+		userFull = &TypeUserFull{Value: casted}
 	default:
 		return nil, fmt.Errorf("no full user: %T: %v", x, x)
 	}
@@ -159,13 +159,13 @@ func (mm *Manager) NewAuthentication(phone string, apiID int32, apiHash, ip stri
 			//Allow_flashcall: false,
 			Flags:         0x00000001,
 			PhoneNumber:   phone,
-			CurrentNumber: &TypeBool{&TypeBool_BoolTrue{&PredBoolTrue{}}},
+			CurrentNumber: &TypeBool{Value: &TypeBool_BoolTrue{&PredBoolTrue{}}},
 			ApiId:         session.c.ApiID,
 			ApiHash:       session.c.ApiHash,
 		})
 		switch x := data.(type) {
 		case *PredAuthSentCode:
-			return mconn, &TypeAuthSentCode{x}, nil
+			return mconn, &TypeAuthSentCode{Value: x}, nil
 			//default:
 			//	return nil, nil, fmt.Errorf("authSendCode: Got: %T", data)
 		}
@@ -515,7 +515,7 @@ func (mm *Manager) manageRoutine() {
 					if sessionResp.err != nil && e.policy == untilSuccess {
 						slog.Logln(mm, "retry refreshSession")
 						mm.eventq <- refreshSession{
-							sessionResp.session.sessionId,
+							e.sessionId,
 							e.phone,
 							untilSuccess,
 							make(chan sessionResponse),

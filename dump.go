@@ -23,11 +23,11 @@ type Dump struct {
 	updateCallback  dumpCallback
 	readWaitGroup   sync.WaitGroup
 	readInterrupter chan interface{}
-	c *Credentials
+	c               *Credentials
 	//authKey         []byte
 	//authKeyHash     []byte
 	//serverSalt      []byte
-	reader          io.Reader
+	reader io.Reader
 }
 
 func NewDump(authFileName, dumpFilename string, out chan interface{}) (*Dump, error) {

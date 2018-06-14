@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"bufio"
@@ -122,7 +121,7 @@ func (s *subscriber) OnUpdate(u mtproto.Update) {
 
 func handleError(err error) {
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
@@ -157,7 +156,6 @@ func main() {
 	var mconn *mtproto.Conn
 	if config.KeyPath == "" {
 		config.KeyPath = defaultNewKeyFile
-		log.Println("MAIN: new authentication")
 
 		// request to send authentication code to the phone
 		var sentCode *mtproto.TypeAuthSentCode
@@ -170,11 +168,9 @@ func main() {
 		var code string
 		fmt.Printf("Enter Code: ")
 		fmt.Scanf("%s", &code)
-		log.Println("entered code = ", code)
 		_, err = mconn.SignIn(phone, code, sentCode.GetValue().PhoneCodeHash)
 		handleError(err)
 	} else {
-		log.Println("MAIN: load authentication")
 		manager, err = mtproto.NewManager(config)
 		handleError(err)
 		mconn, err = manager.LoadAuthentication()
@@ -204,7 +200,7 @@ func main() {
 				help()
 				break
 			}
-			emptyPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
+			emptyPeer := &mtproto.TypeInputPeer{Value: &mtproto.TypeInputPeer_InputPeerEmpty{&mtproto.PredInputPeerEmpty{}}}
 			resp, err := caller.MessagesGetDialogs(context.Background(), &mtproto.ReqMessagesGetDialogs{
 				OffsetDate: 0, OffsetId: 0, OffsetPeer: emptyPeer, Limit: 1,
 			})
@@ -238,9 +234,9 @@ func main() {
 			handleError(err)
 			chanHash, err := strconv.ParseInt(args[2], 0, 64)
 			handleError(err)
-			peer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerChannel{
+			peer := &mtproto.TypeInputPeer{Value: &mtproto.TypeInputPeer_InputPeerChannel{
 				&mtproto.PredInputPeerChannel{
-					int32(chanId), int64(chanHash),
+					ChannelId: int32(chanId), AccessHash: int64(chanHash),
 				}}}
 			resp, err := caller.MessagesSendMessage(context.Background(), &mtproto.ReqMessagesSendMessage{
 				Peer:      peer,
@@ -255,6 +251,7 @@ func main() {
 				return
 			}
 			resp, err := caller.ContactsGetContacts(context.Background(), &mtproto.ReqContactsGetContacts{})
+			resp.GetContactsContacts().
 			handleError(err)
 			fmt.Println("contacts response:", slog.StringifyIndent(resp, "  " ))
 		case "help":
