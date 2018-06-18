@@ -32,6 +32,7 @@ type loadsession struct {
 	connId int32
 	//phone  string
 	//preferredAddr string
+	policy    retryPolicy
 	resp chan sessionResponse
 }
 

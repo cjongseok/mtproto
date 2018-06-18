@@ -87,7 +87,7 @@ func (mm *Manager) Finish() {
 func (mm *Manager) LoadAuthentication() (*Conn, error) {
 	// req connect
 	respCh := make(chan sessionResponse, 1)
-	mm.eventq <- loadsession{0, respCh}
+	mm.eventq <- loadsession{0, noRetry, respCh}
 
 	// Wait for connection built
 	resp := <-respCh
@@ -297,19 +297,24 @@ func (mm *Manager) manageRoutine() {
 						//log.Fatalln("ManageRoutine: Connect Failure", err)
 						//slog.Fatalln(mm, "connect failure", err)
 						slog.Logln(mm, "connect failure:", err)
-						switch err.(type) {
-						case handshakingFailure:
-							mm.stuckSessions[session.sessionId] = e.connId // register the stuck session
-							// usually TCP resets causes stuck sessions, and the sessions are refreshed in the cases.
-							// Sometimes TCP t/o makes stuck sessions, and the sessions are refreshed as well,
-							// however it takes too long to be identified.
-							// So trigger the refresh session by closing the TCP connection
-							//mm.eventq <- refreshSession{session.sessionId, session.phonenumber, nil}
-							session.close()
+						if session != nil {
+							switch err.(type) {
+							case handshakingFailure:
+								mm.stuckSessions[session.sessionId] = e.connId // register the stuck session
+								// usually TCP resets causes stuck sessions, and the sessions are refreshed in the cases.
+								// Sometimes TCP t/o makes stuck sessions, and the sessions are refreshed as well,
+								// however it takes too long to be identified.
+								// So trigger the refresh session by closing the TCP connection
+								//mm.eventq <- refreshSession{session.sessionId, session.phonenumber, nil}
+								session.close()
+							}
 						}
 						//TODO: separate the handshaking error into two cases and trigger refreshSession on tcp dialing
 						// failure
 						resp = sessionResponse{0, session, err}
+						if e.policy == untilSuccess {
+							mm.eventq <- e
+						}
 					} else {
 						// Bind the session with mconn and mmanager
 						mm.sessions[session.sessionId] = session // Immediate registration
@@ -486,46 +491,65 @@ func (mm *Manager) manageRoutine() {
 					}
 
 					if !skipDiscardSession {
-						// Req discardSession
+						// req discardSession
 						disconnectRespCh := make(chan sessionResponse, 1)
 						mm.sessions[e.sessionId].notify(discardSession{connId, e.sessionId, disconnectRespCh})
-
-						// Wait for disconnected event
 						disconnectResp := <-disconnectRespCh
+
+						// handle disconnect error
 						if disconnectResp.err != nil {
-							slog.Logf(mm, "refreshSession failure: cannot discardSession %d. %v\n", e.sessionId, disconnectResp.err)
+							slog.Logf(mm, "refreshSession failure; discardSession(%d) failure; %v\n", e.sessionId, disconnectResp.err)
+							refreshResp := sessionResponse{0, nil, disconnectResp.err}
+							if e.policy == untilSuccess {
+								slog.Logln(mm, "retry refreshSession")
+								mm.eventq <- refreshSession{
+									e.sessionId,
+									e.phone,
+									e.policy,
+									e.resp,
+								}
+							}
+							if e.resp != nil {
+								e.resp <- refreshResp
+							}
 							return
 						}
 					}
 
-					// Req loadsession
-					connectRespCh := make(chan sessionResponse, 1)
-					var connectResp sessionResponse
+					// req loadsession
+					var refreshResp sessionResponse
 					slog.Logln(mm, "req loadsession")
-					mm.eventq <- loadsession{connId, connectRespCh}
-					connectResp = <-connectRespCh
-					var sessionResp sessionResponse
+					connectRespCh := make(chan sessionResponse, 1)
+					mm.eventq <- loadsession{connId, noRetry, connectRespCh}
+					connectResp := <-connectRespCh
+
+					// handle load error
 					if connectResp.err != nil {
-						slog.Logln(mm, "loadsession failure on refreshSession: ", connectResp.err)
-						sessionResp = sessionResponse{0, nil, connectResp.err}
-					} else {
-						//TODO: need to handle nil resp channel?
-						sessionResp = sessionResponse{connectResp.connId, connectResp.session, nil}
-					}
-					if sessionResp.err != nil && e.policy == untilSuccess {
-						slog.Logln(mm, "retry refreshSession")
-						mm.eventq <- refreshSession{
-							e.sessionId,
-							e.phone,
-							untilSuccess,
-							make(chan sessionResponse),
+						slog.Logf(mm, "refreshSession failure; loadSession failure; %v; connId: %d, session: %v\n",
+							connectResp.err, connectResp.connId, connectResp.session)
+						refreshResp = sessionResponse{0, nil, connectResp.err}
+						if e.policy == untilSuccess {
+							if connectResp.session == nil || connectResp.session.sessionId == 0 {
+								slog.Logln(mm, "retry loadSession")
+								mm.eventq <- loadsession{connId, e.policy, e.resp}
+							} else {
+								slog.Logln(mm, "retry refreshSession")
+								mm.eventq <- refreshSession{
+									connectResp.session.sessionId,
+									e.phone,
+									e.policy,
+									e.resp,
+								}
+							}
 						}
 					} else {
-						slog.Logln(mm, "refreshSession is done.")
-						//mm.refreshSessionThrottle[e.sessionId] = 0
+						refreshResp = connectResp
 					}
+
+					slog.Logln(mm, "refreshSession is done.")
+					//mm.refreshSessionThrottle[e.sessionId] = 0
 					if e.resp != nil {
-						e.resp <- sessionResp
+						e.resp <- refreshResp
 					}
 				}()
 

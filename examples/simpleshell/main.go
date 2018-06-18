@@ -251,8 +251,7 @@ func main() {
 				return
 			}
 			resp, err := caller.ContactsGetContacts(context.Background(), &mtproto.ReqContactsGetContacts{})
-			resp.GetContactsContacts().
-			handleError(err)
+		handleError(err)
 			fmt.Println("contacts response:", slog.StringifyIndent(resp, "  " ))
 		case "help":
 			help()

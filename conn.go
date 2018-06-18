@@ -233,7 +233,7 @@ func (mconn *Conn) monitorSession() {
 			case discardSession: // triggered only on reconnect (either renewSession or refreshSession)
 				go func() {
 					// Unbind the session until the connection has new session
-					slog.Logf(mconn, "session will be discarded%d\n", mconn.session.sessionId)
+					slog.Logf(mconn, "session(%d) will be discarded\n", mconn.session.sessionId)
 					e := e.(discardSession)
 					mconn.bindWaitGroup.Add(1)
 					unbound := sessionUnbound{mconn, e.sessionId}

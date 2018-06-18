@@ -191,58 +191,23 @@ func byteArrayString2byteArray(str string) []byte {
 	return byteArr
 }
 
-// Build a connection from the session file
-// returned session contains the same session with the file but session id,
-// since the session file does not have session id
+// loadSession loads session from the credentials file of appConfig
+// it does not guarantee its session id matches with the previous one.
 func loadSession(appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
-	// load session info from either session file or env
-	// its precedence is; preferredAddr > sessionFile > env
+	// load session info from either session file
 	session := new(Session)
-	//var credentials Credentials
-	//session.phonenumber = phonenumber
 	var err error
 	if appConfig.KeyPath == "" {
 		return nil, fmt.Errorf("no credentials file")
-		// load key from env
-		//session.authKey = byteArrayString2byteArray(os.Getenv(ENV_AUTHKEY))
-		//session.authKeyHash = byteArrayString2byteArray(os.Getenv(ENV_AUTHHASH))
-		//session.serverSalt = byteArrayString2byteArray(os.Getenv(ENV_SERVER_SALT))
-		//session.addr = os.Getenv(ENV_ADDR)
-		//session.useIPv6, _ = strconv.ParseBool(os.Getenv(ENV_USE_IPV6))
-		//session.encrypted = true
-		//if session.authKey == nil || session.authKeyHash == nil || session.serverSalt == nil || session.addr == "" {
-		//	return nil, fmt.Errorf("cannot find mtproto key from neither session file nor env: open new session: %v", err)
-		//} else {
-		//	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
-		//}
 	}
 	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_RDONLY, 0600)
 	if err != nil {
-		//err = session.readSessionFile(session.f)
 		return nil, fmt.Errorf("no credentials file; %v", err)
 	}
 	credentials, err := NewCredentialsFromFile(session.f)
 	if err != nil {
 		return nil, fmt.Errorf("new credentials from file failure; %v", err)
 	}
-
-	// Deprecate preferred server address
-	//if preferredAddr != "" {
-	//	tcpAddr, err := net.ResolveTCPAddr("tcp", preferredAddr)
-	//	if err != nil {
-	//		return nil, fmt.Errorf("resolve the telegram server address failure: %v", err)
-	//	}
-	//	if tcpAddr.IP.To4() != nil {
-	//		session.useIPv6 = false
-	//		session.addr = preferredAddr
-	//	} else if tcpAddr.IP.To16() != nil {
-	//		session.useIPv6 = true
-	//		session.addr = preferredAddr
-	//	} else {
-	//		// Invalid IP address. Ignore the preferred ip address
-	//		slog.Logln(session, "invalid preferred preferred Telegram server address. ignore it.")
-	//	}
-	//}
 	useIPv6 := isIPv6(credentials.IP)
 	err = session.open(useIPv6, *credentials, appConfig /*sendQueue,*/, sessionListener, true)
 	if err != nil {
@@ -273,7 +238,8 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	if err != nil {
 		return err
 	}
-	// Packet Length is encoded by a single byte (see: https://core.telegram.org/mtproto)
+
+	// packet length is encoded by a single byte (see: https://core.telegram.org/mtproto)
 	_, err = session.tcpconn.Write([]byte{0xef})
 	if err != nil {
 		return err
@@ -331,11 +297,10 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	select {
 	case x = <-resp:
 		if x.err != nil {
-			return fmt.Errorf("TL_invokeWithLayer Failure:", x.err)
+			return fmt.Errorf("TL_invokeWithLayer Failure;", x.err)
 		}
 	case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
 		return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
-		//slog.Logf(session, "TL_invokeWithLayer Timeout(%f s)\n", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
 	}
 
 	switch x.data.(type) {
@@ -343,7 +308,6 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 		session.dcOptions = make(map[string]map[int32]PredDcOption)
 		session.dcOptions[ipv4] = make(map[int32]PredDcOption)
 		session.dcOptions[ipv6] = make(map[int32]PredDcOption)
-		//session.dclist = make(map[int32]string, 5)
 		for _, v := range x.data.(*PredConfig).DcOptions {
 			isIPv6 := true
 			dcOption := v.GetValue()
@@ -359,21 +323,14 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 				} else {
 					session.dcOptions[ipv4][dcOption.Id] = *dcOption
 				}
-				//	session.dclist[dcOption.GetId()] = fmt.Sprintf("[%s]:%d", dcOption.GetIpAddress(), dcOption.GetPort())
-				//}
-				//} else {
-				//if !isIPv6 {
-				//	session.dclist[dcOption.GetId()] = fmt.Sprintf("%s:%d", dcOption.GetIpAddress(), dcOption.GetPort())
-				//}
-				//}
 			}
 		}
 		marshaled, err := json.Marshal(x.data)
 		if err == nil {
-			slog.Logf(session, "config: %s\n", marshaled)
+			slog.Logf(session, "help config: %s\n", marshaled)
 		}
 	default:
-		return fmt.Errorf("Connection error: Failed to get config. got: %T", x)
+		return fmt.Errorf("no help config; got %T, instead", x)
 	}
 
 	// get updates state
@@ -388,11 +345,11 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 		select {
 		case x = <-resp:
 			if x.err != nil {
-				return fmt.Errorf("TL_updates_getState Failure: %s", x.err)
+				return fmt.Errorf("updatesGetState failure; %v", x.err)
 			}
 		case <-time.After(TIMEOUT_UPDATES_GETSTATE):
 			//session.close()
-			return fmt.Errorf("TL_updates_getState Timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
+			return fmt.Errorf("updatesGetState timeout(%f s)", TIMEOUT_UPDATES_GETSTATE.Seconds())
 		}
 	}
 
@@ -403,12 +360,6 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 
 	// notify the connection established
 	session.notify(SessionEstablished{session})
-
-	//fmt.Println("authKey:", session.authKey)
-	//fmt.Println("authKeyHash:", session.authKeyHash)
-	//fmt.Println("salt:", session.serverSalt)
-	//fmt.Println("addf:", session.addr)
-	//fmt.Println("ipv6:", session.useIPv6)
 
 	return nil
 }
@@ -428,7 +379,7 @@ func (session *Session) RemoveSessionListener(toremove chan Event) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
+	return fmt.Errorf("no listener, %x", toremove)
 }
 
 func (session *Session) notify(e Event) {
