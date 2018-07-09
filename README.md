@@ -1,5 +1,3 @@
-***There was a big change on Mar 14. If you are looking for the old one, please use v0.1.3.***
-
 MTProto
 ===
 Telegram MTProto and proxy (over gRPC) in Go (golang).
@@ -30,7 +28,7 @@ $ exit
 ls -al credentials.json
 
 # You can check if the scerets correct by sign-in with it.
-go run main.go credentials.json
+go run examples/simpleshell/main.go  credentials.json
 ```
 
 ## Usage
