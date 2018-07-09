@@ -198,6 +198,11 @@ func (mm *Manager) NewAuthentication(phone string, apiID int32, apiHash, ip stri
 				if isIPv6(session.c.IP) {
 					ipVersion = ipv6
 				}
+				dcOption, err := session.apiDcOption(ipVersion, newdc)
+				if err != nil {
+					return nil, nil, err
+				}
+				slog.Logln(mm, "migrate session to", dcOption)
 
 				//TODO: Check if renewSession event works with mconn.notify()
 				mconn.notify(renewSession{
@@ -206,8 +211,8 @@ func (mm *Manager) NewAuthentication(phone string, apiID int32, apiHash, ip stri
 					session.c.ApiID,
 					session.c.ApiHash,
 					//session.dclist[newdc],
-					session.dcOptions[ipVersion][newdc].IpAddress,
-					int(session.dcOptions[ipVersion][newdc].Port),
+					dcOption.IpAddress,
+					int(dcOption.Port),
 					respch,
 				})
 

@@ -18,6 +18,7 @@ import (
 	"time"
 )
 
+type dcOptionFlag int
 const (
 	ENV_AUTHKEY     = "MTPROTO_AUTHKEY"
 	ENV_AUTHHASH    = "MTPROTO_AUTHHASH"
@@ -33,6 +34,13 @@ const (
 	errorNotFound     = 404
 	errorFlood        = 420
 	errorInternal     = 500
+
+	// dc option flags
+	dcOptionFlagIPv6 = 0
+	dcOptionFlagMediaOnly = 1
+	dcOptionFlagTcpOnly = 2
+	dcOptionFlagCDN = 3
+	dcOptionFlagStatic = 4
 )
 
 type handshakingFailure struct {
@@ -87,7 +95,7 @@ type Session struct {
 
 	// dcOptions contains Telegram server list. Its 1st key is a IP version, such as 'ipv4' and 'ipv6',
 	// and 2nd key is server's id.
-	dcOptions map[string]map[int32]PredDcOption
+	dcOptions map[int32]map[int32]PredDcOption
 }
 
 // IP versions for dcOptions 1st key
@@ -305,24 +313,17 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 
 	switch x.data.(type) {
 	case *PredConfig:
-		session.dcOptions = make(map[string]map[int32]PredDcOption)
-		session.dcOptions[ipv4] = make(map[int32]PredDcOption)
-		session.dcOptions[ipv6] = make(map[int32]PredDcOption)
+		session.dcOptions = make(map[int32]map[int32]PredDcOption)
 		for _, v := range x.data.(*PredConfig).DcOptions {
-			isIPv6 := true
 			dcOption := v.GetValue()
-			tcpAddr, err := net.ResolveIPAddr("ip", dcOption.GetIpAddress())
+			_, err := net.ResolveIPAddr("ip", dcOption.GetIpAddress())
 			if err == nil {
-				ip := tcpAddr.IP.To4()
-				if ip != nil {
-					isIPv6 = false
+				m, ok := session.dcOptions[dcOption.Id]
+				if !ok {
+					m = make(map[int32]PredDcOption)
+					session.dcOptions[dcOption.Id] = m
 				}
-				//if useIPv6 {
-				if isIPv6 {
-					session.dcOptions[ipv6][dcOption.Id] = *dcOption
-				} else {
-					session.dcOptions[ipv4][dcOption.Id] = *dcOption
-				}
+				m[dcOption.Flags] = *dcOption
 			}
 		}
 		marshaled, err := json.Marshal(x.data)
@@ -1065,6 +1066,26 @@ func (session *Session) makeAuthKey() ([]byte, []byte, []byte, error) {
 	return authKey, authKeyHash, salt, nil
 }
 
+func (x *Session) apiDcOption(ipVersion string, id int32) (*PredDcOption, error) {
+	m, ok := x.dcOptions[id]
+	if !ok {
+		return nil, fmt.Errorf("invalid DC ID: %d", id)
+	}
+	var flags int32
+	switch ipVersion {
+	case ipv4:
+	case ipv6:
+		flags += 2^dcOptionFlagIPv6
+	default:
+		return nil, fmt.Errorf("invalid ip version: %s", ipVersion)
+	}
+	option, ok := m[flags]
+	if ok {
+		return &option, nil
+	}
+	return nil, fmt.Errorf("invalid DC flags: %d", flags)
+}
+
 func (x *Session) LogPrefix() string {
 	return fmt.Sprintf("[%d-%d]", x.connId, x.sessionId)
 }
@@ -1080,3 +1101,4 @@ func (e TL_rpc_error) Error() string {
 		return fmt.Sprintf("mtproto unknow RPC error: %d %s", e.error_code, e.error_message)
 	}
 }
+
