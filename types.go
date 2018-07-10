@@ -12,8 +12,8 @@ type Event interface {
 
 // Session Events
 type newsession struct {
-	// If connId is zero, Manager makes new connection and assigns it the new session.
-	// Otherwise, the new session is allocated to the connection of connId.
+	// If connID is zero, Manager makes new connection and assigns it the new session.
+	// Otherwise, the new session is allocated to the connection of connID.
 	connId int32
 	//phonenumber string
 	//addr        string
@@ -27,8 +27,8 @@ type newsession struct {
 }
 
 type loadsession struct {
-	// If connId is zero, Manager makes new connection and assigns it the loaded session.
-	// Otherwise, the loaded session is allocated to the connection of connId.
+	// If connID is zero, Manager makes new connection and assigns it the loaded session.
+	// Otherwise, the loaded session is allocated to the connection of connID.
 	connId int32
 	//phone  string
 	//preferredAddr string
@@ -85,13 +85,15 @@ const untilSuccess retryPolicy = "untilSuccess"
 // Connection Events
 type ConnectionOpened struct {
 	mconn *Conn
+	sessionID int64
 }
 type sessionBound struct {
 	mconn *Conn
+	sessionID int64
 }
 type sessionUnbound struct {
 	mconn            *Conn
-	unboundSessionId int64
+	unboundSessionID int64
 }
 type closeConnection struct {
 	connId int32
@@ -122,10 +124,10 @@ func (e updateReceived) Type() EventType     { return SESSION }
 
 //func (e newsession) SessionId() (int64)          {return 0}
 //func (e loadsession) SessionId() (int64)         {return 0}
-//func (e SessionEstablished) SessionId() (int64)  {return e.session.sessionId}
-//func (e renewSession) SessionId() (int64)        {return e.sessionId}
-//func (e refreshSession) SessionId() (int64)      {return e.sessionId}
-//func (e discardSession) SessionId() (int64)   {return e.sessionId}
+//func (e SessionEstablished) SessionId() (int64)  {return e.session.sessionID}
+//func (e renewSession) SessionId() (int64)        {return e.sessionID}
+//func (e refreshSession) SessionId() (int64)      {return e.sessionID}
+//func (e discardSession) SessionId() (int64)   {return e.sessionID}
 //func (e SessionDiscarded) SessionId() (int64) {return e.discardedSessionId}
 //func (e ConnectionOpened) SessionId() (int64) {return 0}
 //func (e sessionBound) SessionId() (int64) {
@@ -133,23 +135,23 @@ func (e updateReceived) Type() EventType     { return SESSION }
 //	if err != nil {
 //		return 0
 //	}
-//	return session.sessionId
+//	return session.sessionID
 //}
-//func (e sessionUnbound) SessionId() (int64) 		{return e.unboundSessionId}
+//func (e sessionUnbound) SessionId() (int64) 		{return e.unboundSessionID}
 //func (e closeConnection) SessionId() (int64) 	{return 0}
 //func (e connectionClosed) SessionId() (int64) 	{return 0}
 //
 //func (e newsession) ConnectionId() (int32)         {return 0}
 //func (e loadsession) ConnectionId() (int32)        {return 0}
-//func (e SessionEstablished) ConnectionId() (int32) {return e.connId}
-//func (e renewSession) ConnectionId() (int32)       {return e.connId}
-//func (e refreshSession) ConnectionId() (int32)     {return e.connId}
-//func (e discardSession) ConnectionId() (int32)     {return e.connId}
+//func (e SessionEstablished) ConnectionId() (int32) {return e.connID}
+//func (e renewSession) ConnectionId() (int32)       {return e.connID}
+//func (e refreshSession) ConnectionId() (int32)     {return e.connID}
+//func (e discardSession) ConnectionId() (int32)     {return e.connID}
 //func (e SessionDiscarded) ConnectionId() (int32)   {return e.boundConnId}
-//func (e ConnectionOpened) ConnectionId() (int32)   {return e.mconn.connId}
-//func (e sessionBound) ConnectionId() (int32)       {return e.mconn.connId}
-//func (e sessionUnbound) ConnectionId() (int32)     {return e.mconn.connId}
-//func (e closeConnection) ConnectionId() (int32)    {return e.connId}
+//func (e ConnectionOpened) ConnectionId() (int32)   {return e.mconn.connID}
+//func (e sessionBound) ConnectionId() (int32)       {return e.mconn.connID}
+//func (e sessionUnbound) ConnectionId() (int32)     {return e.mconn.connID}
+//func (e closeConnection) ConnectionId() (int32)    {return e.connID}
 //func (e connectionClosed) ConnectionId() (int32)   {return e.closedConnId}
 
 type Update interface {

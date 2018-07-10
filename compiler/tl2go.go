@@ -88,7 +88,7 @@ func main() {
 
 	procsFp, err := os.OpenFile(procsFilename, os.O_CREATE | os.O_WRONLY, 0666)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "file open failure:", err)
+		fmt.Fprintf(os.Stderr, "file open failure; %v", err)
 	}
 	defer procsFp.Close()
 
@@ -330,7 +330,7 @@ import "google/protobuf/any.proto";`)
 		if ok {
 			generateGRPCmessages(fmt.Sprintf("Pred%s", strings.Title(c.predicate)), c)
 		} else {
-			fmt.Fprintf(os.Stderr, "no predicate:", key)
+			fmt.Fprintf(os.Stderr, "no predicate; %v", key)
 		}
 		fmt.Fprint(typesWriter, "}\n\n")
 	}
@@ -341,7 +341,7 @@ import "google/protobuf/any.proto";`)
 		if ok {
 			generateGRPCmessages(fmt.Sprintf("Req%s", strings.Title(c.predicate)), c)
 		} else {
-			fmt.Fprintf(os.Stderr, "no method:", key)
+			fmt.Fprintf(os.Stderr, "no method; %v", key)
 		}
 		fmt.Fprint(typesWriter, "}\n\n")
 	}
@@ -367,7 +367,7 @@ import "google/protobuf/any.proto";`)
 			}
 
 		} else {
-			fmt.Fprintf(os.Stderr, "no methods:", key)
+			fmt.Fprintf(os.Stderr, "no methods; %v", key)
 		}
 	}
 	fmt.Fprintln(typesWriter, "}")
@@ -870,7 +870,7 @@ switch x := resp.(type) {`)
 			}
 
 		} else {
-			fmt.Fprintf(os.Stderr, "no methods:", key)
+			fmt.Fprintf(os.Stderr, "no methods; %v", key)
 		}
 	}
 }

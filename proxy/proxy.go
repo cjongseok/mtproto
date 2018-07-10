@@ -112,9 +112,9 @@ func (p *Server) OnUpdate(mu mtproto.Update) {
 	pu := toProxyUpdate(mu)
 	if pu != nil {
 		for _, s := range p.streams {
-			go func() {
-				s <- pu
-			}()
+			go func(stream chan *Update, update *Update) {
+				stream <- update
+			}(s, pu)
 		}
 	}
 }
@@ -126,13 +126,16 @@ func (p *Server) ListenOnUpdates(req *ListenRequest, stream UpdateStreamer_Liste
 	for {
 		select {
 		case u := <-ch:
+			if u == nil {
+				slog.Logln(p, "close stream; channel closed")
+				return nil
+			}
 			if err := stream.Send(u); err != nil {
 				// TODO: monitor the channels condition and reset abnormal ones
 				slog.Logln(p, "stream an update failure:", err)
 			}
 		}
 	}
-	return nil
 }
 
 type Client struct {

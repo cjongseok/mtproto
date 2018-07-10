@@ -17,56 +17,61 @@ const (
 	//DELAY_RETRY_OPEN_SESSION  = 1 * time.Second
 )
 
-// Conn does not touch sessions.
-// binding/unbinding and registration/deregistration of sessions are all handled on Manager.
+// Conn is mtproto connection. Conn guarantees it is always wired-up with Telegram server, although
+// Session can expire anytime without notice.
 type Conn struct {
-	connId                int32
-	session               *Session
+	connID                int32
+	session               Session
 	smonitor              chan Event
 	interrupter           chan struct{}
-	bindWaitGroup         sync.WaitGroup
+	bindSession           chan Session
+	sessionReqs           []chan Session
+	sessionReqsMux        *sync.Mutex
 	listeners             []chan Event
 	updateCallbacks       []UpdateCallback
+	callbackMux           *sync.Mutex
 	discardedUpdatesState *PredUpdatesState
 }
 
-// open, close, and bind should be done by Manager
+// newConnection creates a Session instance. Other session actions such as 'open', 'close',
+// 'bind (to a conn)', 'unbind (from a conn)', 'register (to the manager)', and 'de-register (from
+// the manager)' are controlled by Manager.
 func newConnection(connListener chan Event) *Conn {
-	//if connListener == nil {
-	//	return nil, fmt.Errorf("nil listener")
-	//}
 	mconn := new(Conn)
 	rand.Seed(time.Now().UnixNano())
-	mconn.connId = rand.Int31()
+	mconn.connID = rand.Int31()
 	mconn.smonitor = make(chan Event)
 	mconn.interrupter = make(chan struct{})
 	mconn.AddConnListener(connListener)
 	mconn.AddConnListener(mconn.smonitor)
-	mconn.bindWaitGroup = sync.WaitGroup{}
-	defer mconn.bindWaitGroup.Add(1) // wait for session binding ...
+	mconn.bindSession = make(chan Session)
+	mconn.sessionReqsMux = &sync.Mutex{}
+	mconn.callbackMux = &sync.Mutex{}
 
 	go mconn.monitorSession()
 
-	mconn.notify(ConnectionOpened{mconn})
+	mconn.notify(ConnectionOpened{mconn, 0})
 	//return mconn, nil
 	return mconn
 }
 
+// bind attaches a Session to the Conn. If the Conn already has a Session, it alternates the old
+// one.
 func (mconn *Conn) bind(session *Session) error {
+	slog.Logln(mconn, "bind session", session.sessionID)
 	if session == nil {
 		return fmt.Errorf("nil ssession")
 	}
 	session.AddSessionListener(mconn.smonitor)
-	session.connId = mconn.connId
-	mconn.session = session
-	mconn.bindWaitGroup.Done() // stop waiting for new session. Enable querying
-	mconn.notify(sessionBound{mconn})
+	session.connID = mconn.connID
+	slog.Logln(mconn, "pass the session to bindSession ch")
+	mconn.bindSession <- *session
+	slog.Logln(mconn, "sesssin passed")
+	mconn.notify(sessionBound{mconn, session.sessionID})
 
 	//TODO: get updates difference on opening session rather than its binding
 	// req updates, if exists
 	if mconn.discardedUpdatesState != nil {
-		//slog.Logf(mconn, "bind: new session seq:%d, unbound session seq:%d\n", session.updatesState.Seq, mconn.discardedUpdatesState.Seq)
-		//seqDiff := mconn.discardedUpdatesState.Seq - session.updatesState.Seq
 		ptsDiff := session.updatesState.Pts - mconn.discardedUpdatesState.Pts
 		qtsDiff := session.updatesState.Qts - mconn.discardedUpdatesState.Qts
 		seqDiff := session.updatesState.Seq - mconn.discardedUpdatesState.Seq
@@ -83,22 +88,18 @@ func (mconn *Conn) bind(session *Session) error {
 
 			switch udiff := updatesDiff.(type) {
 			case *PredUpdatesDifferenceEmpty:
-				slog.Logf(mconn, "bind: diff: empty\n")
+				slog.Logln(mconn, "bind: diff: empty")
 			case *PredUpdatesDifference:
-				slog.Logf(mconn, "bind: diff: %v\n", udiff)
+				slog.Logln(mconn, "bind: diff:", udiff)
 				mconn.propagate(udiff)
 			case *PredUpdatesDifferenceSlice:
-				slog.Logf(mconn, "bind: diff: slice: %v\n", udiff)
+				slog.Logln(mconn, "bind: diff: slice:", udiff)
 				mconn.propagate(udiff)
 			case *PredUpdatesDifferenceTooLong:
-				slog.Logf(mconn, "bind: diff: too long\n")
+				slog.Logln(mconn, "bind: diff: too long")
 			default:
-				slog.Logf(mconn, "bind: no diff\n")
+				slog.Logln(mconn, "bind: no diff")
 			}
-			//unstripped := (*updatesDiff).(*PredUpdatesDifference).Unstrip().(US_updates_difference)
-			//udiff := (*updatesDiff).(*PredUpdatesDifference)
-			//slog.Logf(mconn, "bind: unstripped diff: %v\n", unstripped)
-			//mconn.propagate(unstripped)
 		}
 		mconn.discardedUpdatesState = nil
 	} else {
@@ -123,11 +124,18 @@ func (mconn *Conn) InvokeBlocked(msg TL) (interface{}, error) {
 
 func (mconn *Conn) InvokeNonBlocked(msg TL) chan response {
 	resp := make(chan response, 1)
-	session, err := mconn.Session()
-	if err != nil {
-		resp <- response{nil, err}
+
+	// get session
+	var session Session
+	res := <-mconn.Session()
+	switch res.(type) {
+	case Session:
+		session = res.(Session)
+	case error:
+		resp <- response{nil, res.(error)}
 		return resp
 	}
+
 	session.queueSend <- packetToSend{
 		msg:  msg,
 		resp: resp,
@@ -135,27 +143,32 @@ func (mconn *Conn) InvokeNonBlocked(msg TL) chan response {
 	return resp
 }
 
-// CAVEAT:
-// Accessing the session without this method does NOT ensure
-// the session is alive.
-//TODO: fast session failure is better than slow session failure?
-//TODO: Think of better way of handling timeout (rather than returning nil + err?)
-func (mconn *Conn) Session() (*Session, error) {
-	// Start race (waiting-for-binding vs. timeout)
-	c := make(chan struct{})
-	go func() {
-		defer close(c)
-		//slog.Logln(mconn, "mconn:", mconn)
-		//slog.Logln(mconn, "bindWaitGroup:", mconn.bindWaitGroup)
-		mconn.bindWaitGroup.Wait()
-		//TODO: ping to prolong session life? Because session can be aborted
-	}()
-	select {
-	case <-c:
-		return mconn.session, nil
-	case <-time.After(TIMEOUT_SESSION_BINDING):
-		return nil, fmt.Errorf("No Session: session binding timeout")
+// Session returns the bound bound of the conn. The direct access to the session (using '.') does
+// not guarantee both not-nil and data racing. The returned session can expire any time, so that it
+// cannot match with the latest bound session of the conn.
+func (mconn *Conn) Session() <-chan interface{} {
+	sessionCh := make(chan Session, 1)
+	slog.Logln(mconn, "session request", sessionCh)
+	if mconn.session.sessionID != 0 {
+		go func(send chan<- Session, session Session) {
+			send <- session
+		}(sessionCh, mconn.session)
+	} else {
+		mconn.sessionReqsMux.Lock()
+		mconn.sessionReqs = append(mconn.sessionReqs, sessionCh)
+		mconn.sessionReqsMux.Unlock()
 	}
+
+	promise := make(chan interface{})
+	go func(raceResult chan interface{}, receiveSession chan Session) {
+		select {
+		case newSession := <-receiveSession:
+			raceResult <- newSession
+		case <-time.After(TIMEOUT_SESSION_BINDING):
+			raceResult <- fmt.Errorf("session binding timeout (%v)", TIMEOUT_SESSION_BINDING)
+		}
+	}(promise, sessionCh)
+	return promise
 }
 
 // finish connection's internal resource but bound session.
@@ -164,10 +177,9 @@ func (mconn *Conn) Session() (*Session, error) {
 func (mconn *Conn) close() {
 	close(mconn.interrupter)
 	close(mconn.smonitor)
-	mconn.bindWaitGroup.Done()
 
 	// notify the connection is closed
-	mconn.notify(connectionClosed{mconn.connId})
+	mconn.notify(connectionClosed{mconn.connID})
 }
 
 func (mconn *Conn) AddConnListener(listener chan Event) {
@@ -175,6 +187,8 @@ func (mconn *Conn) AddConnListener(listener chan Event) {
 }
 
 func (mconn *Conn) AddUpdateCallback(callback UpdateCallback) {
+	mconn.callbackMux.Lock()
+	defer mconn.callbackMux.Unlock()
 	mconn.updateCallbacks = append(mconn.updateCallbacks, callback)
 
 }
@@ -188,7 +202,7 @@ func (mconn *Conn) RemoveConnListener(toremove chan Event) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("Listener (%x) doesn't exist", toremove)
+	return fmt.Errorf("listener (%v) doesn't exist", toremove)
 }
 
 func (mconn *Conn) RemoveUpdateListener(toremove UpdateCallback) error {
@@ -203,17 +217,21 @@ func (mconn *Conn) RemoveUpdateListener(toremove UpdateCallback) error {
 	return fmt.Errorf("UpdateCallback (%x) doesn't exist", toremove)
 }
 
-func (mconn *Conn) notify(e Event) {
+func (mconn *Conn) notify(event Event) {
+	mconn.callbackMux.Lock()
+	defer mconn.callbackMux.Unlock()
 	for _, listener := range mconn.listeners {
-		// TODO: it doesn't work. think of another solutino to handle a deadlock on channel
-		//go func(){listener <- e}()
-		listener <- e
+		go func(l chan Event, e Event) {
+			l <- e
+		}(listener, event)
 	}
 }
 
 func (mconn *Conn) propagate(u Update) {
 	for _, callback := range mconn.updateCallbacks {
-		go func() { callback.OnUpdate(u) }()
+		go func(cb UpdateCallback) {
+			cb.OnUpdate(u)
+		}(callback)
 	}
 }
 
@@ -222,56 +240,57 @@ func (mconn *Conn) monitorSession() {
 	for {
 		select {
 		case <-mconn.interrupter:
-			slog.Logf(mconn, "stop")
+			slog.Logln(mconn, "stop")
 			return
+		case newSession := <-mconn.bindSession:
+			mconn.session = newSession
+			go func(session Session) {
+				mconn.sessionReqsMux.Lock()
+				defer mconn.sessionReqsMux.Unlock()
+				for _, req := range mconn.sessionReqs {
+					go func(c chan Session, s Session){
+						c <- s
+					}(req, session)
+				}
+				mconn.sessionReqs = nil
+			}(mconn.session)
 		case e := <-mconn.smonitor:
+			slog.Logf(mconn, "session event %T(%v)\n", e, e)
 			switch e.(type) {
 			// Session Events
 			case newsession: // never triggered on mconn
 			case loadsession: // never triggered on mconn
 			case SessionEstablished: // never triggered on mconn
 			case discardSession: // triggered only on reconnect (either renewSession or refreshSession)
-				go func() {
-					// Unbind the session until the connection has new session
-					slog.Logf(mconn, "session(%d) will be discarded\n", mconn.session.sessionId)
-					e := e.(discardSession)
-					mconn.bindWaitGroup.Add(1)
-					unbound := sessionUnbound{mconn, e.sessionId}
-					mconn.session = nil
+				// Unbind the session until the connection has new session
+				mconn.session = Session{}
+				slog.Logf(mconn, "session(%d) will be discarded\n", e.(discardSession).sessionId)
+				go func(sid int64) {
+					unbound := sessionUnbound{mconn, sid}
 					// notify that inside selection needs non-blocking handlers
 					mconn.notify(unbound)
-				}()
+				}(e.(discardSession).sessionId)
 			case SessionDiscarded: // triggered only on reconnect (either renewSession or refreshSession)
 			case renewSession:
 			case refreshSession:
 
 			// Connection Events
 			case ConnectionOpened:
-				go func() {
-					slog.Logf(mconn, "opened.")
-					if mconn.session == nil {
-						slog.Logf(mconn, "wait for a session binding ...\n")
-					} else {
-						slog.Logf(mconn, "with session, %d\n", mconn.session.sessionId)
-					}
-				}()
+				slog.Logln(mconn, "opened")
+				if e.(ConnectionOpened).sessionID != 0 {
+					slog.Logln(mconn, "wait for a session binding ...")
+				} else {
+					slog.Logln(mconn, "with session,", e.(ConnectionOpened).sessionID)
+				}
 			case sessionBound:
-				go func() {
-					slog.Logf(mconn, "bound to session %d\n", mconn.session.sessionId)
-				}()
+				slog.Logln(mconn, "bound to session", e.(sessionBound).sessionID)
 			case sessionUnbound:
-				go func() {
-					e := e.(sessionUnbound)
-					slog.Logf(mconn, "unbound to session %d\n", e.unboundSessionId)
-				}()
+				e := e.(sessionUnbound)
+				slog.Logln(mconn, "unbound to session", e.unboundSessionID)
 			case closeConnection:
-				go func() {
-					slog.Logln(mconn, "this connection will close")
-				}()
+				slog.Logln(mconn, "this connection will close")
 			case connectionClosed:
-				go func() {
-					slog.Logln(mconn, "closed")
-				}()
+				slog.Logln(mconn, "closed")
 
 				// Update Event
 			case updateReceived:
@@ -304,9 +323,14 @@ func (mconn *Conn) SignIn(phoneNumber, phoneCode, phoneCodeHash string) (*TypeAu
 		return nil, fmt.Errorf("RPC: %v", x)
 	}
 
-	session, err := mconn.Session()
-	if err != nil {
-		return &TypeAuthAuthorization{Value: auth}, err
+	// get session
+	var session Session
+	res := <-mconn.Session()
+	switch res.(type) {
+	case Session:
+		session = res.(Session)
+	case error:
+		return &TypeAuthAuthorization{Value: auth}, res.(error)
 	}
 
 	if auth.GetUser().GetUser() != nil {
@@ -336,5 +360,5 @@ func (mconn *Conn) SignOut() (bool, error) {
 }
 
 func (x *Conn) LogPrefix() string {
-	return fmt.Sprintf("[mconn %d]", x.connId)
+	return fmt.Sprintf("[mconn %d]", x.connID)
 }

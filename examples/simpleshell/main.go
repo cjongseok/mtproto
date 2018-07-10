@@ -26,8 +26,7 @@ const (
 )
 
 func usage() {
-	fmt.Println(`
-Usage: simpleshell <APIID> <APIHASH> <PHONE> <IP> <PORT>
+	fmt.Println(`Usage: simpleshell <APIID> <APIHASH> <PHONE> <IP> <PORT>
        simpleshell <JSON_FILE>
 
 Params:

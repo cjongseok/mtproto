@@ -32,6 +32,10 @@ var (
 
 func beforeTest(t *testing.T) {
 	flag.Parse()
+	if *secrets == "" {
+		flag.Usage()
+		t.FailNow()
+	}
 
 	if proxy == nil {
 		configuration, err := mtproto.NewConfiguration(appVersion, deviceModel, systemVersion, language, 0, 0, *secrets)

@@ -52,12 +52,13 @@ func (h handshakingFailure) Error() string {
 }
 
 type Session struct {
-	connId    int32
-	sessionId int64
+	connID    int32
+	sessionID int64
 	//phonenumber string
 	//addr        string
 	//useIPv6     bool
 	listeners []chan Event
+	listenerMux *sync.Mutex
 	tcpconn   *net.TCPConn
 	f         *os.File
 	queueSend chan packetToSend
@@ -129,16 +130,18 @@ func (session *Session) close() {
 
 	// notify that the connection is gracefully closed
 	if session.updatesState == nil {
-		session.notify(SessionDiscarded{session.connId, session.sessionId, &PredUpdatesState{}})
+		session.notify(SessionDiscarded{
+			session.connID,
+			session.sessionID,
+			&PredUpdatesState{}})
 	} else {
-		session.notify(SessionDiscarded{session.connId, session.sessionId, session.updatesState})
+		session.notify(SessionDiscarded{
+			session.connID,
+			session.sessionID,
+			session.updatesState})
 	}
 	session.listeners = nil
 }
-
-//func sessionFilePath(sessionFileHome string, phonenumber string) string {
-//	return sessionFileHome + "/.telegram_" + phonenumber
-//}
 
 func isIPv6(addr string) bool {
 	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
@@ -157,6 +160,7 @@ func newSession(phone string, apiID int32, apiHash, ip string, port int, appConf
 	var err error
 
 	session := new(Session)
+	session.listenerMux = &sync.Mutex{}
 	// create empty key file
 	session.f, err = os.OpenFile(appConfig.KeyPath, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
@@ -170,18 +174,12 @@ func newSession(phone string, apiID int32, apiHash, ip string, port int, appConf
 		IP:      ip,
 		Port:    port,
 	}
-	//if err == nil {
-	//	session.addr = addr
-	//	session.useIPv6 = useIPv6
-	//	session.encrypted = false
 	useIPv6 := isIPv6(credentials.IP)
 	err = session.open(useIPv6, credentials, appConfig /*sendQueue,*/, sessionListener, false)
 	if err != nil {
 		return nil, err
 	}
 	return session, nil
-	//}
-	//return nil, err
 }
 
 // byte array string is bracketed space separated numbers in a string
@@ -204,6 +202,7 @@ func byteArrayString2byteArray(str string) []byte {
 func loadSession(appConfig Configuration /*sendQueue chan packetToSend,*/, sessionListener chan Event) (*Session, error) {
 	// load session info from either session file
 	session := new(Session)
+	session.listenerMux = &sync.Mutex{}
 	var err error
 	if appConfig.KeyPath == "" {
 		return nil, fmt.Errorf("no credentials file")
@@ -232,7 +231,7 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	session.c = &c
 	session.appConfig = appConfig
 	rand.Seed(time.Now().UnixNano())
-	session.sessionId = rand.Int63()
+	session.sessionID = rand.Int63()
 	session.AddSessionListener(sessionListener)
 
 	// connect
@@ -265,7 +264,6 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 
 	// start goroutines
 	session.queueSend = make(chan packetToSend, 64)
-	//session.queueSend = sendQueue
 	session.sendInterrupter = make(chan struct{})
 	session.readInterrupter = make(chan struct{})
 	session.pingInterrupter = make(chan struct{})
@@ -284,7 +282,7 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	go session.sendRoutine(session.appConfig.SendInterval)
 	go session.readRoutine()
 
-	// (help_getConfig)
+	// init mtproto session with querying HelpConfig
 	var x response
 	resp := make(chan response, 1)
 	session.queueSend <- packetToSend{
@@ -305,7 +303,7 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 	select {
 	case x = <-resp:
 		if x.err != nil {
-			return fmt.Errorf("TL_invokeWithLayer Failure;", x.err)
+			return fmt.Errorf("TL_invokeWithLayer Failure; %v", x.err)
 		}
 	case <-time.After(TIMEOUT_INVOKE_WITH_LAYER):
 		return fmt.Errorf("TL_invokeWithLayer Timeout(%f s)", TIMEOUT_INVOKE_WITH_LAYER.Seconds())
@@ -366,10 +364,14 @@ func (session *Session) open(useIPv6 bool, c Credentials, appConfig Configuratio
 }
 
 func (session *Session) AddSessionListener(listener chan Event) {
+	session.listenerMux.Lock()
+	defer session.listenerMux.Unlock()
 	session.listeners = append(session.listeners, listener)
 }
 
 func (session *Session) RemoveSessionListener(toremove chan Event) error {
+	session.listenerMux.Lock()
+	defer session.listenerMux.Unlock()
 	// find the listener index in the list
 	for index, registered := range session.listeners {
 		if registered == toremove {
@@ -380,15 +382,17 @@ func (session *Session) RemoveSessionListener(toremove chan Event) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("no listener, %x", toremove)
+	return fmt.Errorf("no listener, %v", toremove)
 }
 
-func (session *Session) notify(e Event) {
-	slog.Logf(session, "notify Event, %s, to %v\n", slog.Stringify(e), session.listeners)
+func (session *Session) notify(event Event) {
+	session.listenerMux.Lock()
+	defer session.listenerMux.Unlock()
+	slog.Logf(session, "notify Event, %s, to %v\n", slog.Stringify(event), session.listeners)
 	for _, listener := range session.listeners {
-		// TODO: it doesn't work. think of another solution to handle a deadlock on channel
-		//go func(){listener <- e}()
-		listener <- e
+		go func(l chan Event, e Event) {
+			l <- e
+		}(listener, event)
 	}
 }
 
@@ -435,15 +439,7 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 			}
 
 		case TL_rpc_result:
-			//slog.Logf(session, "rpc_result before casting: %v\n", data)
 			data := data.(TL_rpc_result)
-			//slog.Logln(session, "stringify(rpc_result.Obj):", slog.Stringify(data.Obj))
-			//slog.Logf(session, "rpc_result.Obj: %T: %v\n", data.Obj, data.Obj)
-			//if rpcerr, ok := data.Obj.(TL_rpc_error); ok {
-			//slog.Logln(session, "ok stringify(rpcerror):", rpcerr)
-			//slog.Logf(session, "ok rpcerror: %v\n", rpcerr)
-			//slog.Logf(session, "ok rpcerror.code: %d, rpcerror.msg: %s\n", rpcerr.error_code, rpcerr.error_message)
-			//}
 			x := session.process(msgId, seqNo, data.Obj)
 			session.mutex.Lock()
 			defer session.mutex.Unlock()
@@ -453,13 +449,10 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 					var resp response
 					rpcError, ok := x.(TL_rpc_error)
 					if ok {
-						//resp.err = session.handleRPCError(rpcError)
 						resp.err = rpcError
 					} else {
 						resp.data = x
 					}
-					//resp.data = x.(TL)
-					//resp.data = x
 					v <- resp
 					close(v)
 				}()
@@ -471,7 +464,6 @@ func (session *Session) process(msgId int64, seqNo int32, data interface{}) inte
 			return data
 
 			//TODO: Update classifier should be auto-generated from scheme.tl
-			//TODO: how to handle seq?
 			// Date, Pts, Qts updates
 		case *PredUpdatesState:
 			data := data.(*PredUpdatesState)
@@ -691,19 +683,12 @@ func (session *Session) readRoutine() {
 		ch := make(chan interface{}, 1)
 		go func(ch chan<- interface{}) {
 			refreshUntilSuccess := func(session *Session) {
-				//respChan := make(chan sessionResponse)
-				//for {
 				session.notify(refreshSession{
-					session.sessionId,
+					session.sessionID,
 					session.c.Phone,
 					untilSuccess,
 					nil,
 				})
-				//resp := <-respChan
-				//if resp.err == nil {
-				//	break
-				//}
-				//}
 			}
 			innerRoutineWG.Add(1)
 			defer innerRoutineWG.Done()
@@ -712,7 +697,6 @@ func (session *Session) readRoutine() {
 			if _, ok := data.(TL_pong); !ok {
 				slog.Logf(session, "read: type: %v, data: %v, err: %v\n", reflect.TypeOf(data), data, err)
 			}
-			//slog.Logf(session, "read: %s\n", slog.Stringify(data))
 			serverAddr := fmt.Sprintf("%s:%d", session.c.IP, session.c.Port)
 			if err == io.EOF {
 				// Connection closed by server, trying to reconnect
@@ -785,7 +769,7 @@ func (session *Session) send(msg TL, resp chan response) error {
 		z := NewEncodeBuf(256)
 		newMsgId := GenerateMessageId()
 		z.Bytes(session.c.Salt)
-		z.Long(session.sessionId)
+		z.Long(session.sessionID)
 		z.Long(newMsgId)
 		if needAck {
 			z.Int(session.lastSeqNo | 1)
@@ -1087,7 +1071,7 @@ func (x *Session) apiDcOption(ipVersion string, id int32) (*PredDcOption, error)
 }
 
 func (x *Session) LogPrefix() string {
-	return fmt.Sprintf("[%d-%d]", x.connId, x.sessionId)
+	return fmt.Sprintf("[%d-%d]", x.connID, x.sessionID)
 }
 
 // Implements interface error
