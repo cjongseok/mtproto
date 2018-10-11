@@ -171,6 +171,45 @@ func (mconn *Conn) Session() <-chan interface{} {
 	return promise
 }
 
+func (mconn *Conn) MigrateSessionTo(newdc int32) error {
+	// get session
+	var session Session
+	res := <-mconn.Session()
+	switch res.(type) {
+	case Session:
+		session = res.(Session)
+	case error:
+		return res.(error)
+	}
+
+	// reconnect to the new datacenter
+	respch := make(chan sessionResponse, 1)
+	ipVersion := ipv4
+	if isIPv6(session.c.IP) {
+		ipVersion = ipv6
+	}
+	dcOption, err := session.apiDcOption(ipVersion, newdc)
+	if err != nil {
+		return err
+	}
+	slog.Logln(mconn, "migrate session to", dcOption)
+
+	//TODO: Check if renewSession event works with mconn.notify()
+	mconn.notify(renewSession{
+		session.sessionID,
+		session.c.Phone,
+		session.c.ApiID,
+		session.c.ApiHash,
+		dcOption.IpAddress,
+		int(dcOption.Port),
+		respch,
+	})
+
+	// Wait for binding the new session
+	resp := <-respch
+	return resp.err
+}
+
 // finish connection's internal resource but bound session.
 // closing/deregistering session occurs through closeConnection event on Manager
 // which is the only caller of this method.
