@@ -96,7 +96,7 @@ channelPeer := &mtproto.TypeInputPeer{&mtproto.TypeInputPeer_InputPeerChannel{
 
 // Send a request to Telegram
 caller.MessagesSendMessage(context.Background(), &mtproto.ReqMessagesSendMessage{
-    Peer:      peer,
+    Peer:      channelPeer,
     Message:   "Hello MTProto",
     RandomId:  rand.Int63(),
 })
